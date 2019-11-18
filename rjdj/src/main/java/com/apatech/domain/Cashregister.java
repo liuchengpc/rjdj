@@ -1,6 +1,7 @@
 package com.apatech.domain;
 
 import java.util.Date;
+import java.util.List;
 /**
  * 订单主表
  * @author 刘成
@@ -15,14 +16,15 @@ public class Cashregister {
     private Integer memberid;//会员ID
     private String cashregistername;//收银人员
     private Integer ispresent;//是否付款    (0:否 默认：0  1:是)
+    private List<Cashregisterdetail> list;//集合
     
-    
+     
 
-    @Override
+	@Override
 	public String toString() {
 		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", shopid=" + shopid + ", count="
 				+ count + ", moneyamt=" + moneyamt + ", memberid=" + memberid + ", cashregistername=" + cashregistername
-				+ ", ispresent=" + ispresent + "]";
+				+ ", ispresent=" + ispresent + ", list=" + list + "]";
 	}
 
 	public Cashregister() {
@@ -92,4 +94,12 @@ public class Cashregister {
     public void setIspresent(Integer ispresent) {
         this.ispresent = ispresent;
     }
+    public List<Cashregisterdetail> getList() {
+		return list;
+	}
+
+	public void setList(List<Cashregisterdetail> list) {
+		this.list = list;
+	}
+    
 }

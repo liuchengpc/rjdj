@@ -1,4 +1,7 @@
 package com.apatech.domain;
+
+import java.util.List;
+
 /**
  * 商品主表
  * @author 刘成
@@ -16,15 +19,18 @@ public class Commodity {
     private Integer stockcount;//库存
     private String infomation;//商品信息
     private String shoptype;//商品类型
+    private List<Commoditydetail> list;//集合
     
     
 
-    @Override
+  
+
+	@Override
 	public String toString() {
 		return "Commodity [productcodeid=" + productcodeid + ", supplierid=" + supplierid + ", brand=" + brand
 				+ ", name=" + name + ", price=" + price + ", costprice=" + costprice + ", commoditytypeid="
 				+ commoditytypeid + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount + ", infomation="
-				+ infomation + ", shoptype=" + shoptype + "]";
+				+ infomation + ", shoptype=" + shoptype + ", list=" + list + "]";
 	}
 
 	public Commodity() {
@@ -118,5 +124,15 @@ public class Commodity {
 	public void setShoptype(String shoptype) {
 		this.shoptype = shoptype;
 	}
+
+	public List<Commoditydetail> getList() {
+		return list;
+	}
+
+	public void setList(List<Commoditydetail> list) {
+		this.list = list;
+	}
+	
+	
     
 }
