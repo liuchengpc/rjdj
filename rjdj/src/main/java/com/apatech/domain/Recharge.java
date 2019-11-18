@@ -1,6 +1,10 @@
 package com.apatech.domain;
 
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * 会员充值抵扣表
  * @author 刘成
@@ -8,6 +12,8 @@ import java.util.Date;
  */
 public class Recharge {
     private Integer rechargeid;//编号，主键
+    @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date rechargedate;//充值时间
     private String wechatnumber;//微信号
     private String name;//姓名

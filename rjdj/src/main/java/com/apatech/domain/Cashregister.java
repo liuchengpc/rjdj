@@ -2,6 +2,10 @@ package com.apatech.domain;
 
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * 订单主表
  * @author 刘成
@@ -9,6 +13,8 @@ import java.util.List;
  */
 public class Cashregister {
     private String ashregisterid;//订单主表键
+    @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date time;//日期
     private String shopid;//店铺ID
     private Integer count;//购买数量

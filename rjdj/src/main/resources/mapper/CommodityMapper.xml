@@ -24,6 +24,24 @@
     from commodity
     where productCodeID = #{productcodeid,jdbcType=VARCHAR}
   </select>
+  <select id="selectAll2" parameterType="java.lang.String" resultMap="BaseResultMap">
+   SELECT * FROM commodity a
+	INNER JOIN supplier b ON a.`supplierID`=b.`supplierID`
+	INNER JOIN commoditytype c ON a.`commodityTypeID`=a.`commodityTypeID`
+	INNER JOIN commoditydetail d ON a.`productCodeID`=d.`productCodeID`
+    where 1=1
+   	<if test="commoditytypeid != null and commoditytypeid !=''">
+          and a.commodityTypeID like '%${commoditytypeid}%'
+      </if>
+      <if test="selectqb != null  and selectqb !=''">
+          and	a.brand like '%${selectqb}%' OR a.commodityImg like '%${selectqb}%'  OR a.costPrice like '%${selectqb}%'
+    		OR a.infomation like '%${selectqb}%' OR a.name like '%${selectqb}%' OR a.price like '%${selectqb}%' OR a.productCodeID like '%${selectqb}%' OR a.shopType like '%${selectqb}%'
+    		OR a.stockCount like '%${selectqb}%'  OR a.supplierID like '%${selectqb}%'
+      </if>
+    GROUP BY a.`productCodeID`
+  </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from commodity
     where productCodeID = #{productcodeid,jdbcType=VARCHAR}

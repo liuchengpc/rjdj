@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Commodity;
+import com.apatech.domain.CommodityVo;
 import com.apatech.service.CommodityService;
 import com.github.pagehelper.PageInfo;
 
@@ -53,12 +54,28 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "selectAllpage",method = RequestMethod.GET)
 	@ResponseBody
-	public PageInfo<Commodity> selectAllpage( Integer pageNum,Integer pageSize,Integer commoditytypeid,String selectqb){
+	public PageInfo<Commodity> selectAllpage( Integer pageNum,Integer pageSize){
 		System.out.println("进入CommodityController分页");
 		System.out.println(pageNum+"/"+pageSize);
     	PageInfo<Commodity> page=dao.selectAllpage(pageNum, pageSize);
     	return page;
     }
+	
+	/**
+	 * 根据条件查询
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "selectAll2",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Commodity> selectAll2(Integer commoditytypeid,String selectqb){
+		System.out.println("进入CommodityController根据条件查询");
+		System.out.println(commoditytypeid+"/"+selectqb);
+    	List<Commodity> list=dao.selectAll2(commoditytypeid, selectqb);
+    	return list;
+    }
+	
 	/**
 	 * 新增
 	 * @param student

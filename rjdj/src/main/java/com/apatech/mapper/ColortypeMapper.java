@@ -17,6 +17,8 @@ public interface ColortypeMapper {
     
     @Select("select * from Colortype")
     List<Colortype> selectAll();
+    
+   
 
     int updateByPrimaryKeySelective(Colortype record);
 

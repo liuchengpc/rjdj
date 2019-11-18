@@ -2,9 +2,11 @@ package com.apatech.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.apatech.domain.Commodity;
+import com.apatech.domain.CommodityVo;
 
 public interface CommodityMapper {
     int deleteByPrimaryKey(String productcodeid);
@@ -17,6 +19,9 @@ public interface CommodityMapper {
     
     @Select("select * from Commodity")
     List<Commodity> selectAll();
+    
+   
+    List<Commodity> selectAll2(@Param("commoditytypeid")Integer commoditytypeid,@Param("selectqb")String selectqb);
 
     int updateByPrimaryKeySelective(Commodity record);
 
