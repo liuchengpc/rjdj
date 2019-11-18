@@ -27,11 +27,11 @@ public class UsersController {
 	 * @return
 	 */
 	@RequestMapping("/selectAll")
-	public String selectAll(Model model) {
+	@ResponseBody
+	public List<Users> selectAll(Model model) {
 		System.out.println("进入CashregisterController查询全部");
 		List<Users> list = dao.selectAll();
-		model.addAttribute("list", list);
-		return "index";
+		return list;
 	}
 	/**
 	 * 根据主键查询
