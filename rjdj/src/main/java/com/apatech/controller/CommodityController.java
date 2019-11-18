@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Commodity;
-import com.apatech.domain.CommodityVo;
 import com.apatech.service.CommodityService;
 import com.github.pagehelper.PageInfo;
 
