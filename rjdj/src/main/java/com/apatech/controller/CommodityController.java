@@ -59,6 +59,22 @@ public class CommodityController {
     	PageInfo<Commodity> page=dao.selectAllpage(pageNum, pageSize);
     	return page;
     }
+	
+	/**
+	 * 根据条件查询
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "selectAll2",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Commodity> selectAll2(Integer commoditytypeid,String selectqb){
+		System.out.println("进入CommodityController根据条件查询");
+		System.out.println(commoditytypeid+"/"+selectqb);
+    	List<Commodity> list=dao.selectAll2(commoditytypeid, selectqb);
+    	return list;
+    }
+	
 	/**
 	 * 新增
 	 * @param student
