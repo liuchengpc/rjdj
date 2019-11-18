@@ -26,12 +26,12 @@ public class RechargeController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/selectAll")
-	public String selectAll(Model model) {
+	@RequestMapping(value = "/selectAll",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Recharge> selectAll(Model model) {
 		System.out.println("进入RechargeController查询全部");
 		List<Recharge> list = dao.selectAll();
-		model.addAttribute("list", list);
-		return "index";
+		return list;
 	}
 	/**
 	 * 根据主键查询
