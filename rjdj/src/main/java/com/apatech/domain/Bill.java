@@ -1,6 +1,7 @@
 package com.apatech.domain;
 
 import java.util.Date;
+import java.util.List;
 /**
  * 采购单主表
  * @author 刘成
@@ -12,13 +13,15 @@ public class Bill {
     private Integer supplierid;//供应商ID
     private String userid;//制表人id
     private String remarks;//备注
+    private List<Detail> list;//集合
     
     
 
-    @Override
+    
+	@Override
 	public String toString() {
 		return "Bill [billid=" + billid + ", deliverytime=" + deliverytime + ", supplierid=" + supplierid + ", userid="
-				+ userid + ", remarks=" + remarks + "]";
+				+ userid + ", remarks=" + remarks + ", list=" + list + "]";
 	}
 
 	public Bill() {
@@ -64,4 +67,14 @@ public class Bill {
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
     }
+
+	public List<Detail> getList() {
+		return list;
+	}
+
+	public void setList(List<Detail> list) {
+		this.list = list;
+	}
+    
+    
 }

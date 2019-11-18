@@ -53,7 +53,7 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "selectAllpage",method = RequestMethod.GET)
 	@ResponseBody
-	public PageInfo<Commodity> selectAllpage( Integer pageNum,Integer pageSize){
+	public PageInfo<Commodity> selectAllpage( Integer pageNum,Integer pageSize,Integer commoditytypeid,String selectqb){
 		System.out.println("进入CommodityController分页");
 		System.out.println(pageNum+"/"+pageSize);
     	PageInfo<Commodity> page=dao.selectAllpage(pageNum, pageSize);

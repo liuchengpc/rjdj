@@ -17,6 +17,13 @@ public interface CommoditydetailMapper {
     
     @Select("select * from Commoditydetail")
     List<Commoditydetail> selectAll();
+    
+    /**
+     * 根据商品主表id查询
+     * @return
+     */
+    @Select("select * from Commoditydetail where productcodeid=#{productcodeid}")
+    List<Commoditydetail> selectByid(String productcodeid);
 
     int updateByPrimaryKeySelective(Commoditydetail record);
 
