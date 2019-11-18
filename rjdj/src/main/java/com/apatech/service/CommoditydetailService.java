@@ -1,0 +1,59 @@
+package com.apatech.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.apatech.domain.Commoditydetail;
+import com.apatech.mapper.CommoditydetailMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+@Service
+@Transactional
+public class CommoditydetailService {
+	@Autowired
+	private CommoditydetailMapper dao;
+
+    public int deleteByPrimaryKey(String commoditydetailid) {
+    	return dao.deleteByPrimaryKey(commoditydetailid);
+    }
+
+    public int insert(Commoditydetail record) {
+    	return dao.insert(record);
+    }
+
+
+    public int insertSelective(Commoditydetail record) {
+    	return dao.insertSelective(record);
+    }
+
+
+    public Commoditydetail selectByPrimaryKey(String commoditydetailid) {
+    	return dao.selectByPrimaryKey(commoditydetailid);
+    }
+    
+    public List<Commoditydetail> selectAll() {
+    	return dao.selectAll();
+    }
+    
+    public PageInfo<Commoditydetail> selectAllpage(Integer pageNum,Integer pageSize){
+    	PageHelper.startPage(pageNum, pageSize);
+    	List<Commoditydetail> list=dao.selectAll();
+    	PageInfo<Commoditydetail> page=new PageInfo<Commoditydetail>(list);
+    	return page;
+    }
+
+
+    public int updateByPrimaryKeySelective(Commoditydetail record) {
+    	return dao.updateByPrimaryKeySelective(record);
+    }
+
+
+    public int updateByPrimaryKey(Commoditydetail record) {
+    	return dao.updateByPrimaryKey(record);
+    }
+
+}

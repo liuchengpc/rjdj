@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<base target="main">
+		<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="../../js/jquery-1.8.3.js"></script>
+	</head>
+	<body>
+	<script type="text/javascript" src="../../js/jquery-1.8.3.js"></script>
+		<div class="nav" id="nav">
+			<div class="t"></div>
+	   		<dl class="ss s1">
+		       	<dt onclick="this.parentNode.className=this.parentNode.className=='open'?'':'open';">报销单管理</dt>
+	           	<dd><a target="main" href="../claim/claim_voucher_list.html">查看报销单</a></dd>
+	           	<dd><a target="main" href="../claim/claim_voucher_insert.html">添加报销单</a></dd>
+		    </dl>
+	       	<dl class=" ss s2">
+	       		<dt onclick="this.parentNode.className=this.parentNode.className=='open'?'':'open';">请假管理</dt>
+		        <dd><a target="main" href="javascript:;">查看请假</a></dd>
+			    <dd><a target="main" href="javascript:;">申请请假</a></dd>
+	       	</dl>
+	       	<dl class="ss s3">
+	       		<dt onclick="this.parentNode.className=this.parentNode.className=='open'?'':'open';">统计报表</dt>
+			    <dd><a target="main" href="javascript:;" classs=".bxdytj">报销单月度统计</a></dd>
+			    <dd><a target="main" href="javascript:;"  classs=".bxdntj">报销单年度统计</a></dd>
+	       	</dl>
+       	 	<script>
+			      	/* 
+			      	LocalStorage
+						是对Cookie的优化
+						没有时间限制的数据存储
+						在隐私模式下不可读取
+						大小限制在500万字符左右，各个浏览器不一致
+						在所有同源窗口中都是共享的
+						本质是在读写文件，数据多的话会比较卡（firefox会一次性将数据导入内存）
+						不能被爬虫爬取，不要用它完全取代URL传参
+						IE７及以下不支持外，其他标准浏览器都完全支持
+					
+					SessionStorage
+						针对一个 session 的数据存储
+						大小限制在5M左右，各个浏览器不一致
+						仅在当前浏览器窗口关闭前有效（适合会话验证）
+						不在不同的浏览器窗口中共享，即使是同一个页面
+			      	
+			      	localstroage
+			      		获取键值：window.localStorage.getItem(“key”)
+						设置键值：window.localStorage.setItem(“key”,”value”)
+						清除键值：window.localStorage.removeItem(“key”)
+						清除所有键值：window.localStorage.clear()
+						获取键值2：window.localStorage.keyName
+						设置键值2：window.localStorage.keyName = “value”	
+						
+					sessionStorage
+						存储数据
+						window.sessionStorage.setItem('key', 'value'）
+						取数据
+						window.sessionStorage.getItem("key");  
+			      	*/
+			      	
+			      	$(".bxdytj").live("click",function(){//查看单月度
+			      		if (condition) {
+			      			//alert("点击")
+				      		window.sessionStorage.setItem("ym","mm");//存入输入
+				       		//alert("列表页报销单id:"+window.sessionStorage.getItem("ym"))
+				      		window.location.href='../claim/claim_statistics_year_list.html'
+						} else {
+							//alert("点击")
+				      		window.sessionStorage.setItem("ym","mm");//存入输入
+				       		//alert("列表页报销单id:"+window.sessionStorage.getItem("ym"))
+				      		window.location.href='../claim/claim_statistics_year_list.html'
+						}
+			      	
+			      		
+			      	})
+			      	$(".bxdntj").live("click",function(){//查看单年度
+			      		//alert("点击")
+			      		window.sessionStorage.setItem("ym","yy");//存入输入
+			       		//alert("列表页报销单id:"+window.sessionStorage.getItem("ym"))
+			      		window.location.href='../claim/claim_statistics_year_list.html'
+			      		
+			      	})
+			      
+	  				
+		      	</script>
+	      <!--  	<dl class="ss s4">
+	       		<dt onclick="this.parentNode.className=this.parentNode.className=='open'?'':'open';">信息中心</dt>
+	           	<dd><a target="main" href="javascript:;">信息收件箱</a></dd>
+	           	<dd><a target="main" href="javascript:;">信息发件箱</a></dd>
+	       	</dl> -->
+	       	<div class="smw"></div>
+		</div>
+		
+		<script type="text/javascript"> 
+			//获取当前用户
+			 $.ajax({
+					url:"/JBOA/Employees/loginuser",
+					type:"post",
+					data:"",
+					dataType:"json",
+					success:function(res){
+						console.info(res);
+					//	$("#dljs").html(res.departmentname)//登录人角色
+						//alert($("#dljs").html())
+						//$("#dljs").attr("positionid",res.positionid)//登录人角色
+						
+						//$("#dlr").html(res.employeename)//登陆人姓名
+						//$("#dlr").attr("id",res.employeeid)//登陆人id
+						
+						//alert("获取id"+res.employeeid)
+						 $.ajax({
+								url:"/JBOA/Position_menu/selectByid",
+								type:"post",
+								data:"positionid="+res.positionid,
+								dataType:"json",
+								success:function(res){
+									console.info("菜单栏：")
+									console.info(res);
+									/* 0:
+										list: Array(2)
+											0:
+												menuId: 2
+												menuLevel: 2
+												menuName: "查看报销单"
+												menuParentid: 1
+											1:
+												menuId: 3
+												menuLevel: 2
+												menuName: "添加报销单"
+												menuParentid: 1
+											length: 2
+										menuId: 1
+										menuLevel: 1
+										menuName: "报销单管理"
+										menuParentid: 0
+										positionId: 2
+										positionMenuId: 9 
+									*/
+									$(".ss").hide();
+									$.each(res,function(i,obj){
+										//alert(obj)
+										//alert("传入信息："+obj.menuId)
+										if (obj.menuId==1) {
+											$(".s1").show();
+										} 
+										if (obj.menuId==4) {
+											$(".s2").show();
+										} 
+										if (obj.menuId==7) {
+											$(".s3").show();
+										} 
+										if (obj.menuId==10) {
+											$(".s4").show();
+										} 
+								 	})
+								}
+						}) 
+					}
+			}) 
+		</script>
+	</body>
+</html>

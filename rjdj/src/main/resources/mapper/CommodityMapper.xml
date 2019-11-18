@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apatech.mapper.CommodityMapper">
+  <resultMap id="BaseResultMap" type="com.apatech.domain.Commodity">
+    <id column="productCodeID" jdbcType="VARCHAR" property="productcodeid" />
+    <result column="supplierID" jdbcType="INTEGER" property="supplierid" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="costPrice" jdbcType="REAL" property="costprice" />
+    <result column="commodityTypeID" jdbcType="INTEGER" property="commoditytypeid" />
+    <result column="commodityImg" jdbcType="VARCHAR" property="commodityimg" />
+    <result column="stockCount" jdbcType="INTEGER" property="stockcount" />
+    <result column="infomation" jdbcType="VARCHAR" property="infomation" />
+    <result column="shopType" jdbcType="VARCHAR" property="shoptype" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    productCodeID, supplierID, brand, name, price, costPrice, commodityTypeID, commodityImg, 
+    stockCount, infomation, shopType
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commodity
+    where productCodeID = #{productcodeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from commodity
+    where productCodeID = #{productcodeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.apatech.domain.Commodity">
+    insert into commodity (productCodeID, supplierID, brand, 
+      name, price, costPrice, commodityTypeID, 
+      commodityImg, stockCount, infomation, 
+      shopType)
+    values (#{productcodeid,jdbcType=VARCHAR}, #{supplierid,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{costprice,jdbcType=REAL}, #{commoditytypeid,jdbcType=INTEGER}, 
+      #{commodityimg,jdbcType=VARCHAR}, #{stockcount,jdbcType=INTEGER}, #{infomation,jdbcType=VARCHAR}, 
+      #{shoptype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.apatech.domain.Commodity">
+    insert into commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productcodeid != null">
+        productCodeID,
+      </if>
+      <if test="supplierid != null">
+        supplierID,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="costprice != null">
+        costPrice,
+      </if>
+      <if test="commoditytypeid != null">
+        commodityTypeID,
+      </if>
+      <if test="commodityimg != null">
+        commodityImg,
+      </if>
+      <if test="stockcount != null">
+        stockCount,
+      </if>
+      <if test="infomation != null">
+        infomation,
+      </if>
+      <if test="shoptype != null">
+        shopType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productcodeid != null">
+        #{productcodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierid != null">
+        #{supplierid,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="costprice != null">
+        #{costprice,jdbcType=REAL},
+      </if>
+      <if test="commoditytypeid != null">
+        #{commoditytypeid,jdbcType=INTEGER},
+      </if>
+      <if test="commodityimg != null">
+        #{commodityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcount != null">
+        #{stockcount,jdbcType=INTEGER},
+      </if>
+      <if test="infomation != null">
+        #{infomation,jdbcType=VARCHAR},
+      </if>
+      <if test="shoptype != null">
+        #{shoptype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.apatech.domain.Commodity">
+    update commodity
+    <set>
+      <if test="supplierid != null">
+        supplierID = #{supplierid,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="costprice != null">
+        costPrice = #{costprice,jdbcType=REAL},
+      </if>
+      <if test="commoditytypeid != null">
+        commodityTypeID = #{commoditytypeid,jdbcType=INTEGER},
+      </if>
+      <if test="commodityimg != null">
+        commodityImg = #{commodityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcount != null">
+        stockCount = #{stockcount,jdbcType=INTEGER},
+      </if>
+      <if test="infomation != null">
+        infomation = #{infomation,jdbcType=VARCHAR},
+      </if>
+      <if test="shoptype != null">
+        shopType = #{shoptype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where productCodeID = #{productcodeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.apatech.domain.Commodity">
+    update commodity
+    set supplierID = #{supplierid,jdbcType=INTEGER},
+      brand = #{brand,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      costPrice = #{costprice,jdbcType=REAL},
+      commodityTypeID = #{commoditytypeid,jdbcType=INTEGER},
+      commodityImg = #{commodityimg,jdbcType=VARCHAR},
+      stockCount = #{stockcount,jdbcType=INTEGER},
+      infomation = #{infomation,jdbcType=VARCHAR},
+      shopType = #{shoptype,jdbcType=VARCHAR}
+    where productCodeID = #{productcodeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

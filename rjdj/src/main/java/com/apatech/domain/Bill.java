@@ -1,0 +1,67 @@
+package com.apatech.domain;
+
+import java.util.Date;
+/**
+ * 采购单主表
+ * @author 刘成
+ *
+ */
+public class Bill {
+    private String billid;//编号，主键
+    private Date deliverytime;//交期
+    private Integer supplierid;//供应商ID
+    private String userid;//制表人id
+    private String remarks;//备注
+    
+    
+
+    @Override
+	public String toString() {
+		return "Bill [billid=" + billid + ", deliverytime=" + deliverytime + ", supplierid=" + supplierid + ", userid="
+				+ userid + ", remarks=" + remarks + "]";
+	}
+
+	public Bill() {
+		super();
+	}
+
+	public String getBillid() {
+        return billid;
+    }
+
+    public void setBillid(String billid) {
+        this.billid = billid == null ? null : billid.trim();
+    }
+
+    public Date getDeliverytime() {
+        return deliverytime;
+    }
+
+    public void setDeliverytime(Date deliverytime) {
+        this.deliverytime = deliverytime;
+    }
+
+    public Integer getSupplierid() {
+        return supplierid;
+    }
+
+    public void setSupplierid(Integer supplierid) {
+        this.supplierid = supplierid;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
+    }
+}

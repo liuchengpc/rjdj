@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>修改报销单 - 北大青鸟办公自动化管理系统</title>
+		<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="../../js/jquery-1.8.3.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				//表单提交校验
+			var reimburseid=window.sessionStorage.getItem("reimburseid"); //报销单id
+       		var user =JSON.parse(window.sessionStorage.getItem("user"));//将用户信息从js中的session中取出来
+       		console.info("报销单user");
+       		console.info(user);
+       		//alert("报销单id:"+reimburseid)
+       		
+       		
+       		
+       		
+   			
+			$.ajax({
+					url:"/JBOA/Tb_reimburse/queryByidprimarywithdetail",
+					type:"post",
+					data:"reimburseid="+reimburseid,
+					dataType:"json",						
+					success:function(res){
+
+						console.info("报销单主详表：")
+						console.info(res);
+
+						//var ress=JSON.stringify(res)
+						
+						/*  
+							createman: 1006
+							createtime: "2018-06-18 09:40:16"
+							departmentid: 3
+							departmentname: "研发部"
+							employeeid: 1006
+							employeename: "鲁昌盛"
+							event: "出差"
+							list: Array(2)
+								0:
+									desc: "酒店住宿"
+									id: 1
+									mainid: 1
+									subtotal: 500
+								1:
+									desc: "洗脚"
+									id: 2
+									mainid: 1
+									subtotal: 1500
+								length: 2
+							nextdealman: 10000
+							nextemployeeName: "无"
+							password: "123"
+							pid: 1004
+							positionid: 2
+							reimburseid: 1
+							statusid: 5
+							statusname: "已付款"
+							totalcount: 2000
+							typeid: 2
+						*/
+                   		
+						//如果报销单状态是新创建 按钮有：保存、提交、返回//如果报销单状态是不是新创建 按钮有：提交、返回
+						//alert("报销单状态为:"+res.statusid)
+			       		if (res.statusid!=1) {
+							$(".bc").hide();
+						} else {
+							$(".bc").show();
+						}
+                   		
+                  		$(".createman").attr("reimburseid",res.reimburseid)//报销单编号
+                  		$(".createman").html(res.createman)//员工编号
+					    $(".employeename").html(res.employeename)//填报人
+					    $(".departmentid").html(res.departmentid)//部门id
+					    $(".departmentname").html(res.departmentname)//部门名
+					    $(".createtime").html(res.createtime)//填报时间
+					    $(".totalAccount").html(res.totalcount)//总金额
+					    $(".statusid").html(res.statusid)//状态id
+					    $(".statusname").html(res.statusname)//状态名称
+                   		
+                   		
+						$.each(res.list,function(i,obj2){
+							var tr=$("#myTable>tbody>tr").eq(0).clone();
+							++i;
+							var j=i-1;
+							var item = $("#item").val();
+							var subtotal = obj2.subtotal;
+							
+							totalAccount=parseFloat(totalAccount)+parseFloat(subtotal);
+							var desc = obj2.desc;
+							var src="/JBOA/images/"+obj2.picturepath;
+							
+							//alert("desc:"+desc)
+							tr.find("td").get(0).innerHTML="<input name=detailList["+j+"].desc class='desc'  id=desc"+j+" type=hidden value="+desc+" />"+desc;		
+							tr.find("td").get(1).innerHTML="<input name=detailList["+j+"].subtotal class='subtotal' id=subtotal"+j+"  type=hidden value="+subtotal+" />"+subtotal;
+							tr.find("td").get(2).innerHTML="<img class='picturepath' picturepath='"+obj2.picturepath+"' src='"+src+"' picturepath="+newsrc2+" class='picturepath' width='45px'  />";
+							
+							
+							tr.find("td").get(3).innerHTML="<input type=button name=DelRow"+j+" id=DelRow"+j+" onclick=delRow(this) value="+'删除'+" />";
+							tr.find("td").get(3).innerHTML="<img src='../../images/delete.gif' width=16 height=16 id=DelRow"+j+" onclick=delRow(this) />";
+							tr.show();
+							tr.appendTo("#myTable");
+							//传递一共添加多少问题 
+							rowNumber=i;
+							$("#subtotal").attr("value","");
+							$("#desc").attr("value","");
+							$("#totalAccount").html(totalAccount);
+							
+							
+							 /*
+		                	    private Integer id;//详情编号
+							    private Integer mainid;//tb_reimburse表的报销主表编号
+							    private Float subtotal;//事项金额
+							    private String desc;//事项描述
+							    private String picturename;//报销单图片名
+							    private String picturepath;//报销单真实路径
+			                 */
+								
+					 	})
+					}
+			}) 
+			
+				
+				$("#AddRow").click(function(){
+				
+						//alert(1)
+						var desc = $("#desc").val();
+						var subtotal = $("#subtotal").val();
+						var regsubtota=/^\d+$/
+						var picturepath=newsrc;
+
+						
+						
+						//alert(desc+"/"+subtotal+"/"+picturepath)
+						if (desc=="") {
+							alert("项目说明不能为空！")
+							   return false;
+						} else if (!regsubtota.test(subtotal)||subtotal=="") {
+							alert("请输入正确的金额！")
+							   return false;;
+						} else if (picturepath==""||picturepath==undefined) {
+							alert("请选择票据截图！")
+							   return false;
+						}
+						
+					
+						var tr=$("#myTable>tbody>tr").eq(0).clone();
+						++i;
+						var j=i-1;
+						var item = $("#item").val();
+						
+						totalAccount=parseFloat(totalAccount)+parseFloat(subtotal);
+					
+						//alert("desc:"+desc)
+						tr.find("td").get(0).innerHTML="<input name=detailList["+j+"].desc class='desc'  id=desc"+j+" type=hidden value="+desc+" />"+desc;		
+						tr.find("td").get(1).innerHTML="<input name=detailList["+j+"].subtotal class='subtotal' id=subtotal"+j+"  type=hidden value="+subtotal+" />"+subtotal;
+						tr.find("td").get(2).innerHTML="<img class='picturepath' src='"+newsrc+"' picturepath="+newsrc2+" class='picturepath' width='45px'  />";
+						newsrc="";
+						
+						tr.find("td").get(3).innerHTML="<input type=button name=DelRow"+j+" id=DelRow"+j+" onclick=delRow(this) value="+'删除'+" />";
+						tr.find("td").get(3).innerHTML="<img src='../../images/delete.gif' width=16 height=16 id=DelRow"+j+" onclick=delRow(this) />";
+						tr.show();
+						tr.appendTo("#myTable");
+						//传递一共添加多少问题 
+						rowNumber=i;
+						$("#subtotal").attr("value","");
+						$("#desc").attr("value","");
+						$("#totalAccount").html(totalAccount);
+					
+						
+						$(this).parents("tr").find("[name=file]").remove();
+						$(".adfile").html("<input  type='file'  accept='.gif,.jpeg,.jpg,.png' name='file' multiple='multiple' class='picturepaths' id='paperPath ' onchange='wjsc(this)'/>")
+				});	
+				
+			});
+			
+			var i=0;
+			var rowNumber=0;
+			var totalAccount = 0;
+			function delRow(s){	
+				//alert($(s).html())
+				//alert("进入删除")
+				var subtotal = $(s).parents("tr").find(".subtotal").val();
+				//alert(subtotal);
+				$(s).parents("tr").remove();
+				//alert($(s).parent("tr"))
+				//var rowNumber=$("#rowNumber").val();
+				/* for(var s=id+1;s<rowNumber;s++){
+					$("#item"+s).attr("name","detailList["+(s-1)+"].item");
+					$("#item"+s).attr("id","item"+(s-1));
+					$("#subtotal"+s).attr("name","detailList["+(s-1)+"].subtotal");
+					$("#subtotal"+s).attr("id","subtotal"+(s-1));
+					$("#desc"+s).attr("name","detailList["+(s-1)+"].desc");
+					$("#desc"+s).attr("id","desc"+(s-1));		
+					var js="delRow("+(s-1)+");";
+					var newclick=eval("(false||function (){"+js+"});");
+					$("#DelRow"+s).unbind('click').removeAttr('onclick').click(newclick);
+					$("#DelRow"+s).attr("id","DelRow"+(s-1));					
+				} */
+				
+				
+				$("#rowNumber").attr("value",rowNumber-1);
+				--i;
+				totalAccount=parseFloat(totalAccount)-parseFloat(subtotal);
+				$("#totalAccount").html(totalAccount);
+			}
+			
+			 function yn(){
+					//判断是否加入了问题 
+					if($(".desc").size()<1){
+						//$.messager.defaults={ok:"确定"};$.messager.alert("提示信息",$("#rowNumber").val());
+						alert("* 添加报销单的明细，至少一条 ！"); 	
+						return false;
+					}	
+					/* $("#notice").text("*");
+					for(var s=0;s<$("#rowNumber").val();s++){
+						$("#subtotal"+s).next(".notice").text("*");
+						$("#desc"+s).next(".notice").text("*");
+						if(isEmpty($("#subtotal"+s).val())){
+							alert(".notice").text("* 金额不能为空  ！");
+							return false;
+						}
+						if(isEmpty($("#desc"+s).val())){
+							alert("* 金额不能为空  ！");
+							return false;
+						}
+					} */
+					for (var i = 0; i <  $(".desc").length; i++) {
+						var desc=$(".desc").eq(i).val();
+						var subtotal=$(".subtotal").eq(i).val();
+						var regsubtota=/^\d+$/
+						
+						var picturepath=$(".picturepath").eq(i).attr("picturepath");
+						if (desc=="") {
+							alert("项目说明不能为空！")
+							return false;
+						} else if (regsubtota.test(desc)) {
+							alert("请输入正确的金额！")
+							return false;
+						} else if (picturepath=="") {
+							alert("请选择票据截图！")
+							return false;
+						}
+						
+					}
+					$(".buttons").hide();
+					return true;
+				}
+				
+				
+				function submitClaimVoucher(action){
+						if(yn()==true){
+							if(!confirm("确定"+action+"报销单吗")) return;
+					   		
+					   	/* 	 if (action == '保存'){//新创建
+					   			$(".statusid").html(1)
+								$(".statusname").html("新创建")
+					   		}else{//待审核
+					   			$(".statusid").html(2)
+								$(".statusname").html("待审批")
+					   		}  */
+					   		//alert("状态："+$(".statusid").html())
+					   	
+							//alert($(".desc").size())
+						
+							/* 
+								reimburseid=704382, 
+								typeid=null, 
+								createman=null, 
+								createtime=null, 
+								departmentid=null,
+								nextdealman=null,
+								event=null, 
+								totalcount=null, 
+								statusid=null, 
+								list=null
+							    Integer reimburseid;//报销编号
+							    Integer typeid;//2代表报销表
+							    Integer createman;//employee表的报销人
+							    Date createtime;//创建时间
+							    Integer departmentid;//department表的部门编号
+							    Integer nextdealman;//employee表的下个处理人
+							    String event;//报销事由
+							    Float totalcount;//报销总金额
+							    Integer statusid;//tb_status表的状态，外键，关联状态表
+							    
+							    List<Reimburse_detail> list;
+							*/
+						
+							
+							
+//							Tb_reimburse [
+//				              reimburseid=null,//报销单id
+//				              typeid=2,
+//				              createman=1007, 
+//				              createtime=Thu Sep 19 09:30:47 CST 2019, 
+//				              departmentid=3, 
+//				              nextdealman=null, //下一个处理人
+//				              event=,
+//				              totalcount=null, //总金额
+//				              statusid=1, 
+//				              list=[
+//				                    Reimburse_detail [
+//				                                      id=null, //报销详表id
+//				                                      mainid=null,//报销单id
+//				                                      subtotal=111.0,
+//				                                      desc=发发, 
+//				                                      picturename=null, //图片名称
+//				                                      picturepath=eda567d4d14c4a5aa10f4d8d4f311ddc.jpg
+//				                     ]
+//				              ]
+//				            ]
+							/* 	{
+									"reimburseid":"840266",
+									"createman":"郭忠意",
+									"employeename":"郭忠意",
+									"typeid":2,
+									"departmentid":"3",
+									"createtime":"2019-09-19 10:19:28",
+									"totalcount":"2222",
+									"statusid":"1",
+									"event":"",
+									"list":[
+											{
+												"mainid":"840266",
+												"desc":"发发",
+												"subtotal":"1111",
+												"picturepath":"undefined"
+												},
+												{
+													"mainid":"840266",
+													"desc":"发发2",
+													"subtotal":"1111",
+													"picturepath":"8a28b40c64744babae59a7bf3c479611.jpg"
+												}
+									]
+								} */
+							var obj={
+										reimburseid:$(".createman").attr("reimburseid"),
+										createman:$(".createman").html(),
+										employeename:$(".employeename").html(),
+										typeid:2,
+										departmentid:$(".departmentid").html(),
+										createtime:$(".createtime").html(),
+										totalcount:$(".totalAccount").html(),
+										statusid:$(".statusid").html(),
+										event:$(".event").html(),
+										list:[]
+									}
+							
+							//alert("总金额："+$(".totalAccount").html())
+							
+							for (var i = 0; i <  $(".desc").length; i++) {
+								//alert("第"+i+1+"个地址："+$(".picturepath").eq(i).attr("picturepath"))
+								var b={
+									mainid:$(".createman").attr("reimburseid"),
+									desc:$(".desc").eq(i).val(),
+									subtotal:$(".subtotal").eq(i).val(),
+									picturepath:$(".picturepath").eq(i).attr("picturepath")
+								}
+								//alert($(".desc").eq(i).val()+"/"+$(".subtotal").eq(i).val()+"/"+$(".picturepath").eq(i).attr("picturepath"))
+								obj.list.push(b);
+							}
+							
+							console.info(obj)
+							//alert(JSON.stringify(obj))
+							//alert(record)
+							$.ajax({
+								url:"/JBOA/Reimburse_detail/updateByAll",
+								type:"post",
+							  	data : JSON.stringify(obj),
+							  	dataType:'json',	
+							  	contentType : "application/json;charset=utf-8",
+							  	success:function (data) {
+							  		if(data.code == "1"){
+					   					location.href = "/JBOA/jsp/claim/claim_voucher_list.html";
+					   				}else {
+										alert("修改失败")
+									}
+						        }
+							});
+						}
+				}
+				
+				/* 
+					
+					var data = {data:{name:'pxxx',
+					                    paramData:[{dataSource:'a1',table:'t1',field:'f1','r':[{name1:"01",p:''},{name2:"02",p:'10,100'},{name2:"01",p:''}]},
+					                        {dataSource:'a2',table:'t2',field:'f2','r':[{name1:"01",p:''},{name2:"02",p:'10,100'},{name3:"01",p:''}]}]
+					                }};
+					$.ajax({
+					    type:"POST",
+					    async:false,
+					    dataType:'json',
+					    contentType : "application/json",
+					    url:"matePxxx/addPxx",
+					    data: JSON.stringify(data),
+					    success:function (data) {
+					 
+					    }
+					});
+					 
+					@RequestMapping("/addPxx")
+					@ResponseBody
+					public Map<String,Boolean> addPxxx(@RequestBody JSONObject data){
+					   System.out.println(data);
+					  return map;
+					}
+				*/
+		</script>
+	</head>
+	<body>
+		<div class="action divaction">
+			<div class="t">添加报销单</div>
+			
+			<div class="pages">
+				<form id ="form2" action="load/upload2" enctype="multipart/form-data" method="post" name="claimForm">
+					<input type="hidden" id="rowNumber" name="rowNumber" value=""/>
+					<table width="90%" border="0" cellspacing="0" cellpadding="0" class="addform-base">
+						<tr>
+							<td >*员工编号：<span class="createman" ></span></td>
+							<td >*填报人：<span class="employeename"></span></td>
+							<td >*部门：<span class="departmentid"  style="display: none"></span ><span class="departmentname"></span></td>
+							<td >*填报时间：<span class="createtime" >2013-8-17 8:30:12</span></td>
+						</tr>
+						<tr>
+							<td colspan="3">*总金额：￥<span class="totalAccount" id="totalAccount">0</span></td>
+							<td colspan="2">*状态：<span class="statusid" style="display: none">1</span ><span class="statusname">新创建</span></td>
+						</tr>
+					
+					</table>
+	          		<p>-----------------------------------------------------------------------------------------------------</p>
+					<table id="myTable" width="90%" border="0" cellspacing="0" cellpadding="0" class="addform-base">
+						<thead>
+							<tr style="text-align: left;">
+								<th width="27%">>项目说明</th>
+								<th width="27%">项目金额</th>
+								<th width="27%">票据截图</th>
+								<th width="19%">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<table id="detailTable" width="90%" border="0" cellspacing="0" cellpadding="0" class="addform-base">
+						<!-- 
+								    Integer id;//详情编号
+								    Integer mainid;//tb_reimburse表的报销主表编号
+								    Float subtotal;//事项金额
+								    String desc;//事项描述
+								    String picturename;//报销单图片名
+								    String picturepath;//报销单真实路径
+							 -->
+							<tr>
+								<td width="27%"><input  type="text" name="claimVoucherDetail.desc" id="desc" size="13" /><span class=notice>*</span></td>
+								<td width="27%"><input   type="text" name="claimVoucherDetail.account" id="subtotal" size="13" /><span class=notice>*</span></td>
+								<td width="27%" class="adfile">
+									<input  type='file'  accept=".gif,.jpeg,.jpg,.png" name="file" multiple="multiple" class="picturepaths" id="paperPath " onchange="wjsc(this)"/>
+								</td>
+								<!-- <img  class="picturepath" src="../../images/head.jpg"  width="45px"> -->
+								<td width="19%"><img src="../../images/add.gif"  width="16" height="16" id="AddRow" /></td>
+							</tr>
+							<script>
+								var newsrc;
+								var newsrc2;
+								function wjsc(td){//文件上传
+									 // 图片上传到服务器
+								    var pic1 = td.files[0];
+								    var formData = new FormData();
+								    // 服务端要求参数是 pic1 
+								    formData.append('file',pic1);
+									
+									
+									 // var formData = new FormData(td[0]);
+									  console.info("上传文件")
+									console.info(formData)
+									//\ int i=td.index()//获取当前是第几个文件上传
+									//获取上传的第一个文件
+										var file =  td.files[0];
+										console.info("上传文件")
+										console.info(file)
+										var fileName = file.name;
+										//var newsrc=getObjectURL(file);
+										//alert("文件的name:"+fileName)
+										var fileSize = file.size;
+										//i忽略大小写匹配
+										var nameReg = /\.gif|\.jpeg|\.jpg|\.png$/i;
+										if(!nameReg.test(fileName)){
+											//alert(fileName)
+											alert("上传文件类型必须为.gif、.jpeg、.jpg、.png");
+										}else if(fileSize>=5*1024*1024){
+											alert("文件大小超出限制，只支持5M以内的文件上传");
+										}else{
+									       $.ajax({
+									               url:'/JBOA/Reimburse_detail/upload2',
+									               type:'post',
+									               data:formData,
+									               //必须false才会自动加上正确的Content-Type
+									               contentType: false,
+									               //必须false才会避开jQuery对 formdata 的默认处理
+									              //XMLHttpRequest会对 formdata 进行正确的处理
+									              processData: false,
+									              success:function(data){
+									                  console.info("图片上传");
+									                  console.info(data);
+									                  if (data!="") {
+									                	  
+									                	  //获取图片的源路径
+									                      var objUrl = file;
+									                      //获得一个http格式的url路径:mozilla(firefox)||webkit or chrome  
+									                      var windowURL = window.URL || window.webkitURL;
+									                      //createObjectURL创建一个指向该参数对象(图片)的URL  
+									                      var dataURL = windowURL.createObjectURL(objUrl);
+									                	  newsrc=dataURL;
+									                	  newsrc2=data;
+														}
+									              },
+									              error:function(data){
+									                  console.info("图片上传");
+									            	  console.info(data);
+									                  alert("后台发生异常");
+									              },
+									              cache:false,
+									              async:true
+									          }); 
+										}
+								}
+								 var countprice=0;
+							 	 function countprice(){//计算总金额方法
+									
+									 for (var i = 0; i < $(".subtotal").length; i++) {
+										 //alert($(".subtotal").eq(i).val())
+										countprice+=parseFloat($(".subtotal").eq(i).val());
+									}
+									 //alert("总金额："+countprice)
+									 $(".totalAccount").html(countprice)
+									 
+								
+									
+								 } 
+							</script>
+					</table>
+	          		<p>-----------------------------------------------------------------------------------------------------</p>
+					<table>
+						<tr>
+							<td>*事由：</td>
+							<td colspan="3">
+								<textarea rows="5" class="event" cols="66" name="claimVoucher.event" id="event"></textarea>
+							</td>
+						</tr>
+						<tr align="center" colspan="4">
+							<td>&nbsp;</td>
+							<td >
+								<input type="button" id="1" name="1" value="保存" onclick="submitClaimVoucher('保存')" class="submit_01 bc"/>
+								<input type="button" id="2" name="2" value="提交" class="submit_01 tj" onclick="submitClaimVoucher('提交')" />
+								<input type="button" value="返回" onclick="window.history.go(-1)" class="submit_01 fh"/> 
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
