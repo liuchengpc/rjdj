@@ -26,12 +26,12 @@ public class CashregisterController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/selectAll")
-	public String selectAll(Model model) {
+	@RequestMapping(value = "/selectAll",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Cashregister> selectAll(Model model) {
 		System.out.println("进入CashregisterController查询全部");
 		List<Cashregister> list = dao.selectAll();
-		model.addAttribute("list", list);
-		return "index";
+		return list;
 	}
 	/**
 	 * 根据主键查询

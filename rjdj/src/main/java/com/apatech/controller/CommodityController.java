@@ -26,12 +26,12 @@ public class CommodityController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/selectAll")
-	public String selectAll(Model model) {
+	@RequestMapping(value = "/selectAll",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Commodity> selectAll(Model model) {
 		System.out.println("进入CommodityController查询全部");
 		List<Commodity> list = dao.selectAll();
-		model.addAttribute("list", list);
-		return "index";
+		return list;
 	}
 	/**
 	 * 根据主键查询
@@ -53,12 +53,28 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "selectAllpage",method = RequestMethod.GET)
 	@ResponseBody
-	public PageInfo<Commodity> selectAllpage( Integer pageNum,Integer pageSize){
+	public PageInfo<Commodity> selectAllpage( Integer pageNum,Integer pageSize,Integer commoditytypeid,String selectqb){
 		System.out.println("进入CommodityController分页");
 		System.out.println(pageNum+"/"+pageSize);
     	PageInfo<Commodity> page=dao.selectAllpage(pageNum, pageSize);
     	return page;
     }
+	
+	/**
+	 * 根据条件查询
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "selectAll2",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Commodity> selectAll2(Integer commoditytypeid,String selectqb){
+		System.out.println("进入CommodityController根据条件查询");
+		System.out.println(commoditytypeid+"/"+selectqb);
+    	List<Commodity> list=dao.selectAll2(commoditytypeid, selectqb);
+    	return list;
+    }
+	
 	/**
 	 * 新增
 	 * @param student

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.yuan {
+	            width: 300px;
+	            height: 300px;
+	            border-radius: 150px;
+	            border: 3px solid gainsboro;
+	            overflow: hidden;
+	        }
+	        a:hover { 
+	        	text-decoration:none;
+	        } 
+	        a { 
+	        	text-decoration:none;
+	        } 
+	        .users{
+	        	width: 360px;
+	        	position: absolute;
+	        	margin-left: 52%;
+	        	margin-top: -47%;
+	        }
+		</style>
+		<link th:href="@{/css2/bootstrap.min.css}" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css2/bootstrap.css}" />
+		<script type="text/javascript" th:src="@{/js2/jquery-1.12.4.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/bootstrap.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/dialog.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/vue.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/axios.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/dialogUtil.js}" ></script>	
+		<script th:src="@{/js2/jquery.min.js}"></script>
+		<script th:src="@{/js2/bootstrap.min.js}"></script>
+		<script th:src="@{/js2/distpicker.data.js}"></script>
+		<script th:src="@{/js2/distpicker.js}"></script>
+		<script th:src="@{/js2/main.js}"></script>
+	</head>
+	<body>
+		<div style="border: 1px solid #DDDDDD;border-radius: 5px;padding: 10px 25px;">
+			<img src="../images/home.png" >
+			你现在所在的位置是：
+			<a href="javascript:;" style="font-weight: 600;">账户信息</a>			
+		</div>
+		<div class="yuan" style="margin-left: 10%;margin-top:10%;background-size:100% 100%; ">
+			<div class="tx" hidden="hidden" style="background-color: whitesmoke;width: 230px;height: 85px;margin-top: 85%;margin-left: 33px;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
+				<a href="#" style="color: #000000;" onclick="showWindowDialog('users_img.html','上传头像')">上传头像</a>
+			</div>
+		</div>
+		<div class="users">
+			<form class="form-inline">
+				<div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
+				    <label for="exampleInputName2" style="font-size: 18px;">行&nbsp&nbsp&nbsp业&nbsp&nbsp&nbsp&nbsp</label>
+				    <input type="text" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写行业" style="width: 60%;">
+			    </div>
+			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
+				    <label for="exampleInputName2" style="font-size: 18px;">账&nbsp&nbsp&nbsp号&nbsp&nbsp&nbsp&nbsp</label>
+				    <input type="text" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写账号" style="width: 60%;">
+			    </div>
+			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
+				    <label for="exampleInputName2" style="font-size: 18px;">手&nbsp&nbsp&nbsp机&nbsp&nbsp&nbsp&nbsp</label>
+				    <input type="text" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写手机号码" style="width: 60%;">
+				    <label for="exampleInputName2" style="font-size: 15px;color: grey;">&nbsp&nbsp&nbsp已绑定</label>
+			    </div>
+			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
+				    <label for="exampleInputName2" style="font-size: 18px;">密&nbsp&nbsp&nbsp码&nbsp&nbsp&nbsp&nbsp</label>
+				    <input type="password" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写密码" style="width: 60%;">
+			    </div>
+			    <button type="button" id="xg" class="btn btn-success col-md-3" style="margin-left: 45%;margin-top: 6%;">修改</button>
+			</form>
+		</div>
+		<script>
+			$(function(){
+				//查看详情
+				//shown.bs.modal 先显示模态框，再执行代码
+				//show.bs.modal  先执行代码，再显示模态框
+				$("#smModal").on("show.bs.modal",function(e){
+					alert("显示模态框之前");				
+				});
+				$("#smModal").on("shown.bs.modal",function(e){
+					//e.relatedTarget  获取当前触发模态框显示的元素
+					var obj = $(e.relatedTarget);
+					var stuId = $(obj).parents("tr").find("td:eq(0)").text();
+					alert("显示模态框之后");	
+					alert("获取到编辑的学生ID："+stuId+"利用ajax加载数据并填充");
+					//alert($(".form-horizontal").find(".id").html())
+					$(".form-horizontal").find(".id").html(stuId);
+					$(".form-horizontal").find(".id").val(stuId);
+//					$(".form-horizontal").find("[type='password']").val(1234567);					
+				});
+				
+				xg();		//修改-保存
+			});
+			
+			function xg(){
+				$("#xg").click(function(){
+					if($("#xg").html()=="修改"){
+						$(".form-control").removeAttr("disabled");
+						$(".tx").removeAttr("hidden");
+						$("#xg").html("保存");
+					}else{
+						$(".form-control").attr("disabled","disabled");
+						$(".tx").attr("hidden","hidden");
+						$("#xg").html("修改");
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

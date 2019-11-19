@@ -1,22 +1,17 @@
-package com.apatech.domain;
-
-
-import java.util.List;
+package com.apatech.vo;
 
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-
+import com.apatech.domain.Cashregisterdetail;
+import com.apatech.domain.Commoditydetail;
+import com.apatech.domain.Detail;
 /**
- * 商品主表
+ * 商品管理模块类
  * @author 刘成
  *
  */
-public class Commodity {
+public class CommodityVo {
 //	商品主表
     private String productcodeid;//商品货号
 //    private Integer supplierid;//供应商id
@@ -29,10 +24,7 @@ public class Commodity {
     private Integer stockcount;//库存
     private String infomation;//商品信息
     private String shoptype;//商品类型
-
-    private List<Commodity> productcodelist;//集合
-    
-    private Integer spkc  ;//商品库存
+    private List<Commoditydetail> productcodelist;//集合
     
 //    商品详表
     private String commoditydetailid;//条形码，主键
@@ -75,13 +67,11 @@ public class Commodity {
     
     //采购单主表
     private String billid;//编号，主键
-    @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date deliverytime;//交期
 //    private Integer supplierid;//供应商ID
     private String userid;//制表人id
     private String remarks;//备注
-    private List<Bill> billlist;//集合
+    private List<Detail> list;//集合
     
 //    采购明细表
     private Integer detailid;//编号，主键
@@ -92,26 +82,28 @@ public class Commodity {
     private Float cgcostprice;//单价
     private Integer cgcount;//数量
     private Float moneyamt;//金额
-
-
+    
+    
+    
+    
 	@Override
 	public String toString() {
-		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
-				+ ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
+		return "CommodityVo [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price="
+				+ price + ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
 				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", productcodelist=" + productcodelist
-				+ ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
-				+ ", commoditysizeid=" + commoditysizeid + ", commoditysize=" + commoditysize + ", commoditytypeid="
-				+ commoditytypeid + ", commoditytypename=" + commoditytypename + ", colorid=" + colorid + ", color="
-				+ color + ", colorimg=" + colorimg + ", rgb=" + rgb + ", colortypeid=" + colortypeid + ", colortype="
+				+ ", commoditydetailid=" + commoditydetailid + ", count=" + count + ", commoditysizeid="
+				+ commoditysizeid + ", commoditysize=" + commoditysize + ", commoditytypeid=" + commoditytypeid
+				+ ", commoditytypename=" + commoditytypename + ", colorid=" + colorid + ", color=" + color
+				+ ", colorimg=" + colorimg + ", rgb=" + rgb + ", colortypeid=" + colortypeid + ", colortype="
 				+ colortype + ", supplierid=" + supplierid + ", companyname=" + companyname + ", companyabbreviation="
 				+ companyabbreviation + ", contacts=" + contacts + ", phone=" + phone + ", email=" + email
 				+ ", telephone=" + telephone + ", province=" + province + ", city=" + city + ", region=" + region
 				+ ", street=" + street + ", billid=" + billid + ", deliverytime=" + deliverytime + ", userid=" + userid
-				+ ", remarks=" + remarks + ", billlist=" + billlist + ", detailid=" + detailid + ", cgname=" + cgname
+				+ ", remarks=" + remarks + ", list=" + list + ", detailid=" + detailid + ", cgname=" + cgname
 				+ ", specifications=" + specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount
 				+ ", moneyamt=" + moneyamt + "]";
 	}
-	public Commodity() {
+	public CommodityVo() {
 		super();
 	}
 	public String getProductcodeid() {
@@ -168,22 +160,11 @@ public class Commodity {
 	public void setShoptype(String shoptype) {
 		this.shoptype = shoptype;
 	}
-
-
-	
-	
-
-	public List<Commodity> getProductcodelist() {
+	public List<Commoditydetail> getProductcodelist() {
 		return productcodelist;
 	}
-	public void setProductcodelist(List<Commodity> productcodelist) {
+	public void setProductcodelist(List<Commoditydetail> productcodelist) {
 		this.productcodelist = productcodelist;
-	}
-	public Integer getSpkc() {
-		return spkc;
-	}
-	public void setSpkc(Integer spkc) {
-		this.spkc = spkc;
 	}
 	public String getCommoditydetailid() {
 		return commoditydetailid;
@@ -347,11 +328,11 @@ public class Commodity {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public List<Bill> getBilllist() {
-		return billlist;
+	public List<Detail> getList() {
+		return list;
 	}
-	public void setBilllist(List<Bill> billlist) {
-		this.billlist = billlist;
+	public void setList(List<Detail> list) {
+		this.list = list;
 	}
 	public Integer getDetailid() {
 		return detailid;
@@ -389,6 +370,9 @@ public class Commodity {
 	public void setMoneyamt(Float moneyamt) {
 		this.moneyamt = moneyamt;
 	}
-
+    
+    
+    
+    
     
 }
