@@ -25,15 +25,20 @@ public class topage {
 	}
 	
 	
+	@RequestMapping("page/claim/users_img")
+	public String users_img() {
+		System.out.println("进入page/claim/users_img");
+		return "page/claim/users_img";
+	}
 	@RequestMapping("page/common/body_menu6")
 	public String body_menu6() {
 		System.out.println("进入page/common/body_menu6");
 		return "page/common/body_menu6";
 	}
-	@RequestMapping("page/claim/accountinfo")
+	@RequestMapping("page/claim/users_home")
 	public String accountinfo() {
-		System.out.println("进入page/claim/accountinfo");
-		return "page/claim/accountinfo";
+		System.out.println("进入page/claim/users_home");
+		return "page/claim/users_home";
 	}
 	@RequestMapping("page/common/body_menu")
 	public String body_menu() {

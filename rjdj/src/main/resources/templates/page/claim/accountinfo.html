@@ -30,7 +30,7 @@
                                     <img src="" alt="" style="background:#666;">
                                 </div>
                                 <a href="javascript:;" class="upload">上传头像</a>  <!--上传头像按钮-->
-                                <input type="file" name="file" class="uploaduserimg">
+                                <input type="file" id="load_file" name="headportrait" class="uploaduserimg">
                             </div>
                     </div>
                     <!--信息修改form-->
@@ -40,7 +40,7 @@
                         </div>
                         <div class="list">
                             <label>行业:</label>
-                            <select class="form-control" style="float: left;width: 190px">
+                            <select class="form-control" name="industry" style="float: left;width: 190px">
                                 <option value="服饰">服饰</option>
                                 <option value="餐饮">餐饮</option>
                                 <option value="其他">其他</option>
@@ -52,13 +52,13 @@
                         </div>
                         <div class="list">
                             <label>手机:</label>
-                            <input type="text" class="input-text" name="phone">
+                            <input type="text" class="input-text" name="phonenumber">
                             <span>已经/未绑定</span>
                         </div>
                         <div class="list">
                             <label>密码:</label>
-                            <input type="password" class="input-text" name="pwd">
-                            <a class="btn btn-success" href="javascript:;" style="margin-left: 5px;">修改</a>
+                            <input type="password" class="input-text" name="password">
+                            <a class="btn btn-success" id="updateUser" href="javascript:;" style="margin-left: 5px;">修改</a>
                         </div>
                     </div>
                 </div>
@@ -66,5 +66,44 @@
             </div>
         </div>
     </div>
+    
+    <script>
+    	$(function(){    		
+    		user();	//测试账号数据（暂时给死），用来账户模块的修改
+    		updateUser();	//修改账户信息
+    	});
+    	
+    	//测试账号数据（暂时给死），用来账户模块的修改
+    	function user(){
+    		var res = {
+    				userid:"15012341234",
+    				password:"123123",
+    				username:"李店长",
+    				industry:"服装",
+    				phonenumber:"15012341234",
+    				headportrait:"/images/pro2.jpg",
+    				roleid:1,
+    				shopid:12345678001
+    		}
+    		/* window.sessionStorage.setItem("user",res);
+    		var user = window.sessionStorage.getItem("user"); */
+    		
+    		//将对象user里的值调出来显示
+    		
+    		/* $("[name=industry] option").val(); */
+    		$("[name=userid]").val(res.userid);
+    		$("[name=phonenumber]").val(res.phonenumber);
+    		$("[name=password]").val(res.password);
+    		
+    	}
+    	
+    	//修改用户信息
+    	function updateUser(){
+    		$("#updateUser").click(function(){
+    			var myform = new FormData();
+        		
+    		});
+    	}
+    </script>
 </body>
 </html>
