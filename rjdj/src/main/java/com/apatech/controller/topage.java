@@ -23,6 +23,11 @@ public class topage {
 		System.out.println("进入accountindex");
 		return "accountindex";
 	}
+	@RequestMapping("/AddForm")
+	public String AddForm() {
+		System.out.println("进入AddForm");
+		return "AddForm";
+	}
 	
 	
 	@RequestMapping("page/claim/users_img")

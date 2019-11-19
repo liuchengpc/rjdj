@@ -74,6 +74,26 @@
   
 		
         <script type="text/javascript">
+        /* 加载类别 E */
+        $.ajax({
+			url:"[[@{/CommoditytypeController/selectAll}]]",
+				type:"get",
+				data:"",
+				dataType:"json",
+				success:function(data){
+					console.info(data)
+					$.each(data,function(i,res){
+						var s="<option value='"+res.commoditytypeid+"'>"+res.commoditytypename+"</option>";
+						$("#commoditytypeid").append(s);
+					})
+					
+				}
+		});
+        /* 加载类别 S */
+        
+        
+        
+        
             //初始化Table
                 $('#mytable').bootstrapTable({
                 	url: '[[@{/CommodityController/selectAll2}]]',   //请求后台的URL（*）
@@ -186,10 +206,7 @@
 						formatter: function (value, row, index) {
  						    // var sid_code = base64encode(row.sid + '');   //  sid 加密处理
  						    // alert(sid_code);
- 						    return '<a href="#">' + 
- 						        '<i class="glyphicon glyphicon-eye-open" title="显示"></i> ' + 
- 						        '</a>'+ 
- 						        '<a href="#editProject" data-toggle="modal" title="修改">' + 
+ 						    return '<a href="/topage/shop_upload" title="修改">' + 
  						        '<i class="glyphicon glyphicon-pencil"></i> ' + 
  						        '</a>'+
  						        '<a href="javascript:void(0)" title="删除">' +
