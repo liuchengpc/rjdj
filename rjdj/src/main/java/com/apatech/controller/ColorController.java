@@ -26,12 +26,12 @@ public class ColorController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/selectAll")
-	public String selectAll(Model model) {
+	@RequestMapping(value = "/selectAll",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Color> selectAll(Model model) {
 		System.out.println("进入ColorController查询全部");
 		List<Color> list = dao.selectAll();
-		model.addAttribute("list", list);
-		return "index";
+		return list;
 	}
 	/**
 	 * 根据主键查询

@@ -26,12 +26,12 @@ public class SupplierController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/selectAll")
-	public String selectAll(Model model) {
+	@RequestMapping(value = "/selectAll",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Supplier> selectAll(Model model) {
 		System.out.println("进入SupplierController查询全部");
 		List<Supplier> list = dao.selectAll();
-		model.addAttribute("list", list);
-		return "index";
+		return list;
 	}
 	/**
 	 * 根据主键查询

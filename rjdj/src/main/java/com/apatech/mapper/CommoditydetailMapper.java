@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
+import com.apatech.domain.Commodity;
 import com.apatech.domain.Commoditydetail;
 
 public interface CommoditydetailMapper {
@@ -22,8 +23,14 @@ public interface CommoditydetailMapper {
      * 根据商品主表id查询
      * @return
      */
-    @Select("select * from Commoditydetail where productcodeid=#{productcodeid}")
-    List<Commoditydetail> selectByid(String productcodeid);
+    @Select("SELECT * FROM commodity a\r\n" + 
+    		"INNER JOIN commoditydetail d ON a.`productCodeID`=d.`productCodeID`\r\n" + 
+    		"INNER JOIN color e ON d.`colorID`=e.`colorID`\r\n" + 
+    		"INNER JOIN commoditysize f ON d.`commoditySizeID`=f.`commoditySizeID`\r\n" + 
+    		"WHERE d.`productCodeID`=#{productcodeid}")
+    List<Commodity> selectByid(String productcodeid);
+
+
 
     int updateByPrimaryKeySelective(Commoditydetail record);
 

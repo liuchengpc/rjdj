@@ -2,6 +2,10 @@ package com.apatech.domain;
 
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * 采购单主表
  * @author 刘成
@@ -9,6 +13,8 @@ import java.util.List;
  */
 public class Bill {
     private String billid;//编号，主键
+    @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date deliverytime;//交期
     private Integer supplierid;//供应商ID
     private String userid;//制表人id
