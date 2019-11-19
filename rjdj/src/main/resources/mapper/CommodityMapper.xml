@@ -29,7 +29,7 @@
   <select id="selectAll2" parameterType="java.lang.String" resultMap="BaseResultMap">
    SELECT * FROM commodity a
 	INNER JOIN supplier b ON a.`supplierID`=b.`supplierID`
-	INNER JOIN commoditytype c ON a.`commodityTypeID`=a.`commodityTypeID`
+	INNER JOIN commoditytype c ON a.`commodityTypeID`=c.`commodityTypeID`
 	INNER JOIN commoditydetail d ON a.`productCodeID`=d.`productCodeID`
     where 1=1
    	<if test="commoditytypeid != null and commoditytypeid !=''">
