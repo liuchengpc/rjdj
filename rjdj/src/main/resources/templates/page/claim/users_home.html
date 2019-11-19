@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -46,7 +46,7 @@
 		</div>
 		<div class="yuan" style="margin-left: 10%;margin-top:10%;background-size:100% 100%; ">
 			<div class="tx" hidden="hidden" style="background-color: whitesmoke;width: 230px;height: 85px;margin-top: 85%;margin-left: 33px;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
-				<a href="#" style="color: #000000;" onclick="showWindowDialog('users_img.html','上传头像')">上传头像</a>
+				<a href="#" style="color: #000000;" th:onclick="showWindowDialog('http://127.0.0.1:8080/topage/page/claim/users_img','上传头像')">上传头像</a>
 			</div>
 		</div>
 		<div class="users">
