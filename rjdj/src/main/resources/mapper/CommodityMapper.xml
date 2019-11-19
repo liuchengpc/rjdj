@@ -24,6 +24,8 @@
     from commodity
     where productCodeID = #{productcodeid,jdbcType=VARCHAR}
   </select>
+  
+
   <select id="selectAll2" parameterType="java.lang.String" resultMap="BaseResultMap">
    SELECT * FROM commodity a
 	INNER JOIN supplier b ON a.`supplierID`=b.`supplierID`
@@ -34,9 +36,11 @@
           and a.commodityTypeID like '%${commoditytypeid}%'
       </if>
       <if test="selectqb != null  and selectqb !=''">
-          and	a.brand like '%${selectqb}%' OR a.commodityImg like '%${selectqb}%'  OR a.costPrice like '%${selectqb}%'
-    		OR a.infomation like '%${selectqb}%' OR a.name like '%${selectqb}%' OR a.price like '%${selectqb}%' OR a.productCodeID like '%${selectqb}%' OR a.shopType like '%${selectqb}%'
-    		OR a.stockCount like '%${selectqb}%'  OR a.supplierID like '%${selectqb}%'
+          and c.`commodityTypeName` like '%${selectqb}%' 
+          OR a.name like '%${selectqb}%' 
+          OR a.productCodeID like '%${selectqb}%' 
+          OR a.price like '%${selectqb}%' 
+          OR a.costPrice like '%${selectqb}%'
       </if>
     GROUP BY a.`productCodeID`
   </select>
