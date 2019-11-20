@@ -5,11 +5,12 @@
 		<title></title>
 		<style>
 			.yuan {
-	            width: 300px;
-	            height: 300px;
-	            border-radius: 150px;
+	            width: 240px;
+	            height: 240px;
 	            border: 3px solid gainsboro;
 	            overflow: hidden;
+	            margin-top:10%;
+	            margin-left:10%;
 	        }
 	        a:hover { 
 	        	text-decoration:none;
@@ -21,9 +22,10 @@
 	        	width: 360px;
 	        	position: absolute;
 	        	margin-left: 50%;
-	        	margin-top: -47%;
+	        	margin-top: -37%;
 	        }
 		</style>
+		<link rel="stylesheet" th:href="@{/css2/style.css}" type="text/css" />
 		<link th:href="@{/css2/bootstrap.min.css}" rel="stylesheet">
 		<link rel="stylesheet" th:href="@{/css2/bootstrap.css}" />
 		<script type="text/javascript" th:src="@{/js2/jquery-1.12.4.js}"></script>
@@ -31,7 +33,6 @@
 		<script type="text/javascript" th:src="@{/js2/dialog.js}"></script>
 		<script type="text/javascript" th:src="@{/js2/vue.js}"></script>
 		<script type="text/javascript" th:src="@{/js2/axios.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js2/dialogUtil.js}" ></script>	
 		<script th:src="@{/js2/jquery.min.js}"></script>
 		<script th:src="@{/js2/bootstrap.min.js}"></script>
 		<script th:src="@{/js2/distpicker.data.js}"></script>
@@ -39,38 +40,87 @@
 		<script th:src="@{/js2/main.js}"></script>
 	</head>
 	<body>
+		<script type="text/javascript" th:src="@{/js2/jquery-1.11.1.min.js}"></script> 
+		<script type="text/javascript" th:src="@{/js2/cropbox.js}"></script>
+		
 		<div style="border: 1px solid #DDDDDD;border-radius: 5px;padding: 10px 25px;">
 			<img th:src="@{/images/home.png}" >
 			你现在所在的位置是：
 			<a href="javascript:;" style="font-weight: 600;">账户信息</a>			
 		</div>
-		<div class="yuan" style="margin-left: 10%;margin-top:10%;background-size:100% 100%; ">
-			<div class="tx" hidden="hidden" style="background-color: whitesmoke;width: 230px;height: 85px;margin-top: 85%;margin-left: 33px;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
-				<a href="#" style="color: #000000;" th:onclick="showWindowDialog('http://127.0.0.1:8080/topage/page/claim/users_img','上传头像')">上传头像</a>
-			</div>
-		</div>
-		<div class="users">
-			<form class="form-inline">
+		<form id="up" th:action="@{/topage/userFile}" method="post" enctype="multipart/form-data">
+			<!-- <div class="yuan">
+				<div class="tx" hidden="hidden" style="background-color: whitesmoke;width: 235px;height: 55px;position:absolute;top:60%;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
+					<a href="#" style="color: #000000;" id="mt" data-toggle="modal" data-target="#myModal">上传头像</a>
+				</div>
+				<img id="ima" style="width:100%;height:100%;">
+			</div> -->
+			<p>请选择文件：<input multiple name="files" type="file"></p>
+			<div class="users">
 				<div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">行&nbsp&nbsp&nbsp业&nbsp&nbsp&nbsp&nbsp</label>
-				    <input type="text" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写行业" style="width: 60%;">
+				    <input type="text" name="industry" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写行业" style="width: 60%;">
 			    </div>
 			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">账&nbsp&nbsp&nbsp号&nbsp&nbsp&nbsp&nbsp</label>
-				    <input type="text" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写账号" style="width: 60%;">
+				    <input type="text" name="userid" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写账号" style="width: 60%;">
 			    </div>
 			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">手&nbsp&nbsp&nbsp机&nbsp&nbsp&nbsp&nbsp</label>
-				    <input type="text" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写手机号码" style="width: 60%;">
+				    <input type="text" name="phonenumber" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写手机号码" style="width: 60%;">
 				    <label for="exampleInputName2" style="font-size: 15px;color: grey;">&nbsp&nbsp&nbsp已绑定</label>
 			    </div>
 			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">密&nbsp&nbsp&nbsp码&nbsp&nbsp&nbsp&nbsp</label>
-				    <input type="password" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写密码" style="width: 60%;">
+				    <input type="password" name="password" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写密码" style="width: 60%;">
 			    </div>
 			    <button type="button" id="xg" class="btn btn-success col-md-3" style="margin-left: 45%;margin-top: 6%;">修改</button>
-			</form>
-		</div>
+			</div>
+		</form>
+		<!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                        	   上传头像
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="fm">
+							<div class="container" style="margin-left:13% ;">
+							  <div class="imageBox">
+							    <div class="thumbBox" style="border-radius: 150px;"></div>
+							    <div class="spinner" style="display: none">Loading...</div>
+							  </div>
+							  <div class="action"> 
+							    <!-- <input type="file" id="file" style=" width: 200px">-->
+							    <div class="new-contentarea tc"> <a href="javascript:void(0)" class="upload-img">
+							      <label for="upload-file">上传图像</label>
+							      </a>
+							      <input multiple type="file" class="" name="files2" id="upload-file" />
+							    </div>
+							    <input type="button" id="btnCrop" data-dismiss="modal"  class="Btnsty_peyton" value="裁切">
+							    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
+							    <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
+							  </div>
+							</div>
+						</form>
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                            提交更改
+                        </button>
+                    </div> -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        
 		<script>
 			$(function(){
 				//查看详情
@@ -92,10 +142,38 @@
 				});
 				
 				xg();		//修改-保存
+				queryByUserID();	//显示当前登录用户信息				
+				loadFunction();		
+				updateUsers();		//修改
+				
+				
 			});
 			
-			function xg(){
+			
+			
+			function updateUsers(){
 				$("#xg").click(function(){
+					if($("#xg").html()=="保存"){
+						var formData = new FormData($("#up")[0]);
+						/* var formDataImg = new FormData($("#fm")[0]);
+						formDataImg.append("formData",formData); */
+						$.ajax({
+							url:"[[@{/UsersController/updateUsers}]]",
+							data:formData,
+							type:"post",
+							processData:false,
+							contentType:false,
+							successs:function(result){
+								if(result=="success"){
+									alert("修改成功！");
+								}else{
+									alert(1);
+								}
+							}
+						});
+					}
+					
+					
 					if($("#xg").html()=="修改"){
 						$(".form-control").removeAttr("disabled");
 						$(".tx").removeAttr("hidden");
@@ -106,6 +184,76 @@
 						$("#xg").html("修改");
 					}
 				});
+			}
+			
+			
+			function loadFunction(){
+				var options =
+				{
+					thumbBox: '.thumbBox',
+					spinner: '.spinner',
+					imgSrc: ''	//动态查询出的图片路径
+				}
+				var cropper = $('.imageBox').cropbox(options);
+				//默认图片
+				$('#upload-file').on('change', function(){
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						options.imgSrc = e.target.result;
+						cropper = $('.imageBox').cropbox(options);
+					}
+					reader.readAsDataURL(this.files[0]);
+					/* this.files = []; */
+				})
+				$('#btnCrop').on('click', function(){
+					var img = cropper.getDataURL();
+					/* $(".yuan").css("background","url("+img+") no-repeat"); */
+					$("#ima").attr({
+						src:img
+					});
+					$('.cropped').html('');
+				})
+				$('#btnZoomIn').on('click', function(){
+					cropper.zoomIn();
+				})
+				$('#btnZoomOut').on('click', function(){
+					cropper.zoomOut();
+				})
+			}
+			
+			
+			//显示当前登录用户信息
+			function queryByUserID(){
+				//测试数据
+				var res = {
+						userid:"15012341234",
+						password:"123123",
+						username:"李店长",
+						industry:"服装",
+						phonenumber:"15012341234",
+						headportrait:"/images/pro2.jpg",
+						roleid:1,
+						shopid:12345678001
+				}
+				/* //将用户信息保存到js中的session中
+				window.sessionStorage.setItem("user",stringify(res));
+				//将用户信息从js中的session中调出来
+				var user = window.sessionStorage.getItem("user"); */
+				
+				//赋值
+				$("[name=industry]").val(res.industry);
+				$("[name=userid]").val(res.userid);
+				$("[name=phonenumber]").val(res.phonenumber);
+				$("[name=password]").val(res.password);
+				$("#ima").attr({
+					src:"/images/pro2.jpg"
+				});
+				
+			}
+			
+			//修改-保存
+			function xg(){
+				
 			}
 		</script>
 	</body>
