@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apatech.domain.Commodity;
 import com.apatech.domain.Supplier;
 import com.apatech.service.SupplierService;
 import com.github.pagehelper.PageInfo;
@@ -58,6 +59,25 @@ public class SupplierController {
 		System.out.println(pageNum+"/"+pageSize);
     	PageInfo<Supplier> page=dao.selectAllpage(pageNum, pageSize);
     	return page;
+    }
+	
+	/**
+	 * 根据条件查询
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "selectAll2",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Supplier> selectAll2(
+			String province,//省（地址）
+			String city,//省（地址）
+			String region,//地区（地址）
+			String selectqb){
+		System.out.println("进入CommodityController根据条件查询");
+		System.out.println(province+"/"+city+"/"+region+"/"+selectqb);
+    	List<Supplier> list=dao.selectAll2(province,city,region, selectqb);
+    	return list;
     }
 	/**
 	 * 新增

@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.apatech.domain.Commodity;
+import com.apatech.domain.Commoditydetail;
 import com.apatech.domain.Supplier;
+import com.apatech.mapper.CommodityMapper;
+import com.apatech.mapper.CommoditydetailMapper;
 import com.apatech.mapper.SupplierMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -44,6 +48,17 @@ public class SupplierService {
     	List<Supplier> list=dao.selectAll();
     	PageInfo<Supplier> page=new PageInfo<Supplier>(list);
     	return page;
+    }
+    
+    public List<Supplier> selectAll2(
+    		 String province,//省（地址）
+			 String city,//省（地址）
+			 String region,//地区（地址）
+			String selectqb
+    		){
+    	List<Supplier> li=dao.selectAll2(province,city,region, selectqb);
+    	
+    	return li;
     }
 
 

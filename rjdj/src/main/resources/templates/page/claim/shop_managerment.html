@@ -31,6 +31,12 @@
 	
 </head>
 <body>
+<script type="text/javascript">
+$("#distpicker5").distpicker({
+	  autoSelect: false
+	});
+</script>
+
 <div class="rightarea clearfix">
     <div class="mainarea clearfix">
         <div class="mainhead">
@@ -132,14 +138,14 @@
                      detailView: false,                  //是否显示父子表
                      locale:'zh-CN',						//中文支持
                      paginationLoop: false, //当前页是边界时是否可以继续按   
-                    columns : [{
+                    columns : [/* {
                         title:'全选',
                         field:'state',
                         checkbox:true,
                         width:25,
                         align:'center',
                         valign:'middle'
-                    },{
+                    }, */{
                         field: 'no',
                         title: '序号',
                         sortable: true,
@@ -182,15 +188,15 @@
          	    	 	field : 'costprice',
  		                sortable : true,
  		                
- 		            }, {
+ 		            }, /* {
  		            	title : '商品详情',
          	    	 	field : 'productcodelist',
  		                sortable : true,
- 		               /* formatter: function (value, row, index) {
+ 		               formatter: function (value, row, index) {
                           
                            return JSON.stringify(value);
-                       } */
- 		           }, {
+                       } 
+ 		           },  */{
 						/* field:'id',
 						title: '操作',
 						width: 120,
@@ -219,14 +225,14 @@
 							  console.info(value)
 							  console.info(row)
 							  console.info(index)
-							  //alert(row.id)
+							  alert(row.productcodeid)
 						      if(confirm('此操作不可逆，请确认是否删除？')==true){
 						    	 // 获取当前行 				              
-						    	 var id=row.id;
+						    	 var id=row.productcodeid;
 						    	 $.ajax({
-	 									url:"/skmg/Skmg/deleteByPid",
+	 									url:"[[@{/CommodityController/deleteByPrimaryKey}]]",
 	 									type:"post",
-	 									data:"id="+id,
+	 									data:"productcodeid="+id,
 	 									dataType:"json",						
 	 									success:function(res){	
 	 										console.info("删除：")
@@ -234,7 +240,7 @@
 											alert(res.message)
 	 										$('#mytable').bootstrapTable('refresh');
 	 									}
-	 							}) 
+	 							})  
 						      }
 						  },
 						  'click a[title=修改]': function (e, value, row, index) {

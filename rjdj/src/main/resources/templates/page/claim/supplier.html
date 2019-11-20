@@ -14,9 +14,8 @@
      <script th:src="@{/js/bootstrap-table.js}"></script>
      <script th:src="@{/js/bootstrap-table-zh-CN.js}"></script>
      
-     
-     
      <script th:src="@{/js/dialogUtil.js}" ></script>
+      <script th:src="@{/js/dialog.js}"></script>
      
      <!-- bootstrap-table-export数据导出---后面两个是Excel2007所需要的js -->
 	<script th:src="@{/js/bootstrap-table-export.js}"></script>
@@ -27,6 +26,27 @@
 	<!-- 时间空间所需插件 -->
 	<script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>  
 	<script th:src="@{/js/bootstrap-datetimepicker.zh-CN.js}"></script>  
+	
+	<!-- 日期所需插件 -->
+	<script src="/js/distpicker.data.js"></script>
+	  <script src="/js/distpicker.js"></script>
+	  <script src="/js/main.js"></script>
+	  
+
+	<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	  
+	  
+	  <style type="text/css">
+	  /* 设置table隔行变色 E*/
+	  	#mytable tr:nth-child(even){
+			background: #fafafa;
+		}
+		#mytable th{
+			background: #efefef;
+		}
+		/* 设置table隔行变色  S*/
+	  </style>
 </head>
 <body>
 <div class="rightarea clearfix">
@@ -34,72 +54,39 @@
         <div class="mainhead">
             <span class="title">供应商</span>
             <div class="searchArea">
-                <div class="btn-div">
-                    <a href="javascript:;" class="btn btn-success">
-                        添加供应商
-                    </a>
-                </div>
+               	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" style="float: right;">添加类别</button>
             </div>
 
             <div class="list search">
-                <input class="inputtext" type="text" placeholder="查找">
+                <input class="inputtext" type="text" placeholder="查找" id="selectqb" th:onchange="selectAll()">
                 <a href="javascript:;" class="search-btn"></a>
             </div>
             <div class="list">
-                <select name="" id="" class="form-control">
-                    <option value="请选择城市">请选择城市</option>
-                </select>
+			    <form class="form-inline">
+			      <div id="distpicker5">
+			        <div class="form-group">
+			          <label class="sr-only" for="province10">Province</label>
+			          <select class="form-control" id="province10" th:onchange="selectAll()"></select>
+			        </div>
+			        <div class="form-group">
+			          <label class="sr-only" for="city10">City</label>
+			          <select class="form-control" id="city10" th:onchange="selectAll()"></select>
+			        </div>
+			        <div class="form-group">
+			          <label class="sr-only" for="district10">District</label>
+			          <select class="form-control" id="district10" th:onchange="selectAll()"></select>
+			        </div>
+			      </div>
+			    </form>
             </div>
-            <div class="list">
-                -
-            </div>
-            <div class="list">
-                <select name="" id="" class="form-control">
-                    <option value="请选择省份">请选择省份</option>
-                </select>
-            </div>
+          
 
             <div class="list">
                 <span style="position: relative;top: 10px;">地&nbsp;&nbsp;&nbsp;&nbsp;区</span>
             </div>
         </div>
         <div class="mainbody">
-            <table class="settable table table-striped">
-                <thead>
-                <tr>
-                    <th width="5%">序号</th>
-                    <th width="12%">简称</th>
-                    <th width="16%">公司名称</th>
-                    <th width="8%">联系人</th>
-                    <th width="11%">手机</th>
-                    <th width="11%">电话</th>
-                    <th width="15%">邮箱</th>
-                    <th width="14%">地区</th>
-                    <th width="8%">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                      1
-                    </td>
-                    <td>1
-                    </td>
-                    <td>1
-                    </td>
-                    <td >1
-                    </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>
-                        <a href="javascript:;">删除</a>
-                        <a href="javascript:;">编辑</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            
             
               <!-- bootstrap table自动渲染区域 -->
 			<table id="mytable" class="table table-hover" data-toolbar="#toolbar"></table>
@@ -109,25 +96,23 @@
 
 
 
-  <script type="text/javascript">
-        
-        
-        
-        
+  <script type="text/javascript">        
             //初始化Table
                 $('#mytable').bootstrapTable({
-                	url: '[[@{/CommodityController/selectAll2}]]',   //请求后台的URL（*）
-                	 method: 'get',                      //请求方式（*）
-                     striped : true, 					//是否显示行间隔色
-                     pageNumber:1,                       //初始化加载第一页，默认第一页
+                	url: '[[@{/SupplierController/selectAll2}]]',   //请求后台的URL（*）
+                	method: 'get',                      //请求方式（*）
+                    striped : true, 					//是否显示行间隔色
+                    pageNumber:1,                       //初始化加载第一页，默认第一页
                  	pagination : true,					//是否分页
                  	sidePagination : 'client',			//server:服务器端分页|client：前端分页
-                 	pageSize :2,						//单页记录数
-                 	pageList : [ 2, 4, 6],		//可选择单页记录数
+                 	pageSize :1,						//单页记录数
+                 	pageList : [ 1, 2, 3],		//可选择单页记录数
                  	showRefresh : true,					//刷新按钮                   
                  	queryParams : function (params) {
                         var temp = {
-                       		commoditytypeid:$('#commoditytypeid').val(),
+                       		province:$('#province10').val(),
+                       		city:$('#city10').val(),
+                       		region:$('#district10').val(),
                        		selectqb:$('#selectqb').val()
                         };
                         return temp;
@@ -151,69 +136,55 @@
                      cardView: false,                    //是否显示详细视图
                      detailView: false,                  //是否显示父子表
                      locale:'zh-CN',						//中文支持
-                     paginationLoop: false, //当前页是边界时是否可以继续按   
-                     
-                   /*   <th width="5%">序号</th>
-                     <th width="12%">简称</th>
-                     <th width="16%">公司名称</th>
-                     <th width="8%">联系人</th>
-                     <th width="11%">手机</th>
-                     <th width="11%">电话</th>
-                     <th width="15%">邮箱</th>
-                     <th width="14%">地区</th>
-                     <th width="8%">操作</th> */
-                     
+                     paginationLoop: false, //当前页是边界时是否可以继续按         
                     columns : [{
-                        field: 'no',
-                        title: '序号',
-                        sortable: true,
-                        align: "center",
-                        width: 40,
-                        formatter: function (value, row, index) {
-                            //获取每页显示的数量
-                            var pageSize=$('#mytable').bootstrapTable('getOptions').pageSize;
-                            //获取当前是第几页
-                            var pageNumber=$('#mytable').bootstrapTable('getOptions').pageNumber;
-                            //返回序号，注意index是从0开始的，所以要加上1
-                            return pageSize * (pageNumber - 1) + index + 1;
-                        }
+                    	title: '序号',//标题  可不加
+                    	field : 'no',	        	   
+ 						formatter: function (value, row, index) {
+ 							return index+1;
+ 						}
                     }, {
- 		            	title : '类别',
- 		            	field : 'commoditytypename',	        	    	
+ 		            	title : '供应商编号',
+ 		            	field : 'supplierid',	        	    	
+ 		                sortable : true,
+ 		                visible: false   //这一列隐藏
+ 		            }, {      	   
+ 		            	title : '简称',
+ 		            	field : 'companyabbreviation',	        	    	
  		                sortable : true,
  		            }, {      	   
- 		            	title : '品名',
-         	    	 	field : 'name',	        	    	
+ 		            	title : '公司名称',
+         	    	 	field : 'companyname',	        	    	
  		                sortable : true,
  		                
  		            },  {      	   
- 		            	title : '货号/条码',
-         	    	 	field : 'productcodeid',	        	    	
+ 		            	title : '联系人',
+         	    	 	field : 'contacts',	        	    	
  		                sortable : true,
  		                
  		            }, {      	   
- 		            	title : '库存',
-         	    	 	field : 'spkc',
+ 		            	title : '手机',
+         	    	 	field : 'phone',
  		                sortable : true,
  		                
  		            }, {      	   
- 		            	title : '销售价',
-         	    	 	field : 'price',
+ 		            	title : '电话',
+         	    	 	field : 'telephone',
  		                sortable : true,
  		                
  		            }, {      	   
- 		            	title : '成本价',
-         	    	 	field : 'costprice',
+ 		            	title : '邮箱',
+         	    	 	field : 'email',
  		                sortable : true,
  		                
  		            }, {
- 		            	title : '商品详情',
-         	    	 	field : 'productcodelist',
+ 		            	title : '地区',
+         	    	 	field : 'dq',
  		                sortable : true,
- 		               /* formatter: function (value, row, index) {
-                          
-                           return JSON.stringify(value);
-                       } */
+ 		               formatter: function (value, row, index) {
+                         
+                           return row.province+"-"+row.city+"-"+row.region+"-"+row.street;
+                       }
  		           }, {
 						/* field:'id',
 						title: '操作',
@@ -228,29 +199,29 @@
 						width: 120,
 						// visible: false,
 						formatter: function (value, row, index) {
- 						    // var sid_code = base64encode(row.sid + '');   //  sid 加密处理
- 						    // alert(sid_code);
- 						    return '<a href="/topage/shop_upload" title="修改">' + 
- 						        '<i class="glyphicon glyphicon-pencil"></i> ' + 
- 						        '</a>'+
- 						        '<a href="javascript:void(0)" title="删除">' +
- 						        '<i class="glyphicon glyphicon-trash text-danger"></i> ' + 
- 						        '</a>';
- 						},
+						    // var sid_code = base64encode(row.sid + '');   //  sid 加密处理
+						    // alert(sid_code);
+						    return '<a href="javascript:;" @click="update(item.commoditytypeid)" title="修改">' + 
+						        '<i class="glyphicon glyphicon-pencil"></i> ' + 
+						        '</a>'+
+						        '<a href="javascript:void(0)" title="删除">' +
+						        '<i class="glyphicon glyphicon-trash text-danger"></i> ' + 
+						        '</a>';
+						},
 						events: {
 						  'click a[title=删除]': function (e, value, row, index) {
 							  console.info(e)
 							  console.info(value)
 							  console.info(row)
 							  console.info(index)
-							  //alert(row.id)
+							 // alert(row.supplierid)
 						      if(confirm('此操作不可逆，请确认是否删除？')==true){
 						    	 // 获取当前行 				              
-						    	 var id=row.id;
-						    	 $.ajax({
-	 									url:"/skmg/Skmg/deleteByPid",
-	 									type:"post",
-	 									data:"id="+id,
+						    	 var id=row.supplierid;
+						    	  $.ajax({
+	 									url:"[[@{/SupplierController/deleteByPrimaryKey}]]",
+	 									type:"get",
+	 									data:"supplierid="+id,
 	 									dataType:"json",						
 	 									success:function(res){	
 	 										console.info("删除：")
@@ -258,15 +229,32 @@
 											alert(res.message)
 	 										$('#mytable').bootstrapTable('refresh');
 	 									}
-	 							}) 
+	 							})
 						      }
 						  },
 						  'click a[title=修改]': function (e, value, row, index) {
 						      // e.preventDefault();
-						      //alert('click change button');
+						    	$("#supplierid2").val(row.supplierid);//编号，主键
+						    	$("#companyname2").val(row.companyname);//公司名称
+						    	$("#companyabbreviation2").val(row.companyabbreviation);//公司简称
+						    	$("#contacts2").val(row.contacts);//联系人
+						    	$("#phone2").val(row.phone);//手机号
+						    	$("#email2").val(row.email);//邮箱
+						    	$("#telephone2").val(row.telephone);//电话
+						    	$("#province2").val(row.province).trigger("change");//省（地址）//trigger方法触发被选元素的指定事件类型。
+						    	$("#city2").val(row.city).trigger("change");//市（地址）
+						    	$("#region2").val(row.region).trigger("change");//地区（地址）
+						    	$("#street2").val(row.street);//街道
+						      
+						     //alert(row.supplierid+"/"+row.companyname+"/"+row.companyabbreviation+"/"+row.contacts+"/"+row.phone+"/"+row.email+"/"+row.telephone+"/"+row.province+"/"+row.city+"/"+row.region+"/"+row.street)
+					       //	alert($("#companyname2").val())
+						    
+						      $('#myModal2').modal("show");
+						     
+					       	
 						  },
 						}
-		            } ],
+		            }  ],
 		           onLoadSuccess: function(){ //加载成功时执行
 	        	  	console.info("加载成功");
 	        	  },
@@ -313,14 +301,260 @@
                 //查询事件
                 function selectAll() {
                 	//alert(11)
-                	var commoditytypeid=$('#commoditytypeid').val();
-                    var selectqb=$('#selectqb').val();
-               		//alert("commoditytypeid="+commoditytypeid+","+"selectqb="+selectqb+",")
+                    var province=$('#province10').val();
+               		var city=$('#city10').val();
+               		var region=$('#district10').val();
+               		var selectqb=$('#selectqb').val()
+               		//alert(province+"-"+city+"-"+region+"-"+selectqb)
                 	$('#mytable').bootstrapTable('refresh', {
-                		url : '[[@{/CommodityController/selectAll2}]]'
+                		url : '[[@{/SupplierController/selectAll2}]]'
                 	});
                 }
 
         </script>
+        
+        
+   
+        	<!-- 模态框（Modal）新增 -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			    <div class="modal-dialog" style="width: 768px;">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                <h4 class="modal-title" id="myModalLabel">编辑类别</h4>
+			            </div>
+			            <div class="modal-body" style="padding:50px">
+			            	<form class="form-horizontal">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="companyname" class="form-control"  >
+									</div>
+									<label for="inputEmail3" class="col-sm-2 control-label"><em>*</em>公司简称</label>
+									 <div class="col-sm-4">
+										<input type="text" id="companyabbreviation" class="form-control" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;系&nbsp;人</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="contacts" class="form-control" >
+									</div>
+									<label for="inputEmail3" class="col-sm-2 control-label"><em>*</em>手　　机</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="phone" class="form-control" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">邮　　箱</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="email" class="form-control" >
+									</div>
+									<label for="inputEmail3" class="col-sm-2 control-label">电　　话</label>
+									 <div class="col-sm-4">
+										 <input type="tevalue=telephone" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">地　　址</label>
+								      <div data-toggle="distpicker">
+								        <div class="col-sm-3" >
+									          <select class="form-control col-sm-4" id="province" style="display: inline-block;" ></select>
+										 </div>
+										<div class="col-sm-3" >
+									          <select class="form-control col-sm-4" id="city" style="display: inline-block;" ></select>
+										 </div>
+										<div class="col-sm-3" >
+									          <select class="form-control col-sm-4" id="region" style="display: inline-block;" ></select>
+										 </div>
+								      </div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">街　　道</label>
+									 <div class="col-sm-10">
+										 <input type="text" id="street" class="form-control" >
+									</div>
+								</div>							
+							</form>
+			            </div>
+			            <div class="modal-footer" style="text-align: center;">
+			                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+			                <button type="button" class="btn btn-success" style="width: 16.66%;" id="btn1" onclick="btn1()">确认</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal -->
+			</div>
+			
+			<!-- 模态框（Modal）修改 -->
+			<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			    <div class="modal-dialog" style="width: 768px;">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                <h4 class="modal-title" id="myModalLabel">编辑供应商</h4>
+			            </div>
+			            <div class="modal-body" style="padding:50px">
+			            	<form class="form-horizontal">
+								<div class="form-group">
+									 <div class="col-sm-4" style="display: none;">
+										 <input type="text" id="supplierid2" class="form-control"  >
+									</div>
+									<label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="companyname2" class="form-control" >
+									</div>
+									<label for="inputEmail3" class="col-sm-2 control-label"><em>*</em>公司简称</label>
+									 <div class="col-sm-4">
+										<input type="text" id="companyabbreviation2" class="form-control" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;系&nbsp;人</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="contacts2" class="form-control" >
+									</div>
+									<label for="inputEmail3" class="col-sm-2 control-label"><em>*</em>手　　机</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="phone2" class="form-control" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">邮　　箱</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="email2" class="form-control" >
+									</div>
+									<label for="inputEmail3" class="col-sm-2 control-label">电　　话</label>
+									 <div class="col-sm-4">
+										 <input type="text" id="telephone2" class="form-control" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">地　　址</label>
+								      <div data-toggle="distpicker">
+								        <div class="col-sm-3" >
+									          <select class="form-control col-sm-4" id="province2" style="display: inline-block;" value="Supplier2.province"></select>
+										 </div>
+										<div class="col-sm-3" >
+									          <select class="form-control col-sm-4" id="city2" style="display: inline-block;" value="Supplier2.city"></select>
+										 </div>
+										<div class="col-sm-3" >
+									          <select class="form-control col-sm-4" id="region2" style="display: inline-block;" value="Supplier2.region"></select>
+										 </div>
+								      </div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">街　　道</label>
+									 <div class="col-sm-10">
+										 <input type="text" id="street2" class="form-control" >
+									</div>
+								</div>							
+							</form>
+			            </div>
+			            <div class="modal-footer" style="text-align: center;">
+			                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+			                <button type="button" class="btn btn-success" style="width: 16.66%;" id="btn2" onclick="btn2()">确认</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal -->
+			</div>
+		<script type="text/javascript">
+			//新增
+			function btn1(){
+			    var supplierid=$("#supplierid").val();//编号，主键
+			 	var companyname=$("#companyname").val();//公司名称
+			 	var companyabbreviation=$("#companyabbreviation").val();//公司简称
+			 	var contacts=$("#contacts").val();//联系人
+			 	var phone=$("#phone").val();//手机号
+			 	var email=$("#email").val();//邮箱
+			 	var telephone=$("#telephone").val();//电话
+			 	var province=$("#province").val();//省（地址）//trigger方法触发被选元素的指定事件类型。
+			 	var city=$("#city").val();//市（地址）
+			 	var region=$("#region").val();//地区（地址）
+			 	var street=$("#street").val();//街道 */
+		      
+			     //alert(supplierid+"/"+companyname+"/"+companyabbreviation+"/"+contacts+"/"+phone+"/"+email+"/"+telephone+"/"+province+"/"+city+"/"+region+"/"+street)
+			     if(supplierid==""||companyname==""||companyabbreviation==""||contacts==""||phone==""||email==""||telephone==""||province==""||city==""||region==""||street==""){
+			    	 alert("请填写完整信息！")
+			    	 return false;
+			     }
+			      var obj={
+			    	supplierid:supplierid,//编号，主键
+				 	companyname:companyname,//公司名称
+				 	companyabbreviation:companyabbreviation,//公司简称
+				 	contacts:contacts,//联系人
+				 	phone:phone,//手机号
+				 	email:email,//邮箱
+				 	telephone:telephone,//电话
+				 	province:province,//省（地址）//trigger方法触发被选元素的指定事件类型。
+				 	city:city,//市（地址）
+				 	region:region,//地区（地址）
+				 	street:street//街道
+		          }
+	
+				$.ajax({
+					url:"[[@{/SupplierController/insertSelective}]]",
+					type:"post",
+					data:JSON.stringify(obj),
+					dataType:"json",
+					contentType:"application/json;charset=utf-8",
+					success:function(data){
+						alert(data.message);
+						$('#myModal2').modal('hide');
+						
+					}
+				});
+			}
+				
+			//修改
+			function btn2(){
+			    var supplierid=$("#supplierid2").val();//编号，主键
+			 	var companyname=$("#companyname2").val();//公司名称
+			 	var companyabbreviation=$("#companyabbreviation2").val();//公司简称
+			 	var contacts=$("#contacts2").val();//联系人
+			 	var phone=$("#phone2").val();//手机号
+			 	var email=$("#email2").val();//邮箱
+			 	var telephone=$("#telephone2").val();//电话
+			 	var province=$("#province2").val();//省（地址）//trigger方法触发被选元素的指定事件类型。
+			 	var city=$("#city2").val();//市（地址）
+			 	var region=$("#region2").val();//地区（地址）
+			 	var street=$("#street2").val();//街道 */
+		      
+			     //alert(supplierid+"/"+companyname+"/"+companyabbreviation+"/"+contacts+"/"+phone+"/"+email+"/"+telephone+"/"+province+"/"+city+"/"+region+"/"+street)
+			     if(supplierid==""||companyname==""||companyabbreviation==""||contacts==""||phone==""||email==""||telephone==""||province==""||city==""||region==""||street==""){
+			    	 alert("请填写完整信息！")
+			    	 return false;
+			     }
+			     var obj={
+			    	supplierid:supplierid,//编号，主键
+				 	companyname:companyname,//公司名称
+				 	companyabbreviation:companyabbreviation,//公司简称
+				 	contacts:contacts,//联系人
+				 	phone:phone,//手机号
+				 	email:email,//邮箱
+				 	telephone:telephone,//电话
+				 	province:province,//省（地址）//trigger方法触发被选元素的指定事件类型。
+				 	city:city,//市（地址）
+				 	region:region,//地区（地址）
+				 	street:street//街道
+		          }
+
+				$.ajax({
+					url:"[[@{/SupplierController/updateByPrimaryKeySelective}]]",
+					type:"post",
+					data:JSON.stringify(obj),
+					dataType:"json",
+					contentType:"application/json;charset=utf-8",
+					success:function(data){
+						alert(data.message);
+						$('#myModal').modal('hide');
+						
+					}
+				});
+			}
+			
+			
+		
+		</script>
+	
 </body>
 </html>

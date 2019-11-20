@@ -13,7 +13,7 @@ public class Supplier {
     private String email;//邮箱
     private String telephone;//电话
     private String province;//省（地址）
-    private String city;//省（地址）
+    private String city;//市（地址）
     private String region;//地区（地址）
     private String street;//街道
     

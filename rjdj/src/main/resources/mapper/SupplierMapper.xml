@@ -24,6 +24,27 @@
     from supplier
     where supplierID = #{supplierid,jdbcType=INTEGER}
   </select>
+   <select id="selectAll2" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM supplier 
+    where 1=1
+   	<if test="province != null and province !=''">
+          and province like '%${province}%'
+      </if>
+   	<if test="city != null and city !=''">
+          and city like '%${city}%'
+      </if>
+   	<if test="region != null and region !=''">
+          and region like '%${region}%'
+      </if>
+      <if test="selectqb != null  and selectqb !=''">
+          and companyname like '%${selectqb}%' 
+          OR companyabbreviation like '%${selectqb}%' 
+          OR contacts like '%${selectqb}%' 
+          OR phone like '%${selectqb}%' 
+          OR email like '%${selectqb}%' 
+          OR telephone like '%${selectqb}%' 
+      </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from supplier
     where supplierID = #{supplierid,jdbcType=INTEGER}
