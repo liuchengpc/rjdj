@@ -1,5 +1,7 @@
 package com.apatech.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.apatech.domain.Users;
 import com.apatech.service.UsersService;
@@ -125,6 +128,32 @@ public class UsersController {
 		return map;
     }
 
-	
+	@RequestMapping(value="updateUsers",method=RequestMethod.POST)
+	@ResponseBody
+	public String updateUsers(MultipartFile [] files,Users users){
+		File directory = new File("/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images");
+		if(!directory.exists()) {
+			directory.mkdirs();
+		}
+		try {
+			for(MultipartFile l : files) {
+				System.out.println(1);
+				String url = "/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images/";
+				url = url+"/"+l.getOriginalFilename();
+				File f = new File(url);
+				l.transferTo(f);
+				System.out.println(l.getOriginalFilename());
+				users.setHeadportrait(l.getOriginalFilename());
+			}
+			System.out.println("to成功了");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		dao.updateByPrimaryKeySelective(users);
+		return "success";
+	}
 	
 }
