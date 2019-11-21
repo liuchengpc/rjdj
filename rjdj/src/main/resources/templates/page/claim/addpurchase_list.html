@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/supplier.css}">
+      <link rel="stylesheet" th:href="@{/css/purchase_list.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+     <link  rel="stylesheet"  th:href="@{/js/bootstrap-datetimepicker.min.css}"/>  
+       <link rel="stylesheet" href="/css/layui.css"  media="all">
+    
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+     <script th:src="@{/js/bootstrap-table.js}"></script>
+     <script th:src="@{/js/bootstrap-table-zh-CN.js}"></script>
+     
+     <script src="/layui.js" charset="utf-8"></script>
+     <script th:src="@{/js/dialogUtil.js}" ></script>
+      <script th:src="@{/js/dialog.js}"></script>
+     
+     <!-- bootstrap-table-export数据导出---后面两个是Excel2007所需要的js -->
+	<script th:src="@{/js/bootstrap-table-export.js}"></script>
+	<script th:src="@{/js/tableExport.min.js}"></script>
+	<script th:src="@{/js/xlsx.core.min.js}"></script>
+	<script th:src="@{/js/FileSaver.min.js}"></script>
+	
+	<!-- 时间空间所需插件 -->
+	<script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>  
+	<script th:src="@{/js/bootstrap-datetimepicker.zh-CN.js}"></script>  
+	
+	<!-- 日期所需插件 -->
+	<script src="/js/distpicker.data.js"></script>
+	  <script src="/js/distpicker.js"></script>
+	  <script src="/js/main.js"></script>
+	  
+
+	<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	  
+	  
+	  <style type="text/css">
+	  /* 设置table隔行变色 E*/
+	  	#mytable tr:nth-child(even){
+			background: #fafafa;
+		}
+		#mytable th{
+			background: #efefef;
+		}
+		/* 设置table隔行变色  S*/
+		
+		/* Bootstrap table th td 实现文字垂直居中 E */
+			.table th, .table td {
+			text-align: center;
+			vertical-align: middle!important;
+			}
+		/* Bootstrap table th td 实现文字垂直居中 E */
+	  </style>
+</head>
+<body>
+<div class="col-md-10" style="width: 100%;margin-bottom: 360px" id="shopType">
+	<div class="rightarea clearfix">
+	    <div class="mainarea clearfix">
+	        <div class="mainhead">
+	            <span class="title">新建采购单</span>
+	            <div class="list search">
+	                <input class="inputtext" type="text" placeholder="查找" id="selectqb" @change="addsp()">
+	                <a href="javascript:;" class="search-btn"></a>
+	            </div>
+	        </div>
+
+	        <div class="mainbody">
+	           	<div class="list">
+	                <select name="" id="" class="form-control" style="width: 180px" ><!--  v-for="item in Supplier" -->
+	                    <option  value="15012341234">李店长</option>
+	                </select>
+	            </div>
+		         <div class="list">
+	                <span style="position: relative;top: 10px;">制&nbsp;表&nbsp;人</span>
+	            </div>
+		           
+	          	<div class="list">
+	                <select name="" id="shopid" class="form-control"  style="width: 180px"  v-model="Supplier.supplierid">
+	                    <option value="" selected="selected">请选择供应商</option>
+	                    <option v-for="item in Supplier">{{item.companyname}}	</option>
+	                </select>
+	            </div>
+		         <div class="list">
+	                <span style="position: relative;top: 10px;">供&nbsp;应&nbsp;商</span>
+	            </div>
+				
+	             <div class="list">
+		               <input type="date"class="form-control"  id="deliverytime"  v-model="bill.deliverytime">
+		            </div>
+		         <div class="list">
+	                <span style="position: relative;top: 10px;">交&nbsp;&nbsp;&nbsp;&nbsp;期</span>
+	            </div>
+	           
+	            
+            	
+		
+	             <div class="list ">
+	                <input class="form-control" type="text" id="selectqb" th:onchange="selectAll()" v-model="billid">
+	            </div>
+		         <div class="list">
+	                <span style="position: relative;top: 10px;">单&nbsp;&nbsp;&nbsp;&nbsp;号</span>
+	            </div>
+	            
+	           
+	             <div class="list">
+		                <input type="text" class="form-control"  id="newtime" style="width: 940px;margin: 8px 0">
+	            </div>
+	          	<div class="list ">
+	                <span style="position: relative;top: 10px;">备&nbsp;&nbsp;&nbsp;&nbsp;注</span>
+	            </div>
+	          
+	        
+
+	        
+		       <table class="table table-bordered" style="margin-top: 5px">
+	                  <thead>
+	                         <tr class="">
+								<th width="14%">货号</th>
+								<th width="14%">条码</th>
+								<th width="*">产品名称</th>
+								<th width="12%">规格</th>
+								<th width="10%">成本价</th>
+								<th width="10%">数量</th>
+								<th width="10%">金额</th>
+							</tr>
+	                     </thead>
+	                     <tbody>
+	                        <tr  v-for="item in page.list">
+	                        	<td class="bh"></td>
+	                        	<td class="barcode">{{item.commoditydetailid}}</td>
+	                        	<td class="nameTD">
+	                        		<div class="nameDiv">
+	                        			<img width="30" height="30" src="http://www.buyinchina.com/style/img/bic222.jpg">
+	                       				<em>{{item.name}}</em>
+	                    			</div>
+	                       		</td>
+	                       		<td class="colorTd">
+	                       			{{item.specifications}}
+	                    		</td>
+	                    		<td class="fprice">{{item.costprice}}</td>
+	                    		<td><input type="text" class="form-control" placeholder="Search" v-model="item.count"></td>
+	                    		<td>
+	                    			<div class="amount_td">
+	                    				<em class="yuan">¥</em>
+	                    				<span class="amount">{{item.moneyamt}}</span>
+	                    				<a class="delBtn" href="javascript:void(0);"></a>
+	                    				<span class="glyphicon glyphicon-remove-circle" ></span>
+	                    			</div>
+	                   			</td>
+	                   		</tr>
+	                   		<tr >
+	                        	<td colspan="7" style="font-size: 16px;padding:24px 14px ">
+									<div class="amoutDiv" style="float: right;margin-left: 20px">
+										<span>金额</span>
+										<em class="total_amount" style="color: #f05b23;">356.00</em>
+									</div>
+									
+									<div class="totalNumDiv" style="float: right;  ">
+										<span>合计</span>
+										<em class="total_num" style="color: #f05b23;">4</em>
+										<span>件</span>
+									</div>
+									<div style="clear: both;"></div>
+								</td>
+	                   		</tr>
+	                     </tbody>
+	              </table>
+	        </div>
+	        <div class="btnArea">
+				<a href="javascript:void(0);" id="addProductsBtn" class="addProductsBtn"  data-toggle="modal" data-target="#myModal2">+添加商品</a>
+				<a href="javascript:void(0);" id="saveBtn" class="btn btn-success" style="color: white !important;float:right;padding:0 22px ;    line-height: 30px;margin-left: 10px">提交</a>
+				<!--<a href="javascript:void(0);" id="addNewBtn" class="wc_btn wc_btn_default addNewBtn">添加</a>-->
+				<a href="javascript:void(0);" id="emptyBtn" class="btn btn-success" style="color: white !important;float:right;padding:0 22px;    line-height: 30px;">清空</a>
+				<!--<a href="javascript:void(0);" id="printBtn" class="btn topUpBtn">打印</a>-->
+			</div>
+	    </div>
+	</div>
+	
+	<!-- 模态框（Modal）修改 -->
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">编辑类别</h4>
+	            </div>
+	            <div class="modal-body" style="padding:50px">
+	            	
+					
+					
+					
+					
+					
+					
+					<div id="productsDialog" class="dialog productsDialog" seid="" style="position: absolute; top: 67.5px; left: 328px; display: block;">
+						<div class="dialog_hd">
+							<h3>选择商品</h3>
+							<a class="closed pop_closed" onclick="return false" href="javascript:;">关闭</a>
+						</div>
+						<div class="dialog_bd clearfix">
+						
+							<div class="classAreaX clearfix">
+								<span class="titleX">商品分类：</span>
+								<ul class="classDiv"></ul>
+							</div>
+							<div class="tabelArea clearfix" style="">
+								<table class="settable orderInfoTableX" style="top: 640px;">
+									<thead>
+										<tr>
+											<th width="8%">选择</th>
+											<th width="18%">货号/条码</th>
+											<th width="*">商品</th>
+											<th width="20%">规格</th>
+											<th width="12%">单价</th>
+											<th width="12%">库存</th>
+										</tr>
+									</thead>
+								</table>
+								<table class="settable productsTable">
+									<thead>
+										<tr>
+											<th width="8%">选择</th>
+											<th width="18%">货号/条码</th>
+											<th width="*">商品</th>
+											<th width="20%">规格</th>
+											<th width="12%">单价</th>
+											<th width="12%">库存</th>
+										</tr>
+									</thead>
+									<tbody pages="25" currpage="2">
+										<tr class="bgli" guid="191121742048943067">
+											<td class="checkboxTD">
+												<input type="checkbox" value="" name="" class="J_Checkbox">
+												<i class="jsonListData" style="display:none;">{"guid":"191121742048943067","bh":"","barcode":"632443554","image222":"http://fuzhuang.poso2o.com/pic.jpg","name":"短款双面羊绒","colorid":"-","sizeid":"-","fprice":"379.00","nums":"1","amount":"884.00"}</i>
+											</td>
+											<td class="bhDiv">
+												<em>632443554</em>
+											</td>
+											<td class="nameTD">
+												<div class="nameDiv">
+													<img height="30" width="30" src="http://fuzhuang.poso2o.com/pic.jpg">
+													<p><em>短款双面羊绒</em></p>
+												</div>
+											</td>
+											<td class="colorTd">
+												<em>-</em><em>-</em>
+											</td>
+											<td>884.00</td>
+											<td>10</td>
+										</tr>
+										<tr class="" guid="191121680429620584">
+											<td class="checkboxTD">
+												<input type="checkbox" value="" name="" class="J_Checkbox">
+												<i class="jsonListData" style="display:none;">{"guid":"191121680429620584","bh":"","barcode":"686281114","image222":"http://image.poso2o.com/18670802166/15743133200000_w894_h1589","name":"双面羊绒","colorid":"-","sizeid":"-","fprice":"0.00","nums":"1","amount":"1369.00"}</i>
+											</td>
+											<td class="bhDiv"><em>686281114</em></td>
+											<td class="nameTD">
+												<div class="nameDiv">
+													<img height="30" width="30" src="http://image.poso2o.com/18670802166/15743133200000_w894_h1589">
+													<p><em>双面羊绒</em></p>
+												</div>
+											</td>
+											<td class="colorTd"><em>-</em><em>-</em></td>
+											<td>1369.00</td>
+											<td>4</td>
+										</tr>
+									</tbody>
+							   </table>
+							</div>
+						</div>
+						
+						<div class="dialog_ft clearfix">
+						<div style="float:left;padding-left:46px;">
+						<input id="allCheckBox" type="checkbox" name="checkbox" value="">
+						<label for="allCheckBox">全选</label>
+						</div>
+						<a class="btn btn_default closed" href="javascript:;">取消</a>
+						<a class="btn btn_primary" href="javascript:;">确定</a>
+						</div>
+					
+					</div>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+	            </div>
+	            <div class="modal-footer" style="text-align: center;">
+	                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+	                <button type="button" class="btn btn-success" style="width: 16.66%;" @click="btn2">确认</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+	
+	
+	
+</div>
+
+	<script type="text/javascript">
+			axios.default.withCredentials = true;
+			var vue = new Vue({
+				el:"#shopType",
+				data(){
+					return{
+						billid:"",
+						bill:{},
+						Supplier:{},
+						page:{
+							list:[]
+						},
+						info:[],
+						shopType:{
+							commoditytypeid:"",
+							commoditytypename:""
+						}
+					};
+				},methods:{
+					//根据id查询所有采购单
+					goPage:function(){
+						var that = this;
+						$.ajax({
+							url:"[[@{/DetailController/selectAllByid}]]",
+	 						type:"get",
+	 						data:"billid="+this.billid,
+	 						dataType:"json",
+	 						success:function(data){
+	 							console.info("查询所有采购单")
+	 							that.page.list = data;
+	 							console.info(data)
+	 						}
+						});
+					},
+					//获取供应商
+					hqgys:function(){
+						var that = this;
+						$.ajax({
+							url:"[[@{/SupplierController/selectAll}]]",
+	 						type:"get",
+	 						data:"",
+	 						dataType:"json",
+	 						success:function(data){
+	 							console.info("查询所有供应商")	 							
+	 							that.Supplier = data;	 							
+	 							console.info(data)
+	 						}
+						});
+					},
+					//根据id查询商品详情表后向采购单详表添加数据
+					addsp:function(commoditytypeid){
+						let el = event.target;//获取当前行
+						console.log("fhowhefjwehpfhiowehfei");
+						console.log($(el));
+						
+						var commoditydetailid=el.value;
+						alert(commoditydetailid)
+						 var that = this;
+						$.ajax({
+							url:"[[@{/CommoditydetailController/selectByPrimaryKey2}]]",
+	 						type:"get",
+	 						data:{commoditydetailid:commoditydetailid},
+	 						dataType:"json",
+	 						success:function(data){
+	 							that.goPage();
+	 						}
+						});
+					},
+					//修改
+					btn2:function(){
+						var that = this;
+						var record = that.info;
+						$.ajax({
+							url:"[[@{/CommoditytypeController/updateByPrimaryKeySelective}]]",
+	 						type:"post",
+	 						data:JSON.stringify(record),
+	 						dataType:"json",
+	 						contentType:"application/json;charset=utf-8",
+	 						success:function(data){
+	 							$('#myModal2').modal('hide');
+	 							that.goPage();
+	 						}
+						});
+					},
+					//新增
+					btn:function(){
+						var that = this;
+						var record = that.shopType;
+						console.info(JSON.stringify(record))
+						$.ajax({
+							url:"[[@{/CommoditytypeController/insertSelective}]]",
+	 						type:"post",
+	 						data:JSON.stringify(record),
+	 						dataType:"json",
+	 						contentType:"application/json;charset=utf-8",
+	 						success:function(data){
+	 							$('#myModal').modal('hide');
+	 							that.goPage();
+	 							
+	 						}
+						});
+					},
+					//根据id删除商品
+					del:function(commoditytypeid){
+						var that = this;
+						$.ajax({
+							url:"[[@{/CommoditytypeController/deleteByPrimaryKey}]]",
+	 						type:"get",
+	 						data:{commoditytypeid:commoditytypeid},
+	 						dataType:"json",
+	 						success:function(data){
+	 							that.goPage();
+	 						}
+						});
+					},
+				},created:function(){
+					//获取单号
+					this.billid=window.sessionStorage.getItem("billid");
+				
+					
+					//获取时间		            
+		          	var myDate = new Date();   
+		            var year=myDate.getFullYear();        //获取当前年
+		            var month=myDate.getMonth()+1;   //获取当前月
+		            var date=myDate.getDate();            //获取当前日			            
+		            var now=year+'-'+month+"-"+date;
+		            this.bill.deliverytime= now;
+		            
+		            //获取供应商
+		            this.hqgys();
+		            //获取制表人
+		            
+		        	//加载采购单详表数据
+	 				this.goPage();
+						
+						
+	 			}
+			});
+		</script>
+
+
+
+			
+	
+</body>
+</html>

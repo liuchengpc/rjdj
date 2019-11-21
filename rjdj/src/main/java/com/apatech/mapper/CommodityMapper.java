@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.apatech.domain.Commodity;
+import com.apatech.domain.Commoditydetail;
 
 public interface CommodityMapper {
     int deleteByPrimaryKey(String productcodeid);
@@ -17,6 +18,8 @@ public interface CommodityMapper {
     int insertSelective(Commodity record);
 
     Commodity selectByPrimaryKey(String productcodeid);
+    
+   
     
     @Select("select * from Commodity")
     List<Commodity> selectAll();

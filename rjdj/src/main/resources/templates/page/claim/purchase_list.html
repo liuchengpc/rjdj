@@ -55,7 +55,11 @@
         <div class="mainhead">
             <span class="title">采购单</span>
             <div class="searchArea">
-               	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" style="float: right;">新建采购单</button>
+	            <div class="btn-div">
+	                    <a href="javascript:;"  th:onclick="btn1()" class="btn btn-success">
+	                        新建采购单
+	                    </a>
+                </div>
             </div>
 
             <div class="list search">
@@ -66,7 +70,7 @@
           
 			<div class="list">
                 <select name="" id="shopid" class="form-control">
-                    <option value="请选择城市">全部店铺</option>
+                    <option value="">全部店铺</option>
                 </select>
             </div>
 
@@ -105,6 +109,7 @@
                  	pageList : [ 1, 2, 3],		//可选择单页记录数
                  	showRefresh : true,					//刷新按钮                   
                  	queryParams : function (params) {
+                 		
                         var temp = {
                        		shopid:$('#shopid').val(),//店铺
                        		oldtime:$('#oldtime').val(),//开始时间
@@ -150,7 +155,7 @@
  		                
  		            },  {      	   
  		            	title : '供应商',
-         	    	 	field : 'suppliername',	        	    	
+         	    	 	field : 'companyname',	        	    	
  		                sortable : true,
  		                
  		            },  {      	   
@@ -217,6 +222,10 @@
 						  },
 						  'click a[title=修改]': function (e, value, row, index) {
 						      // e.preventDefault();
+								console.info(row)						      
+														      
+						      
+						      
 						    	$("#supplierid2").val(row.supplierid);//编号，主键
 						    	$("#companyname2").val(row.companyname);//公司名称
 						    	$("#companyabbreviation2").val(row.companyabbreviation);//公司简称
@@ -319,241 +328,28 @@
         
         
    
-        	<!-- 模态框（Modal）新增 -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			    <div class="modal-dialog" style="width: 768px;">
-			        <div class="modal-content">
-			            <div class="modal-header">
-			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			                <h4 class="modal-title" id="myModalLabel">编辑类别</h4>
-			            </div>
-			            <div class="modal-body" style="padding:50px">
-			            	<form class="form-horizontal">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="companyname" class="form-control"  >
-									</div>
-									<label for="inputEmail3" class="col-sm-2 control-label"><em>*</em>公司简称</label>
-									 <div class="col-sm-4">
-										<input type="text" id="companyabbreviation" class="form-control" >
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;系&nbsp;人</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="contacts" class="form-control" >
-									</div>
-									<label for="inputEmail3" class="col-sm-2 control-label"><em>*</em>手　　机</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="phone" class="form-control" >
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">邮　　箱</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="email" class="form-control" >
-									</div>
-									<label for="inputEmail3" class="col-sm-2 control-label">电　　话</label>
-									 <div class="col-sm-4">
-										 <input type="tevalue=telephone" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">地　　址</label>
-								      <div data-toggle="distpicker">
-								        <div class="col-sm-3" >
-									          <select class="form-control col-sm-4" id="province" style="display: inline-block;" ></select>
-										 </div>
-										<div class="col-sm-3" >
-									          <select class="form-control col-sm-4" id="city" style="display: inline-block;" ></select>
-										 </div>
-										<div class="col-sm-3" >
-									          <select class="form-control col-sm-4" id="region" style="display: inline-block;" ></select>
-										 </div>
-								      </div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">街　　道</label>
-									 <div class="col-sm-10">
-										 <input type="text" id="street" class="form-control" >
-									</div>
-								</div>							
-							</form>
-			            </div>
-			            <div class="modal-footer" style="text-align: center;">
-			                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-			                <button type="button" class="btn btn-success" style="width: 16.66%;" id="btn1" onclick="btn1()">确认</button>
-			            </div>
-			        </div><!-- /.modal-content -->
-			    </div><!-- /.modal -->
-			</div>
 			
-			<!-- 模态框（Modal）修改 -->
-			<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			    <div class="modal-dialog" style="width: 768px;">
-			        <div class="modal-content">
-			            <div class="modal-header">
-			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			                <h4 class="modal-title" id="myModalLabel">编辑供应商</h4>
-			            </div>
-			            <div class="modal-body" style="padding:50px">
-			            	<form class="form-horizontal">
-								<div class="form-group">
-									 <div class="col-sm-4" style="display: none;">
-										 <input type="text" id="supplierid2" class="form-control"  >
-									</div>
-									<label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="companyname2" class="form-control" >
-									</div>
-									<label for="inputEmail3" class="col-sm-2 control-label"><em>*</em>公司简称</label>
-									 <div class="col-sm-4">
-										<input type="text" id="companyabbreviation2" class="form-control" >
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;系&nbsp;人</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="contacts2" class="form-control" >
-									</div>
-									<label for="inputEmail3" class="col-sm-2 control-label"><em>*</em>手　　机</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="phone2" class="form-control" >
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">邮　　箱</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="email2" class="form-control" >
-									</div>
-									<label for="inputEmail3" class="col-sm-2 control-label">电　　话</label>
-									 <div class="col-sm-4">
-										 <input type="text" id="telephone2" class="form-control" >
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">地　　址</label>
-								      <div data-toggle="distpicker">
-								        <div class="col-sm-3" >
-									          <select class="form-control col-sm-4" id="province2" style="display: inline-block;" value="Supplier2.province"></select>
-										 </div>
-										<div class="col-sm-3" >
-									          <select class="form-control col-sm-4" id="city2" style="display: inline-block;" value="Supplier2.city"></select>
-										 </div>
-										<div class="col-sm-3" >
-									          <select class="form-control col-sm-4" id="region2" style="display: inline-block;" value="Supplier2.region"></select>
-										 </div>
-								      </div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">街　　道</label>
-									 <div class="col-sm-10">
-										 <input type="text" id="street2" class="form-control" >
-									</div>
-								</div>							
-							</form>
-			            </div>
-			            <div class="modal-footer" style="text-align: center;">
-			                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-			                <button type="button" class="btn btn-success" style="width: 16.66%;" id="btn2" onclick="btn2()">确认</button>
-			            </div>
-			        </div><!-- /.modal-content -->
-			    </div><!-- /.modal -->
-			</div>
+		
 		<script type="text/javascript">
-			//新增
+			//新增 
 			function btn1(){
-			    var supplierid=$("#supplierid").val();//编号，主键
-			 	var companyname=$("#companyname").val();//公司名称
-			 	var companyabbreviation=$("#companyabbreviation").val();//公司简称
-			 	var contacts=$("#contacts").val();//联系人
-			 	var phone=$("#phone").val();//手机号
-			 	var email=$("#email").val();//邮箱
-			 	var telephone=$("#telephone").val();//电话
-			 	var province=$("#province").val();//省（地址）//trigger方法触发被选元素的指定事件类型。
-			 	var city=$("#city").val();//市（地址）
-			 	var region=$("#region").val();//地区（地址）
-			 	var street=$("#street").val();//街道 */
-		      
-			     //alert(supplierid+"/"+companyname+"/"+companyabbreviation+"/"+contacts+"/"+phone+"/"+email+"/"+telephone+"/"+province+"/"+city+"/"+region+"/"+street)
-			     if(supplierid==""||companyname==""||companyabbreviation==""||contacts==""||phone==""||email==""||telephone==""||province==""||city==""||region==""||street==""){
-			    	 alert("请填写完整信息！")
-			    	 return false;
-			     }
-			      var obj={
-			    	supplierid:supplierid,//编号，主键
-				 	companyname:companyname,//公司名称
-				 	companyabbreviation:companyabbreviation,//公司简称
-				 	contacts:contacts,//联系人
-				 	phone:phone,//手机号
-				 	email:email,//邮箱
-				 	telephone:telephone,//电话
-				 	province:province,//省（地址）//trigger方法触发被选元素的指定事件类型。
-				 	city:city,//市（地址）
-				 	region:region,//地区（地址）
-				 	street:street//街道
-		          }
-	
+				//1.生成采购单主表id
 				$.ajax({
-					url:"[[@{/SupplierController/insertSelective}]]",
-					type:"post",
-					data:JSON.stringify(obj),
-					dataType:"json",
-					contentType:"application/json;charset=utf-8",
+					url:"[[@{/topage/uuid}]]",
+					type:"get",
+					data:"",
 					success:function(data){
-						alert(data.message);
-						$('#myModal2').modal('hide');
-						
+						alert(data)
+						//2.跳转到addpurchase_list.html
+						window.sessionStorage.setItem("billid",data);//将用户信息保存到js中的session中
+						window.location.href ="[[@{/topage/page/claim/addpurchase_list}]]";
 					}
 				});
 			}
 				
 			//修改
 			function btn2(){
-			    var supplierid=$("#supplierid2").val();//编号，主键
-			 	var companyname=$("#companyname2").val();//公司名称
-			 	var companyabbreviation=$("#companyabbreviation2").val();//公司简称
-			 	var contacts=$("#contacts2").val();//联系人
-			 	var phone=$("#phone2").val();//手机号
-			 	var email=$("#email2").val();//邮箱
-			 	var telephone=$("#telephone2").val();//电话
-			 	var province=$("#province2").val();//省（地址）//trigger方法触发被选元素的指定事件类型。
-			 	var city=$("#city2").val();//市（地址）
-			 	var region=$("#region2").val();//地区（地址）
-			 	var street=$("#street2").val();//街道 */
-		      
-			     //alert(supplierid+"/"+companyname+"/"+companyabbreviation+"/"+contacts+"/"+phone+"/"+email+"/"+telephone+"/"+province+"/"+city+"/"+region+"/"+street)
-			     if(supplierid==""||companyname==""||companyabbreviation==""||contacts==""||phone==""||email==""||telephone==""||province==""||city==""||region==""||street==""){
-			    	 alert("请填写完整信息！")
-			    	 return false;
-			     }
-			     var obj={
-			    	supplierid:supplierid,//编号，主键
-				 	companyname:companyname,//公司名称
-				 	companyabbreviation:companyabbreviation,//公司简称
-				 	contacts:contacts,//联系人
-				 	phone:phone,//手机号
-				 	email:email,//邮箱
-				 	telephone:telephone,//电话
-				 	province:province,//省（地址）//trigger方法触发被选元素的指定事件类型。
-				 	city:city,//市（地址）
-				 	region:region,//地区（地址）
-				 	street:street//街道
-		          }
-
-				$.ajax({
-					url:"[[@{/SupplierController/updateByPrimaryKeySelective}]]",
-					type:"post",
-					data:JSON.stringify(obj),
-					dataType:"json",
-					contentType:"application/json;charset=utf-8",
-					success:function(data){
-						alert(data.message);
-						$('#myModal').modal('hide');
-						
-					}
-				});
+			   
 			}
 			
 			

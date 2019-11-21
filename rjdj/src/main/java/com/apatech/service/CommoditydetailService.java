@@ -34,6 +34,10 @@ public class CommoditydetailService {
     public Commoditydetail selectByPrimaryKey(String commoditydetailid) {
     	return dao.selectByPrimaryKey(commoditydetailid);
     }
+  
+    public List<Commoditydetail> selectByPrimaryKey2(String commoditydetailid) {
+    	return dao.selectByPrimaryKey2(commoditydetailid);
+    }
     
     public List<Commoditydetail> selectAll() {
     	return dao.selectAll();

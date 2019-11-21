@@ -64,7 +64,7 @@ public class BillService {
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
 			String selectqb//查找
 	){
-    	List<Commodity> li=dao2.selectAll3(shopid, oldtime, newtime, selectqb);
+	List<Commodity> li=dao2.selectAll3(shopid, oldtime, newtime, selectqb);
     	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
     		List<Detail> li2=dao3.selectByid(li.get(i).getBillid());
     		Double cgdje=0.0;//采购单金额

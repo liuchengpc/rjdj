@@ -39,6 +39,10 @@ public class DetailService {
     	return dao.selectAll();
     }
     
+    public List<Detail> selectAllByid(String billid) {
+    	return dao.selectAllByid(billid);
+    }
+    
     public PageInfo<Detail> selectAllpage(Integer pageNum,Integer pageSize){
     	PageHelper.startPage(pageNum, pageSize);
     	List<Detail> list=dao.selectAll();

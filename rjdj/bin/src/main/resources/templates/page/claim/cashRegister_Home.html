@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+
+		<link rel="stylesheet" type="text/css" th:href="@{/css2/easyui.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/css2/icon.css}">
+		<script type="text/javascript" th:src="@{/js2/jquery.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/jquery.easyui.min.js}"></script>
+		<style type="text/css">
+			.box{
+				height: 44px;
+				position: absolute;
+				overflow: hidden;
+				top: 95%;
+				margin-top: -15px;
+				margin-left: -30px;
+				left: 14%;
+			}
+			.box span{
+				display: inline-block;
+				 background-image: -webkit-gradient(linear,0 0,0 bottom,from(#fef637),to(#f90));
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				width: 30px;
+				height: 44px;
+				font-size: 44px;
+				line-height: 44px;
+			}
+			.box .sign-box span{
+			width: 15px;
+			}
+			.box .digit-container{
+			width: 30px;
+			text-align: center;
+			overflow: hidden;
+			font-size: 0;
+			}
+			.l{
+			float: left;
+			}
+
+			
+			
+			.raise:hover,
+			.raise:focus {
+			  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+			  -webkit-transform: translateY(-0.25em);
+			          transform: translateY(-0.25em);
+			}					
+			.raise {
+			  --color: #8B8989;
+			  --hover: #CD0000;
+			}			
+			button {
+			  color: var(--color);
+			  -webkit-transition: 0.25s;
+			  transition: 0.25s;
+			}
+			button:hover, button:focus {
+			  border-color: var(--hover);
+			  color: #CD0000;
+			  font-weight: bolder;
+			}
+			
+			/*body {
+			  color: #fff;
+			  background: #17181c;
+			  font: 300 1em 'Fira Sans', sans-serif;
+			  -webkit-box-pack: center;
+			      -ms-flex-pack: center;
+			          justify-content: center;
+			  -ms-flex-line-pack: center;
+			      align-content: center;
+			  -webkit-box-align: center;
+			      -ms-flex-align: center;
+			          align-items: center;
+			  text-align: center;
+			  min-height: 100vh;
+			  display: -webkit-box;
+			  display: -ms-flexbox;
+			  display: flex;
+			}*/
+			
+			button {
+			  background: none;
+			  border: 2px solid;
+			  font: inherit;
+			  line-height: 1;
+			  margin: 0.5em;
+			  padding: 1em 2em;
+			}
+			
+			h1 {
+			  font-weight: 400;
+			}
+			
+			code {
+			  color: #e4cb58;
+			  font: inherit;
+			}
+			
+			/*
+			  As a bonus, I will now begin including a shoddily written limerick or other high literary masterpiece in all my pens. Misspelled visual rhymes and two left feet are the spice of life. You're welcome.
+			
+			  [1/?] Glass cannon 
+			  There was a young dev on the frontend
+			  delighted to see folks affronted
+			    They claimed satisfaction
+			    provoking a reaction
+			  but threw quite a fit when confronted
+			*/
+
+			
+			
+			.products{
+				list-style:none;
+				margin-right:300px;
+				padding:0px;
+				height:100%;
+			}
+			.products li{
+				display:inline;
+				float:left;
+				margin:10px;
+			}
+			.item{
+				margin-left: 30px;
+				display:block;
+				text-decoration:none;
+			}
+			.item img{
+				border:1px solid #333;
+				width: 100px;
+			}
+			.item p{
+				margin:0;
+				font-weight:bold;
+				text-align:center;
+				color:gray;
+			}
+			.cart{
+				position:fixed;
+				right:0;
+				top:0;
+				width:300px;
+				height:100%;
+				background:#ccc;
+				padding:0px 10px;
+			}
+			h1{
+				text-align:center;
+				color:#555;
+			}
+			h2{
+				position:absolute;
+				font-size:16px;
+				left:10px;
+				bottom:20px;
+				color:#555;
+			}
+			.total{
+				margin:0;
+				text-align:right;
+				padding-right:20px;
+			}
+			.ayo:hover{
+				transform: scale(1.1);
+			}
+			.ayo:hover p{
+				color: #000000;
+			}
+		</style>
+		<script>
+			/*var data = {"total":0,"rows":[]};
+			var totalCost = 0;
+			
+			$(function(){
+				var data = {"total":0,"rows":[]};
+				var totalCost = 0;
+				$('#cartcontent').datagrid({
+					singleSelect:true
+				});
+						
+				ayo();		//点击增加商品
+				
+				
+			});
+			 
+			function ayo(){
+				$(".ayo").click(function(){
+				  	var name = $(this).find('p:eq(0)').html();
+				  	var commoditySize = $(this).find('p:eq(1)').html();
+					var price = $(this).find('p:eq(2)').html();
+					var moneyamt = parseFloat(price.split('$')[1]);
+					addProduct(name, commoditySize,parseFloat(price.split('$')[1]),moneyamt);
+				});
+			}
+			
+			function addProduct(name,commoditySize,price,moneyamt){
+				function add(){
+					for(var i=0; i<data.total; i++){
+						var row = data.rows[i];
+						if (row.name == name){
+							row.quantity += 1;
+							row.moneyamt += price;
+							return;
+						}
+					}
+					data.total += 1;
+
+					data.rows.push({
+						name:name,
+						commoditySize:commoditySize,
+						quantity:1,
+						price:price,
+						moneyamt:moneyamt			
+					});
+				}
+				add();
+				totalCost += price;
+				
+				$('#cartcontent').datagrid('loadData', data);
+				$('div.cart .total').html('总金额：$'+totalCost);
+				
+				
+				
+			}*/
+		</script>
+	</head>
+	<body style="margin:0;padding:0;height:100%;background:#fafafa;">
+		<ul class="products" style="height: 520px;width: 866px;margin-top: 0px;overflow: hidden;overflow-y:scroll;border-bottom: 1px solid gainsboro;">
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Balloon</p>
+						<p>L</p>
+						<p>价格:$15.5</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Feeling</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Elephant</p>
+						<p>M</p>
+						<p>价格:$35</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Stamps</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Monogram</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Rolling</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Balloon</p>
+						<p>L</p>
+						<p>价格:$15.5</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Feeling</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Elephant</p>
+						<p>M</p>
+						<p>价格:$35</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Stamps</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Monogram</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Rolling</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Balloon</p>
+						<p>L</p>
+						<p>价格:$15.5</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Feeling</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Elephant</p>
+						<p>M</p>
+						<p>价格:$35</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Stamps</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Monogram</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Rolling</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Balloon</p>
+						<p>L</p>
+						<p>价格:$15.5</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Feeling</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Elephant</p>
+						<p>M</p>
+						<p>价格:$35</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Stamps</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Monogram</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Rolling</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Balloon</p>
+						<p>L</p>
+						<p>价格:$15.5</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Feeling</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Elephant</p>
+						<p>M</p>
+						<p>价格:$35</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Stamps</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Monogram</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Rolling</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Balloon</p>
+						<p>L</p>
+						<p>价格:$15.5</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Feeling</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Elephant</p>
+						<p>M</p>
+						<p>价格:$35</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Stamps</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Monogram</p>
+						<p>S</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+			<li class="ayo">
+				<a href="#" class="item">
+					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<div>
+						<p>Rolling</p>
+						<p>LL</p>
+						<p>价格:$25</p>
+					</div>
+				</a>
+			</li>
+		</ul>
+
+		
+		
+		<div class="cart" style="width: 400px;">
+			<h1>收银系统</h1>
+			<div style="background:#fff">
+			<table id="cartcontent" fitColumns="true" style="width:400px;height:auto;">
+				<thead>
+					<tr>
+						<th field="name" width="22%">商品</th>
+						<th field="commoditySize" width="16%" align="right">规格</th>
+						<th field="quantity" width="16%" align="right">数量</th>
+						<th field="price" width="16%" align="right">单价</th>
+						<th field="moneyamt" width="16%" align="right">合计</th>
+					</tr>
+				</thead>
+			</table>
+			</div>
+			<p class="total" style="color: red;font-size: 18px;font-weight: bolder;margin-top: 5%;">总金额： $0</p>
+			<button type="button" class="btn btn-default col-md-3" style="margin-left: 3%;margin-top: 15%;">挂单</button>
+			  <button type="button" class="btn btn-danger col-md-3" style="margin-left: 2.5%;margin-top: 15%;">删除</button>
+		      <button type="button" class="btn btn-success col-md-3" style="margin-left: 2.5%;margin-top: 15%;">结账</button>
+			<h2>单击商品添加到购物车</h2>
+		</div>
+		
+		
+		
+		<div style="border-bottom: 1px solid gainsboro;width: 69.5%;margin-top: -1%;">
+			<img th:src="@{/img/lt.png}" width="1.5%" style="position: absolute;top:81.7%;left: 2.1%;cursor:pointer;">
+			<button class="raise" style="margin-left: 8.6%;width: 12%;cursor:pointer;">上衣</button>
+			<button class="raise" style="margin-left: 4.4%;width: 12%;cursor:pointer;">裤/裙</button>
+			<button class="raise" style="margin-left: 4.4%;width: 12%;cursor:pointer;">鞋子</button>
+			<button class="raise" style="margin-left: 4.4%;width: 12%;cursor:pointer;">帽子</button>
+			<button class="raise" style="margin-left: 4.4%;width: 12%;cursor:pointer;">饰品</button>
+			<img th:src="@{/img/rt.png}" width="1.5%" style="position: absolute;top:81.7%;left: 65.6%;opacity: 0.3;">
+		</div>
+		<div style="width: 69.5%;height: 62.5px;background-color:#FCFCFC;">
+			<span style="color: #8B8989;font-size: 23px;display: inline-block;margin-top: 30px;margin-left: 2%;">今日营业额：</span>
+			<div class="js-box box"></div>
+		</div>
+		
+		<script type="text/javascript">
+			var data = {"total":0,"rows":[]};
+			var totalCost = 0;
+			$(function(){
+				var data = {"total":0,"rows":[]};
+				var totalCost = 0;
+				$('#cartcontent').datagrid({
+					singleSelect:true
+				});
+						
+				ayo();		//点击增加商品
+				
+				
+				
+				  	var Event = {
+				    // 例 510,085.00
+				    number: function(digit){
+				      var num_arr=[];
+				      for(var i = 0;i<digit.length;i++){
+				        num_arr.push(digit.charAt(i));
+				      }
+				 
+				      return num_arr;
+				    },
+				    dom: function(arr){
+				      var str = '';
+				      for(var i = 0;i<arr.length;i++){
+				        if(parseInt(arr[i])>=0){
+				          str += '<div class="l js-l-box digit-container" data-show='+arr[i]+'>\
+				                  <span>0</span>\
+				                  <span>1</span>\
+				                  <span>2</span>\
+				                  <span>3</span>\
+				                  <span>4</span>\
+				                  <span>5</span>\
+				                  <span>6</span>\
+				                  <span>7</span>\
+				                  <span>8</span>\
+				                  <span>9</span>\
+				                </div>';
+				        }else{
+				           str += '<div class="sign-box l"><span>'+arr[i]+'</span></div>';
+				        }
+				      }
+				      return str;
+				    },
+				    animation: function(){
+				      var height = $(".js-box").height();
+				      $(".js-l-box").each(function(i){
+				        var num = parseInt($(this).data("show"));
+				        var scrollTop = 0;
+				          var scrollTop = height * num;
+				          $(this).css("margin-top",0);
+				          $(this).animate({marginTop: -scrollTop},1500);
+				          console.log(scrollTop);
+				      });
+				    }
+				  };
+				  var final_arr = Event.number('123');
+				  $(".js-box").html(Event.dom(final_arr));
+				  Event.animation();
+				});
+				
+				var b = 0;
+			function ayo(){
+				$(".ayo").click(function(){
+				  	var name = $(this).find('p:eq(0)').html();
+				  	var commoditySize = $(this).find('p:eq(1)').html();
+					var price = $(this).find('p:eq(2)').html();
+					var moneyamt = parseFloat(price.split('$')[1]);
+					addProduct(name, commoditySize,parseFloat(price.split('$')[1]),moneyamt);
+				});
+			}
+			
+			function addProduct(name,commoditySize,price,moneyamt){
+				function add(){
+					for(var i=0; i<data.total; i++){
+						var row = data.rows[i];
+						if (row.name == name){
+							row.quantity += 1;
+							row.moneyamt += price;
+							return;
+						}
+					}
+					data.total += 1;
+
+					data.rows.push({
+						name:name,
+						commoditySize:commoditySize,
+						quantity:1,
+						price:price,
+						moneyamt:moneyamt			
+					});
+				}
+				add();
+				totalCost += price;
+				
+				$('#cartcontent').datagrid('loadData', data);
+				$('div.cart .total').html('总金额：$'+totalCost);
+				
+				b = totalCost;
+
+			}
+			
+			
+			</script>
+
+	</body>
+</html>

@@ -25,6 +25,7 @@
     where productCodeID = #{productcodeid,jdbcType=VARCHAR}
   </select>
   
+ 
 
   <select id="selectAll2" parameterType="java.lang.String" resultMap="BaseResultMap">
    SELECT * FROM commodity a
@@ -60,7 +61,7 @@
 	INNER JOIN detail f ON f.`billID`=e.`billID`
 	INNER JOIN commoditydetail g ON g.`commodityDetailID`=f.`commodityDetailID`
     where 1=1
-   	<if test="commoditytypeid != null and commoditytypeid !=''">
+   	<if test="shopid != null and shopid !=''">
           and e.shopid like '%${shopid}%'
       </if>
       <if test="selectqb != null  and selectqb !=''">
@@ -71,11 +72,11 @@
           OR e.phone like '%${selectqb}%'
           OR e.remarks like '%${selectqb}%'
       </if>
-     <if test="start!=null">
-		AND e.creationtime &gt; #{start}
+     <if test="oldtime!=null">
+		AND e.creationtime &gt; #{oldtime}
 	</if>
-	<if test="end!=null">
-		AND e.creationtime &lt; #{end}
+	<if test="newtime!=null">
+		AND e.creationtime &lt; #{newtime}
 	</if>
     GROUP BY e.`billID`
   </select>

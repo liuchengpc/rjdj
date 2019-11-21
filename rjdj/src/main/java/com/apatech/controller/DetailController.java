@@ -12,15 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import com.apatech.domain.Commoditydetail;
 import com.apatech.domain.Detail;
+import com.apatech.service.CommoditydetailService;
 import com.apatech.service.DetailService;
+import com.apatech.util.uuid;
 import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("DetailController")
 public class DetailController {
 	@Autowired
-	private DetailService dao;	
+	private DetailService dao;
+	@Autowired
+	private CommoditydetailService dao2;
+	
+	
 	/**
 	 * 查询全部
 	 * @param model
@@ -31,6 +39,18 @@ public class DetailController {
 	public List<Detail> selectAll(Model model) {
 		System.out.println("进入DetailController查询全部");
 		List<Detail> list = dao.selectAll();
+		return list;
+	}
+	/**
+	 * 根据id查询所有采购单
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/selectAllByid",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Detail> selectAllByid(Model model,String billid) {
+		System.out.println("进入DetailController查询全部");
+		List<Detail> list = dao.selectAllByid(billid);
 		return list;
 	}
 	/**
@@ -81,6 +101,58 @@ public class DetailController {
 		return map;
     }
 
+	
+	/**
+	 * 根据id查询商品详情表后向采购单详表添加数据
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "addxb",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> addxb(
+    		String commoditydetailid,//根据商品详情id查询的id
+    		String billid//采购单ID
+    		) {
+		System.out.println("进入DetailController新增");
+		Integer a=null;
+		Map<String, String> map=new HashMap<String,String>();
+		List<Commoditydetail> sp= dao2.selectByPrimaryKey2(commoditydetailid);//获取商品
+		
+		uuid s=new uuid();		
+		String detailid=s.getCode();//采购单ID
+		
+//		commoditydetailid;//条形码，主键
+//		productcodeid;//商品主表ID
+//		colorid;//商品颜色ID
+//		commoditysizeid;//商品尺码
+//		count;//数量
+		
+//	     Integer detailid;//编号，主键
+//	    String billid;//采购单ID
+//	    String commoditydetailid;//商品详表id
+//	    String name;//商品
+//	    String specifications;//规格
+//	    Float costprice;//单价
+//	    Integer count;//数量
+//	    Float moneyamt;//金额
+		
+		for (int i = 0; i < sp.size(); i++) {
+			Detail record=new Detail( billid, commoditydetailid,sp.get(i).getName() ,sp.get(i).getCommoditytypename()+"/"+sp.get(i).getCommoditysize(),sp.get(i).getCostprice() , 1, sp.get(i).getCostprice());
+			a=dao.insertSelective(record);
+			System.out.println("实体："+record.toString());
+		}
+	
+    	if (a>0) {
+			map.put("code", "1");
+			map.put("message", "新增成功！");
+		}else {
+			map.put("code", "2");
+			map.put("message", "新增失败！");
+		}
+		return map;
+    }
+	
+	
 	/**
 	 * 根据主键修改
 	 * @param student

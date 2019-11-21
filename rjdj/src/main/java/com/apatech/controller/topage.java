@@ -2,6 +2,10 @@ package com.apatech.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.apatech.util.uuid;
 
 @Controller
 @RequestMapping("topage")
@@ -30,6 +34,25 @@ public class topage {
 	}
 	
 	
+	/**
+	 * 生成编号
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "uuid",method = RequestMethod.GET)
+	@ResponseBody
+	public String uuid() {
+		System.out.println("进入page/claim/addpurchase_list");
+		uuid s=new uuid();		
+		System.out.println(s.getCode());
+		return s.getCode();
+	}
+	
+	@RequestMapping("page/claim/addpurchase_list")
+	public String addpurchase_list() {
+		System.out.println("进入page/claim/addpurchase_list");
+		return "page/claim/addpurchase_list";
+	}
 	@RequestMapping("page/claim/users_img")
 	public String users_img() {
 		System.out.println("进入page/claim/users_img");
