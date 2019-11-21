@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/member_info.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+</head>
+<body>
+    <!--会员信息-->
+    <div class="rightarea clearfix">
+        <div class="mainarea clearfix">
+            <div class="mainhead">
+                <span class="title">营收概况</span>
+                <!--<div class="searchArea">
+                    <div class="btn-div">
+                        <a href="javascript:;" class="btn btn-success">
+                            添加会员
+                        </a>
+                    </div>
+                </div>-->
+              
+                <div class="list">
+                    <a href="javascript:;" class="btn btn-default">导出数据</a>
+                    <!--<a href="javascript:;" class="btn btn-default">批量导入</a>-->
+                </div>
+                <div class="list search">
+                    <input class="inputtext" type="text" placeholder="查找">
+                    <a href="javascript:;" class="search-btn"></a>
+                </div>
+                <div class="list">
+	                <input type="date" class="form-control">
+	            </div>
+	            <div class="list">
+	                -
+	            </div>
+	            <div class="list">
+	                <input type="date" class="form-control">
+	            </div>
+               
+              	
+            </div>
+            <div class="mainbody">
+                <table class="settable table table-striped">
+                   
+							<thead>
+								<tr>
+									<th width="5%">序号</th>
+									<th width="*">店铺</th>
+									<th width="6%">订单数</th>
+									<th width="8%">销售</th>
+									<th width="8%">现金</th>
+									<th width="8%">转账</th>
+									<th width="8%">微信支付</th>
+									<th width="8%">余额支付</th>
+									<th width="8%">支付宝</th>
+									<th width="8%">退款</th>
+									<th width="7%">充值</th>
+									<th width="8%">实收款</th>
+									<th width="5%">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="" shopid="18670802166">
+									<td>1</td>
+									<td class="shopname">莱米琪</td>
+									<td>115</td><td>37359.00</td>
+									<td>4704.00</td><td>1890.00</td>
+									<td>17317.00</td>
+									<td>0.00</td>
+									<td>13448.00</td>
+									<td>0.00</td>
+									<td>0.00</td>
+									<td>37359</td>
+									<td><a class="btn seeBtn" href="javascript:void(0);">查看</a></td>
+								</tr>
+							</tbody>
+						
+                </table>
+                <!--分页按钮-->
+                <div class="pagebar">
+                    <div class="pagetion">
+                       <div class="page">
+                               <ul class="pagination">
+                                   <li>
+                                       <a href="javascript:;">
+                                           首页
+                                       </a>
+                                   </li>
+                                   <li>
+                                       <a href="javascript:;">
+                                           &laquo;
+                                       </a>
+                                   </li>
+                                   <li>
+                                       <span style="font-size: 14px;">1/5</span>
+                                   </li>
+                                   <li>
+                                       <a href="javascript:;">
+                                           &raquo;
+                                       </a>
+                                   </li>
+                                   <li>
+                                       <a href="javascript:;">
+                                           尾页
+                                       </a>
+                                   </li>
+                                   <li style="margin-left: 20px; float:left;">
+                                       <input type="text" class="form-control" style="width: 100px;">
+                                   </li>
+                                   <li style="margin-left: 15px; float:left;">
+                                       <a href="javascript:;" class="btn btn-default">
+                                           跳转
+                                       </a>
+                                   </li>
+                               </ul>
+                       </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

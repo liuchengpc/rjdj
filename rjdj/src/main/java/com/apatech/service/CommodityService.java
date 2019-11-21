@@ -39,6 +39,8 @@ public class CommodityService {
     	return dao.selectByPrimaryKey(productcodeid);
     }
     
+    
+    
     public List<Commodity> selectAll() {
     	return dao.selectAll();
     }

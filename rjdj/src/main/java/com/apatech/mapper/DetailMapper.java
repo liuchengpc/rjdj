@@ -19,6 +19,11 @@ public interface DetailMapper {
     @Select("select * from Detail")
     List<Detail> selectAll();
     
+    @Select("select * from Detail where billid=#{billid}")
+    List<Detail> selectAllByid( 
+    		String billid//采购单ID
+	);
+    
     /**
      * 根据商品主表id查询
      * @return

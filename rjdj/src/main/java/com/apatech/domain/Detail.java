@@ -22,10 +22,34 @@ public class Detail {
 				+ ", name=" + name + ", specifications=" + specifications + ", costprice=" + costprice + ", count="
 				+ count + ", moneyamt=" + moneyamt + "]";
 	}
+    
+    
+
+	
+
+
 
 	public Detail() {
 		super();
 	}
+
+	public Detail(String billid, String commoditydetailid, String name, String specifications, Float costprice,
+			Integer count, Float moneyamt) {
+		super();
+		this.billid = billid;
+		this.commoditydetailid = commoditydetailid;
+		this.name = name;
+		this.specifications = specifications;
+		this.costprice = costprice;
+		this.count = count;
+		this.moneyamt = moneyamt;
+	}
+
+
+
+
+
+
 
 	public Integer getDetailid() {
         return detailid;
