@@ -21,6 +21,46 @@ import com.github.pagehelper.PageInfo;
 public class ShopController {
 	@Autowired
 	private ShopService dao;	
+	
+	/**
+	 * 根据ID查询店铺信息
+	 * 
+	 * */
+	@RequestMapping(value="queryByshopid",method=RequestMethod.GET)
+	@ResponseBody
+	public Shop queryByshopid(String shopid) {
+		Shop shop = dao.selectByPrimaryKey(shopid);
+		System.out.println("进来了");
+		return shop;
+	}
+	
+	/**
+	 * 查询店铺的员工数量
+	 * 
+	 * */
+	@RequestMapping(value="queryByCount",method=RequestMethod.GET)
+	@ResponseBody
+	public int queryByCount(String shopid) {
+		
+		return dao.queryByCount(shopid);
+	}
+	
+	
+	/**
+	 * 也分多条件查询
+	 * 
+	 * 
+	 * */
+	@RequestMapping(value="queryByShopPage",method=RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Shop> queryByShopPage(Integer pageNum,Integer pageSize,Shop shop){
+		System.out.println("进来了Shop分页");
+		System.out.println(shop);
+		System.out.println(dao.queryByShopPage(pageNum, pageSize, shop));
+		return dao.queryByShopPage(pageNum, pageSize,shop);
+	}
+	
+	
 	/**
 	 * 查询全部
 	 * @param model

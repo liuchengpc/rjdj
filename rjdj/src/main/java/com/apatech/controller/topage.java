@@ -1,7 +1,10 @@
 package com.apatech.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.apatech.domain.Shop;
 
 @Controller
 @RequestMapping("topage")
@@ -44,6 +47,17 @@ public class topage {
 	public String accountinfo() {
 		System.out.println("进入page/claim/users_home");
 		return "page/claim/users_home";
+	}
+	
+	@RequestMapping("page/claim/shop_Insert")
+	public String shop_Insert() {
+		System.out.println("进入page/claim/shop_Insert");
+		return "page/claim/shop_Insert";
+	}
+	@RequestMapping("page/claim/shop_Query")
+	public String shop_Query() {
+		System.out.println("进入page/claim/shop_Query");
+		return "page/claim/shop_Query";
 	}
 	@RequestMapping("page/common/body_menu")
 	public String body_menu() {

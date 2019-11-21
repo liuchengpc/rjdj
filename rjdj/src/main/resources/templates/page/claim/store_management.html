@@ -3,63 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-      <link rel="stylesheet" th:href="@{/css/base.css}">
+    
+ 	<link rel="stylesheet" th:href="@{/css2/style.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/store_management.css}">
     <link rel="stylesheet" th:href="@{/css/position.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <script th:src="@{/js/jquery-1.12.4.js}"></script>
     <script th:src="@{/js/bootstrap.js}"></script>
+    
+    <script th:src="@{/js2/jquery.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/css2/jquery.range.css}">
+	<script type="text/javascript" th:src="@{/js2/jquery.min.js}"></script>
+	
+	<style>
+		.yuan {
+            width: 225px;
+            height: 225px;
+            border: 3px solid gainsboro;
+            overflow: hidden;
+            
+        }
+	</style>
 </head>
 <body>
-
         <!--店铺管理-->
 	    <div class="rightarea clearfix" style="margin-bottom: 360px;">
 	        <div class="mainarea clearfix">
 	            <div class="mainhead">
-	                <span class="title sub_title">店铺管理</span>
-	                <div class="searchArea">
-	                    <div class="btn-div">
-	                        <a href="javascript:;" class="btn btn-warning">
-	                            	添加店铺
-	                        </a>
-	                    </div>
-	                </div>
+	                <span class="title sub_title">店铺管理</span>	                
+	              <div class="container" style="margin-top:-2%;margin-left:2%;">
+	              	<div class="row">
+		              <div class="col-md-2" style="margin-left:8%;margin-top: 1%;">
+						
+						<input type="text" name="shopid" class="form-control" placeholder="店铺号">
+					  </div>
+					  <div class="col-md-2" style="margin-left:1% ;margin-top: 1%;">
+						 
+						<input type="text" name="contacts" class="form-control" placeholder="联系人名称">
+					  </div>
+			
+					  <div class="col-md-2" style="margin-top:1%;margin-left: 1%;">
+						
+						<input type="text" name="shopname" class="form-control" placeholder="店铺名称">
+					  </div>
+					  <button id="queryBtn" type="button" class="btn btn-default col-md-1" style="background-color: #87c212;box-shadow:3px 3px 3px #888;margin-left:5.5%;margin-top: 1%;">
+						  <img src="/images/search.png" >
+						  查询
+					  </button>
+					  <div class="btn-div" style="margin-top:1%;">
+                        <a id="ee" href="javascript:;" class="btn btn-warning">
+                            	添加店铺
+                        </a>
+                      </div>
+	              	</div>
+	              </div>
+	                
 	            </div>
 	            <div class="mainbody">
 	                <table class="settable">
 	                    <thead>
                             <tr>
                                 <th width="4%">序号</th>
-                                <th width="14%">账号</th>
+                                <th width="14%">店铺号</th>
                                 <th width="14%">店名</th>
-                                <th width="5%">员工</th>
+                                <th width="5%">员工数</th>
                                 <th width="10%">联系人</th>
                                 <th width="10%">手机</th>
                                 <th width="10%">电话</th>
                                 <th width="*">地址</th>
-                                <th width="8%">操作</th>
+                                <th width="15%">操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr >
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>
-                                    <a href="javascript:;">编辑</a>
-                                </td>
-                            </tr>
+                        <tbody id="contentTable">
+                            
                         </tbody>
 	                </table>
 	                 <p class="prompt">注：可添加多家门店，系统自动分配订单到附近门店。</p>
 	            </div>
 	        </div>
 	    </div>
+     
+	
+	    <script th:src="@{/js2/jquery.min.js}"></script>
+		<script th:src="@{/js2/bootstrap.min.js}"></script>
+		<script th:src="@{/js2/distpicker.data.js}"></script>
+		<script th:src="@{/js2/distpicker.js}"></script>
+		<script th:src="@{/js2/main.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/jquery.min2.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/jquery.range.js}"></script>
+		<script type="text/javascript" th:src="@{/js2/cropbox.js}"></script>
+	    <script>
+	    	$(function(){
+	    		goPage(1);	//分页查询
+	    		queryBtn();		//多条件查询
+				loading();		//加载事件
+				ee();
+	    	});
+	    	
+	    	function ee(){
+	    		$("#ee").click(function(){
+					location.href="[[@{/topage/page/claim/shop_Insert}]]";
+				});
+	    	}
+	    	
+	    	
+	    	function loading(){
+				$("#one1").val($(".pointer-label:eq(0)").html());
+				$("#two2").val($(".pointer-label:eq(1)").html());
+			}
+			
+			function mouseup(event){  //设置鼠标松开时的颜色
+				$("#one1").val($(".pointer-label:eq(0)").html());
+				$("#two2").val($(".pointer-label:eq(1)").html());
+			}
+		    	
+	    	function queryBtn(){
+	    		$("#queryBtn").click(function(){
+	    			goPage(1);
+	    		});
+	    	}
+	    	
+	    	function goPage(pageNum){
+	    		var shopid = $("[name=shopid]").val();
+	    		var contacts = $("[name=contacts]").val();
+	    		var shopname = $("[name=shopname]").val();
+	    		$("#contentTable").html("");
+	    		
+	    		$.ajax({
+	    			url:"[[@{/ShopController/queryByShopPage}]]",
+	    			type:"get",
+	    			async:true,
+	    			dataType:"json",
+	    			data:"pageNum="+pageNum+"&pageSize=1"+"&shopid="+shopid+"&contacts="+contacts+"&shopname="+shopname,
+	    			success:function(result){
+	    				$.each(result.list,function(i,obj){
+	    					var tr = $("<tr><td>"+(i+1)+"</td><td>"+obj.shopid+"</td><td>"+obj.shopname+"</td>");
+	    					$("#contentTable").append(tr);
+	    					$.ajax({
+	    						url:"[[@{/ShopController/queryByCount}]]",
+	    						type:"get",
+	    						dataType:"json",
+	    						data:"shopid="+obj.shopid,
+	    						success:function(result2){
+	    							var tr2 = $("<td class=\"count\">"+result2+"</td><td>"+obj.contacts+"</td><td>"+obj.phonenumber+"</td><td>"+obj.fixedtelephone+"</td><td>"+obj.address+"</td><td><a i=\""+obj.shopid+"\" class=\"squery\" href=\"javascript:;\">查看&nbsp&nbsp</a><a href=\"javascript:;\">编辑&nbsp&nbsp</a><a href=\"javascript:;\">删除&nbsp&nbsp</a></td></tr>");
+	    							tr.append(tr2);
+	    						}
+	    					});
+	    				});
+	    				
+	    				$(".squery").live("click",function(){
+	    					var shopid = $(this).attr("i");
+	    					window.sessionStorage.setItem("shopid",JSON.stringify(shopid));
+	    					location.href="[[@{/topage/page/claim/shop_Query}]]";
+	    				});
+	    			}
+	    		});
+	    	}
+	    </script>
 </body>
 </html>

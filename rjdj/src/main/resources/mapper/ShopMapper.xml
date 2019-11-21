@@ -134,6 +134,58 @@
       </if>
     </trim>
   </insert>
+  
+  <select id="queryByCount" parameterType="com.apatech.domain.Shop" resultType="int">
+  		SELECT COUNT(*) FROM users,shop WHERE users.`shopID` = shop.`shopID` AND 
+  		shop.`shopID` = #{shopid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryByShopPage" parameterType="com.apatech.domain.Shop" resultMap="BaseResultMap">
+  		select * from Shop where 1 = 1 
+  		<if test="shopid != null">
+  			and shopID like '%${shopid}%'
+  		</if>
+  		<if test="userid != null">
+  			and userID like '%${userid}%'
+  		</if>
+  		<if test="shopname != null">
+  			and shopName like '%${shopname}%'
+  		</if>
+	 	  <if test="contacts != null">
+	        and contacts like '%${contacts}%'
+	      </if>
+	      <if test="phonenumber != null">
+	        and phoneNumber = #{phonenumber,jdbcType=VARCHAR}
+	      </if>
+	      <if test="fixedtelephone != null">
+	        and fixedTelePhone = #{fixedtelephone,jdbcType=VARCHAR}
+	      </if>
+	      <if test="starttime != null">
+	        and startTime = #{starttime,jdbcType=VARCHAR}
+	      </if>
+	      <if test="endtime != null">
+	        and endTime = #{endtime,jdbcType=VARCHAR}
+	      </if>
+	      <if test="province != null">
+	        and province = #{province,jdbcType=VARCHAR}
+	      </if>
+	      <if test="city != null">
+	        and city = #{city,jdbcType=VARCHAR}
+	      </if>
+	      <if test="region != null">
+	        and region = #{region,jdbcType=VARCHAR}
+	      </if>
+	      <if test="address != null">
+	        and address = #{address,jdbcType=VARCHAR}
+	      </if>
+	      <if test="introduction != null">
+	        and introduction = #{introduction,jdbcType=VARCHAR}
+	      </if>
+	      <if test="shopimg != null">
+	        and shopImg = #{shopimg,jdbcType=VARCHAR}
+	      </if>
+  </select>
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.apatech.domain.Shop">
     update shop
     <set>
