@@ -49,13 +49,12 @@
 			<a href="javascript:;" style="font-weight: 600;">账户信息</a>			
 		</div>
 		<form id="up" th:action="@{/topage/userFile}" method="post" enctype="multipart/form-data">
-			<!-- <div class="yuan">
+			<div class="yuan">
 				<div class="tx" hidden="hidden" style="background-color: whitesmoke;width: 235px;height: 55px;position:absolute;top:60%;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
 					<a href="#" style="color: #000000;" id="mt" data-toggle="modal" data-target="#myModal">上传头像</a>
 				</div>
 				<img id="ima" style="width:100%;height:100%;">
-			</div> -->
-			<p>请选择文件：<input multiple name="files" type="file"></p>
+			</div>
 			<div class="users">
 				<div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">行&nbsp&nbsp&nbsp业&nbsp&nbsp&nbsp&nbsp</label>
@@ -102,6 +101,7 @@
 							      <label for="upload-file">上传图像</label>
 							      </a>
 							      <input multiple type="file" class="" name="files2" id="upload-file" />
+							      <input hidden="hidden" id="userid2" name="userid" type="text" />
 							    </div>
 							    <input type="button" id="btnCrop" data-dismiss="modal"  class="Btnsty_peyton" value="裁切">
 							    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
@@ -155,8 +155,23 @@
 				$("#xg").click(function(){
 					if($("#xg").html()=="保存"){
 						var formData = new FormData($("#up")[0]);
-						/* var formDataImg = new FormData($("#fm")[0]);
-						formDataImg.append("formData",formData); */
+						$("#userid2").val("15012341234");
+						var formData2 = new FormData($("#fm")[0]);
+						$.ajax({
+							url:"[[@{/UsersController/updateUsersImg}]]",
+							data:formData2,
+							type:"post",
+							processData:false,
+							contentType:false,
+							successs:function(result){
+								if(result=="success"){
+									alert("修改成功！1");
+								}else{
+									alert(1);
+								}
+							}
+						});
+						
 						$.ajax({
 							url:"[[@{/UsersController/updateUsers}]]",
 							data:formData,
@@ -165,7 +180,7 @@
 							contentType:false,
 							successs:function(result){
 								if(result=="success"){
-									alert("修改成功！");
+									alert("修改成功！2");
 								}else{
 									alert(1);
 								}
@@ -225,7 +240,7 @@
 			//显示当前登录用户信息
 			function queryByUserID(){
 				//测试数据
-				var res = {
+				/* var res = {
 						userid:"15012341234",
 						password:"123123",
 						username:"李店长",
@@ -236,17 +251,17 @@
 						shopid:12345678001
 				}
 				/* //将用户信息保存到js中的session中
-				window.sessionStorage.setItem("user",stringify(res));
+				window.sessionStorage.setItem("user",stringify(res)); */
 				//将用户信息从js中的session中调出来
-				var user = window.sessionStorage.getItem("user"); */
+				var user = JSON.parse(window.sessionStorage.getItem("user"));
 				
 				//赋值
-				$("[name=industry]").val(res.industry);
-				$("[name=userid]").val(res.userid);
-				$("[name=phonenumber]").val(res.phonenumber);
-				$("[name=password]").val(res.password);
+				$("[name=industry]").val(user.industry);
+				$("[name=userid]").val(user.userid);
+				$("[name=phonenumber]").val(user.phonenumber);
+				$("[name=password]").val(user.password);
 				$("#ima").attr({
-					src:"/images/pro2.jpg"
+					src:user.headportrait
 				});
 				
 			}

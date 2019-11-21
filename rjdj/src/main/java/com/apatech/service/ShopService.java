@@ -17,6 +17,18 @@ public class ShopService {
 	@Autowired
 	private ShopMapper dao;
 
+	public int queryByCount(String shopid) {
+		
+		return dao.queryByCount(shopid);
+	}
+	
+	public PageInfo<Shop> queryByShopPage(Integer pageNum,Integer pageSize,Shop shop){
+		PageHelper.startPage(pageNum, pageSize);
+		List<Shop> list = dao.queryByShopPage(shop);
+		PageInfo<Shop> page = new PageInfo<Shop>(list);
+		return page;
+	}
+	
     public int deleteByPrimaryKey(String shopid) {
     	return dao.deleteByPrimaryKey(shopid);
     }

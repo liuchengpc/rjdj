@@ -137,7 +137,35 @@ public class UsersController {
 		}
 		try {
 			for(MultipartFile l : files) {
-				System.out.println(1);
+				System.out.println("不应该进来");
+				String url = "/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images/";
+				url = url+"/"+l.getOriginalFilename();
+				File f = new File(url);
+				l.transferTo(f);
+				System.out.println(l.getOriginalFilename());
+				users.setHeadportrait(l.getOriginalFilename());
+			}
+			System.out.println("to成功了");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		dao.updateByPrimaryKeySelective(users);
+		return "success";
+	}
+	
+	@RequestMapping(value="updateUsersImg",method=RequestMethod.POST)
+	@ResponseBody
+	public String updateUsersImg(MultipartFile [] files2,Users users){
+		File directory = new File("/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images");
+		if(!directory.exists()) {
+			directory.mkdirs();
+		}
+		try {
+			for(MultipartFile l : files2) {
+				System.out.println("图片上传成功");
 				String url = "/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);

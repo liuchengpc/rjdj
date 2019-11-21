@@ -7,6 +7,10 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Shop;
 
 public interface ShopMapper {
+	int queryByCount(String shopid);
+	
+	List<Shop> queryByShopPage(Shop shop);
+	
     int deleteByPrimaryKey(String shopid);
 
     int insert(Shop record);
