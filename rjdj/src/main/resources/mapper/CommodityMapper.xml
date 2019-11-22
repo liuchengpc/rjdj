@@ -13,6 +13,7 @@
     <result column="stockCount" jdbcType="INTEGER" property="stockcount" />
     <result column="infomation" jdbcType="VARCHAR" property="infomation" />
     <result column="shopType" jdbcType="VARCHAR" property="shoptype" />
+    <result column="shopID" jdbcType="VARCHAR" property="shopid" />
   </resultMap>
   <sql id="Base_Column_List">
     productCodeID, supplierID, brand, name, price, costPrice, commodityTypeID, commodityImg, 

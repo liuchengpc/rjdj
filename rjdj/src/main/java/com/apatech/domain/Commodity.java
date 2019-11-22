@@ -29,6 +29,7 @@ public class Commodity {
     private Integer stockcount;//库存
     private String infomation;//商品信息
     private String shoptype;//商品类型
+    private String shopID;//店铺id
 
     private List<Commodity> productcodelist;//集合
     
@@ -116,12 +117,13 @@ public class Commodity {
 
 
 
+
 	@Override
 	public String toString() {
 		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
 				+ ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
-				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", productcodelist=" + productcodelist
-				+ ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
+				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", shopID=" + shopID + ", productcodelist="
+				+ productcodelist + ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
 				+ ", commoditysizeid=" + commoditysizeid + ", commoditysize=" + commoditysize + ", commoditytypeid="
 				+ commoditytypeid + ", commoditytypename=" + commoditytypename + ", colorid=" + colorid + ", color="
 				+ color + ", colorimg=" + colorimg + ", rgb=" + rgb + ", colortypeid=" + colortypeid + ", colortype="
@@ -129,13 +131,13 @@ public class Commodity {
 				+ companyabbreviation + ", contacts=" + contacts + ", phone=" + phone + ", email=" + email
 				+ ", telephone=" + telephone + ", province=" + province + ", city=" + city + ", region=" + region
 				+ ", street=" + street + ", billid=" + billid + ", deliverytime=" + deliverytime + ", userid=" + userid
-				+ ", remarks=" + remarks + ", billlist=" + billlist + ", detailid=" + detailid + ", cgname=" + cgname
-				+ ", specifications=" + specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount
-				+ ", moneyamt=" + moneyamt + ", shopid=" + shopid + ", shopname=" + shopname + ", dpcontacts="
-				+ dpcontacts + ", phonenumber=" + phonenumber + ", fixedtelephone=" + fixedtelephone + ", starttime="
-				+ starttime + ", endtime=" + endtime + ", dpprovince=" + dpprovince + ", dpcity=" + dpcity
-				+ ", dpregion=" + dpregion + ", address=" + address + ", introduction=" + introduction + ", shopimg="
-				+ shopimg + "]";
+				+ ", remarks=" + remarks + ", billlist=" + billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje
+				+ ", detailid=" + detailid + ", cgname=" + cgname + ", specifications=" + specifications
+				+ ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount + ", moneyamt=" + moneyamt + ", shopid="
+				+ shopid + ", shopname=" + shopname + ", dpcontacts=" + dpcontacts + ", phonenumber=" + phonenumber
+				+ ", fixedtelephone=" + fixedtelephone + ", starttime=" + starttime + ", endtime=" + endtime
+				+ ", dpprovince=" + dpprovince + ", dpcity=" + dpcity + ", dpregion=" + dpregion + ", address="
+				+ address + ", introduction=" + introduction + ", shopimg=" + shopimg + "]";
 	}
 	public Commodity() {
 		super();
@@ -507,6 +509,12 @@ public class Commodity {
 	}
 	public void setShopimg(String shopimg) {
 		this.shopimg = shopimg;
+	}
+	public String getShopID() {
+		return shopID;
+	}
+	public void setShopID(String shopID) {
+		this.shopID = shopID;
 	}
 
     
