@@ -66,8 +66,9 @@
 			<label for="exampleInputName2" style="font-size: 15px;margin-top: 10px;">店铺名称:</label>
 			<input type="text" name="shopname" class="form-control" minlength="1" maxlength="12" id="shopInput" placeholder="请填写店名" style="width:99%;" oncontextmenu="return false;">
 			<label for="exampleInputName2" style="font-size: 6px;color: grey;">格式：最长由12个中文、字母或数字组成</label>
+			<input hidden="hidden" type="text" name="shopid">
 			<div>
-				<textarea  rows="9" name="introduction" style="resize:none;width: 99%;margin-top:10px;font-size: 12px;" placeholder="店铺简介"></textarea>
+				<textarea rows="9" name="introduction" style="resize:none;width: 99%;margin-top:10px;font-size: 12px;" placeholder="店铺简介"></textarea>
 			<div>
 			<div>
 				<label for="exampleInputName2" style="font-size: 10px;color: grey;">格式：最长由100个中文、字母或数字组成</label>
@@ -112,7 +113,7 @@
 			    <input type="text" name="address" class="form-control" id="exampleInputName2" placeholder="详细地址" style="width: 60%;margin-left: 12.5%;">
 			  </div>
 			  	<button type="button" class="btn btn-default col-md-3" style="margin-left: 22.5%;margin-bottom: 2%;margin-top: 1%;">取消</button>
-			    <button type="button" id="xz" class="btn btn-success col-md-3" style="margin-left: 2.5%;margin-bottom: 2%;margin-top: 1%;">新增</button>
+			    <button type="button" id="xg" class="btn btn-success col-md-3" style="margin-left: 2.5%;margin-bottom: 2%;margin-top: 1%;">修改</button>
 			</form>
 		</div>
 		<!-- 模态框（Modal） -->
@@ -140,7 +141,7 @@
 							      <label for="upload-file">上传图像</label>
 							      </a>
 							      <input multiple type="file" class="" name="files2" id="upload-file" />
-							      <input hidden="hidden" id="userid2" name="shopid" type="text" />
+							      <input hidden="hidden" id="shopid2" name="shopid" type="text" />
 							    </div>
 							    <input type="button" id="btnCrop" data-dismiss="modal" class="Btnsty_peyton" value="裁切">
 							    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
@@ -174,33 +175,17 @@
 				onkey();		//键盘监听
 				loading();		//加载事件
 				loadFunction();
-				xz();		//点击新增
+				queryByshopid();	//查询
+				updateshop();	//修改
 			});
 			
-			var user = JSON.parse(window.sessionStorage.getItem("user"));
+			var shopid = JSON.parse(window.sessionStorage.getItem("shopid"));
+			var count = 0;	
 			
-			//随机数 ， 店铺ID
-			function getRandomCode(length) {
-			   if (length > 0) {
-			      var data = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-			      var nums = "";
-			      for (var i = 0; i < length; i++) {
-			         var r = parseInt(Math.random() * 61);
-			         nums += data[r];
-			      }
-			      return nums;
-			   } else {
-			      return false;
-			   }
-			}
-			 
-			
-			function xz(){
-				$("#xz").click(function(){
-					var shopid = getRandomCode(11);
-					alert(shopid);
+			function updateshop(){
+				$("#xg").click(function(){
 					var shop = {
-							shopid : shopid,
+							shopid : $("[name=shopid]").val(),
 							userid:$("[name=phonenumber]").val(),
 							shopname : $("[name=shopname]").val(),
 							introduction : $("[name=introduction]").val(),
@@ -214,43 +199,94 @@
 							region : $("[name=region]").val(),
 							address : $("[name=address]").val()
 					}
-					
-					
-					
-					var code = 0;
-					$.ajax({
-						url:"[[@{/ShopController/insertSelective}]]",
-						type:"post",
-						contentType:"application/json",
-						data:JSON.stringify(shop),
-						success:function(result){
-							if(result.code=="1"){
-								code = 1;
-							}else{
-								alert(result.message);
-							}
-						}
-					});
-					
-					$("#userid2").val(shopid);
-					var formData2 = new FormData($("#fm")[0]);
-					$.ajax({
-						url:"[[@{/ShopController/updateShopImg}]]",
-						type:"post",
-						data:formData2,
-						processData:false,
-						contentType:false,
-						success:function(result2){
-							if(result2=="success"){
-								if(code=="1"){
-									alert("新增成功！");
-									history.back(-1);
+					if(count>0){
+						$("#shopid2").val(shop.shopid);
+						var formData2 = new FormData($("#fm")[0]);
+						$.ajax({
+							url:"[[@{/ShopController/updateByPrimaryKeySelective}]]",
+							type:"post",
+							contentType:"application/json",
+							data:JSON.stringify(shop),
+							success:function(result){
+								if(result.code=="1"){
+									
+								}else{
+									alert(result.message);
 								}
-							}else{
-								
 							}
+						});
+						
+						
+						$.ajax({
+							url:"[[@{/ShopController/updateShopImg}]]",
+							type:"post",
+							data:formData2,
+							processData:false,
+							contentType:false,
+							success:function(result){
+								if(result=="success"){
+									alert("修改成功");
+									history.back(-1);
+								}else{
+									alert(2);
+								}
+							}
+						});
+					}else{
+						$.ajax({
+							url:"[[@{/ShopController/updateByPrimaryKeySelective}]]",
+							type:"post",
+							contentType:"application/json",
+							data:JSON.stringify(shop),
+							success:function(result){
+								if(result.code=="1"){
+									alert("修改成功！");
+									history.back(-1);
+								}else{
+									alert(result.message);
+								}
+							}
+						});
+					}
+				});
+			}
+			
+			var imgsrc="";
+			
+			function queryByshopid(){
+				$.ajax({
+					url:"[[@{/ShopController/queryByshopid}]]",
+					type:"get",
+					dataType:"json",
+					data:"shopid="+shopid,
+					success:function(result2){
+						imgsrc = result2.shopimg;
+						$("#ima").attr({
+							src:"/images/"+result2.shopimg
+						});
+						$("[name=shopid]").val(result2.shopid);
+						$("[name=shopname]").val(result2.shopname);
+						$("[name=introduction]").val(result2.introduction);
+						$("[name=contacts]").val(result2.contacts);
+						$("[name=phonenumber]").val(result2.phonenumber);
+						$("[name=fixedtelephone]").val(result2.fixedtelephone);
+						var starttime = result2.starttime.replace(":",".");
+						var endtime = result2.endtime.replace(":",".");
+						if(starttime.substring(starttime.indexOf(".")+1)=="30"){
+							starttime = starttime.replace("30","50");
 						}
-					});
+						if(endtime.substring(endtime.indexOf(".")+1)=="30"){
+							endtime = endtime.replace("30","50");
+						}
+						var time = (parseInt(starttime)*60)+","+(parseInt(endtime)*60);
+						$("#hd").val(time);
+						$("[name=starttime]").val(result2.starttime);
+						$("[name=endtime]").val(result2.endtime);
+						$("[name=province]").val(result2.province).trigger("change");
+						$("[name=city]").val(result2.city).trigger("change");
+						$("[name=region]").val(result2.region).trigger("change");
+						$("[name=address]").val(result2.address);
+					}
 				});
 			}
 			
@@ -274,7 +310,7 @@
 				{
 					thumbBox: '.thumbBox',
 					spinner: '.spinner',
-					imgSrc: ''	//动态查询出的图片路径
+					imgSrc: imgsrc	//动态查询出的图片路径
 				}
 				var cropper = $('.imageBox').cropbox(options);
 				//默认图片
@@ -294,6 +330,7 @@
 						src:img
 					});
 					$('.cropped').html('');
+					count++;
 				})
 				$('#btnZoomIn').on('click', function(){
 					cropper.zoomIn();

@@ -60,8 +60,9 @@
 					data:"shopid="+shopid,
 					success:function(result2){
 						$("#ima").attr({
-							src:result2.shopimg
+							src:"/images/"+result2.shopimg
 						});
+						$("[name=shopid]").val(result2.shopid);
 						$("[name=shopname]").val(result2.shopname);
 						$("[name=introduction]").val(result2.introduction);
 						$("[name=contacts]").val(result2.contacts);
@@ -91,7 +92,7 @@
 	<body>
 		<div style="height: 515px;width: 240px;margin-left:10%;pointer-events: none;">
 			<div class="yuan">
-				<div class="tx" style="background-color: whitesmoke;width: 240px;height: 55px;position:absolute;top:37%;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
+				<div class="tx" style="background-color: whitesmoke;width: 240px;height: 55px;position:absolute;top:30%;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
 					<a href="#" style="color: #000000;" id="mt" data-toggle="modal" data-target="#myModal2">上传头像</a>
 				</div>
 				<img id="ima" style="width:100%;height:100%;">
@@ -99,6 +100,7 @@
 			<label for="exampleInputName2" style="font-size: 15px;margin-top: 10px;">店铺名称:</label>
 			<input type="text" disabled="disabled" name="shopname" class="form-control" minlength="1" maxlength="12" id="shopInput" placeholder="请填写店名" style="width:99%;" oncontextmenu="return false;">
 			<label for="exampleInputName2" style="font-size: 6px;color: grey;">格式：最长由12个中文、字母或数字组成</label>
+			<input hidden="hidden" type="text" name="shopid">
 			<div>
 				<textarea disabled="disabled" name="introduction" rows="9" style="resize:none;width: 99%;margin-top:10px;font-size: 12px;" placeholder="店铺简介"></textarea>
 			<div>

@@ -141,7 +141,6 @@
 //					$(".form-horizontal").find("[type='password']").val(1234567);					
 				});
 				
-				xg();		//修改-保存
 				queryByUserID();	//显示当前登录用户信息				
 				loadFunction();		
 				updateUsers();		//修改
@@ -149,13 +148,13 @@
 				
 			});
 			
-			
+			var user = JSON.parse(window.sessionStorage.getItem("user"));
 			
 			function updateUsers(){
 				$("#xg").click(function(){
 					if($("#xg").html()=="保存"){
 						var formData = new FormData($("#up")[0]);
-						$("#userid2").val("15012341234");
+						$("#userid2").val(user.userid);
 						var formData2 = new FormData($("#fm")[0]);
 						$.ajax({
 							url:"[[@{/UsersController/updateUsersImg}]]",
@@ -165,7 +164,7 @@
 							contentType:false,
 							successs:function(result){
 								if(result=="success"){
-									alert("修改成功！1");
+									
 								}else{
 									alert(1);
 								}
@@ -180,9 +179,9 @@
 							contentType:false,
 							successs:function(result){
 								if(result=="success"){
-									alert("修改成功！2");
+									alert("修改成功！");
 								}else{
-									alert(1);
+									alert(2);
 								}
 							}
 						});
@@ -266,10 +265,6 @@
 				
 			}
 			
-			//修改-保存
-			function xg(){
-				
-			}
 		</script>
 	</body>
 </html>

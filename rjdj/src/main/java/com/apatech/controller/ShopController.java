@@ -1,5 +1,7 @@
 package com.apatech.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.apatech.domain.Shop;
+import com.apatech.domain.Users;
 import com.apatech.service.ShopService;
 import com.github.pagehelper.PageInfo;
 
@@ -21,6 +25,37 @@ import com.github.pagehelper.PageInfo;
 public class ShopController {
 	@Autowired
 	private ShopService dao;	
+	
+	
+	
+	@RequestMapping(value="updateShopImg",method=RequestMethod.POST)
+	@ResponseBody
+	public String updateShopImg(MultipartFile [] files2,Shop shop){
+		System.out.println("进来图片修改上传");
+		File directory = new File("/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images");
+		if(!directory.exists()) {
+			directory.mkdirs();
+		}
+		try {
+			for(MultipartFile l : files2) {
+				System.out.println("图片上传成功");
+				String url = "/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images/";
+				url = url+"/"+l.getOriginalFilename();
+				File f = new File(url);
+				l.transferTo(f);
+				System.out.println(l.getOriginalFilename());
+				shop.setShopimg(l.getOriginalFilename());
+			}
+			System.out.println("to成功了");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		dao.updateByPrimaryKeySelective(shop);
+		return "success";
+	}
 	
 	/**
 	 * 根据ID查询店铺信息

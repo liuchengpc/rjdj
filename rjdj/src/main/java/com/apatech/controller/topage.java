@@ -54,6 +54,11 @@ public class topage {
 		System.out.println("进入page/claim/shop_Query");
 		return "page/claim/shop_Query";
 	}
+	@RequestMapping("page/claim/shop_Update")
+	public String shop_Update() {
+		System.out.println("进入page/claim/shop_Update");
+		return "page/claim/shop_Update";
+	}
 	@RequestMapping("page/common/body_menu")
 	public String body_menu() {
 		System.out.println("进入page/common/body_menu");
