@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.apatech.domain.Role;
 import com.apatech.domain.Shop;
+import com.apatech.domain.Users;
 import com.apatech.mapper.ShopMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -17,6 +19,22 @@ public class ShopService {
 	@Autowired
 	private ShopMapper dao;
 
+	public Shop queryshopnameByshopid(String shopid) {
+		
+		return dao.queryshopnameByshopid(shopid);
+	}
+	
+	public List<Role> queryByRoleName() {
+		
+		return dao.queryByRoleName();
+	}
+	
+	
+	public List<Shop> queryByAll2(){
+		
+		return dao.queryByAll2();
+	}
+	
 	public int queryByCount(String shopid) {
 		
 		return dao.queryByCount(shopid);

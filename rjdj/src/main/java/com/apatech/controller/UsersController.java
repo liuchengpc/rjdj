@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.apatech.domain.Users;
 import com.apatech.service.UsersService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -24,6 +25,118 @@ import com.github.pagehelper.PageInfo;
 public class UsersController {
 	@Autowired
 	private UsersService dao;	
+	
+	/**
+	 * 删除
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value="deleteUser",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,String> deleteUser(String userid) {
+		Map<String,String> map = new HashMap<String,String>();
+		int i = dao.deleteUser(userid);
+		if (i>0) {
+			map.put("code", "1");
+			map.put("message", "删除陈宫！");
+		}else {
+			map.put("code", "2");
+			map.put("message", "删除失败！");
+		}
+		
+		return map;
+	}
+	
+	/**
+	 * 先删除，后新增
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "insertdeleteUser",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> insertdeleteUser( Users user) {
+		System.out.println("进入CashregisterController新增");
+		System.out.println("实体："+user.toString());
+		Map<String, String> map=new HashMap<String,String>();
+    	int i=dao.insertdeleteUser(user);
+    	if (i>0) {
+			map.put("code", "1");
+			map.put("message", "新增成功！");
+		}else {
+			map.put("code", "2");
+			map.put("message", "新增失败！");
+		}
+		return map;
+    }
+	
+	/**
+	 * 根据userID查询
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "queryByUserIDBykey",method = RequestMethod.GET)
+	@ResponseBody
+	public Users queryByUserIDBykey(String userid) {
+		
+		return dao.queryByUserIDBykey(userid);
+	}
+	
+	/**
+	 * 新增
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "insertUser",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> insertUser( Users user) {
+		System.out.println("进入CashregisterController新增");
+		System.out.println("实体："+user.toString());
+		Map<String, String> map=new HashMap<String,String>();
+    	int i=dao.insertUser(user);
+    	if (i>0) {
+			map.put("code", "1");
+			map.put("message", "新增成功！");
+		}else {
+			map.put("code", "2");
+			map.put("message", "新增失败！");
+		}
+		return map;
+    }
+	
+	/**
+	 * 查询工号是否存在
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="queryUserByCount",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,String> queryUserByCount(String userid) {
+		Map<String,String> map = new HashMap<String, String>();
+		int i = dao.queryUserByCount(userid);
+		if(i>0) {
+			map.put("code", "1");
+			map.put("message", "账号已存在！请重新输入!");
+		}else {
+			map.put("code", "2");
+			map.put("message", "账号可用");
+		}
+		return map;
+	}
+		
+	/**
+	 * 分页查询员工
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="queryByUserPage",method=RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Users> queryByUserPage(Integer pageNum,Integer pageSize,Users user){
+		System.out.println("职位ID："+user.getRoleid());
+		System.out.println("店铺ID："+user.getShopid());
+		
+		return dao.queryByUserPage(pageNum, pageSize, user);
+	}
+		
 	/**
 	 * 查询全部
 	 * @param model

@@ -17,10 +17,23 @@
     <result column="introduction" jdbcType="VARCHAR" property="introduction" />
     <result column="shopImg" jdbcType="VARCHAR" property="shopimg" />
   </resultMap>
+  <resultMap id="BaseResultMap2" type="com.apatech.domain.Role">
+    <id column="roleID" jdbcType="INTEGER" property="roleid" />
+    <result column="roleName" jdbcType="VARCHAR" property="rolename" />
+  </resultMap>
   <sql id="Base_Column_List">
     shopID, userID, shopName, contacts, phoneNumber, fixedTelePhone, startTime, endTime, 
     province, city, region, address, introduction, shopImg
   </sql>
+  <select id="queryshopnameByshopid" parameterType="com.apatech.domain.Shop" resultMap="BaseResultMap">
+  	select * from shop where shopID = #{shopid,jdbcType=VARCHAR}
+  </select>
+  <select id="queryByRoleName" parameterType="com.apatech.domain.Role" resultMap="BaseResultMap2">
+  	SELECT * from role
+  </select>
+  <select id="queryByAll2" parameterType="com.apatech.domain.Shop" resultMap="BaseResultMap">
+  	select * from shop 
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

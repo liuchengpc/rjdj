@@ -2,6 +2,7 @@ package com.apatech.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.apatech.domain.Role;
 import com.apatech.domain.Shop;
 import com.apatech.domain.Users;
 import com.apatech.service.ShopService;
@@ -26,8 +28,37 @@ public class ShopController {
 	@Autowired
 	private ShopService dao;	
 	
+	@RequestMapping(value="queryshopnameByshopid",method=RequestMethod.GET)
+	@ResponseBody
+	public Shop queryshopnameByshopid(String shopid) {
+		
+		return dao.queryshopnameByshopid(shopid);
+	}
 	
 	
+	@RequestMapping(value="queryByRoleName",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Role> queryByRoleName() {
+		
+		return dao.queryByRoleName();
+	}
+	
+	/**
+	 * 查询所有
+	 * 
+	 * */
+	@RequestMapping(value="queryByAll2",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Shop> queryByAll(){
+		
+		
+		return dao.queryByAll2();
+	}
+	
+	/**
+	 * 图片文件上传
+	 * 
+	 * */
 	@RequestMapping(value="updateShopImg",method=RequestMethod.POST)
 	@ResponseBody
 	public String updateShopImg(MultipartFile [] files2,Shop shop){

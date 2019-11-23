@@ -49,8 +49,12 @@ public class topage {
 		uuid s=new uuid();		
 		System.out.println(s.getCode());
 		return s.getCode();
+	}	
+	@RequestMapping("page/claim/staff_Update")
+	public String staff_Update() {
+		System.out.println("进入staff_Update");
+		return "page/claim/staff_Update";
 	}
-	
 	@RequestMapping("page/claim/addpurchase_list")
 	public String addpurchase_list() {
 		System.out.println("进入page/claim/addpurchase_list");
@@ -60,6 +64,11 @@ public class topage {
 	public String users_img() {
 		System.out.println("进入page/claim/users_img");
 		return "page/claim/users_img";
+	}
+	@RequestMapping("page/claim/staff_Insert")
+	public String staff_Insert() {
+		System.out.println("进入page/claim/staff_Insert");
+		return "page/claim/staff_Insert";
 	}
 	@RequestMapping("page/common/body_menu6")
 	public String body_menu6() {
