@@ -19,7 +19,7 @@ public interface CommodityMapper {
 
     Commodity selectByPrimaryKey(String productcodeid);
     
-   
+    List<Commodity> selectAllBydpid(String supplierid);
     
     @Select("select * from Commodity")
     List<Commodity> selectAll();

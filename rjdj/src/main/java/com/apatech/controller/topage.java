@@ -51,10 +51,20 @@ public class topage {
 		return s.getCode();
 	}
 	
+	@RequestMapping("page/claim/showpurchase_list")
+	public String showpurchase_list() {
+		System.out.println("进入page/claim/showpurchase_list");
+		return "page/claim/showpurchase_list";
+	}
 	@RequestMapping("page/claim/addpurchase_list")
 	public String addpurchase_list() {
 		System.out.println("进入page/claim/addpurchase_list");
 		return "page/claim/addpurchase_list";
+	}
+	@RequestMapping("page/claim/updatepurchase_list")
+	public String updatepurchase_list() {
+		System.out.println("进入page/claim/updatepurchase_list");
+		return "page/claim/updatepurchase_list";
 	}
 	@RequestMapping("page/claim/users_img")
 	public String users_img() {

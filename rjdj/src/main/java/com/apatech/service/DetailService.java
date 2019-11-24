@@ -20,6 +20,9 @@ public class DetailService {
     public int deleteByPrimaryKey(Integer detailid) {
     	return dao.deleteByPrimaryKey(detailid);
     }
+    public int deleteByid(String billid) {
+    	return dao.deleteByid(billid);
+    }
 
     public int insert(Detail record) {
     	return dao.insert(record);
@@ -28,6 +31,9 @@ public class DetailService {
 
     public int insertSelective(Detail record) {
     	return dao.insertSelective(record);
+    }
+    public int insertSelective2(List<Detail> record) {
+    	return dao.insertSelective2(record);
     }
 
 

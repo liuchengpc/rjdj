@@ -42,7 +42,7 @@ public class DetailController {
 		return list;
 	}
 	/**
-	 * 根据id查询所有采购单
+	 * 根据采购单主表id查询采购单详表集合
 	 * @param model
 	 * @return
 	 */
