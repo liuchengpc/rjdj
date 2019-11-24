@@ -124,8 +124,8 @@
                      buttonsAlign:'right',				//按钮对齐方式
                      cache: false,                       // 设置为 false 禁用 AJAX 数据缓存， 默认为true,是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                      sortable: true,                    //是否启用排序
-                     sortOrder: "asc",                   //排序方式
-                     sortName: 'id', 					// 要排序的字段
+                     sortOrder: "desc",                   //排序方式
+                     sortName: 'deliverytime', 					// 要排序的字段
                      search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
                      strictSearch: true,
                      showColumns: true,                  //是否显示所有的列
@@ -145,6 +145,17 @@
  							return index+1;
  						}
                     }, {      	   
+ 		            	title : '审核',
+ 		            	field : 'shenhe',	        	    	
+ 		                sortable : true,
+ 		               formatter: function (value, row, index) {
+ 		            	   if(value==0){
+ 		            		   return "未审核"
+ 		            	   }else{
+ 		            		  return "已审核"
+ 		            	   }
+						}
+ 		            }, {      	   
  		            	title : '采购单号',
  		            	field : 'billid',	        	    	
  		                sortable : true,
@@ -172,7 +183,14 @@
  		            	title : '备注',
          	    	 	field : 'remarks',
  		                sortable : true,
- 		                
+ 		               formatter: function (value, row, index) {
+ 		            	   if(value==""){
+ 		            			return "——";
+ 		            	   }else{
+ 		            		  return value;
+ 		            	   }
+						
+						}
  		            },{
 						/* field:'id',
 						title: '操作',
@@ -189,12 +207,19 @@
 						formatter: function (value, row, index) {
 						    // var sid_code = base64encode(row.sid + '');   //  sid 加密处理
 						    // alert(sid_code);
-						    return '<a href="javascript:;" @click="update(item.commoditytypeid)" title="修改">' + 
-						        '<i class="glyphicon glyphicon-pencil"></i> ' + 
-						        '</a>'+
-						        '<a href="javascript:void(0)" title="删除">' +
-						        '<i class="glyphicon glyphicon-trash text-danger"></i> ' + 
-						        '</a>';
+						    if(row.shenhe==0){
+						    	  return '<a href="javascript:;" th:onclick="btn1(row.billid)" title="修改">' + 
+							        '<i class="glyphicon glyphicon-pencil"></i> ' + 
+							        '</a>'+
+							        '<a href="javascript:void(0)" title="删除">' +
+							        '<i class="glyphicon glyphicon-trash text-danger"></i> ' + 
+							        '</a>';
+						    }else{
+						    	  return '<a href="javascript:;" th:onclick="btn1(row.billid)" title="查看">' + 
+							        '<i class="glyphicon glyphicon-eye-open"></i>' + 
+							        '</a>';
+						    }
+						  
 						},
 						events: {
 						  'click a[title=删除]': function (e, value, row, index) {
@@ -221,28 +246,17 @@
 						      }
 						  },
 						  'click a[title=修改]': function (e, value, row, index) {
-						      // e.preventDefault();
-								console.info(row)						      
-														      
-						      
-						      
-						    	$("#supplierid2").val(row.supplierid);//编号，主键
-						    	$("#companyname2").val(row.companyname);//公司名称
-						    	$("#companyabbreviation2").val(row.companyabbreviation);//公司简称
-						    	$("#contacts2").val(row.contacts);//联系人
-						    	$("#phone2").val(row.phone);//手机号
-						    	$("#email2").val(row.email);//邮箱
-						    	$("#telephone2").val(row.telephone);//电话
-						    	$("#province2").val(row.province).trigger("change");//省（地址）//trigger方法触发被选元素的指定事件类型。
-						    	$("#city2").val(row.city).trigger("change");//市（地址）
-						    	$("#region2").val(row.region).trigger("change");//地区（地址）
-						    	$("#street2").val(row.street);//街道
-						      
-						     //alert(row.supplierid+"/"+row.companyname+"/"+row.companyabbreviation+"/"+row.contacts+"/"+row.phone+"/"+row.email+"/"+row.telephone+"/"+row.province+"/"+row.city+"/"+row.region+"/"+row.street)
-					       //	alert($("#companyname2").val())
-						    
-						      $('#myModal2').modal("show");
-						     
+								//2.跳转到addpurchase_list.html
+								window.sessionStorage.setItem("billid",row.billid);
+								window.sessionStorage.setItem("bill",JSON.stringify(row));//将信息保存到js中的session中
+								window.location.href ="[[@{/topage/page/claim/updatepurchase_list}]]";
+					       	
+						  },
+						  'click a[title=查看]': function (e, value, row, index) {
+								//2.跳转到addpurchase_list.html
+								window.sessionStorage.setItem("billid",row.billid);
+								window.sessionStorage.setItem("bill",JSON.stringify(row));//将信息保存到js中的session中
+								window.location.href ="[[@{/topage/page/claim/showpurchase_list}]]";
 					       	
 						  },
 						}
@@ -346,14 +360,6 @@
 					}
 				});
 			}
-				
-			//修改
-			function btn2(){
-			   
-			}
-			
-			
-		
 		</script>
 			
 	

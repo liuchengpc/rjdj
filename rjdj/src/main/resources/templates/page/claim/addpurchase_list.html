@@ -69,10 +69,11 @@
 	                <a href="javascript:;" class="search-btn"></a>
 	            </div>
 	        </div>
+	      
 
 	        <div class="mainbody">
 	           	<div class="list">
-	                <select name="" id="" class="form-control" style="width: 180px" ><!--  v-for="item in Supplier" -->
+	                <select name="" id="" class="form-control" style="width: 180px" v-model="page.userid" required="required"><!--  v-for="item in Supplier" -->
 	                    <option  value="15012341234">李店长</option>
 	                </select>
 	            </div>
@@ -81,9 +82,9 @@
 	            </div>
 		           
 	          	<div class="list">
-	                <select name="" id="shopid" class="form-control"  style="width: 180px"  v-model="Supplier.supplierid">
+	                <select name="" id="shopid" class="form-control"  style="width: 180px"  v-model="page.supplierid" @change="bggys()">
 	                    <option value="" selected="selected">请选择供应商</option>
-	                    <option v-for="item in Supplier">{{item.companyname}}	</option>
+	                    <option :value="item.supplierid" v-for="item in Supplier" >{{item.companyname}}	</option>
 	                </select>
 	            </div>
 		         <div class="list">
@@ -91,7 +92,7 @@
 	            </div>
 				
 	             <div class="list">
-		               <input type="date"class="form-control"  id="deliverytime"  v-model="bill.deliverytime">
+		               <input type="date"class="form-control"  id="deliverytime"  v-model="page.deliverytime">
 		            </div>
 		         <div class="list">
 	                <span style="position: relative;top: 10px;">交&nbsp;&nbsp;&nbsp;&nbsp;期</span>
@@ -101,7 +102,7 @@
             	
 		
 	             <div class="list ">
-	                <input class="form-control" type="text" id="selectqb" th:onchange="selectAll()" v-model="billid">
+	                <input class="form-control" type="text" id="selectqb" th:onchange="selectAll()" v-model="page.billid" readonly="readonly">
 	            </div>
 		         <div class="list">
 	                <span style="position: relative;top: 10px;">单&nbsp;&nbsp;&nbsp;&nbsp;号</span>
@@ -109,7 +110,7 @@
 	            
 	           
 	             <div class="list">
-		                <input type="text" class="form-control"  id="newtime" style="width: 940px;margin: 8px 0">
+		                <input type="text" class="form-control"  id="newtime" style="width: 940px;margin: 8px 0" v-model="page.remarks">
 	            </div>
 	          	<div class="list ">
 	                <span style="position: relative;top: 10px;">备&nbsp;&nbsp;&nbsp;&nbsp;注</span>
@@ -131,8 +132,8 @@
 							</tr>
 	                     </thead>
 	                     <tbody>
-	                        <tr  v-for="item in page.list">
-	                        	<td class="bh"></td>
+	                        <tr  v-for="item,index in page.list">
+	                        	<td class="bh">{{item.productcodeid}}</td>
 	                        	<td class="barcode">{{item.commoditydetailid}}</td>
 	                        	<td class="nameTD">
 	                        		<div class="nameDiv">
@@ -144,13 +145,13 @@
 	                       			{{item.specifications}}
 	                    		</td>
 	                    		<td class="fprice">{{item.costprice}}</td>
-	                    		<td><input type="text" class="form-control" placeholder="Search" v-model="item.count"></td>
+	                    		<td><input type="text" class="form-control" placeholder="商品数量" v-model="item.count" @change="jsprice()" οninput="value=value.replace(/[^\d]/g,'')"></td>
 	                    		<td>
 	                    			<div class="amount_td">
 	                    				<em class="yuan">¥</em>
 	                    				<span class="amount">{{item.moneyamt}}</span>
 	                    				<a class="delBtn" href="javascript:void(0);"></a>
-	                    				<span class="glyphicon glyphicon-remove-circle" ></span>
+	                    				<span class="glyphicon glyphicon-remove-circle" @click="scspxq(index)"></span>
 	                    			</div>
 	                   			</td>
 	                   		</tr>
@@ -158,25 +159,25 @@
 	                        	<td colspan="7" style="font-size: 16px;padding:24px 14px ">
 									<div class="amoutDiv" style="float: right;margin-left: 20px">
 										<span>金额</span>
-										<em class="total_amount" style="color: #f05b23;">356.00</em>
+										<em class="total_amount" style="color: #f05b23;">{{sumprice}}</em>
 									</div>
 									
 									<div class="totalNumDiv" style="float: right;  ">
 										<span>合计</span>
-										<em class="total_num" style="color: #f05b23;">4</em>
+										<em class="total_num" style="color: #f05b23;">{{sumcount}}</em>
 										<span>件</span>
 									</div>
-									<div style="clear: both;"></div>
+									<div style="clear: both;" ></div>
 								</td>
 	                   		</tr>
 	                     </tbody>
 	              </table>
 	        </div>
 	        <div class="btnArea">
-				<a href="javascript:void(0);" id="addProductsBtn" class="addProductsBtn"  data-toggle="modal" data-target="#myModal2">+添加商品</a>
-				<a href="javascript:void(0);" id="saveBtn" class="btn btn-success" style="color: white !important;float:right;padding:0 22px ;    line-height: 30px;margin-left: 10px">提交</a>
+				<a href="javascript:void(0);" id="addProductsBtn" @click="hpdpsp()" class="addProductsBtn" >+添加商品</a>
+				<a href="javascript:void(0);" id="saveBtn"  @click="add()" class="btn btn-success" style="color: white !important;float:right;padding:0 22px ;    line-height: 30px;margin-left: 10px">提交</a>
 				<!--<a href="javascript:void(0);" id="addNewBtn" class="wc_btn wc_btn_default addNewBtn">添加</a>-->
-				<a href="javascript:void(0);" id="emptyBtn" class="btn btn-success" style="color: white !important;float:right;padding:0 22px;    line-height: 30px;">清空</a>
+				<a href="javascript:void(0);" id="emptyBtn"  @click="qk()"  class="btn btn-success" style="color: white !important;float:right;padding:0 22px;    line-height: 30px;">清空</a>
 				<!--<a href="javascript:void(0);" id="printBtn" class="btn topUpBtn">打印</a>-->
 			</div>
 	    </div>
@@ -188,44 +189,21 @@
 	        <div class="modal-content">
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                <h4 class="modal-title" id="myModalLabel">编辑类别</h4>
+	                <h4 class="modal-title" id="myModalLabel">选择商品</h4>
 	            </div>
-	            <div class="modal-body" style="padding:50px">
-	            	
-					
-					
-					
-					
-					
-					
-					<div id="productsDialog" class="dialog productsDialog" seid="" style="position: absolute; top: 67.5px; left: 328px; display: block;">
-						<div class="dialog_hd">
-							<h3>选择商品</h3>
-							<a class="closed pop_closed" onclick="return false" href="javascript:;">关闭</a>
-						</div>
-						<div class="dialog_bd clearfix">
-						
+	            <div class="modal-body" style="padding:10px 50px">	            	
+						<div class="dialog_bd clearfix">						
 							<div class="classAreaX clearfix">
 								<span class="titleX">商品分类：</span>
 								<ul class="classDiv"></ul>
 							</div>
 							<div class="tabelArea clearfix" style="">
-								<table class="settable orderInfoTableX" style="top: 640px;">
+								<table class="settable productsTable table-bordered " style="width: 100%;" v-if="block">
 									<thead>
 										<tr>
-											<th width="8%">选择</th>
-											<th width="18%">货号/条码</th>
-											<th width="*">商品</th>
-											<th width="20%">规格</th>
-											<th width="12%">单价</th>
-											<th width="12%">库存</th>
-										</tr>
-									</thead>
-								</table>
-								<table class="settable productsTable">
-									<thead>
-										<tr>
-											<th width="8%">选择</th>
+											<th width="8%">
+												<input type="checkbox" @click="checkAll" v-model="allChecked">
+											</th>
 											<th width="18%">货号/条码</th>
 											<th width="*">商品</th>
 											<th width="20%">规格</th>
@@ -234,70 +212,40 @@
 										</tr>
 									</thead>
 									<tbody pages="25" currpage="2">
-										<tr class="bgli" guid="191121742048943067">
-											<td class="checkboxTD">
-												<input type="checkbox" value="" name="" class="J_Checkbox">
-												<i class="jsonListData" style="display:none;">{"guid":"191121742048943067","bh":"","barcode":"632443554","image222":"http://fuzhuang.poso2o.com/pic.jpg","name":"短款双面羊绒","colorid":"-","sizeid":"-","fprice":"379.00","nums":"1","amount":"884.00"}</i>
-											</td>
+										 <tr v-for="(item,index) in dpsp"   >
+										 	<td>
+							                    <input type="checkbox" :value="index" v-model="indexs" @click="spxztj(index)">   <!--  -->
+							                </td>
 											<td class="bhDiv">
-												<em>632443554</em>
+												<em>{{item.commoditydetailid}}</em>
 											</td>
 											<td class="nameTD">
 												<div class="nameDiv">
-													<img height="30" width="30" src="http://fuzhuang.poso2o.com/pic.jpg">
-													<p><em>短款双面羊绒</em></p>
+													<img height="30" width="30" :src="item.commodityimg" >
+													<p><em>{{item.name}}</em></p>
 												</div>
 											</td>
 											<td class="colorTd">
-												<em>-</em><em>-</em>
+												<em>{{item.color}}</em>/<em>{{item.commoditysize}}</em>
 											</td>
-											<td>884.00</td>
-											<td>10</td>
-										</tr>
-										<tr class="" guid="191121680429620584">
-											<td class="checkboxTD">
-												<input type="checkbox" value="" name="" class="J_Checkbox">
-												<i class="jsonListData" style="display:none;">{"guid":"191121680429620584","bh":"","barcode":"686281114","image222":"http://image.poso2o.com/18670802166/15743133200000_w894_h1589","name":"双面羊绒","colorid":"-","sizeid":"-","fprice":"0.00","nums":"1","amount":"1369.00"}</i>
-											</td>
-											<td class="bhDiv"><em>686281114</em></td>
-											<td class="nameTD">
-												<div class="nameDiv">
-													<img height="30" width="30" src="http://image.poso2o.com/18670802166/15743133200000_w894_h1589">
-													<p><em>双面羊绒</em></p>
-												</div>
-											</td>
-											<td class="colorTd"><em>-</em><em>-</em></td>
-											<td>1369.00</td>
-											<td>4</td>
-										</tr>
+											<td>{{item.costprice}}</td>
+											<td>{{item.count}}</td>
+							            </tr>
+									</tbody>
+							   </table>
+							   <table class="" style="width: 100%;" v-else>
+									<tbody pages="25" currpage="2">
+							             <tr  >
+							             	<td colspan="6"><h2>无可选数据</h2></td>
+							             </tr>
 									</tbody>
 							   </table>
 							</div>
-						</div>
-						
-						<div class="dialog_ft clearfix">
-						<div style="float:left;padding-left:46px;">
-						<input id="allCheckBox" type="checkbox" name="checkbox" value="">
-						<label for="allCheckBox">全选</label>
-						</div>
-						<a class="btn btn_default closed" href="javascript:;">取消</a>
-						<a class="btn btn_primary" href="javascript:;">确定</a>
-						</div>
-					
-					</div>
-					
-					
-					
-					
-					
-					
-					
-					
-					
+						</div>	
 	            </div>
 	            <div class="modal-footer" style="text-align: center;">
 	                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-	                <button type="button" class="btn btn-success" style="width: 16.66%;" @click="btn2">确认</button>
+	                <button type="button" class="btn btn-success" style="width: 16.66%;" @click="qrxzsp()"  v-if="block">确认</button>
 	            </div>
 	        </div><!-- /.modal-content -->
 	    </div><!-- /.modal -->
@@ -313,26 +261,44 @@
 				el:"#shopType",
 				data(){
 					return{
-						billid:"",
-						bill:{},
-						Supplier:{},
-						page:{
-							list:[]
+						block: true,//判断是否显示
+						dpsp:[],//根据供应商id查询商品详情集合
+						Commoditydetail:[],//用来暂时存放添加的信息的
+						sumcount:0,//采购单总金额
+						sumprice:0,//采购单单数量
+						Supplier:{
+							   supplierid:"",//编号，主键
+							   companyname:"",//公司名称
+							   companyabbreviation:"",//公司简称
+							   contacts:"",//联系人
+							   phone:"",//手机号
+							   email:"",//邮箱
+							   telephone:"",//电话
+							   province:"",//省（地址）
+							   city:"",//市（地址）
+							   region:"",//地区（地址）
+							   street:"",//街道
+						},//供应商表
+						page:{//采购单主详表
+							billid:"",//编号，主键
+							deliverytime:"",//交期
+							supplierid:"",//供应商ID
+							userid:"",//制表人id
+							remarks:"",//备注
+							list:[]//采购单详表
 						},
-						info:[],
-						shopType:{
-							commoditytypeid:"",
-							commoditytypename:""
-						}
+			　　　　	  // 全选的默认
+			            allChecked:false,
+			            indexs:[],
 					};
 				},methods:{
-					//根据id查询所有采购单
+					//根据采购单主表id查询所有采购单详表信息
 					goPage:function(){
 						var that = this;
 						$.ajax({
 							url:"[[@{/DetailController/selectAllByid}]]",
 	 						type:"get",
-	 						data:"billid="+this.billid,
+	 						data:"billid="+this.page.billid,
 	 						dataType:"json",
 	 						success:function(data){
 	 							console.info("查询所有采购单")
@@ -363,7 +329,7 @@
 						console.log($(el));
 						
 						var commoditydetailid=el.value;
-						alert(commoditydetailid)
+						//alert(commoditydetailid)
 						 var that = this;
 						$.ajax({
 							url:"[[@{/CommoditydetailController/selectByPrimaryKey2}]]",
@@ -372,6 +338,148 @@
 	 						dataType:"json",
 	 						success:function(data){
 	 							that.goPage();
+	 						}
+						});
+					},
+					//根据供应商id查询所有商品
+					hpdpsp:function(){
+						var that = this;
+						if(this.page.supplierid!=""){
+							
+							$.ajax({
+								url:"[[@{/CommodityController/selectAllBydpid}]]",
+		 						type:"get",
+		 						data:"supplierid="+this.page.supplierid,
+		 						dataType:"json",
+		 						success:function(data){
+		 							console.info("根据供应商id查询所有商品")
+		 							if(that.page.list!=""){
+		 								that.dpsp=data;
+					                	// alert(that.dpsp.length)
+			 							for (var i=0;i<that.dpsp.length;i++)//删除数组中已有的商品
+										{
+			 								for (var j=0;j<that.page.list.length;j++)
+											{
+			 									//alert(that.page.list[j].commoditydetailid+"/"+that.dpsp[i].commoditydetailid)
+						                	 	if(that.page.list[j].commoditydetailid==that.dpsp[i].commoditydetailid){
+						                	 		that.dpsp.splice(i,1);
+						                	 	}
+											}
+										}
+			 							//alert(that.dpsp)
+				                	 	if(that.dpsp==""){
+				                	 		that.block=false;
+				                	 	}else{
+				                	 		that.block=true;
+				                	 	}
+			 							//alert(that.block)
+		 							}else{
+		 								//alert(111)
+		 								that.dpsp=data;
+		 							}
+		 							console.info(data)
+		 						}
+							});
+							
+							this.spxztj();//
+							
+							$('#myModal2').modal("show");
+						}else{
+							alert("请先选择供应商")
+						}
+						
+					},
+					checkAll:function(){//全选事件
+		                var _this = this;
+		                if(!_this.allChecked){
+		                    _this.indexs = _this.dpsp.map(function(json,index){
+		                        // console.log("选中行对象")
+		                        // console.log(json)
+		                        //alert(index)		                        
+		                        return index
+		                    })
+		                }else {
+		                    _this.indexs = []
+		                }
+		            },
+		          //单选事件（判断是否全选）
+					spxztj:function(index){
+						var _this = this;
+						
+						//判断dpsp的长度和index的长度是否相等
+						//alert(this.dpsp.length+"/"+(this.indexs.length+1))
+						if(this.dpsp.length==(this.indexs.length+1)){
+							 this.allChecked=true;
+						}else{
+							 this.allChecked=false;
+						}
+					},
+					qrxzsp:function(){//添加商品
+						//alert(JSON.stringify(this.Commoditydetail))
+						//alert(JSON.stringify(this.indexs))
+					
+						//alert("进入")
+						this.indexs.map((json, index)=>{//把选中的添加到Commoditydetail中
+							this.Commoditydetail.push(this.dpsp[index])
+		                })
+		                this.Commoditydetail.map((json, index)=>{
+		                	 json.count=1
+	                         json.specifications=json.color+"/"+json.commoditysize;
+		                })
+		               
+                        this.page.list=this.Commoditydetail;//将选中行添加到that.Commoditydetail
+                        //alert(JSON.stringify(_this.page.list))
+                        this.jsprice();//计算价格数量
+					
+                        $('#myModal2').modal('hide');
+		            },
+					scspxq:function(index){//删除商品
+					//	alert(index)
+						
+						this.page.list.splice(index,1);
+					
+						//alert(JSON.stringify(this.page.list))
+						
+                        this.jsprice();//计算价格数量
+		            },
+		            bggys:function(){//变更供应商
+	            		 var s=confirm("变更供应商将删除之前所选商品?");
+		            	if(s==true){
+		            		 this.page.list="";//清空this.page.list
+		            	}
+		            },
+		            qk:function(){//清空this.page.list
+		            	var s=confirm("是否清空所选商品?");
+		            	if(s==true){
+		            		 this.page.list="";//清空this.page.list
+		            	}
+		            },
+		            jsprice:function(){//计算价格数量
+		            	//alert(1)
+		            	 this.sumprice=0;//清零
+		            	 this.sumcount=0;//清零
+		                this.page.list.map((json, index)=>{
+		                	 json.moneyamt=json.costprice*json.count;//计算单类商品总价格
+		                	 this.sumprice+=json.moneyamt;//计算全部商品总价格
+		                	 this.sumcount=index;//计算全部商品总数量
+		                })
+		                this.sumcount+=1;
+		            },
+					//新增
+					add:function(){
+						//alert(1)
+						
+						var that = this;
+						var record = that.page;
+						$.ajax({
+							url:"[[@{/BillController/insertSelective2}]]",
+	 						type:"post",
+	 						data:JSON.stringify(record),
+	 						dataType:"json",
+	 						contentType:"application/json;charset=utf-8",
+	 						success:function(data){
+	 							alert(data.message)
+	 							window.location.href ="[[@{/topage/page/claim/purchase_list}]]";
 	 						}
 						});
 					},
@@ -391,24 +499,6 @@
 	 						}
 						});
 					},
-					//新增
-					btn:function(){
-						var that = this;
-						var record = that.shopType;
-						console.info(JSON.stringify(record))
-						$.ajax({
-							url:"[[@{/CommoditytypeController/insertSelective}]]",
-	 						type:"post",
-	 						data:JSON.stringify(record),
-	 						dataType:"json",
-	 						contentType:"application/json;charset=utf-8",
-	 						success:function(data){
-	 							$('#myModal').modal('hide');
-	 							that.goPage();
-	 							
-	 						}
-						});
-					},
 					//根据id删除商品
 					del:function(commoditytypeid){
 						var that = this;
@@ -422,9 +512,11 @@
 	 						}
 						});
 					},
-				},created:function(){
+				},
+				
+				created:function(){
 					//获取单号
-					this.billid=window.sessionStorage.getItem("billid");
+					this.page.billid=window.sessionStorage.getItem("billid");
 				
 					
 					//获取时间		            
@@ -433,7 +525,7 @@
 		            var month=myDate.getMonth()+1;   //获取当前月
 		            var date=myDate.getDate();            //获取当前日			            
 		            var now=year+'-'+month+"-"+date;
-		            this.bill.deliverytime= now;
+		            this.page.deliverytime= now;
 		            
 		            //获取供应商
 		            this.hqgys();

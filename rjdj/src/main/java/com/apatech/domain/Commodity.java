@@ -85,6 +85,7 @@ public class Commodity {
     private List<Detail> billlist;//集合
     private int cgdsl;//采购单数量
     private Double cgdje;//采购单金额
+    private int shenhe;//审核
     
     
     
@@ -118,6 +119,7 @@ public class Commodity {
 
 
 
+
 	@Override
 	public String toString() {
 		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
@@ -132,12 +134,12 @@ public class Commodity {
 				+ ", telephone=" + telephone + ", province=" + province + ", city=" + city + ", region=" + region
 				+ ", street=" + street + ", billid=" + billid + ", deliverytime=" + deliverytime + ", userid=" + userid
 				+ ", remarks=" + remarks + ", billlist=" + billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje
-				+ ", detailid=" + detailid + ", cgname=" + cgname + ", specifications=" + specifications
-				+ ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount + ", moneyamt=" + moneyamt + ", shopid="
-				+ shopid + ", shopname=" + shopname + ", dpcontacts=" + dpcontacts + ", phonenumber=" + phonenumber
-				+ ", fixedtelephone=" + fixedtelephone + ", starttime=" + starttime + ", endtime=" + endtime
-				+ ", dpprovince=" + dpprovince + ", dpcity=" + dpcity + ", dpregion=" + dpregion + ", address="
-				+ address + ", introduction=" + introduction + ", shopimg=" + shopimg + "]";
+				+ ", shenhe=" + shenhe + ", detailid=" + detailid + ", cgname=" + cgname + ", specifications="
+				+ specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount + ", moneyamt=" + moneyamt
+				+ ", shopid=" + shopid + ", shopname=" + shopname + ", dpcontacts=" + dpcontacts + ", phonenumber="
+				+ phonenumber + ", fixedtelephone=" + fixedtelephone + ", starttime=" + starttime + ", endtime="
+				+ endtime + ", dpprovince=" + dpprovince + ", dpcity=" + dpcity + ", dpregion=" + dpregion
+				+ ", address=" + address + ", introduction=" + introduction + ", shopimg=" + shopimg + "]";
 	}
 	public Commodity() {
 		super();
@@ -515,6 +517,12 @@ public class Commodity {
 	}
 	public void setShopID(String shopID) {
 		this.shopID = shopID;
+	}
+	public int getShenhe() {
+		return shenhe;
+	}
+	public void setShenhe(int shenhe) {
+		this.shenhe = shenhe;
 	}
 
     

@@ -14,20 +14,22 @@ public class Detail {
     private Integer count;//数量
     private Float moneyamt;//金额
     
-    
+    private String productcodeid;//商品主表id
 
-    @Override
-	public String toString() {
-		return "Detail [detailid=" + detailid + ", billid=" + billid + ", commoditydetailid=" + commoditydetailid
-				+ ", name=" + name + ", specifications=" + specifications + ", costprice=" + costprice + ", count="
-				+ count + ", moneyamt=" + moneyamt + "]";
-	}
+   
     
     
 
 	
 
 
+
+	@Override
+	public String toString() {
+		return "Detail [detailid=" + detailid + ", billid=" + billid + ", commoditydetailid=" + commoditydetailid
+				+ ", name=" + name + ", specifications=" + specifications + ", costprice=" + costprice + ", count="
+				+ count + ", moneyamt=" + moneyamt + ", productcodeid=" + productcodeid + "]";
+	}
 
 	public Detail() {
 		super();
@@ -114,4 +116,14 @@ public class Detail {
     public void setMoneyamt(Float moneyamt) {
         this.moneyamt = moneyamt;
     }
+
+	public String getProductcodeid() {
+		return productcodeid;
+	}
+
+	public void setProductcodeid(String productcodeid) {
+		this.productcodeid = productcodeid;
+	}
+    
+    
 }

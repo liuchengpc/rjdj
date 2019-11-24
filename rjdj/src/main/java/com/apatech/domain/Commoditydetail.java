@@ -85,6 +85,14 @@ public class Commoditydetail {
 	public Commoditydetail() {
 		super();
 	}
+	
+	
+
+	public Commoditydetail(String commoditydetailid, Integer count) {
+		super();
+		this.commoditydetailid = commoditydetailid;
+		this.count = count;
+	}
 
 	public String getProductcodeid() {
 		return productcodeid;
