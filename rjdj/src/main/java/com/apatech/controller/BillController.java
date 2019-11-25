@@ -1,10 +1,12 @@
 package com.apatech.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Bill;
+import com.apatech.domain.Commodity;
+import com.apatech.domain.Commoditydetail;
+import com.apatech.domain.Detail;
 import com.apatech.service.BillService;
+import com.apatech.service.CommoditydetailService;
+import com.apatech.service.DetailService;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -21,6 +28,10 @@ import com.github.pagehelper.PageInfo;
 public class BillController {
 	@Autowired
 	private BillService dao;	
+	@Autowired
+	private DetailService dao2;	
+	@Autowired
+	private CommoditydetailService dao3;	
 	/**
 	 * 查询全部
 	 * @param model
@@ -59,6 +70,27 @@ public class BillController {
     	PageInfo<Bill> page=dao.selectAllpage(pageNum, pageSize);
     	return page;
     }
+	
+	/**
+	 * 根据条件查询
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "selectAll2",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Commodity> selectAll2(
+			Integer shopid,//店铺
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
+			String selectqb//查找
+	){
+		System.out.println("进入CommodityController根据条件查询");
+		System.out.println(shopid+"/"+oldtime+"/"+newtime+"/"+selectqb);
+    	List<Commodity> list=dao.selectAll2(shopid, oldtime, newtime, selectqb);
+    	return list;
+    }
+	
 	/**
 	 * 新增
 	 * @param student
@@ -66,12 +98,12 @@ public class BillController {
 	 */
 	@RequestMapping(value = "insertSelective",method = RequestMethod.POST)
 	@ResponseBody
-    public Map<String, String> insertSelective(@RequestBody Bill record) {
+	public Map<String, String> insertSelective(@RequestBody Bill record) {
 		System.out.println("进入BillController新增");
 		System.out.println("实体："+record.toString());
 		Map<String, String> map=new HashMap<String,String>();
-    	int i=dao.insertSelective(record);
-    	if (i>0) {
+		int i=dao.insertSelective(record);
+		if (i>0) {
 			map.put("code", "1");
 			map.put("message", "新增成功！");
 		}else {
@@ -79,8 +111,83 @@ public class BillController {
 			map.put("message", "新增失败！");
 		}
 		return map;
+	}
+	
+	/**
+	 * 新增采购单主详表
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "insertSelective2",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> insertSelective2(@RequestBody Bill record) {
+		System.out.println("进入BillController2新增采购单主详表");
+		System.out.println("实体："+record.toString());
+		Map<String, String> map=new HashMap<String,String>();
+    	int i=dao.insertSelective(record);//新增主表
+    	if (i>0) {
+			List<Detail> list=record.getList();
+			for (Detail detail : list) {
+				detail.setBillid(record.getBillid());
+				int i2=dao2.insertSelective(detail);//新增详表
+				if (i2>0) {
+				
+					
+//					Commoditydetail list2=dao3.selectByPrimaryKey(detail.getCommoditydetailid());//根据主键id获取当前商品详情对象
+//					list2.setCount(list2.getCount()+detail.getCount());
+//					//修改商品详表库存
+//					dao3.updateByPrimaryKeySelective(list2);
+				
+					map.put("code", "1");
+					map.put("message", "新增成功！");
+					
+				}else {
+					map.put("code", "2");
+					map.put("message", "新增失败！");
+				}
+			}
+    	}else {
+			map.put("code", "2");
+			map.put("message", "新增失败！");
+		}
+		return map;
     }
 
+	/**
+	 * 修改采购单主详表
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "updateByPrimaryKeySelective2",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> updateByPrimaryKeySelective2(@RequestBody Bill record) {
+		System.out.println("进入updateByPrimaryKeySelective2修改采购单主详表");
+		System.out.println("实体："+record.toString());
+		Map<String, String> map=new HashMap<String,String>();
+    	int i=dao.updateByPrimaryKeySelective(record);//修改主表
+    	if (i>0) {
+			List<Detail> list=record.getList();
+			dao2.deleteByid(record.getBillid());//新增详表//根据采购单主表id删除所有详表数据
+			for (Detail detail : list) {
+				detail.setBillid(record.getBillid());
+				int i2=dao2.insertSelective(detail);//新增详表
+				if (i2>0) {
+					map.put("code", "1");
+					map.put("message", "修改成功！");
+				
+				}else {
+					map.put("code", "2");
+					map.put("message", "修改失败！");
+				}
+			}
+    	}else {
+			map.put("code", "2");
+			map.put("message", "新增失败！");
+		}
+		return map;
+    }
+
+	
 	/**
 	 * 根据主键修改
 	 * @param student

@@ -1,5 +1,8 @@
 package com.apatech.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.apatech.domain.Role;
 import com.apatech.domain.Shop;
+import com.apatech.domain.Users;
 import com.apatech.service.ShopService;
 import com.github.pagehelper.PageInfo;
 
@@ -21,6 +27,106 @@ import com.github.pagehelper.PageInfo;
 public class ShopController {
 	@Autowired
 	private ShopService dao;	
+	
+	@RequestMapping(value="queryshopnameByshopid",method=RequestMethod.GET)
+	@ResponseBody
+	public Shop queryshopnameByshopid(String shopid) {
+		
+		return dao.queryshopnameByshopid(shopid);
+	}
+	
+	
+	@RequestMapping(value="queryByRoleName",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Role> queryByRoleName() {
+		
+		return dao.queryByRoleName();
+	}
+	
+	/**
+	 * 查询所有
+	 * 
+	 * */
+	@RequestMapping(value="queryByAll2",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Shop> queryByAll(){
+		
+		
+		return dao.queryByAll2();
+	}
+	
+	/**
+	 * 图片文件上传
+	 * 
+	 * */
+	@RequestMapping(value="updateShopImg",method=RequestMethod.POST)
+	@ResponseBody
+	public String updateShopImg(MultipartFile [] files2,Shop shop){
+		System.out.println("进来图片修改上传");
+		File directory = new File("/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images");
+		if(!directory.exists()) {
+			directory.mkdirs();
+		}
+		try {
+			for(MultipartFile l : files2) {
+				System.out.println("图片上传成功");
+				String url = "/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images/";
+				url = url+"/"+l.getOriginalFilename();
+				File f = new File(url);
+				l.transferTo(f);
+				System.out.println(l.getOriginalFilename());
+				shop.setShopimg(l.getOriginalFilename());
+			}
+			System.out.println("to成功了");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		dao.updateByPrimaryKeySelective(shop);
+		return "success";
+	}
+	
+	/**
+	 * 根据ID查询店铺信息
+	 * 
+	 * */
+	@RequestMapping(value="queryByshopid",method=RequestMethod.GET)
+	@ResponseBody
+	public Shop queryByshopid(String shopid) {
+		Shop shop = dao.selectByPrimaryKey(shopid);
+		System.out.println("进来了");
+		return shop;
+	}
+	
+	/**
+	 * 查询店铺的员工数量
+	 * 
+	 * */
+	@RequestMapping(value="queryByCount",method=RequestMethod.GET)
+	@ResponseBody
+	public int queryByCount(String shopid) {
+		
+		return dao.queryByCount(shopid);
+	}
+	
+	
+	/**
+	 * 也分多条件查询
+	 * 
+	 * 
+	 * */
+	@RequestMapping(value="queryByShopPage",method=RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Shop> queryByShopPage(Integer pageNum,Integer pageSize,Shop shop){
+		System.out.println("进来了Shop分页");
+		System.out.println(shop);
+		System.out.println(dao.queryByShopPage(pageNum, pageSize, shop));
+		return dao.queryByShopPage(pageNum, pageSize,shop);
+	}
+	
+	
 	/**
 	 * 查询全部
 	 * @param model

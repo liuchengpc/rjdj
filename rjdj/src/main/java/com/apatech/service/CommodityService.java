@@ -39,6 +39,12 @@ public class CommodityService {
     	return dao.selectByPrimaryKey(productcodeid);
     }
     
+    public List<Commodity> selectAllBydpid(String supplierid){
+    	return dao.selectAllBydpid(supplierid);
+    }
+    
+    
+    
     public List<Commodity> selectAll() {
     	return dao.selectAll();
     }

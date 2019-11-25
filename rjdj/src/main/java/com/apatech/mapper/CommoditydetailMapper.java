@@ -16,6 +16,8 @@ public interface CommoditydetailMapper {
 
     Commoditydetail selectByPrimaryKey(String commoditydetailid);
     
+    List<Commoditydetail> selectByPrimaryKey2(String commoditydetailid);
+    
     @Select("select * from Commoditydetail")
     List<Commoditydetail> selectAll();
     

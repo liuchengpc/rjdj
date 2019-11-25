@@ -29,6 +29,7 @@ public class Commodity {
     private Integer stockcount;//库存
     private String infomation;//商品信息
     private String shoptype;//商品类型
+    private String shopID;//店铺id
 
     private List<Commodity> productcodelist;//集合
     
@@ -81,7 +82,12 @@ public class Commodity {
 //    private Integer supplierid;//供应商ID
     private String userid;//制表人id
     private String remarks;//备注
-    private List<Bill> billlist;//集合
+    private List<Detail> billlist;//集合
+    private int cgdsl;//采购单数量
+    private Double cgdje;//采购单金额
+    private int shenhe;//审核
+    
+    
     
 //    采购明细表
     private Integer detailid;//编号，主键
@@ -92,14 +98,34 @@ public class Commodity {
     private Float cgcostprice;//单价
     private Integer cgcount;//数量
     private Float moneyamt;//金额
+    
+//  店铺表
+    private String shopid;//编号，主键
+//    private String userid;//用户编号，外键
+    private String shopname;//店铺名称
+    private String dpcontacts;//联系人
+    private String phonenumber;//手机号
+    private String fixedtelephone;//固定电话
+    private String starttime;//营业开始时间
+    private String endtime;//营业结束时间
+    private String dpprovince;//省（地址）
+    private String dpcity;//市（地址）
+    private String dpregion;//地区（地址）
+    private String address;//详细地址
+    private String introduction;//简介
+    private String shopimg;//图片
+
+
+
+
 
 
 	@Override
 	public String toString() {
 		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
 				+ ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
-				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", productcodelist=" + productcodelist
-				+ ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
+				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", shopID=" + shopID + ", productcodelist="
+				+ productcodelist + ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
 				+ ", commoditysizeid=" + commoditysizeid + ", commoditysize=" + commoditysize + ", commoditytypeid="
 				+ commoditytypeid + ", commoditytypename=" + commoditytypename + ", colorid=" + colorid + ", color="
 				+ color + ", colorimg=" + colorimg + ", rgb=" + rgb + ", colortypeid=" + colortypeid + ", colortype="
@@ -107,9 +133,13 @@ public class Commodity {
 				+ companyabbreviation + ", contacts=" + contacts + ", phone=" + phone + ", email=" + email
 				+ ", telephone=" + telephone + ", province=" + province + ", city=" + city + ", region=" + region
 				+ ", street=" + street + ", billid=" + billid + ", deliverytime=" + deliverytime + ", userid=" + userid
-				+ ", remarks=" + remarks + ", billlist=" + billlist + ", detailid=" + detailid + ", cgname=" + cgname
-				+ ", specifications=" + specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount
-				+ ", moneyamt=" + moneyamt + "]";
+				+ ", remarks=" + remarks + ", billlist=" + billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje
+				+ ", shenhe=" + shenhe + ", detailid=" + detailid + ", cgname=" + cgname + ", specifications="
+				+ specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount + ", moneyamt=" + moneyamt
+				+ ", shopid=" + shopid + ", shopname=" + shopname + ", dpcontacts=" + dpcontacts + ", phonenumber="
+				+ phonenumber + ", fixedtelephone=" + fixedtelephone + ", starttime=" + starttime + ", endtime="
+				+ endtime + ", dpprovince=" + dpprovince + ", dpcity=" + dpcity + ", dpregion=" + dpregion
+				+ ", address=" + address + ", introduction=" + introduction + ", shopimg=" + shopimg + "]";
 	}
 	public Commodity() {
 		super();
@@ -347,11 +377,26 @@ public class Commodity {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public List<Bill> getBilllist() {
+	
+	public List<Detail> getBilllist() {
 		return billlist;
 	}
-	public void setBilllist(List<Bill> billlist) {
+	public void setBilllist(List<Detail> billlist) {
 		this.billlist = billlist;
+	}
+	
+	
+	public int getCgdsl() {
+		return cgdsl;
+	}
+	public void setCgdsl(int cgdsl) {
+		this.cgdsl = cgdsl;
+	}
+	public Double getCgdje() {
+		return cgdje;
+	}
+	public void setCgdje(Double cgdje) {
+		this.cgdje = cgdje;
 	}
 	public Integer getDetailid() {
 		return detailid;
@@ -388,6 +433,96 @@ public class Commodity {
 	}
 	public void setMoneyamt(Float moneyamt) {
 		this.moneyamt = moneyamt;
+	}
+	public String getShopid() {
+		return shopid;
+	}
+	public void setShopid(String shopid) {
+		this.shopid = shopid;
+	}
+	public String getShopname() {
+		return shopname;
+	}
+	public void setShopname(String shopname) {
+		this.shopname = shopname;
+	}
+	public String getDpcontacts() {
+		return dpcontacts;
+	}
+	public void setDpcontacts(String dpcontacts) {
+		this.dpcontacts = dpcontacts;
+	}
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
+	}
+	public String getFixedtelephone() {
+		return fixedtelephone;
+	}
+	public void setFixedtelephone(String fixedtelephone) {
+		this.fixedtelephone = fixedtelephone;
+	}
+	public String getStarttime() {
+		return starttime;
+	}
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
+	}
+	public String getEndtime() {
+		return endtime;
+	}
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+	public String getDpprovince() {
+		return dpprovince;
+	}
+	public void setDpprovince(String dpprovince) {
+		this.dpprovince = dpprovince;
+	}
+	public String getDpcity() {
+		return dpcity;
+	}
+	public void setDpcity(String dpcity) {
+		this.dpcity = dpcity;
+	}
+	public String getDpregion() {
+		return dpregion;
+	}
+	public void setDpregion(String dpregion) {
+		this.dpregion = dpregion;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getIntroduction() {
+		return introduction;
+	}
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+	public String getShopimg() {
+		return shopimg;
+	}
+	public void setShopimg(String shopimg) {
+		this.shopimg = shopimg;
+	}
+	public String getShopID() {
+		return shopID;
+	}
+	public void setShopID(String shopID) {
+		this.shopID = shopID;
+	}
+	public int getShenhe() {
+		return shenhe;
+	}
+	public void setShenhe(int shenhe) {
+		this.shenhe = shenhe;
 	}
 
     
