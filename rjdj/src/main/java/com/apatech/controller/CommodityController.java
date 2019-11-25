@@ -46,6 +46,18 @@ public class CommodityController {
     	return dao.selectByPrimaryKey(productcodeid);
     }
 	/**
+	 * 根据店铺id查询所有商品
+	 * @param billid
+	 * @return
+	 */
+	@RequestMapping(value = "selectAllBydpid",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Commodity> selectAllBydpid(String supplierid) {
+		System.out.println("进入CommodityController根据主键查询");
+		System.out.println("supplierid="+supplierid);
+		return dao.selectAllBydpid(supplierid);
+	}
+	/**
 	 * 分页
 	 * @param pageNum
 	 * @param pageSize

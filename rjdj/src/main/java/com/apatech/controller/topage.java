@@ -1,7 +1,14 @@
 package com.apatech.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.apatech.util.uuid;
+
+import com.apatech.domain.Shop;
 
 @Controller
 @RequestMapping("topage")
@@ -30,10 +37,48 @@ public class topage {
 	}
 	
 	
+	/**
+	 * 生成编号
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "uuid",method = RequestMethod.GET)
+	@ResponseBody
+	public String uuid() {
+		System.out.println("进入page/claim/addpurchase_list");
+		uuid s=new uuid();		
+		System.out.println(s.getCode());
+		return s.getCode();
+	}	
+	@RequestMapping("page/claim/staff_Update")
+	public String staff_Update() {
+		System.out.println("进入staff_Update");
+		return "page/claim/staff_Update";
+	}
+	@RequestMapping("page/claim/showpurchase_list")
+	public String showpurchase_list() {
+		System.out.println("进入page/claim/showpurchase_list");
+		return "page/claim/showpurchase_list";
+	}
+	@RequestMapping("page/claim/addpurchase_list")
+	public String addpurchase_list() {
+		System.out.println("进入page/claim/addpurchase_list");
+		return "page/claim/addpurchase_list";
+	}
+	@RequestMapping("page/claim/updatepurchase_list")
+	public String updatepurchase_list() {
+		System.out.println("进入page/claim/updatepurchase_list");
+		return "page/claim/updatepurchase_list";
+	}
 	@RequestMapping("page/claim/users_img")
 	public String users_img() {
 		System.out.println("进入page/claim/users_img");
 		return "page/claim/users_img";
+	}
+	@RequestMapping("page/claim/staff_Insert")
+	public String staff_Insert() {
+		System.out.println("进入page/claim/staff_Insert");
+		return "page/claim/staff_Insert";
 	}
 	@RequestMapping("page/common/body_menu6")
 	public String body_menu6() {
@@ -44,6 +89,22 @@ public class topage {
 	public String accountinfo() {
 		System.out.println("进入page/claim/users_home");
 		return "page/claim/users_home";
+	}
+	
+	@RequestMapping("page/claim/shop_Insert")
+	public String shop_Insert() {
+		System.out.println("进入page/claim/shop_Insert");
+		return "page/claim/shop_Insert";
+	}
+	@RequestMapping("page/claim/shop_Query")
+	public String shop_Query() {
+		System.out.println("进入page/claim/shop_Query");
+		return "page/claim/shop_Query";
+	}
+	@RequestMapping("page/claim/shop_Update")
+	public String shop_Update() {
+		System.out.println("进入page/claim/shop_Update");
+		return "page/claim/shop_Update";
 	}
 	@RequestMapping("page/common/body_menu")
 	public String body_menu() {

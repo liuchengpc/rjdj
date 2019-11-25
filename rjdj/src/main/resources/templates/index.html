@@ -400,6 +400,20 @@ layui.use('element', function(){
   });
   
 });
+
+//账号测试数据
+var user = {
+		userid:"15012341234",
+		password:"123123",
+		username:"李店长",
+		industry:"服装",
+		phonenumber:"15012341234",
+		headportrait:"/images/pro2.jpg",
+		roleid:1,
+		shopid:12345678001
+}
+window.sessionStorage.setItem("user",JSON.stringify(user));
+
 </script>
   </body>
 </html>

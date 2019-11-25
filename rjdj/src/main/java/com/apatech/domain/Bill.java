@@ -13,21 +13,26 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class Bill {
     private String billid;//编号，主键
-    @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date deliverytime;//交期
     private Integer supplierid;//供应商ID
     private String userid;//制表人id
     private String remarks;//备注
+    private int shenhe;//审核
+    
+    
     private List<Detail> list;//集合
     
     
 
     
+	
+
 	@Override
 	public String toString() {
 		return "Bill [billid=" + billid + ", deliverytime=" + deliverytime + ", supplierid=" + supplierid + ", userid="
-				+ userid + ", remarks=" + remarks + ", list=" + list + "]";
+				+ userid + ", remarks=" + remarks + ", shenhe=" + shenhe + ", list=" + list + "]";
 	}
 
 	public Bill() {
@@ -81,6 +86,16 @@ public class Bill {
 	public void setList(List<Detail> list) {
 		this.list = list;
 	}
+
+	public int getShenhe() {
+		return shenhe;
+	}
+
+	public void setShenhe(int shenhe) {
+		this.shenhe = shenhe;
+	}
     
+	
+	
     
 }

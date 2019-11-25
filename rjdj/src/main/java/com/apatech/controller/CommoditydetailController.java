@@ -45,6 +45,7 @@ public class CommoditydetailController {
 		System.out.println("commoditydetailid="+commoditydetailid);
     	return dao.selectByPrimaryKey(commoditydetailid);
     }
+	
 	/**
 	 * 分页
 	 * @param pageNum

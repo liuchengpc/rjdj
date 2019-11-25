@@ -87,6 +87,74 @@
       </if>
     </trim>
   </insert>
+  
+  
+    <insert id="insertSelective2" parameterType="com.apatech.domain.Detail">
+     insert into detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="detailid != null">
+        detailID,
+      </if>
+      <if test="billid != null">
+        billID,
+      </if>
+      <if test="commoditydetailid != null">
+        commodityDetailID,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="specifications != null">
+        specifications,
+      </if>
+      <if test="costprice != null">
+        costPrice,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="moneyamt != null">
+        moneyamt,
+      </if>
+    </trim>
+     values
+    <foreach collection="record" item="td" separator=",">
+     ( 
+   	  <if test="td.detailid != null">
+        #{td.detailid,jdbcType=INTEGER},
+      </if>
+      <if test="td.billid != null">
+        #{td.billid,jdbcType=VARCHAR},
+      </if>
+      <if test="td.commoditydetailid != null">
+        #{td.commoditydetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="td.name != null">
+        #{td.name,jdbcType=VARCHAR},
+      </if>
+      <if test="td.specifications != null">
+        #{td.specifications,jdbcType=VARCHAR},
+      </if>
+      <if test="td.costprice != null">
+        #{td.costprice,jdbcType=REAL},
+      </if>
+      <if test="td.count != null">
+        #{td.count,jdbcType=INTEGER},
+      </if>
+      <if test="moneyamt != null">
+        #{td.moneyamt,jdbcType=REAL},
+      </if>
+	)
+    </foreach>;
+  </insert>
+  
+  
+  
+  
+  
+  
+  
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.apatech.domain.Detail">
     update detail
     <set>
