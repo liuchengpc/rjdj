@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/shop_upload.css">
+    <link rel="stylesheet" href="/css/goodStyle.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
     <script src="/js/jquery-1.12.4.js"></script>
     <script src="/js/wangEditor.js"></script>
@@ -54,6 +55,10 @@
 		    cursor: pointer;
 		    opacity: 0.0;
 		}
+		
+		.cmxz{
+			border: 1px solid #f05b23 !important;
+		}
 	</style>
 	
 	<script src="/static/js/jquery.colorbox-min.js" type="text/javascript" charset="utf-8"></script>
@@ -67,7 +72,6 @@
     
 </head>
 <body>
-   <img alt="" src="file:///C:/images/1ae6ebff9aa427657a9df7461a7552c3.jpg">
 
 <div class="rightarea clearfix s" >
     <div class="mainarea clearfix">
@@ -81,328 +85,90 @@
                     <div class="rightdiv">
                         <div class="ptype">
                             <div class="listdiv">
-                                <span id="fdsjofie">
-                                    <i>*</i>
-                                    商品货号
-                                </span>
-                                <input type="text" class="inputtext" >
-                                <span>
-                                    商品品牌
-                                </span>
-                                <input type="text" class="inputtext" >
+                                <span id="fdsjofie"><i>*</i>商品货号</span>
+                                <input type="text" id="productCodeID" class="inputtext" >
+                                <span>商品品牌</span>
+                                <input type="text" id="brand" class="inputtext" >
                             </div>
                             <!---->
                             <div class="listdiv">
-                                <span>
-                                    <i>*</i>
-                                    商品名称
-                                </span>
-                                <input type="text" class="inputtext" style="width: 398px;">
+                                <span><i>*</i>商品名称</span>
+                                <input type="text" id="name" class="inputtext" style="width: 398px;">
                             </div>
                             <!---->
                             <div class="listdiv">
-                                <span>
-                                    <i>*</i>
-                                    吊牌价格
-                                </span>
-                                <input type="text" class="inputtext" >
-                                <span>
-                                    <i>*</i>
-                                    成本价格
-                                </span>
-                                <input type="text" class="inputtext" >
+                                <span><i>*</i> 商品单价</span>
+                                <input type="text" id="price" class="inputtext" >
+                                <span><i>*</i>成本价格</span>
+                                <input type="text" id="costPrice" class="inputtext" >
                             </div>
                             <!---->
                             <div class="listdiv">
-                                <span>
-                                    <i>*</i>
-                                    吊牌类别
-                                </span>
-                                <select name="" id="" class="form-control" style="float:left;width: 168px;">
-                                    <option value="请选择类别" >请选择类别</option>
+                                <span><i>*</i>商品类别</span>
+                                <select name="" id="shopType" class="form-control"  style="float:left;width: 168px;">
+                                    <option value="" >请选择类别</option>
                                 </select>
                           
-                                <span>
-                                    <i>*</i>
-                                    供应商
-                                </span>
-                                <select name="" id="" class="form-control" style="float:left;width: 168px;">
-                                    <option value="请选择类别" >请选择类别</option>
+                                <span><i>*</i>供应商</span>
+                                <select name="" id="supplierID" class="form-control"  style="float:left;width: 168px;">
+                                    <option value="" >请选择供应商</option>
                                 </select>
                             </div>
-                            
-                            <style type="text/css">
-                            	.chosenColorArea {
-									float: left;
-									width: 428px;
-									font-size: 14px;
-								}
+                            <script type="text/javascript">
+	                             $.ajax({//获取类别
+	                            	url:"[[@{/CommoditytypeController/selectAll}]]",
+									success:function(res){
+										console.info("获取类别")
+										console.info(res)
+										$("#shopType").html("");
+										var a='<option value="" >请选择类别</option>';
+										$("#shopType").append(a);
+										$.each(res,function(i,obj){
+											var s='	v<option value="'+obj.commoditytypeid+'" >'+obj.commoditytypename+'</option>';
+											$("#shopType").append(s);
+										})
+									}
+								})
 								
-								.chosenColorArea .colorsTable {
-									width: 100%;
-									margin-bottom: 10px;
-								}
-								
-								.chosenColorArea .colorsTable td {
-									border: 1px solid #e7e7eb;
-									text-align: center;
-									padding-top: 4px;
-									padding-bottom: 4px;
-									word-break: break-all;
-								}
-								
-								.chosenColorArea .colorsTable th {
-									background: #F9F9F9;
-									border: 1px solid #e7e7eb;
-									text-align: center;
-									padding-top: 6px;
-									padding-bottom: 6px;
-									font-weight: normal;
-									color: #9e9e9e;
-								}
-								
-								.chosenColorArea .colorsTable td.tdleft {
-									text-align: left;
-								}
-								
-								.chosenColorArea .colorsTable td.tdright {
-									text-align: right;
-								}
-								
-								.chosenColorArea .colorsTable td.margin {
-									vertical-align: top;
-								}
-								
-								.chosenColorArea .colorsTable tr.padding td {
-									padding-bottom: 10px
-								}
-								
-								.chosenColorArea .checkbox {
-									float: left;
-									margin: 4px 0 0 8px;
-									*margin: 0 0 0 4px;
-									vertical-align: middle;
-								}
-								
-								.chosenColorArea .listColor {
-									clear: both;
-								}
-								
-								.chosenColorArea .ShowColoTabler .Num {
-									float: left;
-								}
-								
-								.chosenColorArea .ShowColoTabler .ColorImg {
-									border: 1px solid #FFF;
-									float: left;
-									width: 14px;
-									height: 14px;
-									margin: 1px 2px 0px 2px;
-									*margin: 1px 2px 0px 0;
-									_margin: 1px 0px 0px 0;
-								}
-								
-								.chosenColorArea .ShowColoTabler .Color {
-									float: left;
-									padding-top: 2px;
-									cursor: pointer;
-									line-height: 14px;
-								}
-								
-								.chosenColorArea .ShowColoTabler .listColor {
-									float: left;
-								}
-								
-								.chosenColorArea .ShowColoTabler .listColor li {
-									float: left;
-									width: 100%;
-									padding-top: 2px;
-									padding-bottom: 2px;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-000000,
-								.listColor .c-000000 .ColorImg {
-									background: none repeat scroll 0 0 #000000;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-666666,
-								.listColor .c-666666 .ColorImg {
-									background: none repeat scroll 0 0 #666666;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-e4e4e4,
-								.listColor .c-e4e4e4 .ColorImg {
-									background: none repeat scroll 0 0 #E4E4E4;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-4b0082,
-								.listColor .c-4b0082 .ColorImg {
-									background: none repeat scroll 0 0 #4B0082;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-800080,
-								.listColor .c-800080 .ColorImg {
-									background: none repeat scroll 0 0 #800080;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-dda0dd,
-								.listColor .c-dda0dd .ColorImg {
-									background: none repeat scroll 0 0 #DDA0DD;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-990000,
-								.listColor .c-990000 .ColorImg {
-									background: none repeat scroll 0 0 #990000;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-ff0000,
-								.listColor .c-ff0000 .ColorImg {
-									background: none repeat scroll 0 0 #FF0000;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-ffb6c1,
-								.listColor .c-ffb6c1 .ColorImg {
-									background: none repeat scroll 0 0 #FFB6C1;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-ffa500,
-								.listColor .c-ffa500 .ColorImg {
-									background: none repeat scroll 0 0 #FFA500;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-ffff00,
-								.listColor .c-ffff00 .ColorImg {
-									background: none repeat scroll 0 0 #FFFF00;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-ffffb1,
-								.listColor .c-ffffb1 .ColorImg {
-									background: none repeat scroll 0 0 #FFFFB1;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-855b00,
-								.listColor .c-855b00 .ColorImg {
-									background: none repeat scroll 0 0 #855B00;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-d2691e,
-								.listColor .c-d2691e .ColorImg {
-									background: none repeat scroll 0 0 #D2691E;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-bdb76b,
-								.listColor .c-bdb76b .ColorImg {
-									background: none repeat scroll 0 0 #BDB76B;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-5d762a,
-								.listColor .c-5d762a .ColorImg {
-									background: none repeat scroll 0 0 #5D762A;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-008000,
-								.listColor .c-008000 .ColorImg {
-									background: none repeat scroll 0 0 #008000;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-98fb98,
-								.listColor .c-98fb98 .ColorImg {
-									background: none repeat scroll 0 0 #98FB98;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-041690,
-								.listColor .c-041690 .ColorImg {
-									background: none repeat scroll 0 0 #041690;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-0000ff,
-								.listColor .c-0000ff .ColorImg {
-									background: none repeat scroll 0 0 #0000FF;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-1eddff,
-								.listColor .c-1eddff .ColorImg {
-									background: none repeat scroll 0 0 #1EDDFF;
-									border: none;
-								}
-								
-								.chosenColorArea .hasChosenColor .c-ffffff,
-								.listColor .c-ffffff .ColorImg {
-									background: none repeat scroll 0 0 #FFFFFF;
-									border: none;
-									border: 1px solid #E1E1E1!important;
-								}
-								
-								.chosenColorArea span.c-transparent,
-								.listColor .c-transparent .ColorImg {
-									background: url(http://style1.buyinchina.com/img/addProductColor.gif) no-repeat scroll 0 -20px transparent;
-									border: none;
-								}
-								
-								.chosenColorArea span.c-assortment,
-								.listColor .c-assortment .ColorImg {
-									background: url(http://style1.buyinchina.com/img/addProductColor.gif) no-repeat scroll 0 0 transparent;
-									border: none;
-								}
-								
-								.chosenColorArea span.outofstock,
-								.listColor .outofstock .ColorImg {
-									background: url(http://style1.buyinchina.com/img/addProductColor.gif) no-repeat scroll 0 0 transparent;
-									border: none;
-								}
-								
-								#uploadImgFileX {
-									float: left;
-									width: 1px;
-									height: 1px;
-									background: none repeat scroll 0 0 #FFFFFF;
-									filter: alpha(opacity=0);
-									-moz-opacity: 0.0;
-									-khtml-opacity: 0.0;
-									opacity: 0.0;
-								}
-								
-								#productsColorList {
-								    float: right;
-								    font-size: 14px;
-								    width: 428px;
-								}
-								
-								#productsColorList th {
-								    background: #F9F9F9;
-								    border: 1px solid #e7e7eb;
-								    text-align: center;
-								    padding-top: 6px;
-								    padding-bottom: 6px;
-								    font-weight: normal;
-								    color: #9e9e9e;
-								}
-                            </style>
-                            
-                            <!--商品尺码颜色   E-->
-                          
+								$.ajax({//获取供应商
+									url:"[[@{/SupplierController/selectAll}]]",
+									success:function(res){
+										console.info("供应商")
+										console.info(res)
+										$("#supplierID").html("");
+										var a='<option value="" >请选择供应商</option>';
+										$("#supplierID").append(a);
+										$.each(res,function(i,obj){
+											var s='	v<option value="'+obj.supplierid+'" >'+obj.companyname+'</option>';
+											$("#supplierID").append(s);
+										})
+									}
+								})
+								$.ajax({//获取尺码
+									url:"[[@{/CommoditysizeController/selectAll}]]",
+									success:function(res){
+										console.info("")
+										console.info(res)
+										var a='<option value="请选择类别" >请选择类别</option>';
+										$.each(res,function(i,obj){
+											var s='<li>'+
+								     				'<a href="javascript:void(0);" commoditySizeID='+obj.commoditysizeid+'>'+obj.commoditysize+'</a>'+
+								     				'<span style="float: right;display: none" name="chima" class="glyphicon glyphicon-remove" @click="del(stu.goodssizeid)"   onclick="sc(this)"></span>'+
+								     			'</li>';
+								     	
+											$("#commoditySizeID").append(s);
+										})
+									
+							     		niubi();
+							     		
+									}
+								}) 
+                            </script>
                             	
-                            	
+                            
+                         
+                            
+                            <!--商品尺码颜色   E-->                            	
                         	<form class="form-horizontal" action="" method="post">
 								
 								
@@ -425,20 +191,19 @@
 											 <tbody>
 												 <tr>
 												 	<td>
-												 	
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #000000;">
 												 				
 												 			</span>
-												 			<span>黑色</span>
+												 			<span colorID="1">黑色</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #666666;">
 												 				
 												 			</span>
-												 			<span>深灰色</span>
+												 			<span colorID="2">深灰色</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
@@ -454,14 +219,14 @@
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFFFFF;border: 1px solid #F8F8F8;">
 												 				
 												 			</span>
-												 			<span>白色</span>
+												 			<span colorID="3">白色</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A47E3C;">
 												 				
 												 			</span>
-												 			<span>透明</span>
+												 			<span colorID="4">透明</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
@@ -484,7 +249,7 @@
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FF0000;">
 												 				
 												 			</span>
-												 			<span>红色</span>
+												 			<span colorID="5">红色</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
@@ -500,7 +265,7 @@
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #041690;">
 												 				
 												 			</span>
-												 			<span>深蓝色</span>
+												 			<span colorID="6">深蓝色</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
@@ -555,7 +320,7 @@
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFE66F;">
 												 				
 												 			</span>
-												 			<span>浅黄色</span>
+												 			<span colorID="7">浅黄色</span>
 												 		</a>
 												 	</td>
 												 	<td>
@@ -571,7 +336,7 @@
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #28FF28;">
 												 				
 												 			</span>
-												 			<span>绿色</span>
+												 			<span colorID="8">绿色</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
@@ -594,7 +359,7 @@
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #C07AB8;">
 												 				
 												 			</span>
-												 			<span>深紫色</span>
+												 			<span colorID="9">深紫色</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
@@ -617,7 +382,7 @@
 												 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #CA8EFF;">
 												 				
 												 			</span>
-												 			<span>巧克力</span>
+												 			<span colorID="10">巧克力</span>
 												 		</a><br/>
 												 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 												 		<a href="javascript:;">
@@ -663,7 +428,7 @@
 									    	商品尺码
 									    </span>
 								    <div name="chimaya" class="col-sm-10">
-								     	<ul class="fpsize">
+								     	<ul class="fpsize" id="commoditySizeID">
 									     	<template v-for="stu in goodssize">
 									     		<template v-if="stu.size==goods.size">
 									     			<li>
@@ -691,7 +456,7 @@
 									    	库存总数
 									    </span>
 								    <div class="col-sm-3">
-								      <input name="goodkuchun" v-model="goods.inventory" onblur="cnmd()" type="text" class="form-control" id="inputEmail3">
+								      <input name="goodkuchun" v-model="goods.inventory" onblur="cnmd()" readonly="readonly" type="text" class="form-control" id="inputEmail3">
 								    </div>
 								    <div class="col-sm-7">
 								      <i style="color: red;">请勿随意修改库存，以免影响库存准确性。</i>
@@ -747,7 +512,7 @@
 											就会显示，没值，就不显示咯	--> 
 										<img id="img" class="cloudzoom" style="width: 380px !important;height: 380px !important; "  src="/images/1ae6ebff9aa427657a9df7461a7552c3.jpg" data-cloudzoom="zoomSizeMode:'image',zoomImage: '/images/1ae6ebff9aa427657a9df7461a7552c3.jpg',autoInside: 30" alt="呵呵哒" title=""/> 
 	                    				
-	                    			/div>
+	                    			</div>
 	                            </div>
 	                        </div>
 	                      
@@ -779,57 +544,15 @@
 	                                            </a>
 	                                        </li>
 	                                     
-	                                    
 	                                    </ul>
 	                                 
 	                                </div>
 	                            </div>
 	                        </div>
 	                    </div>
-                     
+                   
                     
-                    <script>
-                           /*  $("[name='file']").on("change",function() {		
-        						//alert("进入修改图片")
-        						var th = $(this);
-        				    	var filePath = $(this).val(), //获取到input的value，里面是文件的路径
-        				    		fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
-        				    		src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
-        				    	// 检查是否是图片
-     							alert(filePath)
-        				    	
-        				    	if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
-        				    		alert("上传错误,文件格式必须为：png/jpg/jpeg")
-        				        	return;  
-        				        }else{
-        				        	$('[name="pimg2"]').attr("src",src);
-        				    		var f = $('[name="form1"]');
-        				    		var form = new FormData(f[0]);
-        				    		console.info("------------------form----------------------E")
-            				    	console.info(form)
-            				    	console.info("------------------form----------------------S")
-        				    		$.ajax({
-        				    			url:"[[@{/file/upload2}]]",
-        				    			data:form,
-        				    			processData:false,
-        				    			type:"post",
-        				    		    //必须false才会自动加上正确的Content-Type
-							           contentType: false,
-							           //必须false才会避开jQuery对 formdata 的默认处理
-							           //XMLHttpRequest会对 formdata 进行正确的处理
-							           processData: false,
-        				    			success:function(result){
-        				    				alert(result)
-        				    			}
-        				    		});
-        				    		
-        				        }
-        				    	$("[name=pimg2]").show();
-        					}) */
-                                  	
-        				
-        					
-                                  
+                    <script>        
 								var newsrc;//图片源地址
 								var newsrc2;//上传图片地址
 								function wjsc(td){//文件上传
@@ -858,24 +581,6 @@
 											}else if(fileSize>=5*1024*1024){
 												alert("文件大小超出限制，只支持5M以内的文件上传");
 											}else{
-												
-												  //获取图片的源路径
-							                      var objUrl = file;
-							                      //获得一个http格式的url路径:mozilla(firefox)||webkit or chrome  
-							                      var windowURL = window.URL || window.webkitURL;
-							                      //createObjectURL创建一个指向该参数对象(图片)的URL  
-							                      var dataURL = windowURL.createObjectURL(objUrl);
-							                	  newsrc=dataURL;
-							                	  alert(newsrc)
-							                	  
-							               
-							                	  
-							                	  var tjimage="<li> "+
-																	"<img class='cloudzoom-gallery' src='"+newsrc+"' data-cloudzoom='useZoom:\'"+".cloudzoom"+"',image:'"+newsrc+"',zoomImage:'"+newsrc+"''/>"+ 
-																"</li>"	;	
-												  $("#form2").parents("li").before(tjimage)
-												
-												
 												console.info("------------------formData----------------------E")
 					    				    	console.info(pic1)
 					    				    	console.info(formData)
@@ -895,6 +600,12 @@
 										                  console.info(data);
 										                  if (data!="") {
 										                	  newsrc2=data;
+										                	  var tjimage="<li> "+
+																			"<img class='cloudzoom-gallery' src='"+newsrc2+"' data-cloudzoom='useZoom:'.cloudzoom',image:'"+newsrc2+"',zoomImage:'"+newsrc2+"''/>"+ 
+																		"</li>"	;
+															  $("[name=file]").attr("commodityimg",newsrc2)	;//把地址添加到input=file
+																
+															  $("#form2").parents("li").before(tjimage)
 															}
 										              },
 										              error:function(data){
@@ -942,7 +653,7 @@
                         <!--按钮-->
                         <div class="btn-close-insert">
                             <a href="javascript:;" class="btn btn-default">取消发布</a>
-                            <a href="javascript:;" class="btn btn-success" style="color: #ffffff !important;">发布商品</a>
+                            <a href="javascript:;" class="btn btn-success" style="color: #ffffff !important;" onclick="submitClaimVoucher()">发布商品</a>
                         </div>
                     </div>
                     <script type="text/javascript">
@@ -950,12 +661,80 @@
 					    var E = window.wangEditor;
 					    var editor = new E('#editwang');
 					    editor.create();
+					    
+					  // alert(editor.txt.text())//获取富文本编辑器内容
+					   
 					</script>
                     <!--富文本编辑器 保存商品信息 S-->
                 </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+	function submitClaimVoucher(){
+		if(yn()==true){
+			if(!confirm("确定发布商品吗？")) return;
+			var obj={
+						productcodeid:$("#productCodeID").val(),//	商品货号
+						shoptype:$("").val(),//	商品类型
+						supplierid:$("#supplierID").val(),	//供应商ID
+						brand:$("#brand").val(),	//商品品牌
+						name:$("#name").val(),	//商品名称
+						price:$("#price").val(),	//商品单价
+						costprice:$("#costPrice").val(),//	成本价
+						commoditytypeid:$("#commodityTypeID").val(),//	商品类型ID
+						commodityimg:$("[name=file]").attr("commodityimg"),	//商品图片
+						stockcount:$("[name=goodkuchun]").val(),//	库存
+						infomation:editor.txt.text(),//	商品信息
+						list:[]
+					}
+			
+		
+			for (var i = 0; i <  $(".desc").length; i++) {
+				//alert("第"+i+1+"个地址："+$(".picturepath").eq(i).attr("picturepath"))
+				var b={
+					commoditydetailid:$("[name=commodityDetailID]").eq(i).html(),//条形码，主键
+					productcodeid:$("#productCodeID").val(),//商品主表ID
+					colorid:$("[name=colorID]").eq(i).attr("colorid"),//商品颜色ID
+					commoditysizeid:$("[name=productCodeID]").eq(i).attr("productcodeid"),	//商品尺码
+					count:$("[name=count]").eq(i).val(),//数量
+				}
+				//alert($(".desc").eq(i).val()+"/"+$(".subtotal").eq(i).val()+"/"+$(".picturepath").eq(i).attr("picturepath"))
+				obj.list.push(b);
+			}
+			
+			console.info("商品新增信息")
+			console.info(obj)
+			//alert(JSON.stringify(obj))
+			//alert(record)
+			$.ajax({
+				url:'[[@{/CommodityController	/upload}]]',
+				type:"post",
+			  	data : JSON.stringify(obj),
+			  	dataType:'json',	
+			  	contentType : "application/json;charset=utf-8",
+			  	success:function (data) {
+			  		if(data.code == "1"){
+	   					location.href = "/JBOA/jsp/claim/claim_voucher_list.html";
+	   				}else {
+						alert("修改失败")
+					}
+		        }
+			});
+		}
+	}
+</script>
+
+
+
+
+
+
+
+
+
+
 	<script type="text/javascript">
 		
 		var shopgoodsvue = new Vue({
@@ -1118,7 +897,7 @@
 	        
 	        editor.create();
     	</script>
-
+</div>
   <script src="/static/js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
     	<script src="/static/js/luowei.js"></script>
 </body>

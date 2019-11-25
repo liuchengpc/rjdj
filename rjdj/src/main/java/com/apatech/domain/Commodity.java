@@ -32,6 +32,7 @@ public class Commodity {
     private String shopID;//店铺id
 
     private List<Commodity> productcodelist;//集合
+    private List<Commoditydetail> productcodelist2;//集合
     
     private Integer spkc  ;//商品库存
     
@@ -120,26 +121,28 @@ public class Commodity {
 
 
 
+	
 	@Override
 	public String toString() {
 		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
 				+ ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
 				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", shopID=" + shopID + ", productcodelist="
-				+ productcodelist + ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
-				+ ", commoditysizeid=" + commoditysizeid + ", commoditysize=" + commoditysize + ", commoditytypeid="
-				+ commoditytypeid + ", commoditytypename=" + commoditytypename + ", colorid=" + colorid + ", color="
-				+ color + ", colorimg=" + colorimg + ", rgb=" + rgb + ", colortypeid=" + colortypeid + ", colortype="
-				+ colortype + ", supplierid=" + supplierid + ", companyname=" + companyname + ", companyabbreviation="
-				+ companyabbreviation + ", contacts=" + contacts + ", phone=" + phone + ", email=" + email
-				+ ", telephone=" + telephone + ", province=" + province + ", city=" + city + ", region=" + region
-				+ ", street=" + street + ", billid=" + billid + ", deliverytime=" + deliverytime + ", userid=" + userid
-				+ ", remarks=" + remarks + ", billlist=" + billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje
-				+ ", shenhe=" + shenhe + ", detailid=" + detailid + ", cgname=" + cgname + ", specifications="
-				+ specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount + ", moneyamt=" + moneyamt
-				+ ", shopid=" + shopid + ", shopname=" + shopname + ", dpcontacts=" + dpcontacts + ", phonenumber="
-				+ phonenumber + ", fixedtelephone=" + fixedtelephone + ", starttime=" + starttime + ", endtime="
-				+ endtime + ", dpprovince=" + dpprovince + ", dpcity=" + dpcity + ", dpregion=" + dpregion
-				+ ", address=" + address + ", introduction=" + introduction + ", shopimg=" + shopimg + "]";
+				+ productcodelist + ", productcodelist2=" + productcodelist2 + ", spkc=" + spkc + ", commoditydetailid="
+				+ commoditydetailid + ", count=" + count + ", commoditysizeid=" + commoditysizeid + ", commoditysize="
+				+ commoditysize + ", commoditytypeid=" + commoditytypeid + ", commoditytypename=" + commoditytypename
+				+ ", colorid=" + colorid + ", color=" + color + ", colorimg=" + colorimg + ", rgb=" + rgb
+				+ ", colortypeid=" + colortypeid + ", colortype=" + colortype + ", supplierid=" + supplierid
+				+ ", companyname=" + companyname + ", companyabbreviation=" + companyabbreviation + ", contacts="
+				+ contacts + ", phone=" + phone + ", email=" + email + ", telephone=" + telephone + ", province="
+				+ province + ", city=" + city + ", region=" + region + ", street=" + street + ", billid=" + billid
+				+ ", deliverytime=" + deliverytime + ", userid=" + userid + ", remarks=" + remarks + ", billlist="
+				+ billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje + ", shenhe=" + shenhe + ", detailid=" + detailid
+				+ ", cgname=" + cgname + ", specifications=" + specifications + ", cgcostprice=" + cgcostprice
+				+ ", cgcount=" + cgcount + ", moneyamt=" + moneyamt + ", shopid=" + shopid + ", shopname=" + shopname
+				+ ", dpcontacts=" + dpcontacts + ", phonenumber=" + phonenumber + ", fixedtelephone=" + fixedtelephone
+				+ ", starttime=" + starttime + ", endtime=" + endtime + ", dpprovince=" + dpprovince + ", dpcity="
+				+ dpcity + ", dpregion=" + dpregion + ", address=" + address + ", introduction=" + introduction
+				+ ", shopimg=" + shopimg + "]";
 	}
 	public Commodity() {
 		super();
@@ -523,6 +526,12 @@ public class Commodity {
 	}
 	public void setShenhe(int shenhe) {
 		this.shenhe = shenhe;
+	}
+	public List<Commoditydetail> getProductcodelist2() {
+		return productcodelist2;
+	}
+	public void setProductcodelist2(List<Commoditydetail> productcodelist2) {
+		this.productcodelist2 = productcodelist2;
 	}
 
     

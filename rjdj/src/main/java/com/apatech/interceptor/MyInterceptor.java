@@ -18,7 +18,7 @@ public class MyInterceptor  implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("preHandler");
+		System.out.println("进入preHandler（执行控制器之前执行该方法，返回false表示不执行控制器）");
 		/**
 		 * 是否白名单，不管是否登录都可以看到，loginIn register
 		 */
@@ -37,7 +37,7 @@ public class MyInterceptor  implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		System.out.println("postHandler");
+		System.out.println("进入postHandler（控制成功执行，没有发生异常情况）");
 		// TODO Auto-generated method stub
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
@@ -48,7 +48,7 @@ public class MyInterceptor  implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		System.out.println("afterCOmpletion");
+		System.out.println("进入afterCOmpletion（不管是否发生异常都会被执行）");
 		// TODO Auto-generated method stub
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}

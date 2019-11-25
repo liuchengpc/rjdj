@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apatech.domain.Bill;
 import com.apatech.domain.Commodity;
+import com.apatech.domain.Commoditydetail;
+import com.apatech.domain.Detail;
 import com.apatech.service.CommodityService;
+import com.apatech.service.CommoditydetailService;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -21,6 +25,8 @@ import com.github.pagehelper.PageInfo;
 public class CommodityController {
 	@Autowired
 	private CommodityService dao;	
+	@Autowired
+	private CommoditydetailService dao2;	
 	/**
 	 * 查询全部
 	 * @param model
@@ -108,6 +114,39 @@ public class CommodityController {
 		}
 		return map;
     }
+	
+	/**
+	 * 新增商品主详表
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "insertSelective2",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> insertSelective2(@RequestBody Commodity record) {
+		System.out.println("进入CommodityController2新增采购单主详表");
+		System.out.println("实体："+record.toString());
+		Map<String, String> map=new HashMap<String,String>();
+    	int i=dao.insertSelective(record);//新增主表
+    	if (i>0) {
+			List<Commoditydetail> list=record.getProductcodelist2();
+			for (Commoditydetail detail : list) {
+				int i2=dao2.insertSelective(detail);//新增详表
+				if (i2>0) {
+					map.put("code", "1");
+					map.put("message", "新增成功！");
+				}else {
+					map.put("code", "2");
+					map.put("message", "新增失败！");
+				}
+			}
+    	}else {
+			map.put("code", "2");
+			map.put("message", "新增失败！");
+		}
+		return map;
+    }
+
+	
 
 	/**
 	 * 根据主键修改
