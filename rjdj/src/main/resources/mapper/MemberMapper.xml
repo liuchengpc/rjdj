@@ -13,6 +13,10 @@
     <result column="street" jdbcType="VARCHAR" property="street" />
     <result column="price" jdbcType="REAL" property="price" />
     <result column="integral" jdbcType="INTEGER" property="integral" />
+    <!-- <result column="memberlvname" jdbcType="VARCHAR" property="memberlvname" />
+    <result column="hycount" jdbcType="INTEGER" property="hycount" />
+    <result column="hysumprice" jdbcType="INTEGER" property="hysumprice" />
+    <result column="hytime" jdbcType="DATE" property="hytime" /> -->
   </resultMap>
   <sql id="Base_Column_List">
     memberID, phone, name, memberLvID, passWord, province, city, region, street, price, 
