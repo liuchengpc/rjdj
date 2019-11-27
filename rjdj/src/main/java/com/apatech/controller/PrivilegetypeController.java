@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Privilegetype;
+import com.apatech.domain.Ptmanagement;
 import com.apatech.service.PrivilegetypeService;
 import com.github.pagehelper.PageInfo;
 
@@ -20,7 +21,20 @@ import com.github.pagehelper.PageInfo;
 @RequestMapping("PrivilegetypeController")
 public class PrivilegetypeController {
 	@Autowired
-	private PrivilegetypeService dao;	
+	private PrivilegetypeService dao;
+	
+	/**
+	 * 权限
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryPrivilegeType",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Privilegetype> queryPrivilegeType(){
+		
+		return dao.queryPrivilegeType();
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

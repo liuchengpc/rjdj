@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Privilegetype;
 
 public interface PrivilegetypeMapper {
+	List<Privilegetype> queryPrivilegeType();
+	
     int deleteByPrimaryKey(Integer privilegetypeid);
 
     int insert(Privilegetype record);

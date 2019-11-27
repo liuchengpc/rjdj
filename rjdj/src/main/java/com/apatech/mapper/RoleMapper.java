@@ -7,6 +7,14 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Role;
 
 public interface RoleMapper {
+	Role queryRoleByID(Role role);
+	
+	Role queryRole(Role role);
+	
+	int insertRole(Role role);
+	
+	List<Role> queryRolePage();
+	
     int deleteByPrimaryKey(Integer roleid);
 
     int insert(Role record);

@@ -6,6 +6,12 @@
     <result column="roleID" jdbcType="INTEGER" property="roleid" />
     <result column="privilegeID" jdbcType="INTEGER" property="privilegeid" />
   </resultMap>
+  <delete id="deleteRoleAndPrivilege" parameterType="java.lang.Integer">
+  	delete from roleprivilege where roleID = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <select id="queryPrivilegeByRoleID" parameterType="com.apatech.domain.Roleprivilege" resultMap="BaseResultMap">
+  	select * from roleprivilege where roleID = #{roleid,jdbcType=INTEGER}
+  </select>
   <sql id="Base_Column_List">
     rolePrivilegeID, roleID, privilegeID
   </sql>
@@ -24,6 +30,9 @@
       )
     values (#{roleprivilegeid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}, #{privilegeid,jdbcType=INTEGER}
       )
+  </insert>
+  <insert id="insertRoleprivilege" parameterType="com.apatech.domain.Roleprivilege">
+  	insert into roleprivilege(`roleID`,`privilegeID`)values(#{roleid,jdbcType=INTEGER},#{privilegeid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.apatech.domain.Roleprivilege">
     insert into roleprivilege

@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Ptmanagement;
 
 public interface PtmanagementMapper {
+	List<Ptmanagement> queryByID(Integer privilegeTypeID);
+	
     int deleteByPrimaryKey(Integer ptid);
 
     int insert(Ptmanagement record);

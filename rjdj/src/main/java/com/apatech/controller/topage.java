@@ -161,6 +161,16 @@ public class topage {
 		System.out.println("进入page/claim/cashRegister_Home");
 		return "page/claim/cashRegister_Home";
 	}
+	@RequestMapping("page/claim/privilege_Update")
+	public String privilege_Update() {
+		System.out.println("进入page/claim/privilege_Update");
+		return "page/claim/privilege_Update";
+	}
+	@RequestMapping("page/claim/privilege_Insert")
+	public String privilege_Insert() {
+		System.out.println("进入page/claim/privilege_Insert");
+		return "page/claim/privilege_Insert";
+	}
 	@RequestMapping("page/common/body_menu4")
 	public String body_menu4() {
 		System.out.println("进入page/common/body_menu4");

@@ -7,6 +7,12 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Roleprivilege;
 
 public interface RoleprivilegeMapper {
+	int deleteRoleAndPrivilege(Integer roleid);
+	
+	List<Roleprivilege> queryPrivilegeByRoleID(Integer roleid);
+	
+	int insertRoleprivilege(Roleprivilege r);
+	
     int deleteByPrimaryKey(Integer roleprivilegeid);
 
     int insert(Roleprivilege record);

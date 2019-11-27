@@ -5,6 +5,9 @@
     <id column="privilegeTypeID" jdbcType="INTEGER" property="privilegetypeid" />
     <result column="privilegeType" jdbcType="VARCHAR" property="privilegetype" />
   </resultMap>
+  <select id="queryPrivilegeType" parameterType="com.apatech.domain.Privilegetype" resultMap="BaseResultMap">
+  	select * from privilegetype
+  </select>
   <sql id="Base_Column_List">
     privilegeTypeID, privilegeType
   </sql>

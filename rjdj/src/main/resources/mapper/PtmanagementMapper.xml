@@ -6,6 +6,9 @@
     <result column="privilegeTypeID" jdbcType="INTEGER" property="privilegetypeid" />
     <result column="privilegeID" jdbcType="INTEGER" property="privilegeid" />
   </resultMap>
+  <select id="queryByID" parameterType="com.apatech.domain.Ptmanagement" resultMap="BaseResultMap">
+  	SELECT privilege.`privilegeID`,privilege.`privilegeName` FROM ptmanagement,privilege WHERE privilegeTypeID = #{privilegetypeid,jdbcType=INTEGER} AND ptmanagement.`privilegeID`=privilege.`privilegeID`
+  </select>
   <sql id="Base_Column_List">
     ptID, privilegeTypeID, privilegeID
   </sql>

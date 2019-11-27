@@ -17,6 +17,21 @@ public class RoleprivilegeService {
 	@Autowired
 	private RoleprivilegeMapper dao;
 
+	public int deleteRoleAndPrivilege(Integer roleid) {
+		
+		return dao.deleteRoleAndPrivilege(roleid);
+	}
+	
+	public List<Roleprivilege> queryPrivilegeByRoleID(Integer roleid){
+		
+		return dao.queryPrivilegeByRoleID(roleid);
+	}
+	
+	public int insertRoleprivilege(Roleprivilege r) {
+		
+		return dao.insertRoleprivilege(r);
+	}
+	
     public int deleteByPrimaryKey(Integer roleprivilegeid) {
     	return dao.deleteByPrimaryKey(roleprivilegeid);
     }

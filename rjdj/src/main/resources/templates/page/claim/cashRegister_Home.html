@@ -3,12 +3,22 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-
+		<link rel="stylesheet" type="text/css" th:href="@{/css2/bootstrap.css}">
 		<link rel="stylesheet" type="text/css" th:href="@{/css2/easyui.css}">
 		<link rel="stylesheet" type="text/css" th:href="@{/css2/icon.css}">
-		<script type="text/javascript" th:src="@{/js2/jquery.min.js}"></script>
+
+		 <link th:href="@{/css2/style3.css}" rel="stylesheet" type="text/css"/>
+		 <link rel="stylesheet" th:href="@{/css2/style5.css}">
+        <script th:src="@{/js2/jquery.js}"></script>
+        <script th:src="@{/js2/jquery.SuperSlide.2.1.1.js}"></script>
+		
 		<script type="text/javascript" th:src="@{/js2/jquery.easyui.min.js}"></script>
+		
+		
 		<style type="text/css">
+			.set-content{
+				autoPlay:false;trigger:"click";delayTime:700;pnLoop:false;
+			}
 			.box{
 				height: 44px;
 				position: absolute;
@@ -132,11 +142,12 @@
 			}
 			.item img{
 				border:1px solid #333;
-				width: 100px;
+				width: 75px;
 			}
 			.item p{
 				margin:0;
 				font-weight:bold;
+				font-size:12px;
 				text-align:center;
 				color:gray;
 			}
@@ -173,12 +184,11 @@
 			}
 		</style>
 		<script>
-			/*var data = {"total":0,"rows":[]};
+			var data = {"total":0,"rows":[]};
 			var totalCost = 0;
+			var gd = 0;
 			
 			$(function(){
-				var data = {"total":0,"rows":[]};
-				var totalCost = 0;
 				$('#cartcontent').datagrid({
 					singleSelect:true
 				});
@@ -186,25 +196,72 @@
 				ayo();		//点击增加商品
 				
 				
+				awu();
 			});
+			 
+			 var g = 0;
+			 document.addEventListener('mousewheel',function(event){ //判断鼠标上滚 下滚
+			    if(event.wheelDelta>0){
+			    	g = 1;
+			    }else{
+			    	g = -1;
+			    }
+			})
 			 
 			function ayo(){
 				$(".ayo").click(function(){
-				  	var name = $(this).find('p:eq(0)').html();
+					//商品名称
+				  	var name = $(this).find('p:eq(0)').html();				  	
+				  	//商品规格
 				  	var commoditySize = $(this).find('p:eq(1)').html();
+				  	//商品单价
 					var price = $(this).find('p:eq(2)').html();
+					//合计
 					var moneyamt = parseFloat(price.split('$')[1]);
-					addProduct(name, commoditySize,parseFloat(price.split('$')[1]),moneyamt);
+					//删除
+					var span = "<span class=\"glyphicon glyphicon-remove\"></span>&nbsp&nbsp&nbsp";
+					addProduct(name, commoditySize,parseFloat(price.split('$')[1]),moneyamt,span);	
 				});
 			}
 			
-			function addProduct(name,commoditySize,price,moneyamt){
+			function awu(){								
+				$(".datagrid-row").live("mousewheel",function(){
+					var ind = $(this).index();
+					if(g>0){
+						data.rows[ind].quantity += 1;
+						data.rows[ind].moneyamt += parseFloat($(this).find(".datagrid-cell-c1-price").html());
+						$(this).find(".datagrid-cell-c1-quantity").html(data.rows[ind].quantity);	
+						$(this).find(".datagrid-cell-c1-moneyamt").html(data.rows[ind].moneyamt);
+						totalCost += parseFloat($(this).find(".datagrid-cell-c1-price").html());
+					}else{
+						/*$(this).find(".datagrid-cell-c1-quantity").html(data.rows[ind].quantity -=1);
+						totalCost -= parseFloat($(this).find(".datagrid-cell-c1-price").html());*/
+						if(parseInt($(this).find(".datagrid-cell-c1-quantity").html())>1){
+							data.rows[ind].quantity -= 1;
+							data.rows[ind].moneyamt-=parseFloat($(this).find(".datagrid-cell-c1-price").html());
+							$(this).find(".datagrid-cell-c1-quantity").html(data.rows[ind].quantity);
+							$(this).find(".datagrid-cell-c1-moneyamt").html(data.rows[ind].moneyamt);
+							totalCost -= parseFloat($(this).find(".datagrid-cell-c1-price").html());
+						}
+					}
+					if($("#VIPbutton").attr("checked")=="checked"){
+						$("[name=tt1]").val(totalCost);
+						$('[name=tt2]').val(parseFloat(totalCost/10*7));
+					}else{
+						$('[name=tt2]').val("无");
+						$("[name=tt1]").val(totalCost);
+					}
+				});
+			}
+			
+			function addProduct(name,commoditySize,price,moneyamt,span){
 				function add(){
 					for(var i=0; i<data.total; i++){
 						var row = data.rows[i];
 						if (row.name == name){
 							row.quantity += 1;
 							row.moneyamt += price;
+							row.span = span;
 							return;
 						}
 					}
@@ -215,25 +272,58 @@
 						commoditySize:commoditySize,
 						quantity:1,
 						price:price,
-						moneyamt:moneyamt			
+						moneyamt:moneyamt,	
+						span:span
 					});
 				}
 				add();
 				totalCost += price;
 				
 				$('#cartcontent').datagrid('loadData', data);
-				$('div.cart .total').html('总金额：$'+totalCost);
+				if($("#VIPbutton").attr("checked")=="checked"){
+					$("[name=tt1]").val(totalCost);
+					$('[name=tt2]').val(parseFloat(totalCost/10*7));
+				}else{
+					$('[name=tt2]').val("无");
+					$("[name=tt1]").val(totalCost);
+				}
+							
+				$("#VIPbutton").click(function(){
+					if($("#VIPbutton").attr("checked")=="checked"){
+						$('[name=tt1]').val(totalCost);
+						$('[name=tt2]').val(parseFloat(totalCost/10*7));
+					}else{
+						$('[name=tt2]').val("无");
+						$('[name=tt1]').val(totalCost);
+					}
+				});
 				
+				$("#qk").click(function(){
+					$(".datagrid-row").html("");	//清除所有表单
+					data={"total":0,"rows":[]};
+					dataTwo={"total":0,"rows":[]};
+					totalCost = 0;
+					$("#VIPbutton").removeAttr("checked");
+					$('[name=tt2]').val("无");
+					$('[name=tt1]').val(totalCost);
+					
+				});
 				
+				/*$(".datagrid-row").live("mousewheel",function(){
+					if (data.rows[ind].name == name){
+						data.rows[ind].quantity += 1;
+						$(this).find(".datagrid-cell-c1-quantity").html(data.rows[ind].quantity);
+					}
+				});*/
 				
-			}*/
+			}
 		</script>
 	</head>
 	<body style="margin:0;padding:0;height:100%;background:#fafafa;">
-		<ul class="products" style="height: 520px;width: 866px;margin-top: 0px;overflow: hidden;overflow-y:scroll;border-bottom: 1px solid gainsboro;">
+		<ul class="products" style="height: 380px;width: 805px;margin-top: 0px;overflow: hidden;overflow-y:scroll;border-bottom: 1px solid gainsboro;margin-left:-2%;">
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt1.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Balloon</p>
 						<p>L</p>
@@ -243,7 +333,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt2.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Feeling</p>
 						<p>S</p>
@@ -253,7 +343,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt3.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Elephant</p>
 						<p>M</p>
@@ -263,7 +353,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt4.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Stamps</p>
 						<p>LL</p>
@@ -273,7 +363,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt5.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Monogram</p>
 						<p>S</p>
@@ -283,7 +373,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt6.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Rolling</p>
 						<p>LL</p>
@@ -293,7 +383,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt1.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Balloon</p>
 						<p>L</p>
@@ -303,7 +393,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt2.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Feeling</p>
 						<p>S</p>
@@ -313,7 +403,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt3.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Elephant</p>
 						<p>M</p>
@@ -323,7 +413,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt4.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Stamps</p>
 						<p>LL</p>
@@ -333,7 +423,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt5.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Monogram</p>
 						<p>S</p>
@@ -343,7 +433,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt6.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Rolling</p>
 						<p>LL</p>
@@ -353,7 +443,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt1.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Balloon</p>
 						<p>L</p>
@@ -363,7 +453,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt2.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Feeling</p>
 						<p>S</p>
@@ -373,7 +463,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt3.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Elephant</p>
 						<p>M</p>
@@ -383,7 +473,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt4.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Stamps</p>
 						<p>LL</p>
@@ -393,7 +483,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt5.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Monogram</p>
 						<p>S</p>
@@ -403,7 +493,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt6.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Rolling</p>
 						<p>LL</p>
@@ -413,7 +503,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt1.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Balloon</p>
 						<p>L</p>
@@ -423,7 +513,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt2.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Feeling</p>
 						<p>S</p>
@@ -433,7 +523,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt3.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Elephant</p>
 						<p>M</p>
@@ -443,7 +533,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt4.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Stamps</p>
 						<p>LL</p>
@@ -453,7 +543,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt5.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Monogram</p>
 						<p>S</p>
@@ -463,7 +553,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt6.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Rolling</p>
 						<p>LL</p>
@@ -473,7 +563,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt1.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Balloon</p>
 						<p>L</p>
@@ -483,7 +573,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt2.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Feeling</p>
 						<p>S</p>
@@ -493,7 +583,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt3.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Elephant</p>
 						<p>M</p>
@@ -503,7 +593,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt4.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Stamps</p>
 						<p>LL</p>
@@ -513,7 +603,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt5.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Monogram</p>
 						<p>S</p>
@@ -523,7 +613,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt6.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Rolling</p>
 						<p>LL</p>
@@ -533,7 +623,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt1.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt1.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Balloon</p>
 						<p>L</p>
@@ -543,7 +633,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt2.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt2.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Feeling</p>
 						<p>S</p>
@@ -553,7 +643,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt3.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt3.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Elephant</p>
 						<p>M</p>
@@ -563,7 +653,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt4.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt4.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Stamps</p>
 						<p>LL</p>
@@ -573,7 +663,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt5.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt5.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Monogram</p>
 						<p>S</p>
@@ -583,7 +673,7 @@
 			</li>
 			<li class="ayo">
 				<a href="#" class="item">
-					<img th:src="@{/images/shirt6.gif}" style="border-width: 0px;" class="iga">
+					<img src="/images/shirt6.gif" style="border-width: 0px;" class="iga">
 					<div>
 						<p>Rolling</p>
 						<p>LL</p>
@@ -594,151 +684,352 @@
 		</ul>
 
 		
-		
-		<div class="cart" style="width: 400px;">
+		<div class="set-content" style="position: absolute;left: 60.5%;margin-top:-33.0%;width: 442px;background-color: #ccc;">
+            <div style="height: 40px;"></div>
+            <div class="set-title hd">
+                <ul class="clearfix">
+                    <li class="on">收银</li>
+                    <li>挂单</li>
+                </ul>
+            </div>
+            <div class="set-middle bd" style="border-top:#000000;height: 70.6%;background-color: #ccc;">
+                <ul class="set-middle-item">
+                    <li>
+                    	<div class="checkbox" style="position: absolute;">
+						  <label>
+						   <span style="display:inline-block;position: absolute;width: 50px;top: -3px;">会员：</span>
+						   <input type="checkbox" id="VIPbutton" value="option1" aria-label="..." style="zoom:150%;margin-left: 35px;margin-top: -5%;">
+						  </label>
+						</div>
+                        <h1>收银系统</h1>
+						<div style="background:#fff">
+						<table id="cartcontent" fitColumns="true" style="width:400px;height:auto;">
+							<thead>
+								<tr>
+									<th field="name" width="30">商品</th>
+									<th field="commoditySize" width="20" align="right">规格</th>
+									<th field="quantity" width="15" align="right">数量</th>
+									<th field="price" width="15" align="right">单价</th>
+									<th field="moneyamt" width="15" align="right">合计</th>
+									<th field="span" width="10" align="right">操作</th>
+								</tr>
+							</thead>
+						</table>
+						</div>
+												
+					    <div class="form-group col-md-9" style="position: absolute;top:75%;left:1%;">
+						    <div class="input-group">
+						      <div class="input-group-addon">$</div>
+						      <input type="text" name="tt1" class="form-control total" id="exampleInputAmount" placeholder="" readonly="readonly">
+						      <div class="input-group-addon">总金额</div>
+						    </div>
+					    </div>
+					    
+					    <div class="form-group col-md-9" style="position: absolute;top:82%;left:1%;">
+						    <div class="input-group">
+						      <div class="input-group-addon">$</div>
+						      <input type="text" name="tt2" class="form-control total" id="exampleInputAmount" placeholder="" readonly="readonly">
+						      <div class="input-group-addon">会员价</div>
+						    </div>
+					    </div>
+						<div style="position: absolute;top: 85%;left: 15%;">
+							<input class="btn btn-default" type="button" value="挂单" id="gdGo" style="width: 100px;height: 40px;font-size: 17px;cursor:pointer;">
+							<input class="btn btn-default" type="button" value="清空" id="qk" style="width: 100px;height: 40px;font-size: 17px;cursor:pointer;">
+							<input class="btn btn-default" type="button" value="结账" style="width: 100px;height: 40px;font-size: 17px;cursor:pointer;">
+						</div>
+                    </li>
+                </ul>
+                <ul class="set-middle-item">
+                    <li>
+                       <h1>待付款</h1>
+                        <table class="table table-hover">
+							<thead>
+								<tr>
+									<th>订单编号</th>
+									<th>挂单时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>112331231231232</td>
+									<td>2019-10-12 00:00:00</td>
+									<td><a href="#" data-toggle="modal" data-target="#myModal">查看</a></td>
+								</tr>
+							</tbody>
+						</table>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+		<!--<div class="cart" style="width: 400px;">
 			<h1>收银系统</h1>
 			<div style="background:#fff">
 			<table id="cartcontent" fitColumns="true" style="width:400px;height:auto;">
 				<thead>
 					<tr>
-						<th field="name" width="22%">商品</th>
-						<th field="commoditySize" width="16%" align="right">规格</th>
-						<th field="quantity" width="16%" align="right">数量</th>
-						<th field="price" width="16%" align="right">单价</th>
-						<th field="moneyamt" width="16%" align="right">合计</th>
+						<th field="name" width="140">商品</th>
+						<th field="commoditySize" width="60" align="right">规格</th>
+						<th field="quantity" width="60" align="right">数量</th>
+						<th field="price" width="60" align="right">单价</th>
+						<th field="moneyamt" width="60" align="right">合计</th>
 					</tr>
 				</thead>
 			</table>
 			</div>
 			<p class="total" style="color: red;font-size: 18px;font-weight: bolder;margin-top: 5%;">总金额： $0</p>
-			<button type="button" class="btn btn-default col-md-3" style="margin-left: 3%;margin-top: 15%;">挂单</button>
-			  <button type="button" class="btn btn-danger col-md-3" style="margin-left: 2.5%;margin-top: 15%;">删除</button>
-		      <button type="button" class="btn btn-success col-md-3" style="margin-left: 2.5%;margin-top: 15%;">结账</button>
+			
 			<h2>单击商品添加到购物车</h2>
 		</div>
+		-->
 		
 		
-		
-		<div style="border-bottom: 1px solid gainsboro;width: 69.5%;margin-top: -1%;">
-			<img th:src="@{/img/lt.png}" width="1.5%" style="position: absolute;top:81.7%;left: 2.1%;cursor:pointer;">
-			<button class="raise" style="margin-left: 8.6%;width: 12%;cursor:pointer;">上衣</button>
-			<button class="raise" style="margin-left: 4.4%;width: 12%;cursor:pointer;">裤/裙</button>
-			<button class="raise" style="margin-left: 4.4%;width: 12%;cursor:pointer;">鞋子</button>
-			<button class="raise" style="margin-left: 4.4%;width: 12%;cursor:pointer;">帽子</button>
-			<button class="raise" style="margin-left: 4.4%;width: 12%;cursor:pointer;">饰品</button>
-			<img th:src="@{/img/rt.png}" width="1.5%" style="position: absolute;top:81.7%;left: 65.6%;opacity: 0.3;">
+		<div style="border-bottom: 1px solid gainsboro;width: 60.7%;margin-top: -0%;">
+			<img src="/img/lt.png" width="1.5%" style="position: absolute;top:78.8%;left: 1.1%;cursor:pointer;">
+			<button class="raise" style="margin-left: 6.6%;width: 13%;cursor:pointer;">上衣</button>
+			<button class="raise" style="margin-left: 4%;width: 13%;cursor:pointer;">裤/裙</button>
+			<button class="raise" style="margin-left: 4%;width: 13%;cursor:pointer;">鞋子</button>
+			<button class="raise" style="margin-left: 4%;width: 13%;cursor:pointer;">帽子</button>
+			<button class="raise" style="margin-left: 4%;width: 13%;cursor:pointer;">饰品</button>
+			<img src="/img/rt.png" width="1.5%" style="position: absolute;top:79%;left: 58.1%;opacity: 0.3;">
 		</div>
-		<div style="width: 69.5%;height: 62.5px;background-color:#FCFCFC;">
-			<span style="color: #8B8989;font-size: 23px;display: inline-block;margin-top: 30px;margin-left: 2%;">今日营业额：</span>
+		<div style="width: 60.7%;height: 55.5px;background-color:#FCFCFC;border:1px solid red;">
+			<span style="color: #8B8989;font-size: 15px;display: inline-block;margin-top: 20px;margin-left: 2%;">商品名称：</span>
+			<input type="text">
+			
+			<span style="color: #8B8989;font-size: 15px;display: inline-block;margin-top: 20px;margin-left: 2%;">商品尺寸：</span>
+			<input disabled="disabled" type="text">
+			<span style="color: #8B8989;font-size: 15px;display: inline-block;margin-top: 20px;margin-left: 2%;">商品颜色：</span>
+			<input disabled="disabled" type="text">
 			<div class="js-box box"></div>
 		</div>
 		
-		<script type="text/javascript">
-			var data = {"total":0,"rows":[]};
-			var totalCost = 0;
-			$(function(){
-				var data = {"total":0,"rows":[]};
-				var totalCost = 0;
-				$('#cartcontent').datagrid({
-					singleSelect:true
-				});
-						
-				ayo();		//点击增加商品
-				
-				
-				
-				  	var Event = {
-				    // 例 510,085.00
-				    number: function(digit){
-				      var num_arr=[];
-				      for(var i = 0;i<digit.length;i++){
-				        num_arr.push(digit.charAt(i));
-				      }
-				 
-				      return num_arr;
-				    },
-				    dom: function(arr){
-				      var str = '';
-				      for(var i = 0;i<arr.length;i++){
-				        if(parseInt(arr[i])>=0){
-				          str += '<div class="l js-l-box digit-container" data-show='+arr[i]+'>\
-				                  <span>0</span>\
-				                  <span>1</span>\
-				                  <span>2</span>\
-				                  <span>3</span>\
-				                  <span>4</span>\
-				                  <span>5</span>\
-				                  <span>6</span>\
-				                  <span>7</span>\
-				                  <span>8</span>\
-				                  <span>9</span>\
-				                </div>';
-				        }else{
-				           str += '<div class="sign-box l"><span>'+arr[i]+'</span></div>';
-				        }
-				      }
-				      return str;
-				    },
-				    animation: function(){
-				      var height = $(".js-box").height();
-				      $(".js-l-box").each(function(i){
-				        var num = parseInt($(this).data("show"));
-				        var scrollTop = 0;
-				          var scrollTop = height * num;
-				          $(this).css("margin-top",0);
-				          $(this).animate({marginTop: -scrollTop},1500);
-				          console.log(scrollTop);
-				      });
-				    }
-				  };
-				  var final_arr = Event.number('123');
-				  $(".js-box").html(Event.dom(final_arr));
-				  Event.animation();
-				});
-				
-				var b = 0;
-			function ayo(){
-				$(".ayo").click(function(){
-				  	var name = $(this).find('p:eq(0)').html();
-				  	var commoditySize = $(this).find('p:eq(1)').html();
-					var price = $(this).find('p:eq(2)').html();
-					var moneyamt = parseFloat(price.split('$')[1]);
-					addProduct(name, commoditySize,parseFloat(price.split('$')[1]),moneyamt);
-				});
-			}
+		<div style="height:0px;"></div>
+			<div class="suspension" style="position: absolute;left: 53.7%;top:3%;">
+				<div class="suspension-box">
+					<a href="#" class="a a-service "><i class="i"></i></a>
+					<a href="javascript:;" class="a a-service-phone "><i class="i"></i></a>
+					<a href="javascript:;" class="a a-qrcode"><i class="i"></i></a>
+					<a href="#" class="a a-cart"><i class="i"></i></a>
+					<a href="javascript:;" class="a a-top"><i class="i"></i></a>
+					
+					<div class="d d-service" style="width: 400px;height: 320px;">
+						<i class="arrow"></i>
+						<div class="inner-box">
+							<div style="border-right:2px solid gainsboro; width: 120px;height: 240px;margin-left: 8%;margin-top: 8%;display: inline-block;">
+								<div class="sx" i="1" style="margin-bottom: 8%;">
+									<div class="imgy" style="background-color: #000000; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro"></div>
+									<a href="#" style="font-size: 15px;">黑色系</a>
+								</div>
+								<div class="sx" i="2" style="margin-bottom: 8%;">
+									<div class="imgy" style="background-color: #FFFFFF; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro;"></div>
+									<a href="#" style="font-size: 15px;">白色系</a>
+								</div>
+								<div class="sx" i="3" style="margin-bottom: 8%;">
+									<div class="imgy" style="background-color: red; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro;"></div>
+									<a href="#" style="font-size: 15px;">红色系</a>
+								</div>
+								<div class="sx" i="4" style="margin-bottom: 8%;">
+									<div class="imgy" style="background-color: blue; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro;"></div>
+									<a href="#" style="font-size: 15px;">蓝色系</a>
+								</div>
+								<div class="sx" i="5" style="margin-bottom: 8%;">
+									<div class="imgy" style="background-color: yellow; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro;"></div>
+									<a href="#" style="font-size: 15px;">黄色系</a>
+								</div>
+								<div class="sx" i="6" style="margin-bottom: 8%;">
+									<div class="imgy" style="background-color: green; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro;"></div>
+									<a href="#" style="font-size: 15px;">绿色系</a>
+								</div>
+								<div class="sx" i="7" style="margin-bottom: 8%;">
+									<div class="imgy" style="background-color: #800080; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro;"></div>
+									<a href="#" style="font-size: 15px;">紫色系</a>
+								</div>
+								<div class="sx" i="8" style="margin-bottom: 8%;">
+									<div class="imgy" style="background-color: #800080; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro;"></div>
+									<a href="#" style="font-size: 15px;">其他色系</a>
+								</div>
+							</div>
+							
+							
+							<div class="ys" style="height: 240px;width: 180px;display: inline-block;position: absolute;top:35px ;left: 200px;">
+								<div class="sxlx" i="1" style="margin-bottom: 8%;display: inline-block;margin-right: 20px;">
+									<div class="imgy" style="background-color: #000000; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro"></div>
+									<a href="#" style="font-size: 15px;">黑色系</a>
+								</div>
+								<div class="sxlx" i="1" style="margin-bottom: 8%;display: inline-block;margin-right: 20px;">
+									<div class="imgy" style="background-color: #000000; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro"></div>
+									<a href="#" style="font-size: 15px;">黑色系</a>
+								</div>
+								<div class="sxlx" i="1" style="margin-bottom: 8%;display: inline-block;margin-right: 20px;">
+									<div class="imgy" style="background-color: #000000; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro"></div>
+									<a href="#" style="font-size: 15px;">黑色系</a>
+								</div>
+								<div class="sxlx" i="1" style="margin-bottom: 8%;display: inline-block;margin-right: 20px;">
+									<div class="imgy" style="background-color: #000000; height: 13px; width: 13px;display: inline-block;border: 1px solid gainsboro"></div>
+									<a href="#" style="font-size: 15px;">黑色系</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="d d-service-phone" style="width: 320px;height: 180px;">
+						<i class="arrow"></i>
+						<div class="inner-box">
+							<div style="height: 160px;">
+								<label style="font-size: 17px;">尺码：</label>
+								<div>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+									<span style="margin-right: 15px;"><a>21</a></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="d d-qrcode">
+						<i class="arrow"></i>
+						<div class="inner-box">
+							<div class="qrcode-img"></div>
+							<p>微信服务号</p>
+						</div>
+					</div>
 			
-			function addProduct(name,commoditySize,price,moneyamt){
-				function add(){
-					for(var i=0; i<data.total; i++){
-						var row = data.rows[i];
-						if (row.name == name){
-							row.quantity += 1;
-							row.moneyamt += price;
-							return;
-						}
-					}
-					data.total += 1;
-
-					data.rows.push({
-						name:name,
-						commoditySize:commoditySize,
-						quantity:1,
-						price:price,
-						moneyamt:moneyamt			
-					});
+				</div>
+			</div>
+			
+			<!-- 模态框（Modal） -->
+	        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	            <div class="modal-dialog">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+	                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                            &times;
+	                        </button>
+	                        <h4 class="modal-title" id="myModalLabel">
+	                        	   挂单详情
+	                        </h4>
+	                    </div>
+	                    <div class="modal-body" style="margin-top:-50px;">
+	                        <table class="table table-hover">
+							  <thead>
+							  	<tr>
+							  		<th>11</th>
+							  		<th>11</th>
+							  		<th>11</th>
+							  		<th>11</th>
+							  		<th>11</th>
+							  		<th>11</th>
+							  		<th>11</th>
+							  	</tr>
+							  </thead>
+							  <tbody>
+							  	<tr>
+							  		<td>1</td>
+							  		<td>1</td>
+							  		<td>1</td>
+							  		<td>1</td>
+							  		<td>1</td>
+							  		<td>1</td>
+							  		<td>1</td>
+							  	</tr>
+							  </tbody>
+							</table>
+	                    </div>
+	                    <!-- <div class="modal-footer">
+	                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+	                        </button>
+	                        <button type="button" class="btn btn-primary">
+	                            提交更改
+	                        </button>
+	                    </div> -->
+	                </div><!-- /.modal-content -->
+	            </div><!-- /.modal -->
+	        </div>
+	<script>
+		
+		
+		$(function(){
+			jQuery(".set-content").slide({autoPlay:false,trigger:"click",delayTime:700,pnLoop:false});
+			
+			gdGo();		//挂单功能
+			
+			qk();	//清空表单
+			
+			count();
+			
+			
+			$(document).on("mouseenter", ".suspension .a", function(){
+			var _this = $(this);
+			var s = $(".suspension");
+			var isService = _this.hasClass("a-service");
+			var isServicePhone = _this.hasClass("a-service-phone");
+			var isQrcode = _this.hasClass("a-qrcode");
+			if(isService){ s.find(".d-service").show().siblings(".d").hide();}
+			if(isServicePhone){ s.find(".d-service-phone").show().siblings(".d").hide();}
+			if(isQrcode){ s.find(".d-qrcode").show().siblings(".d").hide();}
+	});
+	$(document).on("mouseleave", ".suspension, .suspension .a-top", function(){
+		$(".suspension").find(".d").hide();
+	});
+	$(document).on("mouseenter", ".suspension .a-top", function(){
+		$(".suspension").find(".d").hide(); 
+	});
+	$(document).on("click", ".suspension .a-top", function(){
+		$("html,body").animate({scrollTop: 0});
+	});
+	$(window).scroll(function(){
+		var st = $(document).scrollTop();
+		var $top = $(".suspension .a-top");
+		if(st > 400){
+			$top.css({display: 'block'});
+		}else{
+			if ($top.is(":visible")) {
+				$top.hide();
+			}
+		}
+	});
+		});
+		
+		var dataTwo = {"total":0,"rows":[]};
+		
+		function gdGo(){	//挂单功能
+			$("#gdGo").click(function(){
+				if(data.rows==""){
+					alert(1);
+				}else{
+					dataTwo.total=data.total;
+					dataTwo.rows=data.rows;
+					console.info(dataTwo);
 				}
-				add();
-				totalCost += price;
-				
-				$('#cartcontent').datagrid('loadData', data);
-				$('div.cart .total').html('总金额：$'+totalCost);
-				
-				b = totalCost;
-
-			}
-			
-			
-			</script>
-
+			});
+		}
+		
+		function qk(){
+			$("#qk").click(function(){
+				$(".datagrid-row").html("");	//清除所有表单
+				data.rows=[];
+				data.total=0;
+				dataTwo.rows=[];
+				dataTwo.total=0;
+			});
+		}
+		
+		function count(){
+			/*$(".datagrid-row").live("mousewheel",function(){
+				$(this).find(".datagrid-cell-c1-quantity").html(parseInt($(this).find(".datagrid-cell-c1-quantity").html())+1);
+			});*/
+		}
+		
+	</script>
 	</body>
 </html>

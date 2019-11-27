@@ -5,6 +5,18 @@
     <id column="roleID" jdbcType="INTEGER" property="roleid" />
     <result column="roleName" jdbcType="VARCHAR" property="rolename" />
   </resultMap>
+  <select id="queryRoleByID" parameterType="com.apatech.domain.Role" resultMap="BaseResultMap">
+  	select * from role where roleid = #{roleid,jdbcType=INTEGER}
+  </select>
+  <select id="queryRole" parameterType="com.apatech.domain.Role" resultMap="BaseResultMap">
+  	select * from role where roleName = #{rolename,jdbcType=VARCHAR}
+  </select>
+  <insert id="insertRole" parameterType="com.apatech.domain.Role">
+  	insert into `role`(roleName)values(#{rolename,jdbcType=VARCHAR})
+  </insert>
+  <select id="queryRolePage" parameterType="com.apatech.domain.Role" resultMap="BaseResultMap">
+  	select * from role
+  </select>
   <sql id="Base_Column_List">
     roleID, roleName
   </sql>

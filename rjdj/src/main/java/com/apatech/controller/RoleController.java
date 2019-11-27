@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Role;
 import com.apatech.service.RoleService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -21,6 +22,59 @@ import com.github.pagehelper.PageInfo;
 public class RoleController {
 	@Autowired
 	private RoleService dao;	
+	
+	@RequestMapping(value="/queryRoleByID",method=RequestMethod.GET)
+	@ResponseBody
+	public Role queryRoleByID(Role role) {
+		
+		return dao.queryRoleByID(role);
+	}
+	
+	@RequestMapping(value="/queryRole2",method=RequestMethod.GET)
+	@ResponseBody
+	public Role queryRole2(Role role) {
+
+		return dao.queryRole(role);
+	}
+	
+	@RequestMapping(value="/queryRole",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,String> queryRole(Role role) {
+		Map<String,String> map = new HashMap<String,String>();
+		Role r = dao.queryRole(role);
+		if(r==null) {
+			map.put("code", "1");
+			map.put("message", "继续新增");
+		}else {
+			map.put("code", "2");
+			map.put("message", "不可继续新增");
+		}
+		return map;
+	}
+	
+	@RequestMapping(value="/insertRole",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,String> insertRole(Role role) {
+		Map<String,String> map = new HashMap<String,String>();
+		int i = dao.insertRole(role);
+		if(i>0) {
+			map.put("code", "1");
+			map.put("message", "新增成功！");
+		}else {
+			map.put("code", "2");
+			map.put("message", "新增失败");
+		}
+		return map;
+	} 
+	
+	@RequestMapping(value="/queryRolePage",method=RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Role> queryRolePage(Integer pageNum,Integer pageSize){
+		
+		
+		return dao.queryRolePage(pageNum, pageSize);
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

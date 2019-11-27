@@ -17,6 +17,11 @@ public class PtmanagementService {
 	@Autowired
 	private PtmanagementMapper dao;
 
+	public List<Ptmanagement> queryByID(Integer privilegeTypeID){
+		
+		return dao.queryByID(privilegeTypeID);
+	}
+	
     public int deleteByPrimaryKey(Integer ptid) {
     	return dao.deleteByPrimaryKey(ptid);
     }

@@ -17,6 +17,28 @@ public class RoleService {
 	@Autowired
 	private RoleMapper dao;
 
+	public Role queryRoleByID(Role role) {
+		
+		return dao.queryRoleByID(role);
+	}
+	
+	public Role queryRole(Role role) {
+		
+		return dao.queryRole(role);
+	}
+	
+	public int insertRole(Role role) {
+		
+		return dao.insertRole(role);
+	}
+	
+	public PageInfo<Role> queryRolePage(Integer pageNum,Integer pageSize){
+		PageHelper.startPage(pageNum, pageSize);
+		List<Role> list = dao.queryRolePage();
+		PageInfo<Role> page = new PageInfo<Role>(list);
+		return page;
+	}
+	
     public int deleteByPrimaryKey(Integer roleid) {
     	return dao.deleteByPrimaryKey(roleid);
     }
