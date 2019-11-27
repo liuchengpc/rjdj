@@ -17,6 +17,9 @@ public interface MemberMapper {
     
     @Select("select * from Member")
     List<Member> selectAll();
+    
+    @Select("SELECT d.*,(SELECT name FROM memberlv l WHERE l.memberLvID=d.memberLvID) memberlvname, (SELECT COUNT(*) FROM cashregister e WHERE e.memberID = d.memberID  ) hycount, IFNULL( ( SELECT SUM(moneyamt) FROM cashregister f WHERE f.memberID = d.memberID ) ,0)  hysumprice, (SELECT time FROM cashregister g WHERE g.memberID = d.memberID GROUP BY g.time LIMIT 1,1) hytime FROM member d")
+    List<Member> queryAll();
 
     int updateByPrimaryKeySelective(Member record);
 

@@ -1,6 +1,8 @@
 package com.apatech.controller;
 
 import java.util.HashMap;
+
+
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +61,22 @@ public class MemberController {
     	PageInfo<Member> page=dao.selectAllpage(pageNum, pageSize);
     	return page;
     }
+	
+	/**
+	 * 连表分页
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "queryAllpage",method = RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Member> queryAllpage( Integer pageNum,Integer pageSize){
+		System.out.println("进入MemberController连表分页");
+		System.out.println(pageNum+"/"+pageSize);
+    	PageInfo<Member> page=dao.queryAllpage(pageNum, pageSize);
+    	return page;
+    }
+	
 	/**
 	 * 新增
 	 * @param student

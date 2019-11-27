@@ -1,4 +1,11 @@
 package com.apatech.domain;
+
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * 会员表
  * @author 刘成
@@ -16,14 +23,43 @@ public class Member {
     private String street;//街道
     private Float price;//余额
     private Integer integral;//积分
-    
-    
+    private String memberlvname;//会员等级名称
+    private Integer hycount;//成交次数
+    private Integer hysumprice;//成交金额
+    @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    private Date hytime;//最近成交 
 
-    @Override
-	public String toString() {
-		return "Member [memberid=" + memberid + ", phone=" + phone + ", name=" + name + ", memberlvid=" + memberlvid
-				+ ", password=" + password + ", province=" + province + ", city=" + city + ", region=" + region
-				+ ", street=" + street + ", price=" + price + ", integral=" + integral + "]";
+	public String getMemberlvname() {
+		return memberlvname;
+	}
+
+	public void setMemberlvname(String memberlvname) {
+		this.memberlvname = memberlvname;
+	}
+
+	public Integer getHycount() {
+		return hycount;
+	}
+
+	public void setHycount(Integer hycount) {
+		this.hycount = hycount;
+	}
+
+	public Integer getHysumprice() {
+		return hysumprice;
+	}
+
+	public void setHysumprice(Integer hysumprice) {
+		this.hysumprice = hysumprice;
+	}
+
+	public Date getHytime() {
+		return hytime;
+	}
+
+	public void setHytime(Date hytime) {
+		this.hytime = hytime;
 	}
 
 	public Member() {

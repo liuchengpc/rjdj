@@ -45,7 +45,13 @@ public class MemberService {
     	PageInfo<Member> page=new PageInfo<Member>(list);
     	return page;
     }
-
+    
+    public PageInfo<Member> queryAllpage(Integer pageNum,Integer pageSize){
+    	PageHelper.startPage(pageNum, pageSize);
+    	List<Member> list=dao.queryAll();
+    	PageInfo<Member> page=new PageInfo<Member>(list);
+    	return page;
+    }
 
     public int updateByPrimaryKeySelective(Member record) {
     	return dao.updateByPrimaryKeySelective(record);

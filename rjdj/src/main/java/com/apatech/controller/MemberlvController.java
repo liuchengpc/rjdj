@@ -28,7 +28,7 @@ public class MemberlvController {
 	 */
 	@RequestMapping(value = "/selectAll",method = RequestMethod.GET)
 	@ResponseBody
-	public List<Memberlv> selectAll(Model model) {
+	public List<Memberlv> selectAll() {
 		System.out.println("进入MemberlvController查询全部");
 		List<Memberlv> list = dao.selectAll();
 		return list;
