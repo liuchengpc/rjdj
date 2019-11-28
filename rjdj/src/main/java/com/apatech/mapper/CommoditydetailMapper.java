@@ -8,6 +8,10 @@ import com.apatech.domain.Commodity;
 import com.apatech.domain.Commoditydetail;
 
 public interface CommoditydetailMapper {
+	List<Commoditydetail> queryCommodityDetailByProductCodeID(String commodity);
+	
+	List<Commoditydetail> queryCommodityDetailByCashregister(Commoditydetail c);
+	
     int deleteByPrimaryKey(String commoditydetailid);
 
     int insert(Commoditydetail record);

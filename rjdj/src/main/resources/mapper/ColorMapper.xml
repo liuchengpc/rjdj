@@ -8,6 +8,9 @@
     <result column="colorImg" jdbcType="VARCHAR" property="colorimg" />
     <result column="rgb" jdbcType="VARCHAR" property="rgb" />
   </resultMap>
+  <select id="queryColorByColorTypeID" parameterType="com.apatech.domain.Color" resultMap="BaseResultMap">
+  	select * from color where colorTypeID = #{colortypeid,jdbcType=INTEGER}
+  </select>
   <sql id="Base_Column_List">
     colorID, colorTypeID, color, colorImg, rgb
   </sql>

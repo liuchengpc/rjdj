@@ -8,6 +8,21 @@
     <result column="commoditySizeID" jdbcType="INTEGER" property="commoditysizeid" />
     <result column="count" jdbcType="INTEGER" property="count" />
   </resultMap>
+  <select id="queryCommodityDetailByProductCodeID" parameterType="com.apatech.domain.Commoditydetail" resultMap="BaseResultMap">
+  	select * from where productCodeID = #{productcodeid,jdbcType=VARCHAR}
+  </select>
+  <select id="queryCommodityDetailByCashregister" parameterType="com.apatech.domain.Commoditydetail" resultMap="BaseResultMap">
+  	select * from commoditydetail where 1=1 
+  	<if test="colorid != 0">
+     and colorID = #{colorid,jdbcType=INTEGER} 
+    </if>
+    <if test="commoditysizeid != 0">
+     and commoditySizeID = #{commoditysizeid,jdbcType=INTEGER} 
+    </if>
+    <if test="productcodeid != 0">
+     and productCodeID = #{productcodeid,jdbcType=VARCHAR} 
+    </if>
+  </select>
   <sql id="Base_Column_List">
     commodityDetailID, productCodeID, colorID, commoditySizeID, count
   </sql>

@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Commoditytype;
 
 public interface CommoditytypeMapper {
+	List<Commoditytype> queryCommodityType();
+	
     int deleteByPrimaryKey(Integer commoditytypeid);
 
     int insert(Commoditytype record);

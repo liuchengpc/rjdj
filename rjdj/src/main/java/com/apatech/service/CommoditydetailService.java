@@ -17,6 +17,16 @@ public class CommoditydetailService {
 	@Autowired
 	private CommoditydetailMapper dao;
 
+	public List<Commoditydetail> queryCommodityDetailByProductCodeID(String commodity) {
+		
+		return dao.queryCommodityDetailByProductCodeID(commodity);
+	}
+	
+	public List<Commoditydetail> queryCommodityDetailByCashregister(Commoditydetail c){
+		
+		return dao.queryCommodityDetailByCashregister(c);
+	}
+	
     public int deleteByPrimaryKey(String commoditydetailid) {
     	return dao.deleteByPrimaryKey(commoditydetailid);
     }

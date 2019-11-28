@@ -17,6 +17,13 @@ public class CommoditytypeService {
 	@Autowired
 	private CommoditytypeMapper dao;
 
+	public PageInfo<Commoditytype> queryCommodityType(Integer pageNum,Integer pageSize){
+		PageHelper.startPage(pageNum, pageSize);
+		List<Commoditytype> list = dao.queryCommodityType();
+		PageInfo<Commoditytype> page = new PageInfo<Commoditytype>(list);
+		return page;
+	}
+	
     public int deleteByPrimaryKey(Integer commoditytypeid) {
     	return dao.deleteByPrimaryKey(commoditytypeid);
     }

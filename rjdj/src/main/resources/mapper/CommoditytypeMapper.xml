@@ -5,6 +5,9 @@
     <id column="commodityTypeID" jdbcType="INTEGER" property="commoditytypeid" />
     <result column="commodityTypeName" jdbcType="VARCHAR" property="commoditytypename" />
   </resultMap>
+  <select id="queryCommodityType" parameterType="com.apatech.domain.Commoditytype" resultMap="BaseResultMap">
+  	select * from commodityType
+  </select>
   <sql id="Base_Column_List">
     commodityTypeID, commodityTypeName
   </sql>

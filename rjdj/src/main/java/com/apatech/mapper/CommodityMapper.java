@@ -11,6 +11,8 @@ import com.apatech.domain.Commodity;
 import com.apatech.domain.Commoditydetail;
 
 public interface CommodityMapper {
+	List<Commodity> queryCommodityXZ(Commodity c);
+	
     int deleteByPrimaryKey(String productcodeid);
 
     int insert(Commodity record);
