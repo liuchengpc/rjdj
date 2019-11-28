@@ -30,6 +30,9 @@ public class CommoditydetailService {
     public int deleteByPrimaryKey(String commoditydetailid) {
     	return dao.deleteByPrimaryKey(commoditydetailid);
     }
+    public int deleteByPrimaryKey2(String productCodeID) {
+    	return dao.deleteByPrimaryKey2(productCodeID);
+    }
 
     public int insert(Commoditydetail record) {
     	return dao.insert(record);
@@ -47,6 +50,9 @@ public class CommoditydetailService {
   
     public List<Commoditydetail> selectByPrimaryKey2(String commoditydetailid) {
     	return dao.selectByPrimaryKey2(commoditydetailid);
+    }
+    public List<Commoditydetail> selectByPrimaryKey3(String productCodeID) {
+    	return dao.selectByPrimaryKey3(productCodeID);
     }
     
     public List<Commoditydetail> selectAll() {

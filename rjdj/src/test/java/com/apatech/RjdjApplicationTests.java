@@ -8,8 +8,8 @@ class RjdjApplicationTests {
 
 	@Test
 	void contextLoads() {
-		uuid s=new uuid();
-		s.getCode();
+		test s=new test();
+		s.s();
 	}
 
 }

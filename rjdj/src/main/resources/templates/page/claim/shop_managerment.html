@@ -31,11 +31,11 @@
 	
 </head>
 <body>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 $("#distpicker5").distpicker({
 	  autoSelect: false
 	});
-</script>
+</script> -->
 
 <div class="rightarea clearfix">
     <div class="mainarea clearfix">
@@ -212,7 +212,7 @@ $("#distpicker5").distpicker({
 						formatter: function (value, row, index) {
  						    // var sid_code = base64encode(row.sid + '');   //  sid 加密处理
  						    // alert(sid_code);
- 						    return '<a href="/topage/shop_upload" title="修改">' + 
+ 						    return '<a href="javascript:;" title="修改">' + 
  						        '<i class="glyphicon glyphicon-pencil"></i> ' + 
  						        '</a>'+
  						        '<a href="javascript:void(0)" title="删除">' +
@@ -244,8 +244,12 @@ $("#distpicker5").distpicker({
 						      }
 						  },
 						  'click a[title=修改]': function (e, value, row, index) {
-						      // e.preventDefault();
-						      //alert('click change button');
+								window.sessionStorage.setItem("productcodeid",row.productcodeid);//将用户信息保存到js中的session中
+								window.sessionStorage.setItem("Commodity",JSON.stringify(row));//将供应商信息保存到js中的session中
+								
+							
+								
+								window.location.href ="[[@{/topage/shop_upload2}]]";
 						  },
 						}
 		            } ],

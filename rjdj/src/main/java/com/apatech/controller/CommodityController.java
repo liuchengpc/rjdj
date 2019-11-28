@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Commodity;
+import com.apatech.domain.Commoditydetail;
 import com.apatech.mapper.CommoditydetailMapper;
 import com.apatech.service.CommodityService;
+import com.apatech.service.CommoditydetailService;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -22,7 +24,8 @@ import com.github.pagehelper.PageInfo;
 public class CommodityController {
 	@Autowired
 	private CommodityService dao;	
-	
+	@Autowired
+	private CommoditydetailService dao2;	
 	@Autowired
 	private CommoditydetailMapper ct;
 	
@@ -38,6 +41,9 @@ public class CommodityController {
 		return list;
 	}
 	
+
+
+
 	/**
 	 * 查询全部
 	 * @param model
@@ -122,6 +128,109 @@ public class CommodityController {
 		}else {
 			map.put("code", "2");
 			map.put("message", "新增失败！");
+		}
+		return map;
+    }
+	
+	/**
+	 * 新增商品主表
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "insertSelective2",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> insertSelective2(@RequestBody Commodity record) {
+		System.out.println("进入CommodityController2新增采购单主表");
+		System.out.println("实体："+record.toString());
+		Map<String, String> map=new HashMap<String,String>();
+    	int i=dao.insertSelective(record);//新增主表
+    	if (i>0) {
+			if (i>0) {
+				map.put("code", "1");
+				map.put("message", "新增主表成功！");
+			}else {
+				map.put("code", "2");
+				map.put("message", "新增主表失败！");
+			}
+    	}else {
+			map.put("code", "2");
+			map.put("message", "新增失败！");
+		}
+		return map;
+    }
+	/**
+	 * 新增商品详表3
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "insertSelective3",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> insertSelective3(@RequestBody List<Commoditydetail> record) {
+		System.out.println("进入CommodityController3新增采购单详表");
+		System.out.println("实体："+record.toString());
+		Map<String, String> map=new HashMap<String,String>();
+		
+	
+		List<Commoditydetail> record2=dao2.selectByPrimaryKey3(record.get(0).getProductcodeid());
+		for (int i = 0; i < record.size(); i++) {
+			for (int j = 0; j < record2.size(); j++) {
+				System.out.println(record.get(i).getCommoditydetailid()+"/"+record2.get(j).getCommoditydetailid());
+				if (record.get(i).getCommoditydetailid().equals(record2.get(j).getCommoditydetailid())) {
+					map.put("code", "1");
+					map.put("message", "新增详表成功222222222！");
+					return map;
+				} 
+			}
+		}
+		
+		//防止添加相同的详表
+		for (int i = 0; i < record.size(); i++) {
+			for (int j = 0; j < record2.size(); j++) {
+				if (record.get(i).getColorid()==record2.get(j).getColorid()&&record.get(i).getCommoditysizeid()==record2.get(j).getCommoditysizeid()) {
+					record2.get(j).setCount(record2.get(j).getCount()+record.get(i).getCount());
+					dao2.updateByPrimaryKey(record2.get(j));
+					record.remove(i);
+					break;
+				}
+			}
+		}
+		
+		if (record!=null) {
+			for (Commoditydetail detail : record) {
+				int i2=dao2.insertSelective(detail);//新增详表
+				if (i2>0) {
+					map.put("code", "1");
+					map.put("message", "新增详表成功！");
+				}else {
+					map.put("code", "2");
+					map.put("message", "新增详表失败！");
+				}
+			}
+		}else {
+			map.put("code", "1");	
+			map.put("message", "新增详表成功！");
+		}
+		return map;
+	}
+
+	/**
+	 * 修改采购单主表
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "updateByPrimaryKeySelective2",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> updateByPrimaryKeySelective2(@RequestBody Commodity record) {
+		System.out.println("进入updateByPrimaryKeySelective2修改采购单主表");
+		System.out.println("实体："+record.toString());
+		Map<String, String> map=new HashMap<String,String>();
+    	int i=dao.updateByPrimaryKeySelective(record);//修改主表
+    	if (i>0) {			
+			map.put("code", "1");
+			map.put("message", "修改成功！");				
+    	}else {
+			map.put("code", "2");
+			map.put("message", "修改失败！");
 		}
 		return map;
     }

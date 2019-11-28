@@ -32,6 +32,7 @@ public class Commodity {
     private String shopID;//店铺id
 
     private List<Commodity> productcodelist;//集合
+    private List<Commoditydetail> productcodelist2;//集合
     
     private Integer spkc  ;//商品库存
     
@@ -76,8 +77,8 @@ public class Commodity {
     
     //采购单主表
     private String billid;//编号，主键
-    @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date deliverytime;//交期
 //    private Integer supplierid;//供应商ID
     private String userid;//制表人id
@@ -115,11 +116,48 @@ public class Commodity {
     private String introduction;//简介
     private String shopimg;//图片
 
+
     //	XZ	//
     List<Commoditydetail> commoditydetailXZ;	//商品详情对象
     Color colorXZ;	//颜色对象
     Commoditysize commoditysizeXZ;	//尺码对象
     Commoditytype commoditytypeXZ;	//商品类型对象
+
+
+
+
+
+
+	
+
+	@Override
+	public String toString() {
+		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
+				+ ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
+				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", shopID=" + shopID + ", productcodelist="
+				+ productcodelist + ", productcodelist2=" + productcodelist2 + ", spkc=" + spkc + ", commoditydetailid="
+				+ commoditydetailid + ", count=" + count + ", commoditysizeid=" + commoditysizeid + ", commoditysize="
+				+ commoditysize + ", commoditytypeid=" + commoditytypeid + ", commoditytypename=" + commoditytypename
+				+ ", colorid=" + colorid + ", color=" + color + ", colorimg=" + colorimg + ", rgb=" + rgb
+				+ ", colortypeid=" + colortypeid + ", colortype=" + colortype + ", supplierid=" + supplierid
+				+ ", companyname=" + companyname + ", companyabbreviation=" + companyabbreviation + ", contacts="
+				+ contacts + ", phone=" + phone + ", email=" + email + ", telephone=" + telephone + ", province="
+				+ province + ", city=" + city + ", region=" + region + ", street=" + street + ", billid=" + billid
+				+ ", deliverytime=" + deliverytime + ", userid=" + userid + ", remarks=" + remarks + ", billlist="
+				+ billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje + ", shenhe=" + shenhe + ", detailid=" + detailid
+				+ ", cgname=" + cgname + ", specifications=" + specifications + ", cgcostprice=" + cgcostprice
+				+ ", cgcount=" + cgcount + ", moneyamt=" + moneyamt + ", shopid=" + shopid + ", shopname=" + shopname
+				+ ", dpcontacts=" + dpcontacts + ", phonenumber=" + phonenumber + ", fixedtelephone=" + fixedtelephone
+				+ ", starttime=" + starttime + ", endtime=" + endtime + ", dpprovince=" + dpprovince + ", dpcity="
+				+ dpcity + ", dpregion=" + dpregion + ", address=" + address + ", introduction=" + introduction
+				+ ", shopimg=" + shopimg + ", commoditydetailXZ=" + commoditydetailXZ + ", colorXZ=" + colorXZ
+				+ ", commoditysizeXZ=" + commoditysizeXZ + ", commoditytypeXZ=" + commoditytypeXZ + "]";
+	}
+
+	public Commodity() {
+		super();
+	}
+
 	public String getProductcodeid() {
 		return productcodeid;
 	}
@@ -516,29 +554,7 @@ public class Commodity {
 	public void setCommoditytypeXZ(Commoditytype commoditytypeXZ) {
 		this.commoditytypeXZ = commoditytypeXZ;
 	}
-	@Override
-	public String toString() {
-		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
-				+ ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
-				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", shopID=" + shopID + ", productcodelist="
-				+ productcodelist + ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
-				+ ", commoditysizeid=" + commoditysizeid + ", commoditysize=" + commoditysize + ", commoditytypeid="
-				+ commoditytypeid + ", commoditytypename=" + commoditytypename + ", colorid=" + colorid + ", color="
-				+ color + ", colorimg=" + colorimg + ", rgb=" + rgb + ", colortypeid=" + colortypeid + ", colortype="
-				+ colortype + ", supplierid=" + supplierid + ", companyname=" + companyname + ", companyabbreviation="
-				+ companyabbreviation + ", contacts=" + contacts + ", phone=" + phone + ", email=" + email
-				+ ", telephone=" + telephone + ", province=" + province + ", city=" + city + ", region=" + region
-				+ ", street=" + street + ", billid=" + billid + ", deliverytime=" + deliverytime + ", userid=" + userid
-				+ ", remarks=" + remarks + ", billlist=" + billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje
-				+ ", shenhe=" + shenhe + ", detailid=" + detailid + ", cgname=" + cgname + ", specifications="
-				+ specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount + ", moneyamt=" + moneyamt
-				+ ", shopid=" + shopid + ", shopname=" + shopname + ", dpcontacts=" + dpcontacts + ", phonenumber="
-				+ phonenumber + ", fixedtelephone=" + fixedtelephone + ", starttime=" + starttime + ", endtime="
-				+ endtime + ", dpprovince=" + dpprovince + ", dpcity=" + dpcity + ", dpregion=" + dpregion
-				+ ", address=" + address + ", introduction=" + introduction + ", shopimg=" + shopimg
-				+ ", commoditydetailXZ=" + commoditydetailXZ + ", colorXZ=" + colorXZ + ", commoditysizeXZ="
-				+ commoditysizeXZ + ", commoditytypeXZ=" + commoditytypeXZ + "]";
-	}
+
 	public Commodity(String productcodeid, String brand, String name, Float price, Float costprice, String commodityimg,
 			Integer stockcount, String infomation, String shoptype, String shopID, List<Commodity> productcodelist,
 			Integer spkc, String commoditydetailid, Integer count, Integer commoditysizeid, String commoditysize,
@@ -620,9 +636,13 @@ public class Commodity {
 		this.commoditysizeXZ = commoditysizeXZ;
 		this.commoditytypeXZ = commoditytypeXZ;
 	}
-    
-	public Commodity() {
-		super();
+
+	public List<Commoditydetail> getProductcodelist2() {
+		return productcodelist2;
 	}
+	public void setProductcodelist2(List<Commoditydetail> productcodelist2) {
+		this.productcodelist2 = productcodelist2;
+	}
+
     
 }

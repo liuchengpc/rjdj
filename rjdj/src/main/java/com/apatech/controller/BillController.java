@@ -81,11 +81,11 @@ public class BillController {
 	@ResponseBody
 	public List<Commodity> selectAll2(
 			Integer shopid,//店铺
- 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
- 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
 			String selectqb//查找
 	){
-		System.out.println("进入CommodityController根据条件查询");
+		System.out.println("进入BillController根据条件查询");
 		System.out.println(shopid+"/"+oldtime+"/"+newtime+"/"+selectqb);
     	List<Commodity> list=dao.selectAll2(shopid, oldtime, newtime, selectqb);
     	return list;
