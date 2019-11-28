@@ -15,6 +15,12 @@
     <result column="shopType" jdbcType="VARCHAR" property="shoptype" />
     <result column="shopID" jdbcType="VARCHAR" property="shopid" />
   </resultMap>
+  <select id="queryCommodityXZ" parameterType="com.apatech.domain.Commodity" resultMap="BaseResultMap">
+  	select * from commodity where 1=1 
+  	<if test="commoditytypeid !=0">
+          and commodityTypeID = #{commoditytypeid,jdbcType=INTEGER} 
+    </if>
+  </select>
   <sql id="Base_Column_List">
     productCodeID, supplierID, brand, name, price, costPrice, commodityTypeID, commodityImg, 
     stockCount, infomation, shopType

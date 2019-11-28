@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Commodity;
+import com.apatech.mapper.CommoditydetailMapper;
 import com.apatech.service.CommodityService;
 import com.github.pagehelper.PageInfo;
 
@@ -21,6 +22,22 @@ import com.github.pagehelper.PageInfo;
 public class CommodityController {
 	@Autowired
 	private CommodityService dao;	
+	
+	@Autowired
+	private CommoditydetailMapper ct;
+	
+	@RequestMapping(value="/queryCommodityXZ",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Commodity> queryCommodityXZ(Commodity c){
+		List<Commodity> list = dao.queryCommodityXZ(c);	//查询所有商品
+		for (Commodity commodity : list) {
+			//根据商品主表ID 查询商品详情
+			commodity.setCommoditydetailXZ(ct.queryCommodityDetailByProductCodeID(commodity.getProductcodeid()));
+		}
+		
+		return list;
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

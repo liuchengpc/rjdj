@@ -17,6 +17,11 @@ public class ColorService {
 	@Autowired
 	private ColorMapper dao;
 
+	public List<Color> queryColorByColorTypeID(Integer colortypeid) {
+		
+		return dao.queryColorByColorTypeID(colortypeid);
+	}
+	
     public int deleteByPrimaryKey(Integer colorid) {
     	return dao.deleteByPrimaryKey(colorid);
     }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Commoditytype;
 import com.apatech.service.CommoditytypeService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -21,6 +22,19 @@ import com.github.pagehelper.PageInfo;
 public class CommoditytypeController {
 	@Autowired
 	private CommoditytypeService dao;	
+	
+	/**
+	 * 查询全部
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryCommodityType",method=RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Commoditytype> queryCommodityType(Integer pageNum,Integer pageSize){
+		
+		return dao.queryCommodityType(pageNum, pageSize);
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

@@ -115,35 +115,11 @@ public class Commodity {
     private String introduction;//简介
     private String shopimg;//图片
 
-
-
-
-
-
-	@Override
-	public String toString() {
-		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
-				+ ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
-				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", shopID=" + shopID + ", productcodelist="
-				+ productcodelist + ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
-				+ ", commoditysizeid=" + commoditysizeid + ", commoditysize=" + commoditysize + ", commoditytypeid="
-				+ commoditytypeid + ", commoditytypename=" + commoditytypename + ", colorid=" + colorid + ", color="
-				+ color + ", colorimg=" + colorimg + ", rgb=" + rgb + ", colortypeid=" + colortypeid + ", colortype="
-				+ colortype + ", supplierid=" + supplierid + ", companyname=" + companyname + ", companyabbreviation="
-				+ companyabbreviation + ", contacts=" + contacts + ", phone=" + phone + ", email=" + email
-				+ ", telephone=" + telephone + ", province=" + province + ", city=" + city + ", region=" + region
-				+ ", street=" + street + ", billid=" + billid + ", deliverytime=" + deliverytime + ", userid=" + userid
-				+ ", remarks=" + remarks + ", billlist=" + billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje
-				+ ", shenhe=" + shenhe + ", detailid=" + detailid + ", cgname=" + cgname + ", specifications="
-				+ specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount + ", moneyamt=" + moneyamt
-				+ ", shopid=" + shopid + ", shopname=" + shopname + ", dpcontacts=" + dpcontacts + ", phonenumber="
-				+ phonenumber + ", fixedtelephone=" + fixedtelephone + ", starttime=" + starttime + ", endtime="
-				+ endtime + ", dpprovince=" + dpprovince + ", dpcity=" + dpcity + ", dpregion=" + dpregion
-				+ ", address=" + address + ", introduction=" + introduction + ", shopimg=" + shopimg + "]";
-	}
-	public Commodity() {
-		super();
-	}
+    //	XZ	//
+    List<Commoditydetail> commoditydetailXZ;	//商品详情对象
+    Color colorXZ;	//颜色对象
+    Commoditysize commoditysizeXZ;	//尺码对象
+    Commoditytype commoditytypeXZ;	//商品类型对象
 	public String getProductcodeid() {
 		return productcodeid;
 	}
@@ -198,11 +174,12 @@ public class Commodity {
 	public void setShoptype(String shoptype) {
 		this.shoptype = shoptype;
 	}
-
-
-	
-	
-
+	public String getShopID() {
+		return shopID;
+	}
+	public void setShopID(String shopID) {
+		this.shopID = shopID;
+	}
 	public List<Commodity> getProductcodelist() {
 		return productcodelist;
 	}
@@ -377,15 +354,12 @@ public class Commodity {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	
 	public List<Detail> getBilllist() {
 		return billlist;
 	}
 	public void setBilllist(List<Detail> billlist) {
 		this.billlist = billlist;
 	}
-	
-	
 	public int getCgdsl() {
 		return cgdsl;
 	}
@@ -397,6 +371,12 @@ public class Commodity {
 	}
 	public void setCgdje(Double cgdje) {
 		this.cgdje = cgdje;
+	}
+	public int getShenhe() {
+		return shenhe;
+	}
+	public void setShenhe(int shenhe) {
+		this.shenhe = shenhe;
 	}
 	public Integer getDetailid() {
 		return detailid;
@@ -512,18 +492,137 @@ public class Commodity {
 	public void setShopimg(String shopimg) {
 		this.shopimg = shopimg;
 	}
-	public String getShopID() {
-		return shopID;
+	public List<Commoditydetail> getCommoditydetailXZ() {
+		return commoditydetailXZ;
 	}
-	public void setShopID(String shopID) {
+	public void setCommoditydetailXZ(List<Commoditydetail> commoditydetailXZ) {
+		this.commoditydetailXZ = commoditydetailXZ;
+	}
+	public Color getColorXZ() {
+		return colorXZ;
+	}
+	public void setColorXZ(Color colorXZ) {
+		this.colorXZ = colorXZ;
+	}
+	public Commoditysize getCommoditysizeXZ() {
+		return commoditysizeXZ;
+	}
+	public void setCommoditysizeXZ(Commoditysize commoditysizeXZ) {
+		this.commoditysizeXZ = commoditysizeXZ;
+	}
+	public Commoditytype getCommoditytypeXZ() {
+		return commoditytypeXZ;
+	}
+	public void setCommoditytypeXZ(Commoditytype commoditytypeXZ) {
+		this.commoditytypeXZ = commoditytypeXZ;
+	}
+	@Override
+	public String toString() {
+		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price
+				+ ", costprice=" + costprice + ", commodityimg=" + commodityimg + ", stockcount=" + stockcount
+				+ ", infomation=" + infomation + ", shoptype=" + shoptype + ", shopID=" + shopID + ", productcodelist="
+				+ productcodelist + ", spkc=" + spkc + ", commoditydetailid=" + commoditydetailid + ", count=" + count
+				+ ", commoditysizeid=" + commoditysizeid + ", commoditysize=" + commoditysize + ", commoditytypeid="
+				+ commoditytypeid + ", commoditytypename=" + commoditytypename + ", colorid=" + colorid + ", color="
+				+ color + ", colorimg=" + colorimg + ", rgb=" + rgb + ", colortypeid=" + colortypeid + ", colortype="
+				+ colortype + ", supplierid=" + supplierid + ", companyname=" + companyname + ", companyabbreviation="
+				+ companyabbreviation + ", contacts=" + contacts + ", phone=" + phone + ", email=" + email
+				+ ", telephone=" + telephone + ", province=" + province + ", city=" + city + ", region=" + region
+				+ ", street=" + street + ", billid=" + billid + ", deliverytime=" + deliverytime + ", userid=" + userid
+				+ ", remarks=" + remarks + ", billlist=" + billlist + ", cgdsl=" + cgdsl + ", cgdje=" + cgdje
+				+ ", shenhe=" + shenhe + ", detailid=" + detailid + ", cgname=" + cgname + ", specifications="
+				+ specifications + ", cgcostprice=" + cgcostprice + ", cgcount=" + cgcount + ", moneyamt=" + moneyamt
+				+ ", shopid=" + shopid + ", shopname=" + shopname + ", dpcontacts=" + dpcontacts + ", phonenumber="
+				+ phonenumber + ", fixedtelephone=" + fixedtelephone + ", starttime=" + starttime + ", endtime="
+				+ endtime + ", dpprovince=" + dpprovince + ", dpcity=" + dpcity + ", dpregion=" + dpregion
+				+ ", address=" + address + ", introduction=" + introduction + ", shopimg=" + shopimg
+				+ ", commoditydetailXZ=" + commoditydetailXZ + ", colorXZ=" + colorXZ + ", commoditysizeXZ="
+				+ commoditysizeXZ + ", commoditytypeXZ=" + commoditytypeXZ + "]";
+	}
+	public Commodity(String productcodeid, String brand, String name, Float price, Float costprice, String commodityimg,
+			Integer stockcount, String infomation, String shoptype, String shopID, List<Commodity> productcodelist,
+			Integer spkc, String commoditydetailid, Integer count, Integer commoditysizeid, String commoditysize,
+			Integer commoditytypeid, String commoditytypename, Integer colorid, String color, String colorimg,
+			String rgb, Integer colortypeid, String colortype, Integer supplierid, String companyname,
+			String companyabbreviation, String contacts, String phone, String email, String telephone, String province,
+			String city, String region, String street, String billid, Date deliverytime, String userid, String remarks,
+			List<Detail> billlist, int cgdsl, Double cgdje, int shenhe, Integer detailid, String cgname,
+			String specifications, Float cgcostprice, Integer cgcount, Float moneyamt, String shopid2, String shopname,
+			String dpcontacts, String phonenumber, String fixedtelephone, String starttime, String endtime,
+			String dpprovince, String dpcity, String dpregion, String address, String introduction, String shopimg,
+			List<Commoditydetail> commoditydetailXZ, Color colorXZ, Commoditysize commoditysizeXZ,
+			Commoditytype commoditytypeXZ) {
+		super();
+		this.productcodeid = productcodeid;
+		this.brand = brand;
+		this.name = name;
+		this.price = price;
+		this.costprice = costprice;
+		this.commodityimg = commodityimg;
+		this.stockcount = stockcount;
+		this.infomation = infomation;
+		this.shoptype = shoptype;
 		this.shopID = shopID;
-	}
-	public int getShenhe() {
-		return shenhe;
-	}
-	public void setShenhe(int shenhe) {
+		this.productcodelist = productcodelist;
+		this.spkc = spkc;
+		this.commoditydetailid = commoditydetailid;
+		this.count = count;
+		this.commoditysizeid = commoditysizeid;
+		this.commoditysize = commoditysize;
+		this.commoditytypeid = commoditytypeid;
+		this.commoditytypename = commoditytypename;
+		this.colorid = colorid;
+		this.color = color;
+		this.colorimg = colorimg;
+		this.rgb = rgb;
+		this.colortypeid = colortypeid;
+		this.colortype = colortype;
+		this.supplierid = supplierid;
+		this.companyname = companyname;
+		this.companyabbreviation = companyabbreviation;
+		this.contacts = contacts;
+		this.phone = phone;
+		this.email = email;
+		this.telephone = telephone;
+		this.province = province;
+		this.city = city;
+		this.region = region;
+		this.street = street;
+		this.billid = billid;
+		this.deliverytime = deliverytime;
+		this.userid = userid;
+		this.remarks = remarks;
+		this.billlist = billlist;
+		this.cgdsl = cgdsl;
+		this.cgdje = cgdje;
 		this.shenhe = shenhe;
+		this.detailid = detailid;
+		this.cgname = cgname;
+		this.specifications = specifications;
+		this.cgcostprice = cgcostprice;
+		this.cgcount = cgcount;
+		this.moneyamt = moneyamt;
+		shopid = shopid2;
+		this.shopname = shopname;
+		this.dpcontacts = dpcontacts;
+		this.phonenumber = phonenumber;
+		this.fixedtelephone = fixedtelephone;
+		this.starttime = starttime;
+		this.endtime = endtime;
+		this.dpprovince = dpprovince;
+		this.dpcity = dpcity;
+		this.dpregion = dpregion;
+		this.address = address;
+		this.introduction = introduction;
+		this.shopimg = shopimg;
+		this.commoditydetailXZ = commoditydetailXZ;
+		this.colorXZ = colorXZ;
+		this.commoditysizeXZ = commoditysizeXZ;
+		this.commoditytypeXZ = commoditytypeXZ;
 	}
-
+    
+	public Commodity() {
+		super();
+	}
     
 }

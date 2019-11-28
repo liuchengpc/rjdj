@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Color;
 
 public interface ColorMapper {
+	List<Color> queryColorByColorTypeID(Integer colortypeid);
+	
     int deleteByPrimaryKey(Integer colorid);
 
     int insert(Color record);

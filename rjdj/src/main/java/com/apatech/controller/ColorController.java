@@ -21,6 +21,19 @@ import com.github.pagehelper.PageInfo;
 public class ColorController {
 	@Autowired
 	private ColorService dao;	
+	
+	/**
+	 * 根据色系ID查询颜色
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryColorByColorTypeID",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Color> queryColorByColorTypeID(Integer colortypeid) {
+		
+		return dao.queryColorByColorTypeID(colortypeid);
+	}	
+	
 	/**
 	 * 查询全部
 	 * @param model

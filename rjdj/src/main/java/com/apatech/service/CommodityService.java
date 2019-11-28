@@ -21,6 +21,11 @@ public class CommodityService {
 	@Autowired
 	private CommoditydetailMapper dao2;
 
+	public List<Commodity> queryCommodityXZ(Commodity c){
+		
+		return dao.queryCommodityXZ(c);
+	}
+	
     public int deleteByPrimaryKey(String productcodeid) {
     	return dao.deleteByPrimaryKey(productcodeid);
     }
