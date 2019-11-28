@@ -13,6 +13,7 @@ public interface CommoditydetailMapper {
 	List<Commoditydetail> queryCommodityDetailByCashregister(Commoditydetail c);
 	
     int deleteByPrimaryKey(String commoditydetailid);
+    int deleteByPrimaryKey2(String productCodeID);
 
     int insert(Commoditydetail record);
 
@@ -21,6 +22,8 @@ public interface CommoditydetailMapper {
     Commoditydetail selectByPrimaryKey(String commoditydetailid);
     
     List<Commoditydetail> selectByPrimaryKey2(String commoditydetailid);
+    
+    List<Commoditydetail> selectByPrimaryKey3(String productCodeID);
     
     @Select("select * from Commoditydetail")
     List<Commoditydetail> selectAll();

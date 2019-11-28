@@ -113,10 +113,10 @@
 						实体店
 					</li>	
 					<span  style="margin-right: 20px;">
-						<a th:href="@{javascript:;}"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+						<a th:href="@{javascript:;}" id="dlzh"><!-- <img src="//t.cn/RCzsdCq" class="layui-nav-img" id="dltx">我 --></a>
 					</span>
 					<span >
-						<a th:href="@{javascript:;}">退出</a>
+						<a th:href="@{javascript:;}" id="tcdl">退出</a>
 					</span>
 				</ul>
 			</div>
@@ -340,13 +340,25 @@
 		<!--页尾 S-->
 		
 <script type="text/javascript">
+
+
 	$(".zhst").hide();
 	$(".dl").show();
 	$(".zh").click(function(){
+		var user = JSON.parse(window.sessionStorage.getItem("user"));
+		if(user==null){
+			alert("请先登录！")
+			return false;
+		}
 		$(".zhst").hide();
 		$(".zhs").show();
 	})
 	$(".std").click(function(){
+		var user = JSON.parse(window.sessionStorage.getItem("user"));
+		if(user==null){
+			alert("请先登录！")
+			return false;
+		}
 		$(".zhst").hide();
 		$(".stds").show();
 	})
@@ -401,7 +413,7 @@ layui.use('element', function(){
   
 });
 
-//账号测试数据
+/* //账号测试数据
 var user = {
 		userid:"15012341234",
 		password:"123123",
@@ -412,9 +424,61 @@ var user = {
 		roleid:1,
 		shopid:12345678001
 }
-window.sessionStorage.setItem("user",JSON.stringify(user));
+window.sessionStorage.setItem("user",JSON.stringify(user)); */
 
 </script>
+
+
+
+
+
+
+
+
+
+
+	<script type="text/javascript">
+		$("#tcdl").hide();
+	
+			//获取当前用户
+			 $.ajax({
+					url:"[[@{/UsersController/loginuser}]]",
+					type:"post",
+					data:"",
+					dataType:"json",
+					success:function(res){
+						console.info(res);
+						$("#tcdl").show();
+						$("#dlzh").html('<img src="'+res.headportrait+'" class="layui-nav-img" id="dltx">'+res.userid)//登录人账号和头像
+						window.sessionStorage.setItem("user",JSON.stringify(res));//将用户信息保存到js中的session中
+						$(".zhst").hide();
+						$(".zhs").show();
+					}
+			}) 
+		</script>
+		<script>
+	
+		
+			 //退出登陆
+			$("#tcdl").click(function() {
+				var user = JSON.parse(window.sessionStorage.getItem("user"));
+			
+				var s=confirm("确定要退出日进斗金管理系统吗？");
+				if(s==true){
+					 $.ajax({
+							url:"[[@{/UsersController/logout}]]",
+							type:"post",
+							data:"id="+user.userid,
+							dataType:"json",
+							success:function(res){
+								window.sessionStorage.setItem("user",null);
+								window.top.location.href="[[@{/topage/index}]]";
+							}
+					}) 
+				}
+				
+			})
+		</script>
   </body>
 </html>
 

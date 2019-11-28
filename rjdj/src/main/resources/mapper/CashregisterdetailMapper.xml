@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apatech.mapper.CashregisterdetailMapper">
   <resultMap id="BaseResultMap" type="com.apatech.domain.Cashregisterdetail">
-    <id column="cashRegisterID" jdbcType="VARCHAR" property="cashregisterid" />
+    <id column="CashRegisterDetailID" jdbcType="INTEGER" property="cashregisterdetailid" />
+    <result column="cashRegisterID" jdbcType="VARCHAR" property="cashregisterid" />
     <result column="commodityName" jdbcType="VARCHAR" property="commodityname" />
     <result column="commodityDetailID" jdbcType="VARCHAR" property="commoditydetailid" />
     <result column="specifications" jdbcType="VARCHAR" property="specifications" />
@@ -13,32 +14,35 @@
     <result column="moneyamt" jdbcType="REAL" property="moneyamt" />
   </resultMap>
   <sql id="Base_Column_List">
-    cashRegisterID, commodityName, commodityDetailID, specifications, price, sbtotal, 
-    count, zhekou, moneyamt
+    CashRegisterDetailID, cashRegisterID, commodityName, commodityDetailID, specifications, 
+    price, sbtotal, count, zhekou, moneyamt
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from cashregisterdetail
-    where cashRegisterID = #{cashregisterid,jdbcType=VARCHAR}
+    where CashRegisterDetailID = #{cashregisterdetailid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cashregisterdetail
-    where cashRegisterID = #{cashregisterid,jdbcType=VARCHAR}
+    where CashRegisterDetailID = #{cashregisterdetailid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.apatech.domain.Cashregisterdetail">
-    insert into cashregisterdetail (cashRegisterID, commodityName, commodityDetailID, 
-      specifications, price, sbtotal, 
-      count, zhekou, moneyamt
-      )
-    values (#{cashregisterid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{commoditydetailid,jdbcType=VARCHAR}, 
-      #{specifications,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{sbtotal,jdbcType=REAL}, 
-      #{count,jdbcType=INTEGER}, #{zhekou,jdbcType=INTEGER}, #{moneyamt,jdbcType=REAL}
-      )
+    insert into cashregisterdetail (CashRegisterDetailID, cashRegisterID, 
+      commodityName, commodityDetailID, specifications, 
+      price, sbtotal, count, zhekou, 
+      moneyamt)
+    values (#{cashregisterdetailid,jdbcType=INTEGER}, #{cashregisterid,jdbcType=VARCHAR}, 
+      #{commodityname,jdbcType=VARCHAR}, #{commoditydetailid,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, 
+      #{price,jdbcType=REAL}, #{sbtotal,jdbcType=REAL}, #{count,jdbcType=INTEGER}, #{zhekou,jdbcType=INTEGER}, 
+      #{moneyamt,jdbcType=REAL})
   </insert>
   <insert id="insertSelective" parameterType="com.apatech.domain.Cashregisterdetail">
     insert into cashregisterdetail
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cashregisterdetailid != null">
+        CashRegisterDetailID,
+      </if>
       <if test="cashregisterid != null">
         cashRegisterID,
       </if>
@@ -68,6 +72,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cashregisterdetailid != null">
+        #{cashregisterdetailid,jdbcType=INTEGER},
+      </if>
       <if test="cashregisterid != null">
         #{cashregisterid,jdbcType=VARCHAR},
       </if>
@@ -100,6 +107,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.apatech.domain.Cashregisterdetail">
     update cashregisterdetail
     <set>
+      <if test="cashregisterid != null">
+        cashRegisterID = #{cashregisterid,jdbcType=VARCHAR},
+      </if>
       <if test="commodityname != null">
         commodityName = #{commodityname,jdbcType=VARCHAR},
       </if>
@@ -125,11 +135,12 @@
         moneyamt = #{moneyamt,jdbcType=REAL},
       </if>
     </set>
-    where cashRegisterID = #{cashregisterid,jdbcType=VARCHAR}
+    where CashRegisterDetailID = #{cashregisterdetailid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.apatech.domain.Cashregisterdetail">
     update cashregisterdetail
-    set commodityName = #{commodityname,jdbcType=VARCHAR},
+    set cashRegisterID = #{cashregisterid,jdbcType=VARCHAR},
+      commodityName = #{commodityname,jdbcType=VARCHAR},
       commodityDetailID = #{commoditydetailid,jdbcType=VARCHAR},
       specifications = #{specifications,jdbcType=VARCHAR},
       price = #{price,jdbcType=REAL},
@@ -137,6 +148,6 @@
       count = #{count,jdbcType=INTEGER},
       zhekou = #{zhekou,jdbcType=INTEGER},
       moneyamt = #{moneyamt,jdbcType=REAL}
-    where cashRegisterID = #{cashregisterid,jdbcType=VARCHAR}
+    where CashRegisterDetailID = #{cashregisterdetailid,jdbcType=INTEGER}
   </update>
 </mapper>
