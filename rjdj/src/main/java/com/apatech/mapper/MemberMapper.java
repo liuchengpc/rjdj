@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Member;
 
 public interface MemberMapper {
-	Member queryMemberByPhone(String phone);
+	Member queryMemberByPhoneTwo(String phone,String password);
+	
+	Member queryMemberByPhone(String phone,String password);
 	
     int deleteByPrimaryKey(Integer memberid);
 

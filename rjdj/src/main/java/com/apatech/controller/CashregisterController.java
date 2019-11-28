@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Cashregister;
@@ -23,7 +24,16 @@ import com.github.pagehelper.PageInfo;
 @RequestMapping("CashregisterController")
 public class CashregisterController {
 	@Autowired
-	private CashregisterService dao;	
+	private CashregisterService dao;
+	
+	@RequestMapping(value="/insertCashregister",method=RequestMethod.POST)
+	@ResponseBody
+	public int insertCashregister(Cashregister dataTwo) {
+		System.out.println("进来了");
+		System.out.println(dataTwo);
+		return dao.insertCashregister(dataTwo);
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

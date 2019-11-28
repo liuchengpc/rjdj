@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Member;
+import com.apatech.domain.Memberlv;
 import com.apatech.service.MemberService;
 import com.apatech.service.MemberlvService;
 import com.github.pagehelper.PageInfo;
@@ -33,20 +34,28 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
+	@RequestMapping(value="/queryMemberByPhoneTwo",method=RequestMethod.GET)
+	@ResponseBody
+	public Memberlv queryMemberByPhoneTwo(String phone,String password) {
+		Member m = dao.queryMemberByPhone(phone,password);
+		return dao2.queryMemberLvByMemberLvID(m.getMemberid());
+	}
+	
+	/**
+	 *根据会员号查询会员信息
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/queryMemberByPhone",method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String,String> queryMemberByPhone(String phone) {
-		Map<String,String> map = new HashMap<String,String>();
-		Member m = dao.queryMemberByPhone(phone);
+	public int queryMemberByPhone(String phone,String password) {
+		Member m = dao.queryMemberByPhone(phone,password);
 		if(m==null) {
-			map.put("code", "0");
-			map.put("message", "会员号不存在！");
+			return 0;
 		}else {
 			m.setLv(dao2.queryMemberLvByMemberLvID(m.getMemberid()));
-			map.put("code", "1");
-			map.put("message", m.getLv().getName());
+			return 1;
 		}
-		return map;
 	}
 	
 	/**

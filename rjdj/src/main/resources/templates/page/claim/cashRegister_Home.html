@@ -248,9 +248,9 @@
 							totalCost -= parseFloat($(this).find(".datagrid-cell-c1-price").html());
 						}
 					}
-					if($("#VIPbutton").attr("checked")=="checked"){
+					if($("#VIPbutton2").attr("checked")=="checked"){
 						$("[name=tt1]").val(totalCost);
-						$('[name=tt2]').val(parseFloat(totalCost/10*7));
+						$('[name=tt2]').val(parseFloat(totalCost/100*zhekou));
 					}else{
 						$('[name=tt2]').val("无");
 						$("[name=tt1]").val(totalCost);
@@ -285,19 +285,19 @@
 				totalCost += price;
 				
 				$('#cartcontent').datagrid('loadData', data);
-				if($("#VIPbutton").attr("checked")=="checked"){
+				if($("#VIPbutton2").attr("checked")=="checked"){
 					$("[name=tt1]").val(totalCost);
-					$('[name=tt2]').val(parseFloat(totalCost/10*7));
+					$('[name=tt2]').val(parseFloat(totalCost/100*zhekou));
 				}else{
 					$('[name=tt2]').val("无");
 					$("[name=tt1]").val(totalCost);
 				}
 							
 				$("#VIPbutton").click(function(){		
-					if($("#VIPbutton").attr("checked")=="checked"){
-						$("#VIPbutton").val("0");
+					if($("#VIPbutton2").attr("checked")=="checked"){
+						$("#VIPbutton2").val("0");
 						$('[name=tt1]').val(totalCost);
-						$('[name=tt2]').val(parseFloat(totalCost/10*7));
+						$('[name=tt2]').val("无");
 					}else{
 						$("#VIPbutton").val("1");
 						$('[name=tt2]').val("无");
@@ -357,8 +357,8 @@
                     <li>
                     	<div class="checkbox" style="position: absolute;">
 						  <label>
-						   <span style="display:inline-block;position: absolute;width: 50px;top: -3px;">会员：</span>
-						   <input  data-toggle="modal" data-target="#myModal3" type="checkbox" id="VIPbutton" value="1" aria-label="..." style="zoom:150%;margin-left: 35px;margin-top: -5%;">
+						   <span id="VIPbutton" data-toggle="modal" data-target="#myModal3" style="display:inline-block;position: absolute;width: 50px;top: -3px;">会员：</span>
+						   <input id="VIPbutton2" disabled="disabled" type="checkbox" value="1" aria-label="..." style="zoom:150%;margin-left: 35px;margin-top: -5%;">
 						  </label>
 						</div>
                         <h3 style="margin-left:40%;">收银系统</h3>
@@ -522,9 +522,12 @@
 	                  <div class="form-group">
 					    <input type="text" class="form-control" name="phone" id="" placeholder="请填写会员号">
 					  </div>
+					  <div class="form-group">
+					    <input type="password" class="form-control" name="password" id="" placeholder="请填写密码">
+					  </div>
 					  <div hidden="hidden" class="ts" style="width:300px; height:25px;color:red;"></div>
-					  <button id="hyqx" type="button" class="btn btn-default">取消</button>
-					  <button id="hyqr" type="button" class="btn btn-default">确认</button>
+					  <button id="hyqx" data-dismiss="modal" type="button" class="btn btn-default">关闭会员</button>
+					  <button id="hyqr" data-dismiss="modal" type="button" class="btn btn-default">确认</button>
                     </div>
                     <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -583,29 +586,84 @@
 			
 			fz(0);
 			aa();
+			sc();
 		});
 		
-		var dataTwo = {"VIPtotal":0,"totalCost":0,"total":0,"rows":[]};
+		
 						
 		var user = JSON.parse(window.sessionStorage.getItem("user"));
+		
+		var zhekou = 100;
+		
+		function sc(){
+			$(".glyphicon-remove").live("click",function(){
+				/* alert($(this).parent().parent().parent().index()); */
+				/* .splice(1,1) */
+				var ind = $(this).parent().parent().parent().index();
+				data.rows.splice(ind,1);
+				var son=document.getElementById("datagrid-row-r1-2-"+ind+"");
+				son.parentNode.removeChild(son);
+			});
+		}
 		
 		function aa(){
 			$("#hyqr").click(function(){
 				var phone = $("[name=phone]").val();
-				$.ajax({
-					url:"[[@{/MemberController/queryMemberByPhone}]]",
-					type:"get",
-					dataType:"json",
-					data:"phone="+phone,
-					success:function(result6){						
-						$(".ts").removeAttr("hidden");
-						$(".ts").html(result6.message);	
+				var password = $("[name=password]").val();
+				var speak ="";
+				if(phone == "" || password == ""){
+					if(phone ==""){
+						speak+="会员号 ";
 					}
-				});
-			});
+					if(password == ""){
+						speak+="密码 ";
+					}
+					alert(speak+" 不能为空！");
+				}else{
+					var sl = 0;
+					$.ajax({
+						url:"[[@{/MemberController/queryMemberByPhone}]]",
+						type:"get",
+						async:false,
+						dataType:"json",
+						data:"phone="+phone+"&password="+password,
+						success:function(result6){						
+							/* $(".ts").removeAttr("hidden"); */
+							if(result6==0){
+								alert("账号或密码错误！");
+								$("#VIPbutton").removeAttr("checked");
+							}else{
+								sl++;
+							}	
+						}
+					});	
+					
+					if(sl>0){
+						$.ajax({
+							url:"[[@{/MemberController/queryMemberByPhoneTwo}]]",
+							type:"get",
+							async:false,
+							dataType:"json",
+							data:"phone="+phone+"&password="+password,
+							success:function(result7){	
+								/* $('[name=tt2]').val(parseFloat(totalCost/100*parseInt(result7.discount))); */
+								zhekou = parseInt(result7.discount);
+								$("#VIPbutton2").attr("checked","checked");
+								if($("#VIPbutton2").attr("checked")=="checked"){
+									$("[name=tt1]").val(totalCost);
+									$('[name=tt2]').val(parseFloat(totalCost/100*zhekou));
+								}else{
+									$('[name=tt2]').val("无");
+									$("[name=tt1]").val(totalCost);
+								}
+							}
+						});
+					}
+				}				
+			});	
 			
 			$("#hyqx").click(function(){
-				$("#myModal3").modal("hide");
+				$("#VIPbutton2").removeAttr("checked");
 			});
 		}
 		
@@ -702,13 +760,9 @@
 				if(data.rows==""){
 					alert("收银表为空！");
 				}else{
-					dataTwo.total=data.total;
-					dataTwo.rows.row=data.rows;
-					dataTwo.totalCost=totalCost;
-					dataTwo.VIPtotal=$("[name=tt2]").val();
-					dataTwo.rows.cashRegisterid=getRandomCode(11);
-					dataTwo.rows.ispresent=0;
-					dataTwo.rows.memberid = $("#VIPbutton").val();
+					var dataTwo = {};				
+					/* dataTwo.cashRegisterid=getRandomCode(11); */	//订单编号（随机）
+					/* dataTwo.memberid = $("#VIPbutton2").val(); */	//会员编号
 					
 					var myDate = new Date();
 					var myYear = myDate.getFullYear(); // 获取当前年份
@@ -718,17 +772,80 @@
 					var myMinu = myDate.getMinutes() // 获取当前分钟(0-59)
 					var mySeconds = myDate.getSeconds(); //获取当前秒数
 					var time = myYear+"-"+myMonth+"-"+myDay+" "+myHours+":"+myMinu+":"+mySeconds;
-					dataTwo.rows.time = time;
+					/* dataTwo.time = time; */	//交易日期
 					
-					dataTwo.rows.shopid = user.shopid;
-					dataTwo.rows.cashregistername = user.username;
+					/* dataTwo.shopid = user.shopid; */	//店铺编号
+					/* dataTwo.cashregistername = user.username; */	//操作人员
 					
-					var count = 0;
-					for(var l=0;l<dataTwo.rows.row.length;l++){
-						count += dataTwo.rows.row[l].quantity;
+					var count2 = 0;
+					for(var l=0;l<data.rows.length;l++){
+						count2 += data.rows[l].quantity;
 					}
-
-					console.info(dataTwo.rows.row);
+					/* dataTwo.rows.count = count2; */	//订单总额
+					
+					
+					
+					if($("#VIPbutton2").attr("checked")=="checked"){
+						/* dataTwo.moneyamt = $("[name;=tt2]").val(); *///订单会员 总金额
+						/* dataTwo.ispresent=1; */	//是否库款（挂单）
+						dataTwo={
+							moneyamt:$("[name=tt2]").val(),
+							ispresent:1,
+							ashregisterid:getRandomCode(11),
+							memberid:$("#VIPbutton2").val(),
+							time:time,
+							shopid:user.shopid,
+							cashregistername:user.username,
+							count:count2,
+							list:[data.rows]
+						}
+						$.ajax({
+							url:"[[@{/CashregisterController/insertCashregister}]]",
+							type:"post",
+							async:false,
+							dataType:"json",
+							data:"count="+count2,
+							success:function(result){
+								
+							}
+						});
+					}else{
+						/* dataTwo.moneyamt = totalCost; *///订单普通会员 总金额
+						/* dataTwo.ispresent=0; */	//是否库款（挂单）
+						dataTwo={
+							moneyamt:totalCost,
+							ispresent:1,
+							ashregisterid:getRandomCode(11),
+							memberid:$("#VIPbutton2").val(),
+							time:time,
+							shopid:user.shopid,
+							cashregistername:user.username,
+							count:count2,
+							list:[data.rows]
+						}
+						$.ajax({
+							url:"[[@{/CashregisterController/insertCashregister}]]",
+							type:"post",
+							async:false,
+							dataType:"json",
+							data:"count="+count2,
+							success:function(result){
+								
+							}
+						});
+					}
+					
+					console.info(dataTwo);
+					/* $.ajax({
+						url:"[[@{/CashregisterController/insertCashregister}]]",
+						type:"post",
+						async:false,
+						contentType:"application/json",
+						data:JSON.stringify(dataTwo),
+						success:function(result){
+							
+						}
+					}); */
 				}
 			});
 		}

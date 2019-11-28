@@ -25,6 +25,11 @@ public class CashregisterService {
 	@Autowired
 	private CashregisterdetailMapper dao2;
 
+	public int insertCashregister(Cashregister cash) {
+		
+		return dao.insertCashregister(cash);
+	}
+	
     public int deleteByPrimaryKey(String ashregisterid) {
     	return dao.deleteByPrimaryKey(ashregisterid);
     }
