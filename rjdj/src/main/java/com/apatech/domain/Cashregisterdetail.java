@@ -5,7 +5,8 @@ package com.apatech.domain;
  *
  */
 public class Cashregisterdetail {
-    private String cashregisterid;//编号，主键
+    private String cashregisterdetailid;//编号，主键
+    private String cashregisterid;//条形码，主键
     private String commodityname;//商品名称
     private String commoditydetailid;//商品详表ID
     private String specifications;//规格
@@ -18,11 +19,13 @@ public class Cashregisterdetail {
     
     
 
-    @Override
+   
+	@Override
 	public String toString() {
-		return "Cashregisterdetail [cashregisterid=" + cashregisterid + ", commodityname=" + commodityname
-				+ ", commoditydetailid=" + commoditydetailid + ", specifications=" + specifications + ", price=" + price
-				+ ", sbtotal=" + sbtotal + ", count=" + count + ", zhekou=" + zhekou + ", moneyamt=" + moneyamt + "]";
+		return "Cashregisterdetail [cashregisterdetailid=" + cashregisterdetailid + ", cashregisterid=" + cashregisterid
+				+ ", commodityname=" + commodityname + ", commoditydetailid=" + commoditydetailid + ", specifications="
+				+ specifications + ", price=" + price + ", sbtotal=" + sbtotal + ", count=" + count + ", zhekou="
+				+ zhekou + ", moneyamt=" + moneyamt + "]";
 	}
 
 	public Cashregisterdetail() {
@@ -100,4 +103,14 @@ public class Cashregisterdetail {
     public void setMoneyamt(Float moneyamt) {
         this.moneyamt = moneyamt;
     }
+
+	public String getCashregisterdetailid() {
+		return cashregisterdetailid;
+	}
+
+	public void setCashregisterdetailid(String cashregisterdetailid) {
+		this.cashregisterdetailid = cashregisterdetailid;
+	}
+    
+    
 }

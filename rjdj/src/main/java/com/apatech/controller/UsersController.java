@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.apatech.domain.Users;
 import com.apatech.service.UsersService;
-import com.github.pagehelper.PageHelper;
+import com.apatech.util.RandomValidateCode;
+import com.apatech.util.RandomValidateCodeUtil;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -55,7 +62,7 @@ public class UsersController {
 	@RequestMapping(value = "insertdeleteUser",method = RequestMethod.POST)
 	@ResponseBody
     public Map<String, String> insertdeleteUser( Users user) {
-		System.out.println("进入CashregisterController新增");
+		System.out.println("进入UsersController新增");
 		System.out.println("实体："+user.toString());
 		Map<String, String> map=new HashMap<String,String>();
     	int i=dao.insertdeleteUser(user);
@@ -89,7 +96,7 @@ public class UsersController {
 	@RequestMapping(value = "insertUser",method = RequestMethod.POST)
 	@ResponseBody
     public Map<String, String> insertUser( Users user) {
-		System.out.println("进入CashregisterController新增");
+		System.out.println("进入UsersController新增");
 		System.out.println("实体："+user.toString());
 		Map<String, String> map=new HashMap<String,String>();
     	int i=dao.insertUser(user);
@@ -145,7 +152,7 @@ public class UsersController {
 	@RequestMapping("/selectAll")
 	@ResponseBody
 	public List<Users> selectAll(Model model) {
-		System.out.println("进入CashregisterController查询全部");
+		System.out.println("进入UsersController查询全部");
 		List<Users> list = dao.selectAll();
 		return list;
 	}
@@ -157,7 +164,7 @@ public class UsersController {
 	@RequestMapping(value = "selectByPrimaryKey",method = RequestMethod.GET)
 	@ResponseBody
     public Users selectByPrimaryKey(String Users) {
-		System.out.println("进入CashregisterController根据主键查询");
+		System.out.println("进入UsersController根据主键查询");
 		System.out.println("Users="+Users);
     	return dao.selectByPrimaryKey(Users);
     }
@@ -170,7 +177,7 @@ public class UsersController {
 	@RequestMapping(value = "selectAllpage",method = RequestMethod.GET)
 	@ResponseBody
 	public PageInfo<Users> selectAllpage( Integer pageNum,Integer pageSize){
-		System.out.println("进入CashregisterController分页");
+		System.out.println("进入UsersController分页");
 		System.out.println(pageNum+"/"+pageSize);
     	PageInfo<Users> page=dao.selectAllpage(pageNum, pageSize);
     	return page;
@@ -183,7 +190,7 @@ public class UsersController {
 	@RequestMapping(value = "insertSelective",method = RequestMethod.POST)
 	@ResponseBody
     public Map<String, String> insertSelective(@RequestBody Users record) {
-		System.out.println("进入CashregisterController新增");
+		System.out.println("进入UsersController新增");
 		System.out.println("实体："+record.toString());
 		Map<String, String> map=new HashMap<String,String>();
     	int i=dao.insertSelective(record);
@@ -205,7 +212,7 @@ public class UsersController {
 	@RequestMapping(value = "updateByPrimaryKeySelective",method = RequestMethod.POST)
 	@ResponseBody
     public Map<String, String> updateByPrimaryKeySelective(@RequestBody Users record) {
-		System.out.println("进入CashregisterController根据主键修改");
+		System.out.println("进入UsersController根据主键修改");
 		System.out.println("实体："+record.toString());
 		Map<String, String> map=new HashMap<String, String>();
     	int i=dao.updateByPrimaryKeySelective(record);
@@ -227,7 +234,7 @@ public class UsersController {
 	@RequestMapping(value = "deleteByPrimaryKey",method = RequestMethod.GET)
 	@ResponseBody
     public Map<String, String> deleteByPrimaryKey(String Users,Model model) {
-		System.out.println("进入CashregisterController根据主键删除");
+		System.out.println("进入UsersController根据主键删除");
 		System.out.println("Users："+Users);
 		Map<String, String> map=new HashMap<String,String>();
     	int i =dao.deleteByPrimaryKey(Users);
@@ -296,5 +303,212 @@ public class UsersController {
 		dao.updateByPrimaryKeySelective(users);
 		return "success";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	--------------------用户登录-----------------------
+	
+	/**
+	 * 登录
+	 * @param name
+	 * @param pwd
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value=("/login"),method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,String> login(String userName,String userPassword,String yzm,HttpSession session,HttpServletRequest request) {
+		System.out.println("进入login");
+		//返回码返回值的集合
+		//返回码应该存在数据库中
+		Map<String,String> map = new HashMap<String,String>();	
+		System.out.println(userName+"/"+userPassword);
+		List<Users> list=dao.login();
+		Users u2=null;
+		for (Users el : list) {
+			System.out.println(el.getUserid()+"/"+userName);
+			if (el.getUserid().equals(userName)) {
+				System.out.println("找到");
+				u2=el;
+				System.out.println(u2.toString());
+				break;
+			}
+		}
+		if (u2==null) {
+			map.put("code", "1");
+			map.put("message", "登陆失败！您输入的用户名不存在！");
+			return map;
+		}
+		
+		Users u = null;
+		for (Users el : list) {
+			if (el.getUserid().equals(userName)&&el.getPassword().equals(userPassword)) {
+				System.out.println("找到2");
+				u=el;
+				System.out.println(u.toString());
+				break;
+			}
+		}
+		if(u == null) {
+			System.out.println("未找到");
+			map.put("code", "2");
+			map.put("message", "密码错误，请重试！");
+			return map;
+		}
+		
+		if (u!=null) {
+			System.out.println("登录信息:"+u.toString());
+			session.setAttribute("user",u);//把对象存放到session中
+			map.put("code", "3");
+			map.put("message", "登录成功！！");
+			return map;
+		}
+	
+		
+		return map;
+	}
+	
+
+
+	/**
+	 * 获取用户
+	 * @param userName
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value=("/loginuser"),method=RequestMethod.POST)
+	@ResponseBody
+	public Users loginuser(String userName,HttpSession session,HttpServletRequest request) {
+		//返回码返回值的集合
+		//返回码应该存在数据库中
+		Map<String,String> map = new HashMap<String,String>();
+		System.out.println("进入获取用户");
+		Users u = (Users) request.getSession().getAttribute("user");//把对象存放到session中
+		return u;
+	}
+	
+	
+	/**
+	 * 退出登录
+	 * @param userName
+	 * @param userPassword
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value=("/logout"),method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> logout(HttpSession session,HttpServletRequest request) {
+		System.out.println("进入退出登录！");
+		Map<String,String> map = new HashMap<String,String>();
+		session.removeAttribute("user");
+		session.invalidate();// 会话销毁
+		map.put("code", "1");
+		map.put("message", "登出！");
+		return map;
+	}
+	
+	
+	
+	@RequestMapping(value=("/getOnlineCount"),method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> getOnlineCount(HttpSession session,HttpServletRequest response,HttpServletRequest request) {
+		System.out.println("计算在线人数");
+		Map<String,String> map = new HashMap<String,String>();
+		ServletContext application = session.getServletContext();
+		Integer count = (Integer) application.getAttribute("count");
+		System.out.println("在线人数："+count);
+        map.put("count",count==null?"0":count.toString());//在线人数
+		return map;
+	}
+
+	
+	 /**
+     * 登录页面校验验证码
+     */
+    @RequestMapping("/checkVerify")
+    @ResponseBody
+    public Map<String, String> checkVerify(String yzm, HttpSession session){
+    	System.out.println("进入校验验证码");
+    
+    	Map<String,String> map = new HashMap<String,String>();
+		//从session中获取随机数
+        String random = (String) session.getAttribute("RANDOMVALIDATECODEKEY");
+        System.out.println(random+"/"+yzm);
+        random = random.toLowerCase();
+        yzm = yzm.toLowerCase();
+        System.out.println(random+"/"+yzm);
+        if(!random.equals(yzm)){
+        	map.put("code", "1");
+			map.put("message", "验证码错误！");
+			return map;//验证码错误
+        }
+        return map;
+    }
+	
+	
+	
+	/**
+	 * 获取生成验证码显示到 UI 界面
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/checkCode")
+	public void checkCode(HttpServletRequest request, HttpServletResponse response,HttpSession session){
+		System.out.println("进入生成验证码");
+		//设置相应类型,告诉浏览器输出的内容为图片
+        response.setContentType("image/jpeg");
+        
+        //设置响应头信息，告诉浏览器不要缓存此内容
+        response.setHeader("pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expire", 0);
+        
+        RandomValidateCode randomValidateCode = new RandomValidateCode();
+        try {	
+            randomValidateCode.getRandcode(request, response);//输出图片方法
+            //code为session中保存的验证码
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+	
+	
+	/**
+	 * 生成验证码
+	 */
+	@RequestMapping(value = "/getVerify")
+	public void getVerify(HttpServletRequest request, HttpServletResponse response) {
+	    try {
+	        response.setContentType("image/jpeg");//设置相应类型,告诉浏览器输出的内容为图片
+	        response.setHeader("Pragma", "No-cache");//设置响应头信息，告诉浏览器不要缓存此内容
+	        response.setHeader("Cache-Control", "no-cache");
+	        response.setDateHeader("Expire", 0);
+	        RandomValidateCodeUtil randomValidateCode = new RandomValidateCodeUtil();
+	        randomValidateCode.getRandcode(request, response);//输出验证码图片方法
+	    } catch (Exception e) {
+	        System.out.println("获取验证码失败>>>>   ");
+	    }
+	}
+
+//	--------------------用户登录-----------------------
+	
 	
 }

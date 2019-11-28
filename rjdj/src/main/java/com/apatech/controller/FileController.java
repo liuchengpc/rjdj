@@ -72,19 +72,19 @@ public class FileController {
 		
 		
 		
-		File directory = new File("C:\\Users\\刘成\\git\\rjdj2\\rjdj\\src\\main\\resources\\static\\images");//文件保存路径
+		File directory = new File("E:\\images");//文件保存路径
 		if(!directory.exists()) {//判断是否有此文件夹
 			directory.mkdirs();//创建文件夹
 		}
 		try {
 			for(MultipartFile l : files) {
-				String url = "C:\\Users\\刘成\\git\\rjdj2\\rjdj\\src\\main\\resources\\static\\images";//设置文件上传位置
+				String url = "E:\\images";//设置文件上传位置
 				String ententionName = l.getOriginalFilename().substring(l.getOriginalFilename().lastIndexOf("."));	//获取后缀名
 		  	 	String newName = UUID.randomUUID().toString().replaceAll("-", "");//获取新图片名
 				File f = new File(url + File.separator + newName + ententionName);
 				l.transferTo(f);
 				url = newName+ententionName;//新图片名
-				sfile="/images/"+url;
+				sfile="/"+url;
 			   System.out.println("文件的名字："+url);
 			}
 			System.out.println("to成功了");

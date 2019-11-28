@@ -40,10 +40,10 @@ public class CashregisterdetailController {
 	 */
 	@RequestMapping(value = "selectByPrimaryKey",method = RequestMethod.GET)
 	@ResponseBody
-    public Cashregisterdetail selectByPrimaryKey(String cashregisterid) {
+    public Cashregisterdetail selectByPrimaryKey(Integer cashregisterdetailid) {
 		System.out.println("进入CashregisterdetailController根据主键查询");
-		System.out.println("cashregisterid="+cashregisterid);
-    	return dao.selectByPrimaryKey(cashregisterid);
+		System.out.println("cashregisterdetailid="+cashregisterdetailid);
+    	return dao.selectByPrimaryKey(cashregisterdetailid);
     }
 	/**
 	 * 分页
@@ -110,11 +110,11 @@ public class CashregisterdetailController {
 	 */
 	@RequestMapping(value = "deleteByPrimaryKey",method = RequestMethod.GET)
 	@ResponseBody
-    public Map<String, String> deleteByPrimaryKey(String cashregisterid,Model model) {
+    public Map<String, String> deleteByPrimaryKey(Integer cashregisterdetailid,Model model) {
 		System.out.println("进入CashregisterdetailController根据主键删除");
-		System.out.println("cashregisterid："+cashregisterid);
+		System.out.println("cashregisterdetailid："+cashregisterdetailid);
 		Map<String, String> map=new HashMap<String,String>();
-    	int i =dao.deleteByPrimaryKey(cashregisterid);
+    	int i =dao.deleteByPrimaryKey(cashregisterdetailid);
 		if (i>0) {
 			map.put("code", "1");
 			map.put("message", "删除成功！");

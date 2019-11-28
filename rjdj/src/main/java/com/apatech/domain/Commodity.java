@@ -77,8 +77,8 @@ public class Commodity {
     
     //采购单主表
     private String billid;//编号，主键
-    @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date deliverytime;//交期
 //    private Integer supplierid;//供应商ID
     private String userid;//制表人id

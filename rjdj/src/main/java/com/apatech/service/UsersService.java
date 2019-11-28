@@ -30,6 +30,10 @@ public class UsersService {
 		return dao.deleteUser(userid);
 	}
 	
+	public List<Users> login(){
+		return  dao.login();
+	};
+	
 	public int insertdeleteUser(Users user) {
 		int i = 0;
 		if(dao.deleteByPrimaryKey(user.getUserid())>0) {

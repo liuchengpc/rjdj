@@ -146,6 +146,11 @@ public class topage {
 		System.out.println("进入shop_upload");
 		return "shop_upload";
 	}
+	@RequestMapping("shop_upload2")
+	public String shop_upload2() {
+		System.out.println("进入shop_upload2");
+		return "shop_upload2";
+	}
 	@RequestMapping("page/claim/supplier")
 	public String supplier() {
 		System.out.println("进入page/claim/supplier");

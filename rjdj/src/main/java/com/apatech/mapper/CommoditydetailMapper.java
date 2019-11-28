@@ -9,6 +9,7 @@ import com.apatech.domain.Commoditydetail;
 
 public interface CommoditydetailMapper {
     int deleteByPrimaryKey(String commoditydetailid);
+    int deleteByPrimaryKey2(String productCodeID);
 
     int insert(Commoditydetail record);
 
@@ -17,6 +18,8 @@ public interface CommoditydetailMapper {
     Commoditydetail selectByPrimaryKey(String commoditydetailid);
     
     List<Commoditydetail> selectByPrimaryKey2(String commoditydetailid);
+    
+    List<Commoditydetail> selectByPrimaryKey3(String productCodeID);
     
     @Select("select * from Commoditydetail")
     List<Commoditydetail> selectAll();

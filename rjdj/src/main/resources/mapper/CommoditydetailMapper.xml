@@ -24,10 +24,21 @@
     from commoditydetail
     where commodityDetailID like '%${commoditydetailid}%'
   </select>
+  
+    <select id="selectByPrimaryKey3" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commoditydetail
+    where productCodeID like #{commoditydetailid,jdbcType=VARCHAR}
+  </select>
  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from commoditydetail
     where commodityDetailID = #{commoditydetailid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByPrimaryKey2" parameterType="java.lang.String">
+    delete from commoditydetail
+    where productCodeID = #{productCodeID,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.apatech.domain.Commoditydetail">
     insert into commoditydetail (commodityDetailID, productCodeID, 

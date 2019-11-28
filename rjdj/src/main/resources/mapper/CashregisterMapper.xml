@@ -20,6 +20,40 @@
     from cashregister
     where ashRegisterID = #{ashregisterid,jdbcType=VARCHAR}
   </select>
+  
+    <!-- 订单主表条件查询 -->
+  <select id="selectAll3" parameterType="java.lang.String" resultMap="BaseResultMap">
+   	SELECT * FROM commodity a
+	INNER JOIN supplier b ON a.supplierID=b.supplierID
+	INNER JOIN commoditytype c ON a.commodityTypeID=c.commodityTypeID
+	INNER JOIN commoditydetail d ON a.productCodeID=d.productCodeID
+	INNER JOIN bill e ON e.supplierID=b.supplierID
+	INNER JOIN users h ON h.userID=e.userID
+	INNER JOIN detail f ON f.billID=e.billID
+	INNER JOIN commoditydetail g ON g.commodityDetailID=f.commodityDetailID
+    where 1=1
+   	<if test="shopid != null and shopid !=''">
+          and h.shopid like #{shopid}
+      </if>
+      <if test="selectqb != null  and selectqb !=''">
+          and e.billid like '%${selectqb}%' 
+          OR e.deliverytime like '%${selectqb}%' 
+          OR e.suppliername like '%${selectqb}%' 
+          OR e.contacts like '%${selectqb}%' 
+          OR e.phone like '%${selectqb}%'
+          OR e.remarks like '%${selectqb}%'
+      </if>
+     <if test="oldtime!=null">
+		AND e.creationtime &gt; #{oldtime}
+	</if>
+	<if test="newtime!=null">
+		AND e.creationtime &lt; #{newtime}
+	</if>
+    GROUP BY e.billID
+  </select>
+  
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from cashregister
     where ashRegisterID = #{ashregisterid,jdbcType=VARCHAR}

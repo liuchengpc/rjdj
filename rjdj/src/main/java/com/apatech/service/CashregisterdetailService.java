@@ -17,8 +17,8 @@ public class CashregisterdetailService {
 	@Autowired
 	private CashregisterdetailMapper dao;
 
-    public int deleteByPrimaryKey(String cashregisterid) {
-    	return dao.deleteByPrimaryKey(cashregisterid);
+    public int deleteByPrimaryKey(Integer cashregisterdetailid) {
+    	return dao.deleteByPrimaryKey(cashregisterdetailid);
     }
 
     public int insert(Cashregisterdetail record) {
@@ -31,8 +31,8 @@ public class CashregisterdetailService {
     }
 
 
-    public Cashregisterdetail selectByPrimaryKey(String cashregisterid) {
-    	return dao.selectByPrimaryKey(cashregisterid);
+    public Cashregisterdetail selectByPrimaryKey(Integer cashregisterdetailid) {
+    	return dao.selectByPrimaryKey(cashregisterdetailid);
     }
     
     public List<Cashregisterdetail> selectAll() {

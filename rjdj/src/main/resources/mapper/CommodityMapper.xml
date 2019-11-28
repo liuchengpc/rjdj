@@ -28,7 +28,7 @@
   
  
 
-  <select id="selectAll2" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectAll2" parameterType="com.apatech.domain.Commodity" resultMap="BaseResultMap">
    SELECT * FROM commodity a
 	INNER JOIN supplier b ON a.supplierID=b.supplierID
 	INNER JOIN commoditytype c ON a.commodityTypeID=c.commodityTypeID
@@ -87,10 +87,10 @@
           OR e.remarks like '%${selectqb}%'
       </if>
      <if test="oldtime!=null">
-		AND e.creationtime &gt; #{oldtime}
+		AND e.deliveryTime &gt; #{oldtime}
 	</if>
 	<if test="newtime!=null">
-		AND e.creationtime &lt; #{newtime}
+		AND e.deliveryTime &lt; #{newtime}
 	</if>
     GROUP BY e.billID
   </select>
