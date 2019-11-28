@@ -120,6 +120,7 @@ public class Commodity {
     Color colorXZ;	//颜色对象
     Commoditysize commoditysizeXZ;	//尺码对象
     Commoditytype commoditytypeXZ;	//商品类型对象
+    
 	public String getProductcodeid() {
 		return productcodeid;
 	}

@@ -17,6 +17,11 @@ public class MemberService {
 	@Autowired
 	private MemberMapper dao;
 
+	public Member queryMemberByPhone(String phone) {
+		
+		return dao.queryMemberByPhone(phone);
+	}
+	
     public int deleteByPrimaryKey(Integer memberid) {
     	return dao.deleteByPrimaryKey(memberid);
     }

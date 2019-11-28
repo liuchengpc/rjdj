@@ -30,6 +30,96 @@ public class Member {
     @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date hytime;//最近成交 
 
+	private Memberlv lv;
+
+	public Integer getMemberid() {
+		return memberid;
+	}
+
+	public void setMemberid(Integer memberid) {
+		this.memberid = memberid;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getMemberlvid() {
+		return memberlvid;
+	}
+
+	public void setMemberlvid(Integer memberlvid) {
+		this.memberlvid = memberlvid;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
+	public Integer getIntegral() {
+		return integral;
+	}
+
+	public void setIntegral(Integer integral) {
+		this.integral = integral;
+	}
+
 	public String getMemberlvname() {
 		return memberlvname;
 	}
@@ -62,95 +152,46 @@ public class Member {
 		this.hytime = hytime;
 	}
 
+	public Memberlv getLv() {
+		return lv;
+	}
+
+	public void setLv(Memberlv lv) {
+		this.lv = lv;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [memberid=" + memberid + ", phone=" + phone + ", name=" + name + ", memberlvid=" + memberlvid
+				+ ", password=" + password + ", province=" + province + ", city=" + city + ", region=" + region
+				+ ", street=" + street + ", price=" + price + ", integral=" + integral + ", memberlvname="
+				+ memberlvname + ", hycount=" + hycount + ", hysumprice=" + hysumprice + ", hytime=" + hytime + ", lv="
+				+ lv + "]";
+	}
+
+	public Member(Integer memberid, String phone, String name, Integer memberlvid, String password, String province,
+			String city, String region, String street, Float price, Integer integral, String memberlvname,
+			Integer hycount, Integer hysumprice, Date hytime, Memberlv lv) {
+		super();
+		this.memberid = memberid;
+		this.phone = phone;
+		this.name = name;
+		this.memberlvid = memberlvid;
+		this.password = password;
+		this.province = province;
+		this.city = city;
+		this.region = region;
+		this.street = street;
+		this.price = price;
+		this.integral = integral;
+		this.memberlvname = memberlvname;
+		this.hycount = hycount;
+		this.hysumprice = hysumprice;
+		this.hytime = hytime;
+		this.lv = lv;
+	}
+
 	public Member() {
 		super();
 	}
-
-	public Integer getMemberid() {
-        return memberid;
-    }
-
-    public void setMemberid(Integer memberid) {
-        this.memberid = memberid;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getMemberlvid() {
-        return memberlvid;
-    }
-
-    public void setMemberlvid(Integer memberlvid) {
-        this.memberlvid = memberlvid;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city == null ? null : city.trim();
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region == null ? null : region.trim();
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street == null ? null : street.trim();
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Integer getIntegral() {
-        return integral;
-    }
-
-    public void setIntegral(Integer integral) {
-        this.integral = integral;
-    }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Member;
 import com.apatech.service.MemberService;
+import com.apatech.service.MemberlvService;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -23,6 +24,31 @@ import com.github.pagehelper.PageInfo;
 public class MemberController {
 	@Autowired
 	private MemberService dao;	
+	
+	@Autowired
+	private MemberlvService dao2;
+	
+	/**
+	 *根据会员号查询会员信息
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryMemberByPhone",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,String> queryMemberByPhone(String phone) {
+		Map<String,String> map = new HashMap<String,String>();
+		Member m = dao.queryMemberByPhone(phone);
+		if(m==null) {
+			map.put("code", "0");
+			map.put("message", "会员号不存在！");
+		}else {
+			m.setLv(dao2.queryMemberLvByMemberLvID(m.getMemberid()));
+			map.put("code", "1");
+			map.put("message", m.getLv().getName());
+		}
+		return map;
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

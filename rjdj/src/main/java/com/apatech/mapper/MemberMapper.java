@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Member;
 
 public interface MemberMapper {
+	Member queryMemberByPhone(String phone);
+	
     int deleteByPrimaryKey(Integer memberid);
 
     int insert(Member record);

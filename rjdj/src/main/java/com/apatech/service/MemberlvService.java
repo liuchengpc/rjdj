@@ -17,6 +17,11 @@ public class MemberlvService {
 	@Autowired
 	private MemberlvMapper dao;
 
+	public Memberlv queryMemberLvByMemberLvID(Integer memberid) {
+		
+		return dao.queryMemberLvByMemberLvID(memberid);
+	}
+	
     public int deleteByPrimaryKey(Integer memberlvid) {
     	return dao.deleteByPrimaryKey(memberlvid);
     }
