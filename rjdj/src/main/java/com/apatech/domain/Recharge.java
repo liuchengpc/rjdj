@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class Recharge {
     private Integer rechargeid;//编号，主键
+    private Integer memberid;//编号，主键
     @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date rechargedate;//充值时间
@@ -108,4 +109,15 @@ public class Recharge {
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
     }
+
+	public Integer getMemberid() {
+		return memberid;
+	}
+
+	public void setMemberid(Integer memberid) {
+		this.memberid = memberid;
+	}
+    
+    
+    
 }
