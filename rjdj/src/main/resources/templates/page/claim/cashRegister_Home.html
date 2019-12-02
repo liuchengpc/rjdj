@@ -213,9 +213,11 @@
 			function ayo(){
 				$(".ayo").live("click",function(){
 					//商品条码ID
-					var commoditydetailid = $(this).find('a').attr("i");
+					var commoditydetailid = $(this).find('a').attr("i");				
 					//商品名称
-				  	var name = $(this).find('p:eq(0)').html();				  	
+				  	var name = $(this).find('p:eq(0)').html();	
+					//商品数量
+					var num = $(this).find('p:eq(0)').attr("i2");
 				  	//商品规格
 				  	var commoditySize = $(this).find('p:eq(1)').html();
 				  	//商品单价
@@ -224,7 +226,7 @@
 					var moneyamt = parseFloat(price.split('$')[1]);
 					//删除
 					var span = "<span class=\"glyphicon glyphicon-remove\"></span>&nbsp&nbsp&nbsp";
-					addProduct(commoditydetailid,name, commoditySize,parseFloat(price.split('$')[1]),moneyamt,span);	
+					addProduct(commoditydetailid,name,num, commoditySize,parseFloat(price.split('$')[1]),moneyamt,span);	
 				});
 			}
 			
@@ -232,15 +234,21 @@
 				$(".datagrid-row").live("mousewheel",function(){
 					var ind = $(this).index();
 					if(g>0){
-						data.rows[ind].quantity += 1;
-						data.rows[ind].moneyamt += parseFloat($(this).find(".datagrid-cell-c1-price").html());
-						$(this).find(".datagrid-cell-c1-quantity").html(data.rows[ind].quantity);	
-						$(this).find(".datagrid-cell-c1-moneyamt").html(data.rows[ind].moneyamt);
-						totalCost += parseFloat($(this).find(".datagrid-cell-c1-price").html());
+						var num = data.rows[ind].num;
+						if(data.rows[ind].quantity<num){
+							data.rows[ind].quantity += 1;
+							data.rows[ind].moneyamt += parseFloat($(this).find(".datagrid-cell-c1-price").html());
+							$(this).find(".datagrid-cell-c1-quantity").html(data.rows[ind].quantity);	
+							$(this).find(".datagrid-cell-c1-moneyamt").html(data.rows[ind].moneyamt);
+							totalCost += parseFloat($(this).find(".datagrid-cell-c1-price").html());
+						}else if(data.rows[ind].quantity==num){
+							$(this).find(".datagrid-cell-c1-quantity").css("color","red");
+						}
 					}else{
 						/*$(this).find(".datagrid-cell-c1-quantity").html(data.rows[ind].quantity -=1);
 						totalCost -= parseFloat($(this).find(".datagrid-cell-c1-price").html());*/
 						if(parseInt($(this).find(".datagrid-cell-c1-quantity").html())>1){
+							$(this).find(".datagrid-cell-c1-quantity").css("color","#000000");
 							data.rows[ind].quantity -= 1;
 							data.rows[ind].moneyamt-=parseFloat($(this).find(".datagrid-cell-c1-price").html());
 							$(this).find(".datagrid-cell-c1-quantity").html(data.rows[ind].quantity);
@@ -254,15 +262,18 @@
 					}else{
 						$('[name=tt2]').val("无");
 						$("[name=tt1]").val(totalCost);
+						$('[name=tt3]').val("无");
+						$('[name=tt4]').val("无");
 					}
 				});
 			}
 			
-			function addProduct(commoditydetailid,name,commoditySize,price,moneyamt,span){
+			function addProduct(commoditydetailid,name,num,commoditySize,price,moneyamt,span){
 				function add(){
 					for(var i=0; i<data.total; i++){
 						var row = data.rows[i];
 						if (row.commoditydetailid == commoditydetailid){
+							row.num = num;
 							row.quantity += 1;
 							row.moneyamt += price;
 							row.span = span;
@@ -278,6 +289,7 @@
 						quantity:1,
 						price:price,
 						moneyamt:moneyamt,	
+						num:num,
 						span:span
 					});
 				}
@@ -291,6 +303,8 @@
 				}else{
 					$('[name=tt2]').val("无");
 					$("[name=tt1]").val(totalCost);
+					$('[name=tt3]').val("无");
+					$('[name=tt4]').val("无");
 				}
 							
 				$("#VIPbutton").click(function(){		
@@ -302,6 +316,8 @@
 						$("#VIPbutton").val("1");
 						$('[name=tt2]').val("无");
 						$('[name=tt1]').val(totalCost);
+						$('[name=tt3]').val("无");
+						$('[name=tt4]').val("无");
 					}
 				});
 				
@@ -390,6 +406,21 @@
 						      <div class="input-group-addon">$</div>
 						      <input type="text" name="tt2" class="form-control total" id="exampleInputAmount" placeholder="" readonly="readonly">
 						      <div class="input-group-addon">会员价</div>
+						    </div>
+					    </div>
+					     <div class="form-group col-md-6" style="position: absolute;top:75%;left:49%;">
+						    <div class="input-group">
+						      <div class="input-group-addon">$</div>
+						      <input type="text" name="tt3" class="form-control total" id="exampleInputAmount" placeholder="" readonly="readonly">
+						      <div class="input-group-addon">积分抵扣 </div>
+						    </div>
+					    </div>
+					    
+					    <div class="form-group col-md-6" style="position: absolute;top:82%;left:49%;">
+						    <div class="input-group">
+						      <div class="input-group-addon">$</div>
+						      <input type="text" name="tt4" class="form-control total" id="exampleInputAmount" placeholder="" readonly="readonly">
+						      <div class="input-group-addon">会员折扣</div>
 						    </div>
 					    </div>
 						<div style="position: absolute;top: 92%;left: 30%;">
@@ -652,9 +683,17 @@
 								if($("#VIPbutton2").attr("checked")=="checked"){
 									$("[name=tt1]").val(totalCost);
 									$('[name=tt2]').val(parseFloat(totalCost/100*zhekou));
+									if(result7.integral==undefined||result7.integral == "undefined"){
+										$('[name=tt3]').val("0");
+									}else{
+										$('[name=tt3]').val(result7.integral);
+									}
+									$('[name=tt4]').val(parseInt(zhekou)/10);
 								}else{
-									$('[name=tt2]').val("无");
 									$("[name=tt1]").val(totalCost);
+									$('[name=tt2]').val("无");
+									$('[name=tt3]').val("无");
+									$('[name=tt4]').val("无");
 								}
 							}
 						});
@@ -664,6 +703,8 @@
 			
 			$("#hyqx").click(function(){
 				$("#VIPbutton2").removeAttr("checked");
+				$('[name=tt3]').val("无");
+				$('[name=tt4]').val("无");
 			});
 		}
 		
@@ -677,7 +718,7 @@
 				data:"commoditytypeid="+commoditytypeid,
 				success:function(result){
 					$.each(result,function(i,obj){
-						var li = $("<li class=\"ayo\"><a i=\""+obj.commoditydetailXZ[0].commoditydetailid+"\" href=\"#\" class=\"item\"><img src=\"/images/shirt1.gif\" style=\"border-width: 0px;\" class=\"iga\"><div><p>"+obj.name+"</p><p>"+obj.commoditydetailXZ[0].commoditysize+"<span>/</span>"+obj.commoditydetailXZ[0].color+"</p><p>价格：$"+obj.price+"</p></div></a></li>");
+						var li = $("<li class=\"ayo\"><a i=\""+obj.commoditydetailXZ[0].commoditydetailid+"\" href=\"#\" class=\"item\"><img src=\"/images/shirt1.gif\" style=\"border-width: 0px;\" class=\"iga\"><div><p i2=\""+obj.commoditydetailXZ[0].count+"\">"+obj.name+"</p><p>"+obj.commoditydetailXZ[0].commoditysize+"/"+obj.commoditydetailXZ[0].color+"</p><p>价格：$"+obj.price+"</p></div></a></li>");
 						$("#fz").append(li);
 					});
 				}
@@ -760,29 +801,37 @@
 				if(data.rows==""){
 					alert("收银表为空！");
 				}else{
-					var dataTwo = {};				
-					/* dataTwo.cashRegisterid=getRandomCode(11); */	//订单编号（随机）
-					/* dataTwo.memberid = $("#VIPbutton2").val(); */	//会员编号
-					
-					var myDate = new Date();
-					var myYear = myDate.getFullYear(); // 获取当前年份
-					var myMonth = myDate.getMonth() +1; // 获取当前月份
-					var myDay = myDate.getDate() // 获取当前日（1- 31）
-					var myHours = myDate.getHours() // 获取当前小时(0-23)
-					var myMinu = myDate.getMinutes() // 获取当前分钟(0-59)
-					var mySeconds = myDate.getSeconds(); //获取当前秒数
-					var time = myYear+"-"+myMonth+"-"+myDay+" "+myHours+":"+myMinu+":"+mySeconds;
-					/* dataTwo.time = time; */	//交易日期
-					
-					/* dataTwo.shopid = user.shopid; */	//店铺编号
-					/* dataTwo.cashregistername = user.username; */	//操作人员
-					
+
+					var list=[] 	
+
 					var count2 = 0;
 					for(var l=0;l<data.rows.length;l++){
 						count2 += data.rows[l].quantity;
 					}
-					/* dataTwo.rows.count = count2; */	//订单总额
+
+					var str = data.rows[0].commoditySize;					
+					var index = str.lastIndexOf("/");
+					var commoditysize =str.substring(0,index);
+					var color  =str.substring(index+1,str.length);
+					var ashregisterid=getRandomCode(11);
 					
+					for(var l = 0;l<data.rows.length;l++){
+						var s={};
+						//alert(list[l].commoditydetailid )
+						//alert(data.rows[l].commoditydetailid)
+						s.cashregisterid = ashregisterid;
+						s.commoditydetailid = data.rows[l].commoditydetailid;
+						s.commodityname = data.rows[l].name;
+						s.specifications = data.rows[l].commoditySize;
+						s.price = data.rows[l].price;
+						s.sbtotal = data.rows[l].moneyamt;
+						s.moneyamt = data.rows[l].moneyamt;
+						s.zhekou = zhekou;
+						s.count = data.rows[l].quantity;
+						list.push(s);
+					}
+					
+					console.info(list);
 					
 					
 					if($("#VIPbutton2").attr("checked")=="checked"){
@@ -790,23 +839,22 @@
 						/* dataTwo.ispresent=1; */	//是否库款（挂单）
 						dataTwo={
 							moneyamt:$("[name=tt2]").val(),
-							ispresent:1,
-							ashregisterid:getRandomCode(11),
+							ispresent:0,
+							ashregisterid:ashregisterid,
 							memberid:$("#VIPbutton2").val(),
-							time:time,
 							shopid:user.shopid,
 							cashregistername:user.username,
 							count:count2,
-							list:[data.rows]
+							list:list
 						}
 						$.ajax({
 							url:"[[@{/CashregisterController/insertCashregister}]]",
 							type:"post",
 							async:false,
-							dataType:"json",
-							data:"count="+count2,
+							contentType:"application/json",
+							data:JSON.stringify(dataTwo),
 							success:function(result){
-								
+								alert(result.message);
 							}
 						});
 					}else{
@@ -814,23 +862,22 @@
 						/* dataTwo.ispresent=0; */	//是否库款（挂单）
 						dataTwo={
 							moneyamt:totalCost,
-							ispresent:1,
-							ashregisterid:getRandomCode(11),
+							ispresent:0,
+							ashregisterid:ashregisterid,
 							memberid:$("#VIPbutton2").val(),
-							time:time,
 							shopid:user.shopid,
 							cashregistername:user.username,
 							count:count2,
-							list:[data.rows]
+							list:list
 						}
 						$.ajax({
 							url:"[[@{/CashregisterController/insertCashregister}]]",
 							type:"post",
 							async:false,
-							dataType:"json",
-							data:"count="+count2,
+							contentType:"application/json",
+							data:JSON.stringify(dataTwo),
 							success:function(result){
-								
+								alert(result.message);
 							}
 						});
 					}

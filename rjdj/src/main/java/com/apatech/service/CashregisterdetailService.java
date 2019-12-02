@@ -17,6 +17,11 @@ public class CashregisterdetailService {
 	@Autowired
 	private CashregisterdetailMapper dao;
 
+	public int insertCashregisterDetail(Cashregisterdetail cs) {
+		
+		return dao.insertCashregisterDetail(cs);
+	}
+	
     public int deleteByPrimaryKey(Integer cashregisterdetailid) {
     	return dao.deleteByPrimaryKey(cashregisterdetailid);
     }

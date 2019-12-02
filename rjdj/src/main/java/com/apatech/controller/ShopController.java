@@ -63,14 +63,14 @@ public class ShopController {
 	@ResponseBody
 	public String updateShopImg(MultipartFile [] files2,Shop shop){
 		System.out.println("进来图片修改上传");
-		File directory = new File("/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images");
+		File directory = new File("/E:/images/");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : files2) {
 				System.out.println("图片上传成功");
-				String url = "/C:/Users/Administrator/git/rjdj/rjdj/src/main/resources/static/images/";
+				String url = "/E:/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);

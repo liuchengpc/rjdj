@@ -1,5 +1,6 @@
 package com.apatech.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Cashregister;
+import com.apatech.domain.Cashregisterdetail;
 import com.apatech.domain.Commodity;
 import com.apatech.service.CashregisterService;
+import com.apatech.service.CashregisterdetailService;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -26,12 +29,35 @@ public class CashregisterController {
 	@Autowired
 	private CashregisterService dao;
 	
+	@Autowired
+	private CashregisterdetailService dao2;
+	
 	@RequestMapping(value="/insertCashregister",method=RequestMethod.POST)
 	@ResponseBody
-	public int insertCashregister(Cashregister dataTwo) {
-		System.out.println("进来了");
+	public Map<String,String> insertCashregister(@RequestBody Cashregister dataTwo) {
+		System.out.println("进来了CashregisterController");	
+		dataTwo.setTime(new Date());
 		System.out.println(dataTwo);
-		return dao.insertCashregister(dataTwo);
+		Map<String,String> map = new HashMap<String,String>();
+		int i = dao.insertCashregister(dataTwo);
+		if(i>0) {
+			for (Cashregisterdetail cs : dataTwo.getList()) {
+				int f = dao2.insertCashregisterDetail(cs);
+				if(f<=0) {
+					map.put("code", "0");
+					map.put("message", "挂单失败");
+					return map;
+				}
+			}
+			map.put("code", "1");
+			map.put("message", "挂单成功！");
+			return map;
+		}else {
+			map.put("code", "0");
+			map.put("message", "挂单失败");
+			return map;
+		}
+		
 	}
 	
 	/**
