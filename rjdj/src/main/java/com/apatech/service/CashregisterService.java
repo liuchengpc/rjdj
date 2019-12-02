@@ -25,6 +25,11 @@ public class CashregisterService {
 	@Autowired
 	private CashregisterdetailMapper dao2;
 
+	public List<Cashregister> queryByGd(){
+
+		return dao.queryByGd();
+	}
+	
 	public int insertCashregister(Cashregister cash) {
 		
 		return dao.insertCashregister(cash);

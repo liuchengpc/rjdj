@@ -34,6 +34,20 @@ public class MemberController {
 	private IntegralService dao3;
 	
 	/**
+	 *根据会员号查询会员信息2
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryMemberByPhoneTwo2",method=RequestMethod.GET)
+	@ResponseBody
+	public Member queryMemberByPhoneTwo2(String phone,String password) {
+		Member m = dao.queryMemberByPhone(phone,password);
+		m.setIt(dao3.selectByPrimaryKey(1));
+		m.setLv(dao2.selectByPrimaryKey(m.getMemberlvid()));
+		return m;
+	}
+	
+	/**
 	 *根据会员号查询会员信息
 	 * @param model
 	 * @return

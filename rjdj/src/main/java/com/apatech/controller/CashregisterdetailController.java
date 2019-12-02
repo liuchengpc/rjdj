@@ -21,6 +21,8 @@ import com.github.pagehelper.PageInfo;
 public class CashregisterdetailController {
 	@Autowired
 	private CashregisterdetailService dao;	
+	
+	
 	/**
 	 * 查询全部
 	 * @param model

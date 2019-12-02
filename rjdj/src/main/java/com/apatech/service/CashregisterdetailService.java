@@ -17,6 +17,11 @@ public class CashregisterdetailService {
 	@Autowired
 	private CashregisterdetailMapper dao;
 
+	public List<Cashregisterdetail> queryByDetail(String cashregisterid){
+		
+		return dao.queryByDetail(cashregisterid);
+	}
+	
 	public int insertCashregisterDetail(Cashregisterdetail cs) {
 		
 		return dao.insertCashregisterDetail(cs);
