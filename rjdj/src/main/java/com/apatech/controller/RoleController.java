@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Role;
+import com.apatech.domain.Users;
 import com.apatech.service.RoleService;
+import com.apatech.service.UsersService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -22,6 +24,9 @@ import com.github.pagehelper.PageInfo;
 public class RoleController {
 	@Autowired
 	private RoleService dao;	
+	
+	@Autowired
+	private UsersService dao2;
 	
 	@RequestMapping(value="/queryRoleByID",method=RequestMethod.GET)
 	@ResponseBody
@@ -33,8 +38,20 @@ public class RoleController {
 	@RequestMapping(value="/queryRole2",method=RequestMethod.GET)
 	@ResponseBody
 	public Role queryRole2(Role role) {
-
-		return dao.queryRole(role);
+		//11111111111111111111
+		Role r = dao.queryRole(role);
+		Integer roleid = role.getRoleid();
+		
+		List<Users> list = dao2.queryUsersByRoleID(roleid);
+		for (Users u : list) {
+			roleid = r.getRoleid();
+			String userid = u.getUserid();
+			Users user1 = new Users();
+			user1.setRoleid(roleid);
+			user1.setUserid(userid);
+			int s = dao2.updateByPrimaryKeySelective(user1);
+		}
+		return r;
 	}
 	
 	@RequestMapping(value="/queryRole",method=RequestMethod.GET)

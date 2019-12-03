@@ -25,6 +25,11 @@ public class UsersService {
 	@Autowired
 	private RoleMapper rl;
 	
+	public List<Users> queryUsersByRoleID(Integer roleid){
+		
+		return dao.queryUsersByRoleID(roleid);
+	}
+	
 	public int deleteUser(String userid) {
 		
 		return dao.deleteUser(userid);

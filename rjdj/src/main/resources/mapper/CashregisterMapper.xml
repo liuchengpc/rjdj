@@ -12,7 +12,8 @@
     <result column="ispresent" jdbcType="INTEGER" property="ispresent" />
   </resultMap>
   <select id="queryByGd" parameterType="com.apatech.domain.Cashregister" resultMap="BaseResultMap">
-  	select * from cashregister where ispresent = 0 order by `time` desc
+  	select * from cashregister where ispresent = 0 
+  	and ashregisterid like '%${ashregisterid}%' order by `time` desc 
   </select>
   <insert id="insertCashregister" parameterType="com.apatech.domain.Cashregister">
     insert into cashregister (ashRegisterID, time, shopID, 

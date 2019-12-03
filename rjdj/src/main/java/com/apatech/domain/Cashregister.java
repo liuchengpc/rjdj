@@ -25,8 +25,7 @@ public class Cashregister {
     private List<Cashregisterdetail> list;//集合
     private Member member;	//会员对象
     private Memberlv memberlv;	//会员等级对象
-    
-    
+    private List<Commoditydetail> commoditydetail;	//商品详情对象
 	public String getAshregisterid() {
 		return ashregisterid;
 	}
@@ -93,15 +92,22 @@ public class Cashregister {
 	public void setMemberlv(Memberlv memberlv) {
 		this.memberlv = memberlv;
 	}
+	public List<Commoditydetail> getCommoditydetail() {
+		return commoditydetail;
+	}
+	public void setCommoditydetail(List<Commoditydetail> commoditydetail) {
+		this.commoditydetail = commoditydetail;
+	}
 	@Override
 	public String toString() {
 		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", shopid=" + shopid + ", count="
 				+ count + ", moneyamt=" + moneyamt + ", memberid=" + memberid + ", cashregistername=" + cashregistername
-				+ ", ispresent=" + ispresent + ", list=" + list + ", member=" + member + ", memberlv=" + memberlv + "]";
+				+ ", ispresent=" + ispresent + ", list=" + list + ", member=" + member + ", memberlv=" + memberlv
+				+ ", commoditydetail=" + commoditydetail + "]";
 	}
 	public Cashregister(String ashregisterid, Date time, String shopid, Integer count, Float moneyamt, Integer memberid,
-			String cashregistername, Integer ispresent, List<Cashregisterdetail> list, Member member,
-			Memberlv memberlv) {
+			String cashregistername, Integer ispresent, List<Cashregisterdetail> list, Member member, Memberlv memberlv,
+			List<Commoditydetail> commoditydetail) {
 		super();
 		this.ashregisterid = ashregisterid;
 		this.time = time;
@@ -114,8 +120,9 @@ public class Cashregister {
 		this.list = list;
 		this.member = member;
 		this.memberlv = memberlv;
+		this.commoditydetail = commoditydetail;
 	}
-
+    
 	public Cashregister() {
 		super();
 	}

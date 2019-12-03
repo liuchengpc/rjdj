@@ -84,7 +84,7 @@
 																type:"get",
 																async:false,
 																dataType:"json",
-																data:"rolename="+rolename,
+																data:"rolename="+rolename+"&roleid="+roleID,
 																success:function(result4){
 																	$.ajax({
 																		url:"[[@{/RoleprivilegeController/insertRoleprivilege}]]",
