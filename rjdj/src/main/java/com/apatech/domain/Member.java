@@ -30,6 +30,14 @@ public class Member {
     @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date hytime;//最近成交 
 
+	@Override
+	public String toString() {
+		return "Member [memberid=" + memberid + ", phone=" + phone + ", name=" + name + ", memberlvid=" + memberlvid
+				+ ", password=" + password + ", province=" + province + ", city=" + city + ", region=" + region
+				+ ", street=" + street + ", price=" + price + ", integral=" + integral + ", memberlvname="
+				+ memberlvname + ", hycount=" + hycount + ", hysumprice=" + hysumprice + ", hytime=" + hytime + "]";
+	}
+
 	public String getMemberlvname() {
 		return memberlvname;
 	}

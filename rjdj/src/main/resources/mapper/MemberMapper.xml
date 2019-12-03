@@ -165,4 +165,23 @@
       integral = #{integral,jdbcType=INTEGER}
     where memberID = #{memberid,jdbcType=INTEGER}
   </update>
+  
+  
+  <select id="queryAllBy" resultType="com.apatech.domain.Member">
+  	SELECT d.*,(SELECT name FROM memberlv l WHERE l.memberLvID=d.memberLvID) memberlvname, (SELECT COUNT(*) FROM cashregister e WHERE e.memberID = d.memberID  ) hycount, IFNULL( ( SELECT SUM(moneyamt) FROM cashregister f WHERE f.memberID = d.memberID ) ,0)  hysumprice, (SELECT time FROM cashregister g WHERE g.memberID = d.memberID GROUP BY g.time LIMIT 1,1) hytime FROM member d
+  	<trim prefix="where" prefixOverrides="and|or">
+		<if test="null!=phoneorname and ''!=phoneorname">
+		and (d.phone like "%"#{phoneorname,jdbcType=VARCHAR}"%" or d.name like "%"#{phoneorname,jdbcType=VARCHAR}"%")
+		</if>
+		<if test="0!=lvid">
+		and d.memberLvID=#{lvid,jdbcType=INTEGER}
+		</if>
+	</trim>
+  	
+  </select>
+  <select id="queryAllByPhone" resultType="com.apatech.domain.Member">
+  	SELECT d.*,(SELECT name FROM memberlv l WHERE l.memberLvID=d.memberLvID) memberlvname, (SELECT COUNT(*) FROM cashregister e WHERE e.memberID = d.memberID  ) hycount, IFNULL( ( SELECT SUM(moneyamt) FROM cashregister f WHERE f.memberID = d.memberID ) ,0)  hysumprice, (SELECT time FROM cashregister g WHERE g.memberID = d.memberID GROUP BY g.time LIMIT 1,1) hytime FROM member d
+	where d.phone =#{phone,jdbcType=VARCHAR}
+  	
+  </select>
 </mapper>

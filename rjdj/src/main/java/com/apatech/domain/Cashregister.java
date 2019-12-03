@@ -3,8 +3,10 @@ package com.apatech.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.apatech.mapper.MemberMapper;
 import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * 订单主表
@@ -23,14 +25,25 @@ public class Cashregister {
     private String cashregistername;//收银人员
     private Integer ispresent;//是否付款    (0:否 默认：0  1:是)
     private List<Cashregisterdetail> list;//集合
-    
-     
+    private Member member;//会员表
+	/*
+	 * @Autowired private MemberMapper dao;
+	 */
+
+	public Member getMember() {
+		/* return dao.selectByPrimaryKey(memberid); */
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
 
 	@Override
 	public String toString() {
 		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", shopid=" + shopid + ", count="
 				+ count + ", moneyamt=" + moneyamt + ", memberid=" + memberid + ", cashregistername=" + cashregistername
-				+ ", ispresent=" + ispresent + ", list=" + list + "]";
+				+ ", ispresent=" + ispresent + ", list=" + list + ", member=" + member + "]";
 	}
 
 	public Cashregister() {

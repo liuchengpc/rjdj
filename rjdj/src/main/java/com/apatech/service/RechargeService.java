@@ -1,5 +1,6 @@
 package com.apatech.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class RechargeService {
     
     public List<Recharge> selectAll() {
     	return dao.selectAll();
+    }
+    
+
+    public List<Recharge> selectByAll(Date startTime,Date endTime,String PhoneOrName) {
+    	return dao.selectByAll(startTime,endTime,PhoneOrName);
     }
     
     public PageInfo<Recharge> selectAllpage(Integer pageNum,Integer pageSize){

@@ -16,6 +16,7 @@ public interface CashregisterdetailMapper {
 
     Cashregisterdetail selectByPrimaryKey(Integer cashregisterdetailid);
     
+    List<Cashregisterdetail> selectByPrimaryKey1(Integer cashregisterdetailid);
     /**
      * 根据商品主表id查询
      * @return

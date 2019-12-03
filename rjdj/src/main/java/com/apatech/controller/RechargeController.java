@@ -1,10 +1,14 @@
 package com.apatech.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,12 +37,30 @@ public class RechargeController {
 		List<Recharge> list = dao.selectAll();
 		return list;
 	}
+	
+	/**
+	 * 多条件查询
+	 * @param model
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value = "/selectByAll",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Recharge> selectByAll(String startTime,String endTime,String PhoneOrName) throws ParseException {
+		System.out.println("进入RechargeController多条件");
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+		Date stTime=f.parse(startTime);
+		Date edTime=f.parse(endTime);
+		System.out.println(stTime+"////////"+edTime+"//////"+PhoneOrName);
+		List<Recharge> list = dao.selectByAll(stTime,edTime,PhoneOrName);
+		return list;
+	}
 	/**
 	 * 根据主键查询
 	 * @param billid
 	 * @return
 	 */
-	@RequestMapping(value = "selectByPrimaryKey",method = RequestMethod.GET)
+	@RequestMapping(value = "/selectByPrimaryKey",method = RequestMethod.GET)
 	@ResponseBody
     public Recharge selectByPrimaryKey(Integer rechargeid) {
 		System.out.println("进入RechargeController根据主键查询");
@@ -59,25 +81,43 @@ public class RechargeController {
     	PageInfo<Recharge> page=dao.selectAllpage(pageNum, pageSize);
     	return page;
     }
+	
 	/**
 	 * 新增
 	 * @param student
 	 * @return
 	 */
-	@RequestMapping(value = "insertSelective",method = RequestMethod.POST)
+	@RequestMapping(value = "/insertSelective",method = RequestMethod.POST)
 	@ResponseBody
     public Map<String, String> insertSelective(@RequestBody Recharge record) {
 		System.out.println("进入RechargeController新增");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		//设置为东八区
+//		sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+//		try {
+//			record.setRechargedate(sdf.parse((sdf.format(new Date()))));
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+		/*
+		 * @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+		 * 
+		 * @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") public Date aaa=new Date();
+		 */
+		System.out.println("时间为"+new Date());
+	
+		record.setRechargedate(new Date());
 		System.out.println("实体："+record.toString());
 		Map<String, String> map=new HashMap<String,String>();
-    	int i=dao.insertSelective(record);
-    	if (i>0) {
+		int i=dao.insertSelective(record);
+	   	if (i>0) {
 			map.put("code", "1");
-			map.put("message", "新增成功！");
-		}else {
-			map.put("code", "2");
-			map.put("message", "新增失败！");
-		}
+				map.put("message", "新增成功！");
+			}else {
+				map.put("code", "2");
+				map.put("message", "新增失败！");
+			}
 		return map;
     }
 
@@ -124,5 +164,5 @@ public class RechargeController {
 		}
 		return map;
     }
-
+	
 }

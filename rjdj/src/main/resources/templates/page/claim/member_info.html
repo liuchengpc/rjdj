@@ -37,15 +37,15 @@
 					        <h4 class="modal-title" id="gridSystemModalLabel">添加会员</h4>
 					      </div>
 					      <div class="modal-body">
-					        <div class="container-fluid">
+					        <div class="container-fluid" id="insert">
 								<div class="row">
 									<div class="col-md-6" style="padding-left: 10px;">
 										<span style="color: red;">*</span>手&nbsp;&nbsp;&nbsp;&nbsp;机 
-										<input type="text" class="form-control" style="display: inline-block;width: auto;" v-model="phone">
+										<input type="text" class="form-control" style="display: inline-block;width: auto;" id="phone"><!--  v-model="phone" -->
 									</div>
 									<div class="col-md-6" style="padding-left: 10px;">
 										<span style="color: red;">*</span>名&nbsp;&nbsp;&nbsp;&nbsp;称
-										<input type="text" class="form-control" style="display: inline-block;width: auto;" v-model="name">
+										<input type="text" class="form-control" style="display: inline-block;width: auto;" id="name"><!-- v-model="name" -->
 									</div>
 								</div>
 								<div class="row" style="margin-top: 20px;">
@@ -56,14 +56,14 @@
 											<option value ="vip">vip</option>
 											<option value ="会员">会员</option>
 										</select> -->
-										<select name="" id="dengji" class="form-control" style="display: inline-block;width: 77%;" v-model="member.memberLvID">
-					                    	<option value="请选择等级">请选择等级</option>
+										<select name="" class="form-control" style="display: inline-block;width: 77%;" id="memberLv"><!-- v-model="member.memberLvID" -->
+					                    	<option value="0">请选择等级</option>
 					                        <option v-for="item in memberLv.list" :value="item.memberlvid" :key="item.memberlvid"  >{{item.name}}</option>
 					                    </select>
 									</div>
 									<div class="col-md-6">
 										密&nbsp;&nbsp;&nbsp;&nbsp;码
-										<input type="text" class="form-control" style="display: inline-block;width: auto;" v-model="member.passWord">
+										<input type="password" class="form-control" style="display: inline-block;width: auto;" id="passWord"><!--  v-model="member.passWord" -->
 									</div>
 								</div>
 								<div class="row" style="margin-top: 20px;">
@@ -81,16 +81,16 @@
 											<option value ="0">请选择地区</option>
 										</select> -->
 										<div data-toggle="distpicker" style="display: inline-block;">
-									        <div class="col-sm-3" style="display: inline-block;width: 32%;padding-left: 20px;padding-right: 1px;"><select class="form-control col-sm-4" id="province" style="display: inline-block;" v-model="member.province"></select></div>
-											<div class="col-sm-3" style="display: inline-block;width: 32%;padding-left: 20px;padding-right: 1px;"><select class="form-control col-sm-4" id="city"     style="display: inline-block;" v-model="member.city"></select></div>
-											<div class="col-sm-3" style="display: inline-block;width: 32%;padding-left: 20px;padding-right: 1px;"><select class="form-control col-sm-4" id="region"   style="display: inline-block;" v-model="member.region"></select></div>
+									        <div class="col-sm-3" style="display: inline-block;width: 32%;padding-left: 20px;padding-right: 1px;"><select class="form-control col-sm-4"  style="display: inline-block;" id="province"></select></div><!--  v-model="member.province" -->
+											<div class="col-sm-3  " style="display: inline-block;width: 32%;padding-left: 20px;padding-right: 1px;"><select class="form-control col-sm-4"  style="display: inline-block;" id="city"></select></div><!-- v-model="member.city" -->
+											<div class="col-sm-3" style="display: inline-block;width: 32%;padding-left: 20px;padding-right: 1px;"><select class="form-control col-sm-4"  style="display: inline-block;" id="region"></select></div><!-- v-model="member.region" -->
 								      	</div>
 									</div>
 								</div>
 								<div class="row" style="margin-top: 20px;">
 									<div class="col-md-12">
 										街&nbsp;&nbsp;&nbsp;&nbsp;道
-										<input type="text" class="form-control" style="display: inline-block;width: 90%" v-model="member.street">
+										<input type="text" class="form-control" style="display: inline-block;width: 90%" id="street"><!-- v-model="member.street" -->
 									</div>
 								</div>
 							</div>
@@ -98,7 +98,7 @@
 							<br>
 					      <div class="modal-footer" style="text-align: center;">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					        <button type="button" class="btn btn-primary" style="background: green" @click="insert">确定</button>
+					        <button type="button" class="btn btn-primary" style="background: green" onclick="insert()">确定</button>
 					      </div>
 					    </div><!-- /.modal-content -->
 					  </div><!-- /.modal-dialog -->
@@ -117,18 +117,19 @@
                     <a href="javascript:;" class="btn btn-default">批量导入</a>
                 </div>
                 <div class="list search">
-                    <input class="inputtext" type="text" placeholder="查找">
-                    <a href="javascript:;" class="search-btn"></a>
+                    <input class="inputtext" type="text" placeholder="查找" id="PhoneOrName">
+                    <a href="javascript:;" class="search-btn" @click="queryBy"></a>
                 </div>
                 <div class="list">
                 <!--  v-model="selected" -->
-                    <select name="" id="" class="form-control">
-                    	<option value="全部等级">全部等级</option>
+                    <select name="" id="memberLvID_top" class="form-control"  @change="queryBy">
+                    	<option value="0">全部等级</option>
                         <option v-for="item in memberLv.list" :value="item.memberlvid" :key="item.memberlvid"  >{{item.name}}</option>
                     </select>
 
                 </div>
             </div>
+			<!-- 表格数据显示 -->
             <div class="mainbody">
                 <table class="settable table table-striped">
                     <thead>
@@ -147,10 +148,13 @@
                     </thead>
                     <tbody>
                     
-                    <tr v-for="item in page.list">
-                        <td>
+                    <tr v-for="(item,index) in page.list">
+                        <td class="memberid_td" style="display: none;">
                             {{item.memberid}}
                         </td>
+						<td>
+							{{index+1}}
+						</td>
                         <td class="nametd">
                            {{item.name}}
                         </td>
@@ -163,7 +167,7 @@
                         <td v-if="item.hytime != null">{{item.hytime}}</td>
                         <td v-else>-</td>
                         <td>
-                            <a href="javascript:;" data-toggle="modal" data-target=".xghymtk">编辑</a>
+                            <a href="javascript:;" data-toggle="modal" data-target=".xghymtk" onclick="queryByid(this)">编辑</a>
                         </td>
                     </tr>
                     </tbody>
@@ -191,11 +195,11 @@
 								<div class="row">
 									<div class="col-md-6" style="padding-left: 10px;">
 										<span style="color: red;">*</span>手&nbsp;&nbsp;&nbsp;&nbsp;机 
-										<input type="text" class="form-control" style="display: inline-block;width: auto;">
+										<input type="text" class="form-control" style="display: inline-block;width: auto;"id="phone">
 									</div>
 									<div class="col-md-6" style="padding-left: 10px;">
 										<span style="color: red;">*</span>名&nbsp;&nbsp;&nbsp;&nbsp;称
-										<input type="text" class="form-control" style="display: inline-block;width: auto;">
+										<input type="text" class="form-control" style="display: inline-block;width: auto;"id="name">
 									</div>
 								</div>
 								<div class="row" style="margin-top: 20px;">
@@ -206,14 +210,14 @@
 											<option value ="vip">vip</option>
 											<option value ="会员">会员</option>
 										</select> -->
-										<select name="" id="dengji" class="form-control" style="display: inline-block;width: 77%;">
-					                    	<option value="请选择等级">请选择等级</option>
+										<select name="" class="form-control" style="display: inline-block;width: 77%;"id="memberLvID">
+					                    	<option value="0">请选择等级</option>
 					                        <option v-for="item in memberLv.list" :value="item.memberlvid" :key="item.memberlvid"  >{{item.name}}</option>
 					                    </select>
 									</div>
 									<div class="col-md-6">
 										密&nbsp;&nbsp;&nbsp;&nbsp;码
-										<input type="text" class="form-control" style="display: inline-block;width: auto;">
+										<input type="password" class="form-control" style="display: inline-block;width: auto;"id="passWord">
 									</div>
 								</div>
 								<div class="row" style="margin-top: 20px;">
@@ -240,7 +244,7 @@
 								<div class="row" style="margin-top: 20px;">
 									<div class="col-md-12">
 										街&nbsp;&nbsp;&nbsp;&nbsp;道
-										<input type="text" class="form-control" style="display: inline-block;width: 90%">
+										<input type="text" class="form-control" style="display: inline-block;width: 90%"id="street">
 									</div>
 								</div>
 							</div>
@@ -248,7 +252,7 @@
 							<br>
 					      <div class="modal-footer" style="text-align: center;">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					        <button type="button" class="btn btn-primary" style="background: green">确定</button>
+					        <button type="button" class="btn btn-primary" style="background: green" onclick="updateByid()">确定</button>
 					      </div>
 					    </div><!-- /.modal-content -->
 					  </div><!-- /.modal-dialog -->
@@ -310,8 +314,9 @@
  					},
  					memberLv:{
  						list:[]
- 					}
+ 					}/* ,
  					member:{
+						
  						phone:,
  						name:,
  						memberLvID:,
@@ -322,7 +327,7 @@
  						street:,
  						price:,
  						integral:
- 					}
+ 					} */
  				};
     		},
     		methods:{
@@ -331,24 +336,32 @@
     					alert("没有上一页了");
     					return ;
     				}
- 					this.getPage(this.page.prePage);
+					var lvid=$("#memberLvID_top").val();
+					var PhoneOrName=$("#PhoneOrName").val();
+ 					this.getPage(this.page.prePage,lvid,PhoneOrName);
  				},
  				nextPage:function(){
  					if(this.page.nextPage==0){
  						alert("没有下一页了");
  						return ;
  					}
- 					this.getPage(this.page.nextPage);
+					var lvid=$("#memberLvID_top").val();
+					var PhoneOrName=$("#PhoneOrName").val();
+ 					this.getPage(this.page.nextPage,lvid,PhoneOrName);
  				},
  				lastPage:function(){
- 					this.getPage(this.page.lastPage);
+					var lvid=$("#memberLvID_top").val();
+					var PhoneOrName=$("#PhoneOrName").val();
+ 					this.getPage(this.page.lastPage,lvid,PhoneOrName);
  				},
  				firstPage:function(){
- 					this.getPage(this.page.firstPage);
+					var lvid=$("#memberLvID_top").val();
+					var PhoneOrName=$("#PhoneOrName").val();
+ 					this.getPage(this.page.firstPage,lvid,PhoneOrName);
  				},
- 				getPage:function(pageNum){
+ 				getPage:function(pageNum,lvid,PhoneOrName){
  	 				var that = this;
- 	 				$.ajax({
+ 	 				/* $.ajax({
  	 					url:"[[@{/MemberController/queryAllpage}]]",
  	 					data:{pageNum:pageNum,pageSize:1},
  	 					dataType:"json",
@@ -357,7 +370,17 @@
  	 						that.page = result;
  	 						//alert(JSON.stringify(result));
  	 						$("#yebi").text(result.pageNum+"/"+result.lastPage);
- 	 					}
+ 	 					}, */
+						$.ajax({
+						url:"[[@{/MemberController/queryAllBypage}]]",
+						data:{pageNum:pageNum,pageSize:1,lvid,PhoneOrName},
+						dataType:"json",
+						type:"get",
+						success:function(result){
+							that.page = result;
+							//alert(JSON.stringify(result));
+							$("#yebi").text(result.pageNum+"/"+result.lastPage);
+						}
  	 				});
  				},getMemberLv:function(){
  					var that =this;
@@ -371,13 +394,15 @@
  					});
  				},goPage:function(){
  					
+					var lvid=$("#memberLvID_top").val();
+					var PhoneOrName=$("#PhoneOrName").val();
  					var tzy=$("#tz").val();
  					if(tzy<1||tzy>this.page.lastPage){
  						alert("请输入正确的数字");
  						return ;
  					}
- 					this.getPage(tzy);
- 				},insert:function(){
+ 					this.getPage(tzy,lvid,PhoneOrName);
+ 				}/* ,insert:function(){
  					var that=this;
  					$.ajax({
  						url:"[[@{/MemberController/insertSelective}]]",
@@ -389,13 +414,155 @@
 							
 						}
  					});
- 				}
+ 				} */
+				,queryBy:function(){
+					var lvid=$("#memberLvID_top").val();
+					var PhoneOrName=$("#PhoneOrName").val();
+ 					this.getPage(1,lvid,PhoneOrName);
+				}
     		},
     		created:function(){
- 				this.getPage(1);
+				this.getPage(1,0,"");
  				this.getMemberLv();
  			}
     	});
+		 function insert(){
+			var phone=		$("#insert #phone").val();
+			var name=		$("#insert #name").val();
+			var memberLvID=	$("#insert #memberLv").val();
+			var passWord=	$("#insert #passWord").val();
+			var province=	$("#insert #province").val();
+			var city=		$("#insert #city").val();
+			var region=		$("#insert #region").val();
+			var street=		$("#insert #street").val();
+			if(phone==""||name==""){
+				alert("请输入必填的信息");
+				return ;
+			}
+			if(!(/^1[3456789]\d{9}$/.test(phone))){ 
+				alert("手机号码有误，请重填");  
+				return; 
+			} 
+			if(memberLvID==0){
+				alert("请选择等级");
+				return ;
+			}
+			var record={
+				phone:phone,
+				name:name,
+				memberlvid:memberLvID,
+				password:passWord,
+				province:province,
+				city:city,
+				region:region,
+				street:street,
+				price:0,
+				integral:0
+			}
+			alert(JSON.stringify(record));
+			 $.ajax({
+				url:"[[@{/MemberController/insertSelective}]]",
+				type:"post",
+				contentType:"application/json",
+				data:JSON.stringify(record),
+				"success":function(res){
+					alert(res.message);
+					location.reload();
+				}
+			}); 
+		}
+		/* function queryBy(){
+			var lvid=$("#memberLvID_top").val();
+			var PhoneOrName=$("#PhoneOrName").val();
+			var that = this;
+			$.ajax({
+				url:"[[@{/MemberController/queryAllBypage}]]",
+				data:{pageNum:1,pageSize:1,lvid,PhoneOrName},
+				dataType:"json",
+				type:"get",
+				success:function(result){
+					that.page = result;
+					//alert(JSON.stringify(result));
+					$("#yebi").text(result.pageNum+"/"+result.lastPage);
+				}
+			});
+		} */
+		/* $(
+			$("#memberLvID_top").selected(function(){
+				alert($("#memberLvID_top").val());
+			});
+		); */
+		var id;
+		var price;
+		var integral;
+		function queryByid(that){
+			var memberid=$.trim($(that).parent().parent().find(".memberid_td").text());
+			id=memberid;
+			$.ajax({
+				url:"[[@{/MemberController/selectByPrimaryKey}]]",
+				type:"get",
+				dataType:"json",
+				data:"memberid="+memberid,
+				"success":function(res){
+					$("#xghymtk #phone").val(res.phone);
+					$("#xghymtk #name").val(res.name);
+					$("#xghymtk #memberLvID").val(res.memberlvid);
+					$("#xghymtk #passWord").val(res.password);
+					$("#xghymtk #province").val(res.province).trigger("change");
+					$("#xghymtk #city").val(res.city).trigger("change");
+					$("#xghymtk #region").val(res.region).trigger("change");
+					$("#xghymtk #street").val(res.street);
+					price=res.price;
+					integral=res.integral;
+				}
+			});
+		}
+		function updateByid(){
+			var phone=		$("#xghymtk #phone").val();
+			var name=		$("#xghymtk #name").val();
+			var memberLvID=	$("#xghymtk #memberLvID").val();
+			var passWord=	$("#xghymtk #passWord").val();
+			var province=	$("#xghymtk #province").val();
+			var city=		$("#xghymtk #city").val();
+			var region=		$("#xghymtk #region").val();
+			var street=		$("#xghymtk #street").val();
+			//alert("phone:"+phone+"name:"+name+"memberLvID:"+memberLvID+"passWord"+passWord+"province"+province+"city"+city+"region"+region+"street"+street);
+			if(phone==""||name==""){
+				alert("请输入必填的信息");
+				return ;
+			}
+			if(!(/^1[3456789]\d{9}$/.test(phone))){ 
+				alert("手机号码有误，请重填");  
+				return; 
+			} 
+			if(memberLvID==0){
+				alert("请选择等级");
+				return ;
+			}
+			var record={
+				memberid:id,
+				phone:phone,
+				name:name,
+				memberlvid:memberLvID,
+				password:passWord,
+				province:province,
+				city:city,
+				region:region,
+				street:street,
+				price:price,
+				integral:integral
+			}
+			$.ajax({
+				url:"[[@{/MemberController/updateByPrimaryKeySelective}]]",
+				type:"post",
+				contentType:"application/json",
+				data:JSON.stringify(record),
+				"success":function(res){
+					alert(res.message);
+					location.reload();
+				}
+			});
+		}
     </script>
 </body>
 </html>
