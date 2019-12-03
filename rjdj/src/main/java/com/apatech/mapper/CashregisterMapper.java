@@ -25,6 +25,21 @@ public interface CashregisterMapper {
     @Select("select * from Cashregister")
     List<Cashregister> selectAll();
     
+
+
+    /**
+     * 多条件查询
+     * @param PhoneOrName
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<Cashregister> selectByAll(
+    		@Param("PhoneOrName")String PhoneOrName,//姓名或者电话号码
+    		@Param("startTime")Date startTime,//开始时间
+    		@Param("endTime")Date endTime//结束时间
+	);
+    
     List<Cashregister> selectAll3(
     		@Param("shopid")Integer shopid,//店铺
     		@Param("oldtime")Date oldtime,//开始时间

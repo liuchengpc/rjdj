@@ -3,8 +3,10 @@ package com.apatech.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.apatech.mapper.MemberMapper;
 import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * 订单主表
@@ -23,6 +25,7 @@ public class Cashregister {
     private String cashregistername;//收银人员
     private Integer ispresent;//是否付款    (0:否 默认：0  1:是)
     private List<Cashregisterdetail> list;//集合
+
     private Member member;	//会员对象
     private Memberlv memberlv;	//会员等级对象
     
@@ -63,7 +66,52 @@ public class Cashregister {
 	
 
 	
-
+	public Cashregister(String ashregisterid, Date time, Integer count, Float moneyamt, String cashregistername,
+			Integer ispresent, List<Cashregisterdetail> list, Member member, Memberlv memberlv,
+			String cashregisterdetailid, String cashregisterid, String commodityname, String commoditydetailid,
+			String specifications, Float price, Float sbtotal, Integer xbcount, Integer zhekou, Float xbmoneyamt,
+			Integer memberid, String name, Float hyprice, String shopid, String shopname, String commodityimg,
+			String spname, String stockcount, Integer spsccount, Double spsccprice, String commoditysize, String color,
+			Integer dds, Double xsje, Double cz) {
+		super();
+		this.ashregisterid = ashregisterid;
+		this.time = time;
+		this.count = count;
+		this.moneyamt = moneyamt;
+		this.cashregistername = cashregistername;
+		this.ispresent = ispresent;
+		this.list = list;
+		this.member = member;
+		this.memberlv = memberlv;
+		this.cashregisterdetailid = cashregisterdetailid;
+		this.cashregisterid = cashregisterid;
+		this.commodityname = commodityname;
+		this.commoditydetailid = commoditydetailid;
+		this.specifications = specifications;
+		this.price = price;
+		this.sbtotal = sbtotal;
+		this.xbcount = xbcount;
+		this.zhekou = zhekou;
+		this.xbmoneyamt = xbmoneyamt;
+		this.memberid = memberid;
+		this.name = name;
+		this.hyprice = hyprice;
+		this.shopid = shopid;
+		this.shopname = shopname;
+		this.commodityimg = commodityimg;
+		this.spname = spname;
+		this.stockcount = stockcount;
+		this.spsccount = spsccount;
+		this.spsccprice = spsccprice;
+		this.commoditysize = commoditysize;
+		this.color = color;
+		this.dds = dds;
+		this.xsje = xsje;
+		this.cz = cz;
+	}
+	public Cashregister() {
+		super();
+	}
 
     
 	public Member getMember() {
@@ -78,41 +126,6 @@ public class Cashregister {
 	public void setMemberlv(Memberlv memberlv) {
 		this.memberlv = memberlv;
 	}
-
-	@Override
-	public String toString() {
-		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", count=" + count + ", moneyamt="
-				+ moneyamt + ", cashregistername=" + cashregistername + ", ispresent=" + ispresent + ", list=" + list
-				+ ", member=" + member + ", memberlv=" + memberlv + ", cashregisterdetailid=" + cashregisterdetailid
-				+ ", cashregisterid=" + cashregisterid + ", commodityname=" + commodityname + ", commoditydetailid="
-				+ commoditydetailid + ", specifications=" + specifications + ", price=" + price + ", sbtotal=" + sbtotal
-				+ ", xbcount=" + xbcount + ", zhekou=" + zhekou + ", xbmoneyamt=" + xbmoneyamt + ", memberid="
-				+ memberid + ", name=" + name + ", hyprice=" + hyprice + ", shopid=" + shopid + ", shopname=" + shopname
-				+ ", commodityimg=" + commodityimg + ", spname=" + spname + ", stockcount=" + stockcount
-				+ ", spsccount=" + spsccount + ", spsccprice=" + spsccprice + ", commoditysize=" + commoditysize
-				+ ", color=" + color + ", dds=" + dds + ", xsje=" + xsje + ", cz=" + cz + "]";
-	}
-	public Cashregister(String ashregisterid, Date time, String shopid, Integer count, Float moneyamt, Integer memberid,
-			String cashregistername, Integer ispresent, List<Cashregisterdetail> list, Member member,
-			Memberlv memberlv) {
-		super();
-		this.ashregisterid = ashregisterid;
-		this.time = time;
-		this.shopid = shopid;
-		this.count = count;
-		this.moneyamt = moneyamt;
-		this.memberid = memberid;
-		this.cashregistername = cashregistername;
-		this.ispresent = ispresent;
-		this.list = list;
-		this.member = member;
-		this.memberlv = memberlv;
-	}
-
-	public Cashregister() {
-		super();
-	}
-
 
 	public String getAshregisterid() {
         return ashregisterid;

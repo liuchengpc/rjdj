@@ -150,4 +150,18 @@
       memberid = #{memberid,jdbcType=INTEGER}
     where rechargeID = #{rechargeid,jdbcType=INTEGER}
   </update>
+  <select id="selectByAll" resultType="com.apatech.domain.Recharge">
+  SELECT r.rechargeID,r.rechargeDate,r.weChatNumber,m.name,m.phone,r.recharge,r.give,r.balance,r.remarks,r.memberid 
+	FROM recharge r,member m 
+	WHERE r.memberid=m.memberID  
+	<if test="null!=startTime">
+	  AND r.rechargeDate &gt;= #{startTime} 
+	 </if>  
+	<if test="null!=endTime">
+	  AND r.rechargeDate &lt;= #{endTime}  
+	 </if>
+	<if test="null!=PhoneOrName and ''!=PhoneOrName">
+	  AND (m.name LIKE "%"#{PhoneOrName,jdbcType=VARCHAR}"%" OR m.phone LIKE "%"#{PhoneOrName,jdbcType=VARCHAR}"%")
+	 </if> 
+  </select>
 </mapper>

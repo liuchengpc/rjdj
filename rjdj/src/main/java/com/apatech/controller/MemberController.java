@@ -134,11 +134,41 @@ public class MemberController {
     }
 	
 	/**
+	 * 连表多条件分页
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "queryAllBypage",method = RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Member> queryAllBypage( Integer pageNum,Integer pageSize,Integer lvid,String PhoneOrName){
+		System.out.println("进入MemberController连表多条件分页");
+		System.out.println(pageNum+"/"+pageSize);
+		System.out.println("等级id"+lvid+"电话或姓名"+PhoneOrName);
+    	PageInfo<Member> page=dao.queryAllBypage(pageNum, pageSize,lvid,PhoneOrName);
+    	return page;
+    }
+	
+	/**
+	 * 按电话号码查询
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "queryAllByPhone",method = RequestMethod.GET)
+	@ResponseBody
+	public Member queryAllByPhone(String Phone){
+		System.out.println("进入MemberController按手机号查询");
+		System.out.println("电话"+Phone);
+    	Member page=dao.queryAllByPhone(Phone);
+    	return page;
+    }
+	/**
 	 * 新增
 	 * @param student
 	 * @return
 	 */
-	@RequestMapping(value = "insertSelective",method = RequestMethod.POST)
+	@RequestMapping(value = "/insertSelective",method = RequestMethod.POST)
 	@ResponseBody
     public Map<String, String> insertSelective(@RequestBody Member record) {
 		System.out.println("进入MemberController新增");

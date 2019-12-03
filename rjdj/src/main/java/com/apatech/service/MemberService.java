@@ -41,6 +41,11 @@ public class MemberService {
     }
 
 
+    /**
+     * 按id查询
+     * @param memberid
+     * @return
+     */
     public Member selectByPrimaryKey(Integer memberid) {
     	return dao.selectByPrimaryKey(memberid);
     }
@@ -62,7 +67,19 @@ public class MemberService {
     	PageInfo<Member> page=new PageInfo<Member>(list);
     	return page;
     }
-
+    
+    public PageInfo<Member> queryAllBypage(Integer pageNum,Integer pageSize,Integer lvid,String PhoneOrName){
+    	PageHelper.startPage(pageNum, pageSize);
+    	List<Member> list=dao.queryAllBy(lvid,PhoneOrName);
+    	PageInfo<Member> page=new PageInfo<Member>(list);
+    	return page;
+    }
+    
+    public Member queryAllByPhone(String PhoneOrName){
+    	Member list=dao.queryAllByPhone(PhoneOrName);
+    	return list;
+    }
+    
     public int updateByPrimaryKeySelective(Member record) {
     	return dao.updateByPrimaryKeySelective(record);
     }

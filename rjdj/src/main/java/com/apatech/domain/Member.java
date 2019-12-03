@@ -30,8 +30,12 @@ public class Member {
     @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date hytime;//最近成交 
 
+
 	private Memberlv lv;
 	private Integral it;
+	
+	
+	
 	public Integer getMemberid() {
 		return memberid;
 	}
@@ -98,6 +102,7 @@ public class Member {
 	public void setIntegral(Integer integral) {
 		this.integral = integral;
 	}
+
 	public String getMemberlvname() {
 		return memberlvname;
 	}

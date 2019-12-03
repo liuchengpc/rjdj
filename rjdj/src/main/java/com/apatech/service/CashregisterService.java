@@ -1,5 +1,6 @@
 package com.apatech.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import com.apatech.domain.Recharge;
 import com.apatech.mapper.CashregisterMapper;
 import com.apatech.mapper.CashregisterdetailMapper;
 import com.apatech.mapper.RechargeMapper;
+import com.apatech.mapper.MemberMapper;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -28,6 +31,8 @@ public class CashregisterService {
 	private CashregisterdetailMapper dao2;
 	@Autowired
 	private RechargeMapper dao3;
+	@Autowired 
+	private MemberMapper mdao;
 
 	public List<Cashregister> queryByGd(){
 
@@ -149,12 +154,40 @@ public class CashregisterService {
     	PageInfo<Cashregister> page=new PageInfo<Cashregister>(list);
     	return page;
     }
+    /**
+     * 主详详查询
+     */
+	/*
+	 * public PageInfo<Cashregister> queryAll(Integer pageNum,Integer pageSize){
+	 * Page<Cashregister> page = PageHelper.startPage(pageNum, pageSize);
+	 * List<Cashregister> list=dao.selectAll(); for (Cashregister cashregister :
+	 * list) { List<Cashregisterdetail>
+	 * l=dao2.selectByPrimaryKey1(cashregister.get); cashregister.setList(); }
+	 * return page.toPageInfo(); }
+	 */
+    /**
+     * 多条件分页查询
+     * @param pageNum
+     * @param pageSize
+     * @param PhoneOrName
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public PageInfo<Cashregister> selectByAllpage(Integer pageNum,Integer pageSize,String PhoneOrName,Date startTime,Date endTime){
+    	Page<Cashregister> page = PageHelper.startPage(pageNum, pageSize);
+    	List<Cashregister> list=dao.selectByAll(PhoneOrName,startTime,endTime);
+    		for (Cashregister cashregister : list) {
+    			cashregister.setMember(mdao.selectByPrimaryKey(cashregister.getMemberid()));
+			}
+    	return page.toPageInfo();
+    }
 
 
     public int updateByPrimaryKeySelective(Cashregister record) {
     	return dao.updateByPrimaryKeySelective(record);
     }
-
+ 
 
     public int updateByPrimaryKey(Cashregister record) {
     	return dao.updateByPrimaryKey(record);

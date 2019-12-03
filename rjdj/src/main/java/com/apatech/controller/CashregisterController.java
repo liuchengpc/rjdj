@@ -1,5 +1,6 @@
 package com.apatech.controller;
 
+import java.net.Authenticator.RequestorType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -298,5 +299,42 @@ public class CashregisterController {
 		}
 		return map;
     }
-
+	
+	/**
+	 * 多条件分页
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value = "/selectByAllpage",method = RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Cashregister> selectByAllpage( Integer pageNum,Integer pageSize,String PhoneOrName,String startTime,String endTime) throws ParseException{
+		System.out.println("进入CashregisterController多条件分页");
+		System.out.println(pageNum+"/"+pageSize);
+		System.out.println("电话或姓名:"+PhoneOrName+"开始时间:"+startTime+"结束时间:"+endTime);
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+		Date stTime=null;
+		if(startTime!=null&&!startTime.equals("")) {
+			stTime=f.parse(startTime);
+		}
+		Date edTime=null;
+		if(endTime!=null&&!endTime.equals("")) {
+			edTime=f.parse(endTime);
+		}
+    	PageInfo<Cashregister> page=dao.selectByAllpage(pageNum, pageSize,PhoneOrName,stTime,edTime);
+    	return page;
+    }
+	/**
+	 * 查询所有主详中详查询
+	 */
+	@RequestMapping(value = "/queryAll",method = RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<Cashregister> queryAll(Integer pageNum,Integer pageSize){
+		System.out.println("进入主详详查询");
+		System.out.println(pageNum+"/"+pageSize);
+    	PageInfo<Cashregister> page=dao.selectAllpage(pageNum, pageSize);
+    	
+    	return page;
+	}
 }
