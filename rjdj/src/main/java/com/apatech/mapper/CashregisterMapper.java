@@ -10,7 +10,7 @@ import com.apatech.domain.Cashregister;
 import com.apatech.domain.Commodity;
 
 public interface CashregisterMapper {
-	List<Cashregister> queryByGd();
+	List<Cashregister> queryByGd(String ashregisterid);
 	
 	int insertCashregister(Cashregister cash);
 	

@@ -34,9 +34,9 @@ public class CashregisterService {
 	@Autowired 
 	private MemberMapper mdao;
 
-	public List<Cashregister> queryByGd(){
+	public List<Cashregister> queryByGd(String ashregisterid){
 
-		return dao.queryByGd();
+		return dao.queryByGd(ashregisterid);
 	}
 	
 	public int insertCashregister(Cashregister cash) {

@@ -11,6 +11,9 @@
     <result column="roleID" jdbcType="INTEGER" property="roleid" />
     <result column="shopID" jdbcType="VARCHAR" property="shopid" />
   </resultMap>
+  <select id="queryUsersByRoleID" parameterType="com.apatech.domain.Users" resultMap="BaseResultMap">
+  	select * from users where roleID = #{roleid,jdbcType=INTEGER}
+  </select>
   <sql id="Base_Column_List">
     userID, passWord, userName, industry, phoneNumber, headPortrait, roleID, shopID
   </sql>

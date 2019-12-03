@@ -54,12 +54,13 @@ public class MemberController {
 	 */
 	@RequestMapping(value="/queryMemberByPhoneTwo",method=RequestMethod.GET)
 	@ResponseBody
-	public Memberlv queryMemberByPhoneTwo(String phone,String password) {
+	public Member queryMemberByPhoneTwo(String phone,String password) {
 		Member m = dao.queryMemberByPhone(phone,password);
 		System.out.println(m);
 		m.setIt(dao3.selectByPrimaryKey(1));
 		m.setLv(dao2.selectByPrimaryKey(m.getMemberlvid()));
-		return dao2.queryMemberLvByMemberLvID(m.getMemberid());
+		System.out.println("haha"+m.getLv());
+		return m;
 	}
 	
 	/**

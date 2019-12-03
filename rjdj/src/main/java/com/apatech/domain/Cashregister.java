@@ -64,8 +64,223 @@ public class Cashregister {
 	private Double  xsje;//销售金额
 	private Double  cz;//充值
 	
-
-	
+	public String getAshregisterid() {
+		return ashregisterid;
+	}
+	public void setAshregisterid(String ashregisterid) {
+		this.ashregisterid = ashregisterid;
+	}
+	public Date getTime() {
+		return time;
+	}
+	public void setTime(Date time) {
+		this.time = time;
+	}
+	public Integer getCount() {
+		return count;
+	}
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+	public Float getMoneyamt() {
+		return moneyamt;
+	}
+	public void setMoneyamt(Float moneyamt) {
+		this.moneyamt = moneyamt;
+	}
+	public String getCashregistername() {
+		return cashregistername;
+	}
+	public void setCashregistername(String cashregistername) {
+		this.cashregistername = cashregistername;
+	}
+	public Integer getIspresent() {
+		return ispresent;
+	}
+	public void setIspresent(Integer ispresent) {
+		this.ispresent = ispresent;
+	}
+	public List<Cashregisterdetail> getList() {
+		return list;
+	}
+	public void setList(List<Cashregisterdetail> list) {
+		this.list = list;
+	}
+	public Member getMember() {
+		return member;
+	}
+	public void setMember(Member member) {
+		this.member = member;
+	}
+	public Memberlv getMemberlv() {
+		return memberlv;
+	}
+	public void setMemberlv(Memberlv memberlv) {
+		this.memberlv = memberlv;
+	}
+	public String getCashregisterdetailid() {
+		return cashregisterdetailid;
+	}
+	public void setCashregisterdetailid(String cashregisterdetailid) {
+		this.cashregisterdetailid = cashregisterdetailid;
+	}
+	public String getCashregisterid() {
+		return cashregisterid;
+	}
+	public void setCashregisterid(String cashregisterid) {
+		this.cashregisterid = cashregisterid;
+	}
+	public String getCommodityname() {
+		return commodityname;
+	}
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname;
+	}
+	public String getCommoditydetailid() {
+		return commoditydetailid;
+	}
+	public void setCommoditydetailid(String commoditydetailid) {
+		this.commoditydetailid = commoditydetailid;
+	}
+	public String getSpecifications() {
+		return specifications;
+	}
+	public void setSpecifications(String specifications) {
+		this.specifications = specifications;
+	}
+	public Float getPrice() {
+		return price;
+	}
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+	public Float getSbtotal() {
+		return sbtotal;
+	}
+	public void setSbtotal(Float sbtotal) {
+		this.sbtotal = sbtotal;
+	}
+	public Integer getXbcount() {
+		return xbcount;
+	}
+	public void setXbcount(Integer xbcount) {
+		this.xbcount = xbcount;
+	}
+	public Integer getZhekou() {
+		return zhekou;
+	}
+	public void setZhekou(Integer zhekou) {
+		this.zhekou = zhekou;
+	}
+	public Float getXbmoneyamt() {
+		return xbmoneyamt;
+	}
+	public void setXbmoneyamt(Float xbmoneyamt) {
+		this.xbmoneyamt = xbmoneyamt;
+	}
+	public Integer getMemberid() {
+		return memberid;
+	}
+	public void setMemberid(Integer memberid) {
+		this.memberid = memberid;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Float getHyprice() {
+		return hyprice;
+	}
+	public void setHyprice(Float hyprice) {
+		this.hyprice = hyprice;
+	}
+	public String getShopid() {
+		return shopid;
+	}
+	public void setShopid(String shopid) {
+		this.shopid = shopid;
+	}
+	public String getShopname() {
+		return shopname;
+	}
+	public void setShopname(String shopname) {
+		this.shopname = shopname;
+	}
+	public String getCommodityimg() {
+		return commodityimg;
+	}
+	public void setCommodityimg(String commodityimg) {
+		this.commodityimg = commodityimg;
+	}
+	public String getSpname() {
+		return spname;
+	}
+	public void setSpname(String spname) {
+		this.spname = spname;
+	}
+	public String getStockcount() {
+		return stockcount;
+	}
+	public void setStockcount(String stockcount) {
+		this.stockcount = stockcount;
+	}
+	public Integer getSpsccount() {
+		return spsccount;
+	}
+	public void setSpsccount(Integer spsccount) {
+		this.spsccount = spsccount;
+	}
+	public Double getSpsccprice() {
+		return spsccprice;
+	}
+	public void setSpsccprice(Double spsccprice) {
+		this.spsccprice = spsccprice;
+	}
+	public String getCommoditysize() {
+		return commoditysize;
+	}
+	public void setCommoditysize(String commoditysize) {
+		this.commoditysize = commoditysize;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	public Integer getDds() {
+		return dds;
+	}
+	public void setDds(Integer dds) {
+		this.dds = dds;
+	}
+	public Double getXsje() {
+		return xsje;
+	}
+	public void setXsje(Double xsje) {
+		this.xsje = xsje;
+	}
+	public Double getCz() {
+		return cz;
+	}
+	public void setCz(Double cz) {
+		this.cz = cz;
+	}
+	@Override
+	public String toString() {
+		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", count=" + count + ", moneyamt="
+				+ moneyamt + ", cashregistername=" + cashregistername + ", ispresent=" + ispresent + ", list=" + list
+				+ ", member=" + member + ", memberlv=" + memberlv + ", cashregisterdetailid=" + cashregisterdetailid
+				+ ", cashregisterid=" + cashregisterid + ", commodityname=" + commodityname + ", commoditydetailid="
+				+ commoditydetailid + ", specifications=" + specifications + ", price=" + price + ", sbtotal=" + sbtotal
+				+ ", xbcount=" + xbcount + ", zhekou=" + zhekou + ", xbmoneyamt=" + xbmoneyamt + ", memberid="
+				+ memberid + ", name=" + name + ", hyprice=" + hyprice + ", shopid=" + shopid + ", shopname=" + shopname
+				+ ", commodityimg=" + commodityimg + ", spname=" + spname + ", stockcount=" + stockcount
+				+ ", spsccount=" + spsccount + ", spsccprice=" + spsccprice + ", commoditysize=" + commoditysize
+				+ ", color=" + color + ", dds=" + dds + ", xsje=" + xsje + ", cz=" + cz + "]";
+	}
 	public Cashregister(String ashregisterid, Date time, Integer count, Float moneyamt, String cashregistername,
 			Integer ispresent, List<Cashregisterdetail> list, Member member, Memberlv memberlv,
 			String cashregisterdetailid, String cashregisterid, String commodityname, String commoditydetailid,
@@ -109,278 +324,11 @@ public class Cashregister {
 		this.xsje = xsje;
 		this.cz = cz;
 	}
+	
 	public Cashregister() {
 		super();
 	}
-
-    
-	public Member getMember() {
-		return member;
-	}
-	public void setMember(Member member) {
-		this.member = member;
-	}
-	public Memberlv getMemberlv() {
-		return memberlv;
-	}
-	public void setMemberlv(Memberlv memberlv) {
-		this.memberlv = memberlv;
-	}
-
-	public String getAshregisterid() {
-        return ashregisterid;
-    }
-
-    public void setAshregisterid(String ashregisterid) {
-        this.ashregisterid = ashregisterid == null ? null : ashregisterid.trim();
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public String getShopid() {
-        return shopid;
-    }
-
-    public void setShopid(String shopid) {
-        this.shopid = shopid == null ? null : shopid.trim();
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
-    public Float getMoneyamt() {
-        return moneyamt;
-    }
-
-    public void setMoneyamt(Float moneyamt) {
-        this.moneyamt = moneyamt;
-    }
-
-    public Integer getMemberid() {
-        return memberid;
-    }
-
-    public void setMemberid(Integer memberid) {
-        this.memberid = memberid;
-    }
-
-    public String getCashregistername() {
-        return cashregistername;
-    }
-
-    public void setCashregistername(String cashregistername) {
-        this.cashregistername = cashregistername == null ? null : cashregistername.trim();
-    }
-
-    public Integer getIspresent() {
-        return ispresent;
-    }
-
-    public void setIspresent(Integer ispresent) {
-        this.ispresent = ispresent;
-    }
-    public List<Cashregisterdetail> getList() {
-		return list;
-	}
-
-	public void setList(List<Cashregisterdetail> list) {
-		this.list = list;
-	}
-
-	public String getCashregisterdetailid() {
-		return cashregisterdetailid;
-	}
-
-	public void setCashregisterdetailid(String cashregisterdetailid) {
-		this.cashregisterdetailid = cashregisterdetailid;
-	}
-
-	public String getCashregisterid() {
-		return cashregisterid;
-	}
-
-	public void setCashregisterid(String cashregisterid) {
-		this.cashregisterid = cashregisterid;
-	}
-
-	public String getCommodityname() {
-		return commodityname;
-	}
-
-	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname;
-	}
-
-	public String getCommoditydetailid() {
-		return commoditydetailid;
-	}
-
-	public void setCommoditydetailid(String commoditydetailid) {
-		this.commoditydetailid = commoditydetailid;
-	}
-
-	public String getSpecifications() {
-		return specifications;
-	}
-
-	public void setSpecifications(String specifications) {
-		this.specifications = specifications;
-	}
-
-	public Float getPrice() {
-		return price;
-	}
-
-	public void setPrice(Float price) {
-		this.price = price;
-	}
-
-	public Float getSbtotal() {
-		return sbtotal;
-	}
-
-	public void setSbtotal(Float sbtotal) {
-		this.sbtotal = sbtotal;
-	}
-
-	public Integer getXbcount() {
-		return xbcount;
-	}
-
-	public void setXbcount(Integer xbcount) {
-		this.xbcount = xbcount;
-	}
-
-	public Integer getZhekou() {
-		return zhekou;
-	}
-
-	public void setZhekou(Integer zhekou) {
-		this.zhekou = zhekou;
-	}
-
-	public Float getXbmoneyamt() {
-		return xbmoneyamt;
-	}
-
-	public void setXbmoneyamt(Float xbmoneyamt) {
-		this.xbmoneyamt = xbmoneyamt;
-	}
-
-	public Float getHyprice() {
-		return hyprice;
-	}
-
-	public void setHyprice(Float hyprice) {
-		this.hyprice = hyprice;
-	}
-
-	public String getShopname() {
-		return shopname;
-	}
-
-	public void setShopname(String shopname) {
-		this.shopname = shopname;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCommodityimg() {
-		return commodityimg;
-	}
-
-	public void setCommodityimg(String commodityimg) {
-		this.commodityimg = commodityimg;
-	}
-
-	public Integer getDds() {
-		return dds;
-	}
-
-	public void setDds(Integer dds) {
-		this.dds = dds;
-	}
-
-	public Double getXsje() {
-		return xsje;
-	}
-
-	public void setXsje(Double xsje) {
-		this.xsje = xsje;
-	}
-
-	public Double getCz() {
-		return cz;
-	}
-
-	public void setCz(Double cz) {
-		this.cz = cz;
-	}
-
-	public String getSpname() {
-		return spname;
-	}
-
-	public void setSpname(String spname) {
-		this.spname = spname;
-	}
-
-	public Integer getSpsccount() {
-		return spsccount;
-	}
-
-	public void setSpsccount(Integer spsccount) {
-		this.spsccount = spsccount;
-	}
-
-	public Double getSpsccprice() {
-		return spsccprice;
-	}
-
-	public void setSpsccprice(Double spsccprice) {
-		this.spsccprice = spsccprice;
-	}
-
-	public String getCommoditysize() {
-		return commoditysize;
-	}
-
-	public void setCommoditysize(String commoditysize) {
-		this.commoditysize = commoditysize;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getStockcount() {
-		return stockcount;
-	}
-
-	public void setStockcount(String stockcount) {
-		this.stockcount = stockcount;
-	}
+	
 	
 	
 	

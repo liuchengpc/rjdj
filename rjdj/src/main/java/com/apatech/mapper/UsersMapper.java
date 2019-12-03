@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Users;
 
 public interface UsersMapper {
+	List<Users> queryUsersByRoleID(Integer roleid);
+	
 	int deleteUser(String userid);
 	
 	@Select("SELECT *  FROM users a\r\n" + 
