@@ -17,7 +17,7 @@ public interface CashregisterdetailMapper {
     Cashregisterdetail selectByPrimaryKey(Integer cashregisterdetailid);
     
     /**
-     * 根据商品主表id查询
+     * 根据订单主表id查询
      * @return
      */
     @Select("SELECT  * FROM cashregisterdetail a\r\n" + 
@@ -29,6 +29,18 @@ public interface CashregisterdetailMapper {
     		"INNER JOIN commoditysize g ON g.commoditySizeID=d.commoditySizeID " + 
     		"WHERE a.cashRegisterID=#{cashregisterid}")
     List<Cashregisterdetail> selectByid(String cashregisterid);
+    /**
+     * 根据商品详表id查询订单
+     * @return
+     */
+    @Select("SELECT  *,d.count as spxqcount FROM cashregisterdetail a\r\n" + 
+    		"INNER JOIN cashregister b ON a.cashRegisterID=b.ashRegisterID\r\n" + 
+    		"INNER JOIN commoditydetail d ON  a.commodityDetailID=d.commodityDetailID\r\n" + 
+    		"INNER JOIN commodity e ON e.productCodeID=d.productCodeID\r\n"+ 
+    		"INNER JOIN color f ON f.colorID =d.colorID\r\n" + 
+    		"INNER JOIN commoditysize g ON g.commoditySizeID=d.commoditySizeID " + 
+    		"WHERE a.commoditydetailid=#{commoditydetailid}")
+    List<Cashregisterdetail> selectByid2(String commoditydetailid);
     
     @Select("select * from Cashregisterdetail")
     List<Cashregisterdetail> selectAll();

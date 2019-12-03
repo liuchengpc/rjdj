@@ -248,19 +248,34 @@
 						events: {
 						  'click a[title=查看]': function (e, value, row, index) {
 							 $("#spxbxx").html("");
-								for (var i=0;i<row.list.length;i++)
-								{
-									var s='<tr class="">'+
-												'<td class="bhDiv"><em>'+(i+1)+'</em></td>'+
-												'<td class="nameTD">'+row.list[i].price+'</td>'+
-												'<td class="colorTd">'+row.list[i].price+'</td>'+
-												'<td>'+row.list[i].count+'</td>'+
-												'<td>'+(row.list[i].price*row.list[i].count)+'</td>'+
-												'<td>'+row.list[i].stockcount+'</td>'+
-											'</tr>';
-											//alert(s)
-									 $("#spxbxx").append(s);
-								} 
+								
+							var s='<tr class="">'+
+										'<td class="bhDiv"><em>1</em></td>'+
+										'<td class="nameTD">'+row.shopname+'</td>'+
+										'<td class="colorTd">'+row.price+'</td>'+
+										'<td>'+row.list.length+'</td>'+
+										'<td>'+(row.price*row.list.length)+'</td>'+
+										'<td>'+row.stockcount+'</td>'+
+									'</tr>'+
+									'<tr>'+
+										'<td colspan="3">合计</td>'+
+										'<td><em>'+row.list.length+'</em></td>'+
+										'<td><em>'+(row.price*row.list.length)+'</em></td>'+
+										'<td><em>'+row.stockcount+'</em></td>'+
+									'</tr>';
+									//alert(s)
+							 $("#spxbxx").append(s);
+									
+							var e='<div class="imgDiv">'+
+										'<img width="60" height="60" src="'+row.commodityimg+'">'+
+										'<div style="display: inline-block;vertical-align:middle">'+
+											'<p style="padding-top:10px;">品名：<em class="name"><em>'+row.spname+'</em></em></p>'+
+											'<p>单价：<em class="price" style="color:#f05b23">'+row.price+'</em></p>'+
+										'</div>'+							
+									'</div>';
+							$("#fdd").prev().remove();
+							 $("#fdd").before(e);
+							
 							  
 							  $('#myModal2').modal("show");
 						  },
@@ -323,26 +338,7 @@
                 }
 
                 
-                /* 
-                <th width="4%">序号</th>
-                  <th width="6%">审核</th>
-                  <th width="14%">采购单号</th>
-                  <th width="10%">交货期</th>
-                  <th width="16%">供应商</th>
-                  <th width="6%">数量</th>
-                  <th width="8%">金额</th>
-                  <th width="*">备注</th>
-                  <th width="12%">操作</th>
-                  
-                  private String billid;//编号，主键
-                  @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
-                  @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
-                  private Date deliverytime;//交期
-                  private Integer supplierid;//供应商ID
-                  private String userid;//制表人id
-                  private String remarks;//备注
-                  private List<Detail> list;//集合
-               */
+           
         </script>
         
         
@@ -384,11 +380,14 @@
 	            </div>
 	            <div class="modal-body" style="padding:10px 50px">	            	
 						<div class="dialog_bd clearfix">						
-							<div class="classAreaX clearfix">
-								<span class="titleX">商品分类：</span>
-								<ul class="classDiv"></ul>
+							<div class="imgDiv">
+								<img width="60" height="60" src="http://poso2o.oss-cn-hangzhou.aliyuncs.com/null/3573b2c2c8fa8681_w1728_h2304_222_222.jpg">
+								<div style="display: inline-block;vertical-align:middle">
+									<p style="padding-top:10px;">品名：<em class="name"><em>半高领打底</em></em></p>
+									<p>单价：<em class="price" style="color:#f05b23">114.00</em></p>
+								</div>								
 							</div>
-							<div class="tabelArea clearfix" style="">
+							<div class="tabelArea clearfix" style="" id="fdd">
 								<table class="settable productsTable table-bordered " style="width: 100%;" v-if="block">
 									<thead>
 										<tr>

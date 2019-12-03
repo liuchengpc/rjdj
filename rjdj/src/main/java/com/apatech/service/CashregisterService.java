@@ -127,8 +127,7 @@ public class CashregisterService {
     	
     	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
     		System.out.println("进入2");
-    		List<Cashregisterdetail> li2= dao2.selectByid(li.get(i).getAshregisterid()); 
-    	
+    		List<Cashregisterdetail> li2= dao2.selectByid2(li.get(i).getCommoditydetailid()); //根据商品详表id查询订单    	
     		li.get(i).setList(li2); //赋值list集合
     	}
     	return li;

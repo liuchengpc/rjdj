@@ -46,9 +46,10 @@ public class Cashregister {
      
     private String commodityimg;//商品图片
     private String spname;//商品名字
+    private String stockcount;//商品库存
     private Integer spsccount;//商品售出数量
     private Double spsccprice;//商品售出金额
-    private Integer stockCount;//商品库存
+ 
     
     private String commoditysize;//尺码
     private String color;//颜色
@@ -321,6 +322,14 @@ public class Cashregister {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public String getStockcount() {
+		return stockcount;
+	}
+
+	public void setStockcount(String stockcount) {
+		this.stockcount = stockcount;
 	}
 	
 	

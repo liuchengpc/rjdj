@@ -21,7 +21,7 @@ public class Cashregisterdetail {
     private String productcodeid;//商品主表id
     private String commodityimg;//商品图片
     private String name;//商品名
-    private Integer stockCount;//商品库存
+    private Integer spxqcount;//商品库存
     
     private String color;//颜色
     private String  commoditysize;//尺码
@@ -160,13 +160,14 @@ public class Cashregisterdetail {
 		this.commoditysize = commoditysize;
 	}
 
-	public Integer getStockCount() {
-		return stockCount;
+	public Integer getSpxqcount() {
+		return spxqcount;
 	}
 
-	public void setStockCount(Integer stockCount) {
-		this.stockCount = stockCount;
+	public void setSpxqcount(Integer spxqcount) {
+		this.spxqcount = spxqcount;
 	}
+
 
 
     
