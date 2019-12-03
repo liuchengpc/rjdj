@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Member;
+import com.apatech.domain.Memberlv;
+import com.apatech.service.IntegralService;
 import com.apatech.service.MemberService;
+import com.apatech.service.MemberlvService;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -23,6 +26,59 @@ import com.github.pagehelper.PageInfo;
 public class MemberController {
 	@Autowired
 	private MemberService dao;	
+	
+	@Autowired
+	private MemberlvService dao2;
+	
+	@Autowired
+	private IntegralService dao3;
+	
+	/**
+	 *根据会员号查询会员信息2
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryMemberByPhoneTwo2",method=RequestMethod.GET)
+	@ResponseBody
+	public Member queryMemberByPhoneTwo2(String phone,String password) {
+		Member m = dao.queryMemberByPhone(phone,password);
+		m.setIt(dao3.selectByPrimaryKey(1));
+		m.setLv(dao2.selectByPrimaryKey(m.getMemberlvid()));
+		return m;
+	}
+	
+	/**
+	 *根据会员号查询会员信息
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryMemberByPhoneTwo",method=RequestMethod.GET)
+	@ResponseBody
+	public Memberlv queryMemberByPhoneTwo(String phone,String password) {
+		Member m = dao.queryMemberByPhone(phone,password);
+		System.out.println(m);
+		m.setIt(dao3.selectByPrimaryKey(1));
+		m.setLv(dao2.selectByPrimaryKey(m.getMemberlvid()));
+		return dao2.queryMemberLvByMemberLvID(m.getMemberid());
+	}
+	
+	/**
+	 *根据会员号查询会员信息
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryMemberByPhone",method=RequestMethod.GET)
+	@ResponseBody
+	public int queryMemberByPhone(String phone,String password) {
+		Member m = dao.queryMemberByPhone(phone,password);
+		if(m==null) {
+			return 0;
+		}else {
+			m.setLv(dao2.queryMemberLvByMemberLvID(m.getMemberid()));
+			return 1;
+		}
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

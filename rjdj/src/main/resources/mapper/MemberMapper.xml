@@ -22,6 +22,12 @@
     memberID, phone, name, memberLvID, passWord, province, city, region, street, price, 
     integral
   </sql>
+  <select id="queryMemberByPhoneTwo" parameterType="com.apatech.domain.Member" resultMap="BaseResultMap">
+  	select * from member where phone = #{phone,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+  </select>
+  <select id="queryMemberByPhone" parameterType="com.apatech.domain.Member" resultMap="BaseResultMap">
+  	select * from member where phone = #{phone,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR} 
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

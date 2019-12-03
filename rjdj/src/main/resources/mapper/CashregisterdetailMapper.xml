@@ -13,6 +13,19 @@
     <result column="zhekou" jdbcType="INTEGER" property="zhekou" />
     <result column="moneyamt" jdbcType="REAL" property="moneyamt" />
   </resultMap>
+  <select id="queryByDetail" parameterType="com.apatech.domain.Cashregisterdetail" resultMap="BaseResultMap">
+    select * from cashregisterdetail where cashregisterid = #{cashregisterid,jdbcType=VARCHAR}
+  </select>
+  <insert id="insertCashregisterDetail" parameterType="com.apatech.domain.Cashregisterdetail">
+    insert into cashregisterdetail (cashRegisterID, 
+      commodityName, commodityDetailID, specifications, 
+      price, sbtotal, count, zhekou, 
+      moneyamt)
+    values (#{cashregisterid,jdbcType=VARCHAR}, 
+      #{commodityname,jdbcType=VARCHAR}, #{commoditydetailid,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, 
+      #{price,jdbcType=REAL}, #{sbtotal,jdbcType=REAL}, #{count,jdbcType=INTEGER}, #{zhekou,jdbcType=INTEGER}, 
+      #{moneyamt,jdbcType=REAL})
+  </insert>
   <sql id="Base_Column_List">
     CashRegisterDetailID, cashRegisterID, commodityName, commodityDetailID, specifications, 
     price, sbtotal, count, zhekou, moneyamt

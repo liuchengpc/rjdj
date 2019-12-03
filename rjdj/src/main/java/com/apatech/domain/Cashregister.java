@@ -23,7 +23,10 @@ public class Cashregister {
     private String cashregistername;//收银人员
     private Integer ispresent;//是否付款    (0:否 默认：0  1:是)
     private List<Cashregisterdetail> list;//集合
+    private Member member;	//会员对象
+    private Memberlv memberlv;	//会员等级对象
     
+
     private String cashregisterdetailid;//编号，主键
     private String cashregisterid;//商品主表id
     private String commodityname;//商品名称
@@ -61,21 +64,55 @@ public class Cashregister {
 
 	
 
+
+    
+	public Member getMember() {
+		return member;
+	}
+	public void setMember(Member member) {
+		this.member = member;
+	}
+	public Memberlv getMemberlv() {
+		return memberlv;
+	}
+	public void setMemberlv(Memberlv memberlv) {
+		this.memberlv = memberlv;
+	}
+
 	@Override
 	public String toString() {
 		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", count=" + count + ", moneyamt="
 				+ moneyamt + ", cashregistername=" + cashregistername + ", ispresent=" + ispresent + ", list=" + list
-				+ ", cashregisterdetailid=" + cashregisterdetailid + ", cashregisterid=" + cashregisterid
-				+ ", commodityname=" + commodityname + ", commoditydetailid=" + commoditydetailid + ", specifications="
-				+ specifications + ", price=" + price + ", sbtotal=" + sbtotal + ", xbcount=" + xbcount + ", zhekou="
-				+ zhekou + ", xbmoneyamt=" + xbmoneyamt + ", memberid=" + memberid + ", name=" + name + ", hyprice="
-				+ hyprice + ", shopid=" + shopid + ", shopname=" + shopname + ", commodityimg=" + commodityimg
-				+ ", dds=" + dds + ", xsje=" + xsje + ", cz=" + cz + "]";
+				+ ", member=" + member + ", memberlv=" + memberlv + ", cashregisterdetailid=" + cashregisterdetailid
+				+ ", cashregisterid=" + cashregisterid + ", commodityname=" + commodityname + ", commoditydetailid="
+				+ commoditydetailid + ", specifications=" + specifications + ", price=" + price + ", sbtotal=" + sbtotal
+				+ ", xbcount=" + xbcount + ", zhekou=" + zhekou + ", xbmoneyamt=" + xbmoneyamt + ", memberid="
+				+ memberid + ", name=" + name + ", hyprice=" + hyprice + ", shopid=" + shopid + ", shopname=" + shopname
+				+ ", commodityimg=" + commodityimg + ", spname=" + spname + ", stockcount=" + stockcount
+				+ ", spsccount=" + spsccount + ", spsccprice=" + spsccprice + ", commoditysize=" + commoditysize
+				+ ", color=" + color + ", dds=" + dds + ", xsje=" + xsje + ", cz=" + cz + "]";
+	}
+	public Cashregister(String ashregisterid, Date time, String shopid, Integer count, Float moneyamt, Integer memberid,
+			String cashregistername, Integer ispresent, List<Cashregisterdetail> list, Member member,
+			Memberlv memberlv) {
+		super();
+		this.ashregisterid = ashregisterid;
+		this.time = time;
+		this.shopid = shopid;
+		this.count = count;
+		this.moneyamt = moneyamt;
+		this.memberid = memberid;
+		this.cashregistername = cashregistername;
+		this.ispresent = ispresent;
+		this.list = list;
+		this.member = member;
+		this.memberlv = memberlv;
 	}
 
 	public Cashregister() {
 		super();
 	}
+
 
 	public String getAshregisterid() {
         return ashregisterid;

@@ -8,6 +8,10 @@ import com.apatech.domain.Cashregisterdetail;
 import com.apatech.domain.Detail;
 
 public interface CashregisterdetailMapper {
+	List<Cashregisterdetail> queryByDetail(String cashregisterid);
+	
+	int insertCashregisterDetail(Cashregisterdetail cs);
+	
     int deleteByPrimaryKey(Integer cashregisterdetailid);
 
     int insert(Cashregisterdetail record);

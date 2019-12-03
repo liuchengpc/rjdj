@@ -29,6 +29,16 @@ public class CashregisterService {
 	@Autowired
 	private RechargeMapper dao3;
 
+	public List<Cashregister> queryByGd(){
+
+		return dao.queryByGd();
+	}
+	
+	public int insertCashregister(Cashregister cash) {
+		
+		return dao.insertCashregister(cash);
+	}
+	
     public int deleteByPrimaryKey(String ashregisterid) {
     	return dao.deleteByPrimaryKey(ashregisterid);
     }

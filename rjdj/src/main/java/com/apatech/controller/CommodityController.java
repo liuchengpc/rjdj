@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Commodity;
 import com.apatech.domain.Commoditydetail;
+import com.apatech.mapper.ColorMapper;
 import com.apatech.mapper.CommoditydetailMapper;
+import com.apatech.mapper.CommoditysizeMapper;
+import com.apatech.mapper.CommoditytypeMapper;
 import com.apatech.service.CommodityService;
 import com.apatech.service.CommoditydetailService;
 import com.github.pagehelper.PageInfo;
@@ -29,13 +32,33 @@ public class CommodityController {
 	@Autowired
 	private CommoditydetailMapper ct;
 	
+	@Autowired
+	private CommoditytypeMapper cp;
+	
+	@Autowired
+	private CommoditysizeMapper cs;
+	
+	@Autowired
+	private ColorMapper cr;
+	
 	@RequestMapping(value="/queryCommodityXZ",method=RequestMethod.GET)
 	@ResponseBody
 	public List<Commodity> queryCommodityXZ(Commodity c){
 		List<Commodity> list = dao.queryCommodityXZ(c);	//查询所有商品
 		for (Commodity commodity : list) {
 			//根据商品主表ID 查询商品详情
-			commodity.setCommoditydetailXZ(ct.queryCommodityDetailByProductCodeID(commodity.getProductcodeid()));
+			commodity.setCommoditydetailXZ(ct.queryCommodityDetailByProductCodeID(commodity.getProductcodeid())); 
+			//根据商品详情尺码ID，查询商品尺码
+			for (Commoditydetail listDetail2 : commodity.getCommoditydetailXZ()) {
+				//根据商品详情尺码ID，查询商品尺码
+				listDetail2.setCommoditysize(cs.selectByPrimaryKey(listDetail2.getCommoditysizeid()).getCommoditysize());
+				listDetail2.setCommoditysizeid(cs.selectByPrimaryKey(listDetail2.getCommoditysizeid()).getCommoditysizeid());
+				//根据商品详情颜色ID，查询商品颜色
+				listDetail2.setColorid(cr.selectByPrimaryKey(listDetail2.getColorid()).getColorid());
+				listDetail2.setColor(cr.selectByPrimaryKey(listDetail2.getColorid()).getColor());
+			}
+			//根据商品主表的商品类型ID 查询商品类型
+			commodity.setCommoditytypeXZ(cp.selectByPrimaryKey(commodity.getCommoditytypeid()));
 		}
 		
 		return list;

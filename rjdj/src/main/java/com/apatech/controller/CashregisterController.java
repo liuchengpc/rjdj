@@ -1,5 +1,7 @@
 package com.apatech.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,18 +15,121 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apatech.domain.Cashregister;
+import com.apatech.domain.Cashregisterdetail;
 import com.apatech.domain.Commodity;
 import com.apatech.service.CashregisterService;
+import com.apatech.service.CashregisterdetailService;
+import com.apatech.service.MemberService;
+import com.apatech.service.MemberlvService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("CashregisterController")
 public class CashregisterController {
 	@Autowired
-	private CashregisterService dao;	
+	private CashregisterService dao;
+	
+	@Autowired
+	private CashregisterdetailService dao2;
+	
+	@Autowired
+	private MemberService dao3;
+	
+	@Autowired
+	private MemberlvService dao4;
+	
+	/**
+	 * 根据订单主键编号 查询会员
+	 * @param model
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value="queryByao2",method=RequestMethod.GET)
+	@ResponseBody
+	public Cashregister queryByao2(String ashregisterid) throws ParseException{
+		Cashregister register = dao.selectByPrimaryKey(ashregisterid);
+		register.setList(dao2.queryByDetail(register.getAshregisterid()));
+		return register;
+	}
+	
+	/**
+	 * 根据订单主键编号 查询会员是否存在
+	 * @param model
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value="queryByao",method=RequestMethod.GET)
+	@ResponseBody
+	public int queryByao(String ashregisterid) throws ParseException{
+		Cashregister register = dao.selectByPrimaryKey(ashregisterid);
+		if(register.getMemberid()==0) {
+			return 0;
+		}else {
+			return register.getMemberid();
+		}
+	}
+	
+	/**
+	 * 根据订单主键编号 查询订单详表信息、会员信息、会员等级信息
+	 * @param model
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value="queryBy",method=RequestMethod.GET)
+	@ResponseBody
+	public Cashregister queryBy(String ashregisterid) throws ParseException{
+		Cashregister register = dao.selectByPrimaryKey(ashregisterid);
+		Date time = new Date();
+		register.setList(dao2.queryByDetail(register.getAshregisterid()));
+		register.setMember(dao3.selectByPrimaryKey(register.getMemberid()));
+		System.out.println(dao4.queryMemberLvByMemberLvID(register.getMember().getMemberlvid()));
+		register.setMemberlv(dao4.queryMemberLvByMemberLvID(register.getMember().getMemberlvid()));
+		return register;
+	}
+	
+	@RequestMapping(value="queryByGd",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Cashregister> queryByGd(){
+		
+		return dao.queryByGd();
+	}
+	
+	@RequestMapping(value="/insertCashregister",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,String> insertCashregister(@RequestBody Cashregister dataTwo) throws ParseException {
+		System.out.println("进来了CashregisterController");	
+		Date time = new Date();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date time2 = df.parse(df.format(new Date())); 
+        dataTwo.setTime(time2);
+		System.out.println(dataTwo);
+		Map<String,String> map = new HashMap<String,String>();
+		int i = dao.insertCashregister(dataTwo);
+		if(i>0) {
+			for (Cashregisterdetail cs : dataTwo.getList()) {
+				int f = dao2.insertCashregisterDetail(cs);
+				if(f<=0) {
+					map.put("code", "0");
+					map.put("message", "挂单失败");
+					return map;
+				}
+			}
+			map.put("code", "1");
+			map.put("message", "挂单成功！");
+			return map;
+		}else {
+			map.put("code", "0");
+			map.put("message", "挂单失败");
+			return map;
+		}
+		
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

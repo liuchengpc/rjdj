@@ -9,7 +9,7 @@
     <result column="count" jdbcType="INTEGER" property="count" />
   </resultMap>
   <select id="queryCommodityDetailByProductCodeID" parameterType="com.apatech.domain.Commoditydetail" resultMap="BaseResultMap">
-  	select * from where productCodeID = #{productcodeid,jdbcType=VARCHAR}
+  	select * from commoditydetail where productCodeID = #{productcodeid,jdbcType=VARCHAR}
   </select>
   <select id="queryCommodityDetailByCashregister" parameterType="com.apatech.domain.Commoditydetail" resultMap="BaseResultMap">
   	select * from commoditydetail where 1=1 

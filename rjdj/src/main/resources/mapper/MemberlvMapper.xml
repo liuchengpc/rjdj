@@ -7,6 +7,9 @@
     <result column="discount" jdbcType="REAL" property="discount" />
     <result column="moneyLv" jdbcType="REAL" property="moneylv" />
   </resultMap>
+  <select id="queryMemberLvByMemberLvID" parameterType="com.apatech.domain.Memberlv" resultMap="BaseResultMap">
+  	select * from memberlv where memberLvID = #{memberlvid,jdbcType=INTEGER}
+  </select>
   <sql id="Base_Column_List">
     memberLvID, name, discount, moneyLv
   </sql>
