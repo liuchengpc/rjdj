@@ -9,9 +9,9 @@ import com.apatech.domain.Users;
 public interface UsersMapper {
 	int deleteUser(String userid);
 	
-	@Select("SELECT *  FROM users a " + 
-			"INNER JOIN role b ON a.roleID=b.roleID " + 
-			"INNER JOIN shop c ON a.shopID=c.shopID")
+	@Select("SELECT *  FROM users a\r\n" + 
+			"INNER JOIN role b ON a.roleID=b.roleID\r\n" + 
+			"LEFT JOIN shop c ON a.shopID=c.shopID")
 	List<Users> login();
 	
 	Users queryByUserIDBykey(String userid);

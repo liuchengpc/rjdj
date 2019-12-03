@@ -20,13 +20,15 @@ public interface CashregisterdetailMapper {
      * 根据商品主表id查询
      * @return
      */
-    @Select("SELECT * FROM supplier b \r\n" + 
-    		"INNER JOIN bill e ON e.supplierID=b.supplierID\r\n" + 
-    		"INNER JOIN users h ON h.userID=e.userID\r\n" + 
-    		"INNER JOIN detail f ON f.billID=e.billID\r\n" + 
-    		"INNER JOIN commoditydetail g ON g.commodityDetailID=f.commodityDetailID\r\n" + 
-    		"WHERE f.billID=#{billid}")
-    List<Detail> selectByid(String billid);
+    @Select("SELECT  * FROM cashregisterdetail a\r\n" + 
+    		"INNER JOIN cashregister b ON a.cashRegisterID=b.ashRegisterID\r\n" + 
+    		"INNER JOIN commoditydetail c ON a.commodityDetailID=c.commodityDetailID\r\n" + 
+    		"INNER JOIN commoditydetail d ON  a.commodityDetailID=d.commodityDetailID\r\n" + 
+    		"INNER JOIN commodity e ON e.productCodeID=d.productCodeID\r\n"+ 
+    		"INNER JOIN color f ON f.colorID =d.colorID\r\n" + 
+    		"INNER JOIN commoditysize g ON g.commoditySizeID=d.commoditySizeID " + 
+    		"WHERE a.cashRegisterID=#{cashregisterid}")
+    List<Cashregisterdetail> selectByid(String cashregisterid);
     
     @Select("select * from Cashregisterdetail")
     List<Cashregisterdetail> selectAll();

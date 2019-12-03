@@ -340,6 +340,7 @@ public class UsersController {
 		Map<String,String> map = new HashMap<String,String>();	
 		System.out.println(userName+"/"+userPassword);
 		List<Users> list=dao.login();
+		System.out.println(list.toString());
 		Users u2=null;
 		for (Users el : list) {
 			System.out.println(el.getUserid()+"/"+userName);

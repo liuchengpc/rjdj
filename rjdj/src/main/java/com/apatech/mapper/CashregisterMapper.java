@@ -21,13 +21,28 @@ public interface CashregisterMapper {
     @Select("select * from Cashregister")
     List<Cashregister> selectAll();
     
-    List<Commodity> selectAll3(
+    List<Cashregister> selectAll3(
     		@Param("shopid")Integer shopid,//店铺
     		@Param("oldtime")Date oldtime,//开始时间
     		@Param("newtime")Date newtime,//结束时间
     		@Param("selectqb")String selectqb//查找
 	);
+    List<Cashregister> selectAll4(
+    		@Param("shopid")Integer shopid,//店铺
+    		@Param("oldtime")Date oldtime,//开始时间
+    		@Param("newtime")Date newtime,//结束时间
+    		@Param("selectqb")String selectqb//查找
+    		);
     
+    List<Cashregister> selectAll5(
+    		@Param("shopid")Integer shopid,//店铺
+    		@Param("oldtime")Date oldtime,//开始时间
+    		@Param("newtime")Date newtime,//结束时间
+    		@Param("selectqb")String selectqb,//查找
+    		@Param("commoditytypeid")Integer commoditytypeid//商品类别id
+    		);
+    
+
 
     int updateByPrimaryKeySelective(Cashregister record);
 

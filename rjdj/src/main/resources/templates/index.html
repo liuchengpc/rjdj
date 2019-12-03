@@ -343,7 +343,16 @@
 
 
 	$(".zhst").hide();
-	$(".dl").show();
+	
+	
+	var user = JSON.parse(window.sessionStorage.getItem("user"));
+	if(user==null){
+		$(".dl").show();
+	}else{
+		$(".zhs").show();
+		$("#dlzh").html('<img src="'+user.headportrait+'" class="layui-nav-img" id="dltx">'+user.userid)//登录人账号和头像
+	}
+	
 	$(".zh").click(function(){
 		var user = JSON.parse(window.sessionStorage.getItem("user"));
 		if(user==null){

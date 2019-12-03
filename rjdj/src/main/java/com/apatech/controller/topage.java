@@ -188,8 +188,8 @@ public class topage {
 	}
 	@RequestMapping("page/claim/RevenueProfile")
 	public String RevenueProfile() {
-		System.out.println("进入page/claim/salesStatistics");
-		return "page/claim/salesStatistics";
+		System.out.println("进入page/claim/RevenueProfile");
+		return "page/claim/RevenueProfile";
 	}
 	@RequestMapping("page/claim/PopularGoods")
 	public String PopularGoods() {

@@ -12,8 +12,10 @@ import com.apatech.domain.Cashregister;
 import com.apatech.domain.Cashregisterdetail;
 import com.apatech.domain.Commodity;
 import com.apatech.domain.Detail;
+import com.apatech.domain.Recharge;
 import com.apatech.mapper.CashregisterMapper;
 import com.apatech.mapper.CashregisterdetailMapper;
+import com.apatech.mapper.RechargeMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -24,6 +26,8 @@ public class CashregisterService {
 	private CashregisterMapper dao;
 	@Autowired
 	private CashregisterdetailMapper dao2;
+	@Autowired
+	private RechargeMapper dao3;
 
     public int deleteByPrimaryKey(String ashregisterid) {
     	return dao.deleteByPrimaryKey(ashregisterid);
@@ -47,25 +51,86 @@ public class CashregisterService {
     	return dao.selectAll();
     }
     
-    public List<Commodity> selectAll2(
+ 
+// 	日期/time,	        
+// 	订单号/ashregisterid,	       
+// 	店铺/shopname,	        	   
+// 	会员名称/name,	        		   
+// 	数量/count,	   
+//  结算金额/moneyamt
+// 	余额/ price,
+// 	收银员/cashRegisterName,	   
+// 	详表集合/list,
+    
+    
+    
+    
+    
+    
+    public List<Cashregister> selectAll2(
     		Integer shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
 			String selectqb//查找
 	){
-	List<Commodity> li=dao.selectAll3(shopid, oldtime, newtime, selectqb);
-//    	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
-//    		List<Cashregisterdetail> li2=dao2.selectByid(li.get(i).getBillid());
-//    		Double cgdje=0.0;//采购单金额
-//    		for (Detail detail : li2) {
-//				cgdje+=(detail.getCount()*detail.getCostprice());
-//			}
-//    		
-//    		System.out.println("商品详情："+li2.toString());
-//    		li.get(i).setCgdsl(li2.size());
-//    		li.get(i).setCgdje(cgdje);
-//			li.get(i).setBilllist(li2);
-//		}
+    	List<Cashregister> li=dao.selectAll3(shopid, oldtime, newtime, selectqb);
+    	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
+    		li.get(i).setList(dao2.selectByid(li.get(i).getAshregisterid())); 
+		}
+    	return li;
+    }
+    	
+    public List<Cashregister> selectAll3(
+    		Integer shopid,//店铺
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
+			String selectqb//查找
+	){
+    	List<Cashregister> li=dao.selectAll4(shopid, oldtime, newtime, selectqb);
+    	int dds=0;//订单数
+    	Double xsje=0.0;//销售金额
+    	//Double cz=0.0;//充值
+    	System.out.println("进入1");
+    	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
+    		System.out.println("进入2");
+    		
+			List<Cashregisterdetail> li2= dao2.selectByid(li.get(i).getAshregisterid()); 
+			List<Recharge> li3= dao3.selectByid(li.get(i).getMemberid()); //会员充值抵扣id
+			li.get(i).setDds(li2.size());//订单数
+			for (int j = 0; j < li2.size(); j++) {				
+	        	xsje+=li2.get(j).getMoneyamt();//销售金额
+			}  
+			li.get(i).setXsje(xsje);//销售金额
+//			for (int j = 0; j < li3.size(); j++) {				
+//	        	cz+=li3.get(j).getRecharge();//充值
+//			}    	
+//			li.get(i).setCz(cz);//充值
+			//System.out.println("订单数:"+li2.size()+"销售金额:"+xsje+"充值:"+cz);
+			System.out.println("订单数:"+li.get(i).getDds()+"销售金额:"+li.get(i).getDds()+"充值:"+li.get(i).getDds());
+			System.out.println("------------------------------------------------------------------------------------");
+        	li.get(i).setList(li2); //赋值list集合
+		}
+    	return li;
+    }
+    
+    
+    public List<Cashregister> selectAll4(
+    		Integer shopid,//店铺
+    		@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
+    		@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
+    		String selectqb,//查找
+    		Integer commoditytypeid//商品类别id
+    		){
+    	List<Cashregister> li=dao.selectAll5(shopid, oldtime, newtime, selectqb, commoditytypeid);
+    	
+    	System.out.println("进入1");
+    	
+    	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
+    		System.out.println("进入2");
+    		List<Cashregisterdetail> li2= dao2.selectByid(li.get(i).getAshregisterid()); 
+    	
+    		li.get(i).setList(li2); //赋值list集合
+    	}
     	return li;
     }
     

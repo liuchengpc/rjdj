@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -65,24 +66,66 @@ public class CashregisterController {
 	
 	
 	/**
-	 * 根据条件查询采购单主详表
+	 * 根据条件查询采购单主详表(销售统计)
 	 * @param pageNum
 	 * @param pageSize
 	 * @return
 	 */
 	@RequestMapping(value = "selectAll2",method = RequestMethod.GET)
 	@ResponseBody
-	public List<Commodity> selectAll2(
+	public List<Cashregister> selectAll2(
 			Integer shopid,//店铺
- 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
- 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
 			String selectqb//查找
 	){
-		System.out.println("进入CommodityController根据条件查询");
+		System.out.println("进入CommodityController根据条件查询采购单主详表(销售统计)");
 		System.out.println(shopid+"/"+oldtime+"/"+newtime+"/"+selectqb);
-    	List<Commodity> list=dao.selectAll2(shopid, oldtime, newtime, selectqb);
+    	List<Cashregister> list=dao.selectAll2(shopid, oldtime, newtime, selectqb);
+    	System.out.println(list.toString());
     	return list;
     }
+	/**
+	 * 根据条件查询采购单主详表(营收概况)
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "selectAll3",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Cashregister> selectAll3(
+			Integer shopid,//店铺
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
+ 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
+			String selectqb//查找
+	){
+		System.out.println("进入CommodityController根据条件查询采购单主详表(营收概况)");
+		System.out.println(shopid+"/"+oldtime+"/"+newtime+"/"+selectqb);
+    	List<Cashregister> list=dao.selectAll3(shopid, oldtime, newtime, selectqb);
+    	System.out.println(list.toString());
+    	return list;
+    }
+	/**
+	 * 根据条件查询采购单主详表(热销商品)
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "selectAll4",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Cashregister> selectAll4(
+			Integer shopid,//店铺
+			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
+			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
+			String selectqb,//查找
+			Integer commoditytypeid//商品类别
+			){
+		System.out.println("进入CommodityController根据条件查询采购单主详表(营收概况)");
+		System.out.println(shopid+"/"+oldtime+"/"+newtime+"/"+selectqb+"/"+commoditytypeid);
+		List<Cashregister> list=dao.selectAll4(shopid, oldtime, newtime, selectqb, commoditytypeid);
+		System.out.println(list.toString());
+		return list;
+	}
 	
 	
 	/**

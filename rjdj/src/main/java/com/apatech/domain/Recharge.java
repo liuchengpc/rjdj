@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class Recharge {
     private Integer rechargeid;//编号，主键
-    private Integer memberid;//编号，主键
+    private Integer memberid;//会员id
     @DateTimeFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     private Date rechargedate;//充值时间

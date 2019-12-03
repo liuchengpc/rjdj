@@ -17,6 +17,9 @@ public interface RechargeMapper {
     
     @Select("select * from Recharge")
     List<Recharge> selectAll();
+    
+    @Select("select * from Recharge where memberid=#{memberid}")
+    List<Recharge> selectByid(Integer memberid);
 
     int updateByPrimaryKeySelective(Recharge record);
 

@@ -63,11 +63,9 @@
                 <input class="inputtext" type="text" placeholder="查找" id="selectqb" th:onchange="selectAll()">
                 <a href="javascript:;" class="search-btn"></a>
             </div>
-           
-          
 			<div class="list">
                 <select name="" id="shopid" class="form-control">
-                    <option value="">全部店铺</option>
+                   <option	 value="">全部店铺</option>
                 </select>
             </div>
 
@@ -82,11 +80,9 @@
             </div>
         
         </div>
-        <div class="mainbody">
-            
-            
+        <div class="mainbody" style="margin-bottom: 400px;">
               <!-- bootstrap table自动渲染区域 -->
-			<table id="mytable" class="table table-hover" data-toolbar="#toolbar"></table>
+			<table id="mytable" class="table table-hover" data-toolbar="#toolbar" ></table>
         </div>
     </div>
 </div>
@@ -106,7 +102,6 @@
 						var s="<option value='"+res.shopid+"'>"+res.shopname+"</option>";
 						$("#shopid").append(s);
 					})
-					
 				}
 		});
 	  /* 加载店铺 S */
@@ -114,7 +109,7 @@
   
             //初始化Table
                 $('#mytable').bootstrapTable({
-                	url: '[[@{/BillController/selectAll2}]]',   //请求后台的URL（*）
+                	url: '[[@{/CashregisterController/selectAll2}]]',   //请求后台的URL（*）
                 	method: 'get',                      //请求方式（*）
                     striped : true, 					//是否显示行间隔色
                     pageNumber:1,                       //初始化加载第一页，默认第一页
@@ -140,7 +135,7 @@
                      cache: false,                       // 设置为 false 禁用 AJAX 数据缓存， 默认为true,是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                      sortable: true,                    //是否启用排序
                      sortOrder: "desc",                   //排序方式
-                     sortName: 'deliverytime', 					// 要排序的字段
+                     sortName: 'time', 					// 要排序的字段
                      search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
                      strictSearch: true,
                      showColumns: true,                  //是否显示所有的列
@@ -159,7 +154,7 @@
  						formatter: function (value, row, index) {
  							return index+1;
  						}
-                    }, {     
+                    }, {    
  		            	title : '日期',
  		            	field : 'time',	        	    	
  		                sortable : true,
@@ -179,25 +174,30 @@
  		                
  		            },  {      	   
  		            	title : '数量',
+         	    	 	field : 'count',	        	    	
+ 		                sortable : true,
+ 		            }, {      	   
+ 		            	title : '结算金额',
          	    	 	field : 'moneyamt',	        	    	
  		                sortable : true,
- 		                
  		            }, {      	   
  		            	title : '余额',
          	    	 	field : 'price',
  		                sortable : true,
  		            }, {      	   
  		            	title : '收银员',
-         	    	 	field : 'userName',
+         	    	 	field : 'cashregistername',
  		                sortable : true, 		                
- 		            }, {      	   
+ 		            },/* {      	   
  		            	title : '详表集合',
          	    	 	field : 'list',
  		                sortable : true,
  		               formatter: function (value, row, index) {
- 		            	 
+ 		            	   console.info("商品详表集合")
+ 		            	   console.info(row)
+ 		            	  return JSON.stringify(value);
 						}
- 		            },{
+ 		            }, */ {
 						/* field:'id',
 						title: '操作',
 						width: 120,
@@ -213,57 +213,41 @@
 						formatter: function (value, row, index) {
 						    // var sid_code = base64encode(row.sid + '');   //  sid 加密处理
 						    // alert(sid_code);
-						    if(row.shenhe==0){
-						    	  return '<a href="javascript:;" th:onclick="btn1(row.billid)" title="修改">' + 
-							        '<i class="glyphicon glyphicon-pencil"></i> ' + 
-							        '</a>'+
-							        '<a href="javascript:void(0)" title="删除">' +
-							        '<i class="glyphicon glyphicon-trash text-danger"></i> ' + 
-							        '</a>';
-						    }else{
-						    	  return '<a href="javascript:;" th:onclick="btn1(row.billid)" title="查看">' + 
-							        '<i class="glyphicon glyphicon-eye-open"></i>' + 
-							        '</a>';
-						    }
+				    	  return '<a href="javascript:;"  title="查看">' + 
+					        '<i class="glyphicon glyphicon-eye-open"></i>' + 
+					        '</a>';
 						  
 						},
 						events: {
-						  'click a[title=删除]': function (e, value, row, index) {
-							  console.info(e)
-							  console.info(value)
-							  console.info(row)
-							  console.info(index)
-							 // alert(row.supplierid)
-						      if(confirm('此操作不可逆，请确认是否删除？')==true){
-						    	 // 获取当前行 				              
-						    	 var id=row.supplierid;
-						    	  $.ajax({
-	 									url:"[[@{/SupplierController/deleteByPrimaryKey}]]",
-	 									type:"get",
-	 									data:"supplierid="+id,
-	 									dataType:"json",						
-	 									success:function(res){	
-	 										console.info("删除：")
-	 										console.info(res);
-											alert(res.message)
-	 										$('#mytable').bootstrapTable('refresh');
-	 									}
-	 							})
-						      }
-						  },
-						  'click a[title=修改]': function (e, value, row, index) {
-								//2.跳转到addpurchase_list.html
-								window.sessionStorage.setItem("billid",row.billid);
-								window.sessionStorage.setItem("bill",JSON.stringify(row));//将信息保存到js中的session中
-								window.location.href ="[[@{/topage/page/claim/updatepurchase_list}]]";
-					       	
-						  },
 						  'click a[title=查看]': function (e, value, row, index) {
-								//2.跳转到addpurchase_list.html
-								window.sessionStorage.setItem("billid",row.billid);
-								window.sessionStorage.setItem("bill",JSON.stringify(row));//将信息保存到js中的session中
-								window.location.href ="[[@{/topage/page/claim/showpurchase_list}]]";
-					       	
+							 $("#spxbxx").html("");
+								for (var i=0;i<row.list.length;i++)
+								{
+									var s='<tr class="">'+
+												'<td class="bhDiv"><em>'+(i+1)+'</em></td>'+
+												'<td class="nameTD">'+
+													'<img height="40" width="40" style="float: left;margin-right: 8px;margin-left: 5px;" src="'+row.list[i].commodityimg+'">'+
+													'<div class="nameDiv" style="display: inline-block;text-align: left;">'+
+														'<div style="line-height: 1;"><em>'+row.list[i].name+'</em></div>'+
+														'<div style="line-height: 2;">货号:<em style="color:#9E9E9E;">'+row.list[i].productcodeid+'</em></div>'+
+														'<div style="line-height: 1;">条码:<em style="color:#9E9E9E;">'+row.list[i].commoditydetailid+'</em></div>'+
+													'</div>'+
+												'</td>'+
+												'<td class="colorTd">'+
+													'<em>'+row.list[i].color+'</em>/'+
+													'<em>'+row.list[i].commoditysize+'</em>'+
+												'</td>'+
+												'<td>'+row.list[i].price+'</td>'+
+												'<td>'+row.list[i].count+'</td>'+
+												'<td>'+(row.list[i].price*row.list[i].count)+'</td>'+
+												'<td>'+row.list[i].zhekou+'</td>'+
+												'<td>'+row.list[i].moneyamt+'</td>'+
+											'</tr>';
+											//alert(s)
+									 $("#spxbxx").append(s);
+								} 
+							  
+							  $('#myModal2').modal("show");
 						  },
 						}
 		            }  ],
@@ -367,6 +351,75 @@
 				});
 			}
 		</script>
+		
+		
+		
+		
+		
+		
+		
+		
+		<!-- 模态框（Modal）修改 -->
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content" style="width: 880px;left: -135px;">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">选择商品</h4>
+	            </div>
+	            <div class="modal-body" style="padding:10px 50px">	            	
+						<div class="dialog_bd clearfix">						
+							<div class="classAreaX clearfix">
+								<span class="titleX">商品分类：</span>
+								<ul class="classDiv"></ul>
+							</div>
+							<div class="tabelArea clearfix" style="">
+								<table class="settable productsTable table-bordered " style="width: 100%;" v-if="block">
+									<thead>
+										<tr>
+											<th width="8%">序号</th>
+											<th width="22%">商品</th>
+											<th width="14%">规格</th>
+											<th width="10%">单价</th>
+											<th width="8%">数量</th>
+											<th width="10%">小计</th>
+											<th width="8%">折扣</th>
+											<th width="10%">总金额</th>
+										</tr>
+									</thead>
+									<tbody pages="25" currpage="2" id="spxbxx">
+										 <tr class="">
+												<td class="bhDiv"><em>1</em></td>
+												<td class="nameTD">
+													<img height="40" width="40" style="float: left;margin-right: 8px;margin-left: 5px;" src="http://poso2o.oss-cn-hangzhou.aliyuncs.com/18670802166/15724298130000_w1080_h1080">
+													<div class="nameDiv" style="display: inline-block;text-align: left;">
+														<div style="line-height: 1;"><em>马丁靴</em></div>
+														<div style="line-height: 2;"><em style="color:#9E9E9E;">货号:</em></div>
+														<div style="line-height: 1;"><em style="color:#9E9E9E;">条码:668616389</em></div>
+													</div>
+												</td>
+												<td class="colorTd">
+													<em>-</em>
+													<em>-</em>
+												</td>
+												<td>280.00</td>
+												<td>1</td>
+												<td>280.00</td>
+												<td rowspan="3">微信</td>
+												<td>78%</td>
+												<td>218.40</td>
+											</tr>
+									</tbody>
+							   </table>
+							</div>
+						</div>	
+	            </div>
+	            <div class="modal-footer" style="text-align: center;">
+	                <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 16.66%;">关闭</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
 			
 	
 </body>
