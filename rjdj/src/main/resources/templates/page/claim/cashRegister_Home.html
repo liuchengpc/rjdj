@@ -586,7 +586,7 @@
                     	<div class="checkbox" style="position: absolute;">
 						  <label>
 						   <span id="VIPbutton33" data-toggle="modal" data-target="#myModal303" style="display:inline-block;position: absolute;width: 50px;top: -3px;left:400px;">会员：</span>
-						   <input id="VIPbutton44" disabled="disabled" type="checkbox" value="1" aria-label="..." style="zoom:150%;margin-left: 290px;margin-top: -5%;">
+						   <input id="VIPbutton44" disabled="disabled" type="checkbox" value="0" aria-label="..." style="zoom:150%;margin-left: 290px;margin-top: -5%;">
 						  </label>
 						</div>
                     	<h3 class="bt"></h3>
@@ -805,16 +805,6 @@
 				var index=bt.lastIndexOf("：");
 				bt=bt.substring(index+1,bt.length);
 				
-				$.ajax({	//根据订单号删除挂单
-					url:"[[@{/CashregisterController/deleteZByX}]]",
-					type:"get",
-					dataType:"json",
-					async:false,
-					data:"ashregisterid="+bt,
-					success:function(result){
-						
-					}
-				});
 				
 				
 				var memberid = $("#VIPbutton44").val();
@@ -916,6 +906,7 @@
 																		async:false,
 																		data:"moneylv="+moneylv+"&startmoney="+startmoney,
 																		success:function(result5){
+																			alert(result5.memberlvid);
 																			var memberlvid = result5.memberlvid;
 																			$.ajax({	//修改会员当前等级
 																				url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
@@ -979,7 +970,7 @@
 						}
 
 						
-						var ashregisterid=getRandomCode(11);
+						var ashregisterid=$(".bt").val();
 						
 						register.ashregisterid = ashregisterid;
 						register.count = count2;
@@ -987,7 +978,7 @@
 						register.memberid = $("#VIPbutton44").val();
 						
 						$.ajax({
-							url:"[[@{/CashregisterController/insertCashregister3}]]",
+							url:"[[@{/CashregisterController/insertCashregister4}]]",
 							type:"post",
 							async:false,
 							contentType:"application/json",
@@ -1068,7 +1059,6 @@
 							async:false,
 							data:"memberid="+memberid,
 							success:function(result){
-								alert(result.price);
 								var mn = parseFloat(result.price)-parseFloat(dataTwo.moneyamt);
 								if(mn>0){
 									y++;									
@@ -1093,7 +1083,8 @@
 								success:function(result){
 									var integral3 = parseInt(result.integral);
 									var price2 = parseFloat(result.price);
-									
+									alert("积分："+integral3);
+									alert("钱："+price2);
 									var integral = parseInt(parseInt(integral2)/integral3);
 									//可以抵扣的钱
 									var price = integral*price2;
@@ -1101,7 +1092,6 @@
 									//剩余积分
 									var integral = parseInt(parseInt(integral2)%integral3);
 									alert("剩余积分："+integral);
-									
 									dataTwo.moneyamt -= price;
 									
 									$.ajax({	//修改会员积分
@@ -1129,7 +1119,6 @@
 																data:"memberid="+memberid,
 																success:function(result4){
 																	var startmoney = parseFloat(result4.lv.moneylv);
-																	alert(startmoney);
 																	$.ajax({	//查询会员当前等级
 																		url:"[[@{/MemberlvController/queryByMemberlvMoney}]]",
 																		type:"get",
@@ -1137,6 +1126,7 @@
 																		async:false,
 																		data:"moneylv="+moneylv+"&startmoney="+startmoney,
 																		success:function(result5){
+																			alert("会员等级编号："+result5.memberlvid);
 																			var memberlvid = result5.memberlvid;
 																			$.ajax({	//修改会员当前等级
 																				url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
@@ -1233,7 +1223,7 @@
 						}
 						
 						$.ajax({
-							url:"[[@{/CashregisterController/insertCashregister3}]]",
+							url:"[[@{/CashregisterController/insertCashregister4}]]",
 							type:"post",
 							async:false,
 							contentType:"application/json",

@@ -34,20 +34,15 @@ public class RoleprivilegeController {
 		Map<String,String> map = new HashMap<String,String>();
 		int i = dao.deleteRoleAndPrivilege(roleid);
 		if(i>0) {
-			int a = rs.deleteByPrimaryKey(roleid);
-			if(a<=0) {
-				map.put("code", "0");
-				map.put("message", "删除失败");
-				return map;
-			}
+			map.put("code", "1");
+			map.put("message", "删除成功");
+			return map;
 		}else {
 			map.put("code", "0");
 			map.put("message", "删除失败");
 			return map;
 		}
-		map.put("code", "1");
-		map.put("message", "删除成功");
-		return map;
+
 	}
 	
 	@RequestMapping(value="/queryPrivilegeByRoleID",method=RequestMethod.GET)

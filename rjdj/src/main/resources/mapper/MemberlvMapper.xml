@@ -14,8 +14,8 @@
     <result column="moneyLv" jdbcType="REAL" property="moneylv" />
     <result column="startmoney" jdbcType="REAL" property="startmoney" />
   </resultMap>
-  <select id="queryByMemberlvMoney" parameterType="com.apatech.domain.Memberlv" resultMap="BaseResultMap">
-  	SELECT * FROM memberlv WHERE moneyLv &gt;= #{startmoney,jdbcType=REAL} AND moneyLv &lt;= #{moneylv,jdbcType=REAL} ORDER BY discount ASC LIMIT 0,1
+  <select id="queryByMemberlvMoney" parameterType="com.apatech.domain.Memberlv" resultMap="BaseResultMap2">
+  	SELECT * FROM memberlv WHERE moneyLv &gt;= #{moneylv,jdbcType=REAL} AND moneyLv &lt;= #{startmoney,jdbcType=REAL} ORDER BY discount ASC LIMIT 0,1
   </select>
   <select id="queryMemberLvByMemberLvID" parameterType="com.apatech.domain.Memberlv" resultMap="BaseResultMap">
   	select * from memberlv where memberLvID = #{memberlvid,jdbcType=INTEGER}
