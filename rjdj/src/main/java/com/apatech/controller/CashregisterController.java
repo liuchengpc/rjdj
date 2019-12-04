@@ -99,6 +99,8 @@ public class CashregisterController {
 	@ResponseBody
 	public Map<String,String> insertCashregister4(@RequestBody Cashregister dataTwo) throws ParseException {
 		System.out.println("进来了会员用户结账");	
+		System.out.println(dataTwo);
+		System.out.println(dataTwo.getList());
 		Integer scount = 0;
 		Date time = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
