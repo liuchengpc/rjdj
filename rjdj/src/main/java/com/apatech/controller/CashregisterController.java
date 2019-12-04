@@ -57,11 +57,15 @@ public class CashregisterController {
 	@RequestMapping(value="/deleteZByX",method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String,String> deleteZByX(String ashregisterid){
+		System.out.println("删除的主订单号："+ashregisterid);
 		Map<String,String> map = new HashMap<String,String>();
 		int i = dao.deleteByPrimaryKey(ashregisterid);
+		System.out.println("第一次删除："+i);
 		if(i>0) {
 			String cashregisterdetailid = ashregisterid;
+			System.out.println("删除的详订单号："+cashregisterdetailid);
 			int s = dao2.deleteByid(cashregisterdetailid);
+			System.out.println("第二次删除："+s);
 			if(s>0) {
 				map.put("code", "1");
 				map.put("message", "删除成功");
@@ -89,6 +93,78 @@ public class CashregisterController {
 		}
 		
 		return moneyamt;
+	}
+	
+	@RequestMapping(value="/insertCashregister4",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,String> insertCashregister4(@RequestBody Cashregister dataTwo) throws ParseException {
+		System.out.println("进来了会员用户结账");	
+		Integer scount = 0;
+		Date time = new Date();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date time2 = df.parse(df.format(new Date())); 
+        dataTwo.setTime(time2);
+		System.out.println(dataTwo);
+		Map<String,String> map = new HashMap<String,String>();
+		int i = dao.insertCashregister(dataTwo);
+		if(i>0) {
+			System.out.println("进来了");
+			for (Cashregisterdetail cs : dataTwo.getList()) {
+				int f = dao2.insertCashregisterDetail(cs);
+				if(f<=0) {
+					map.put("code", "0");
+					map.put("message", "结账失败");
+					return map;
+				}
+				Commoditydetail com = dao5.selectByPrimaryKey(cs.getCommoditydetailid());
+				
+				//商品详情库存修改
+				System.out.println("正在需改商品详情库存");
+				Integer num = com.getCount();
+				Integer count = num - cs.getCount();
+				String commoditydetailid = cs.getCommoditydetailid(); 
+				Commoditydetail com2 = new Commoditydetail();
+				com2.setCount(count);
+				com2.setCommoditydetailid(commoditydetailid);
+				int i2 = dao5.updateByPrimaryKeySelective(com2);
+				if(i2<0) {
+					map.put("code", "0");
+					map.put("message", "结账失败");
+					return map;
+				}else {
+					System.out.println("商品详情库存修改成功！");
+				}
+				
+				//商品主表总库存修改
+				String productcodeid = com.getProductcodeid();
+				System.out.println("商品编号："+productcodeid);
+				Commodity co = dao6.selectByPrimaryKey(productcodeid);
+				Integer stockcount = co.getStockcount();
+				stockcount -= cs.getCount();
+				System.out.println("总库存："+stockcount);
+				Commodity co2 = new Commodity();
+				co2.setStockcount(stockcount);
+				co2.setProductcodeid(productcodeid);
+				int h = dao6.updateByPrimaryKeySelective(co2);
+				if(h<0) {
+					map.put("code", "0");
+					map.put("message", "结账失败");
+					return map;
+				}else {
+					System.out.println("商品主表库存修改成功！");
+				}
+				
+			}
+			
+		}else {
+			map.put("code", "0");
+			map.put("message", "结账失败");
+			return map;
+		}
+		
+		map.put("code", "1");
+		map.put("message", "结账成功");
+		return map;
 	}
 	
 	@RequestMapping(value="/insertCashregister3",method=RequestMethod.POST)
@@ -154,11 +230,12 @@ public class CashregisterController {
 			Float f = new Float(dataTwo.getMoneyamt());
 			int d = f.intValue();
 			Member m3 = dao3.selectByPrimaryKey(dataTwo.getMemberid());
+			System.out.println("会员ID："+dataTwo.getMemberid());
 			m2.setMemberid(dataTwo.getMemberid());
 			d = d+m3.getIntegral();
 			m2.setIntegral(d);
 			System.out.println("积分"+d);
-			int g = dao3.updateByPrimaryKey(m2);
+			int g = dao3.updateByPrimaryKeySelective(m2);
 			if(g<0) {
 				map.put("code", "0");
 				map.put("message", "结账失败");

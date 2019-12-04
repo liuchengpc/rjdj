@@ -25,7 +25,8 @@ public class MemberlvController {
 	@RequestMapping(value="/queryByMemberlvMoney",method=RequestMethod.GET)
 	@ResponseBody
 	public Memberlv queryByMemberlvMoney(Memberlv record) {
-		
+			System.out.println("进来了queryByMemberlvMoney");
+			System.out.println("Memberlv:"+record);
 		return dao.queryByMemberlvMoney(record);
 	}
 	
