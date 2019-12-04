@@ -173,10 +173,11 @@ public class CashregisterService {
 			 * System.out.println("对象cashregister"+cashregister);
 			 */			  
 			  List<Cashregisterdetail>l=dao2.selectByCashregisterId(cashregister.getAshregisterid());
-			  for (Cashregisterdetail cashregisterdetail : l) {
-				  Commoditydetail cd=cddao.selectByPrimaryKey(cashregisterdetail.getCommoditydetailid());
-				  cashregisterdetail.setCommodityname(cd.getName());
-			  }
+			/*
+			 * for (Cashregisterdetail cashregisterdetail : l) { Commoditydetail
+			 * cd=cddao.selectByPrimaryKey(cashregisterdetail.getCommoditydetailid());
+			 * cashregisterdetail.setCommodityname(cd.getName()); }
+			 */
 			  cashregister.setList(l); 
 		  }
 		  return page.toPageInfo(); 
