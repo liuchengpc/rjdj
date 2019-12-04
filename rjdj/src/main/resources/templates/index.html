@@ -352,7 +352,7 @@
 	}else{
 		$("#tcdl").show();
 		$(".zhs").show();
-		$("#dlzh").html('<img src="'+user.headportrait+'" class="layui-nav-img" id="dltx">'+user.userid)//登录人账号和头像
+		$("#dlzh").html('<img src="/'+user.headportrait+'" class="layui-nav-img" id="dltx">'+user.userid)//登录人账号和头像
 	}
 	
 	$(".zh").click(function(){
@@ -458,7 +458,7 @@ window.sessionStorage.setItem("user",JSON.stringify(user)); */
 					data:"",
 					dataType:"json",
 					success:function(res){
-						alert(res)
+						//alert(res)
 						
 						console.info("获取当前用户！");
 						console.info(res);
@@ -468,7 +468,7 @@ window.sessionStorage.setItem("user",JSON.stringify(user)); */
 							window.top.location.href="[[@{/topage/index}]]";
 						}else{
 							$("#tcdl").show();
-							$("#dlzh").html('<img src="'+res.headportrait+'" class="layui-nav-img" id="dltx">'+res.userid)//登录人账号和头像
+							$("#dlzh").html('<img src="/'+res.headportrait+'" class="layui-nav-img" id="dltx">'+res.userid)//登录人账号和头像
 							window.sessionStorage.setItem("user",JSON.stringify(res));//将用户信息保存到js中的session中
 							$(".zhst").hide();
 							$(".zhs").show();

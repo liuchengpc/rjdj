@@ -74,7 +74,7 @@
 	        <div class="mainbody">
 	           	<div class="list">
 	                <select name="" id="" class="form-control" style="width: 180px" v-model="page.userid" required="required"><!--  v-for="item in Supplier" -->
-	                    <option  value="15012341234">李店长</option>
+	                    <option  v-model="page.userid">{{page.username}}</option>
 	                </select>
 	            </div>
 		         <div class="list">
@@ -353,6 +353,7 @@
 		 						dataType:"json",
 		 						success:function(data){
 		 							console.info("根据供应商id查询所有商品")
+		 							console.info(data)
 		 							if(that.page.list!=""){
 		 								that.dpsp=data;
 					                	// alert(that.dpsp.length)
@@ -377,7 +378,7 @@
 		 								//alert(111)
 		 								that.dpsp=data;
 		 							}
-		 							console.info(data)
+		 							
 		 						}
 							});
 							
@@ -533,6 +534,11 @@
 		            
 		        	//加载采购单详表数据
 	 				this.goPage();
+		            
+		            
+	 				var user = JSON.parse(window.sessionStorage.getItem("user"));
+	 				this.page.userid=user.userid; 	
+	 				this.page.username=user.username;
 						
 						
 	 			}

@@ -86,10 +86,10 @@ public class RoleController {
 	
 	@RequestMapping(value="/queryRolePage",method=RequestMethod.GET)
 	@ResponseBody
-	public PageInfo<Role> queryRolePage(Integer pageNum,Integer pageSize){
+	public PageInfo<Role> queryRolePage(Integer pageNum,Integer pageSize,Integer roleid){
 		
 		
-		return dao.queryRolePage(pageNum, pageSize);
+		return dao.queryRolePage(pageNum, pageSize,roleid);
 	}
 	
 	/**

@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.apatech.domain.Commodity;
 import com.apatech.domain.Supplier;
+import com.apatech.service.CommodityService;
+import com.apatech.service.CommoditydetailService;
+import com.apatech.service.DetailService;
 import com.apatech.service.SupplierService;
 import com.github.pagehelper.PageInfo;
 
@@ -22,6 +24,15 @@ import com.github.pagehelper.PageInfo;
 public class SupplierController {
 	@Autowired
 	private SupplierService dao;	
+	
+	@Autowired
+	private DetailService dao2;	
+	@Autowired
+	private CommodityService dao3;	
+	@Autowired
+	private CommoditydetailService dao4;	
+	
+	
 	/**
 	 * 查询全部
 	 * @param model
@@ -122,6 +133,9 @@ public class SupplierController {
 		}
 		return map;
     }
+	
+	
+	
 	/**
 	 * 根据主键删除
 	 * @param billid

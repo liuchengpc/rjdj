@@ -15,7 +15,7 @@
   	insert into `role`(roleName)values(#{rolename,jdbcType=VARCHAR})
   </insert>
   <select id="queryRolePage" parameterType="com.apatech.domain.Role" resultMap="BaseResultMap">
-  	select * from role where roleID != 3
+  	select * from role where roleID != 3 and roleID != #{roleid,jdbcType=INTEGER}
   </select>
   <sql id="Base_Column_List">
     roleID, roleName

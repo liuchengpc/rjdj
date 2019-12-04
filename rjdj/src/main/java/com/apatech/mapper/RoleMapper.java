@@ -13,7 +13,7 @@ public interface RoleMapper {
 	
 	int insertRole(Role role);
 	
-	List<Role> queryRolePage();
+	List<Role> queryRolePage(Integer roleid);
 	
     int deleteByPrimaryKey(Integer roleid);
 

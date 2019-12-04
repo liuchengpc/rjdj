@@ -24,6 +24,8 @@ public class Detail {
 
 
 
+	
+
 	@Override
 	public String toString() {
 		return "Detail [detailid=" + detailid + ", billid=" + billid + ", commoditydetailid=" + commoditydetailid
