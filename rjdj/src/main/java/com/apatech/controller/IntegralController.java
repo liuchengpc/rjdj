@@ -21,6 +21,20 @@ import com.github.pagehelper.PageInfo;
 public class IntegralController {
 	@Autowired
 	private IntegralService dao;	
+	
+	/**
+	 * 查询全部
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/queryByIntegral",method=RequestMethod.GET)
+	@ResponseBody
+	public Integral queryByIntegral() {
+		
+		return dao.queryByIntegral();
+	}
+	
+	
 	/**
 	 * 查询全部
 	 * @param model

@@ -19,6 +19,9 @@
 		<result column="ispresent" jdbcType="INTEGER"
 			property="ispresent" />
 	</resultMap>
+	<select id="queryByMemberID" parameterType="com.apatech.domain.Cashregister" resultMap="BaseResultMap">
+		select * from cashregister where memberid = #{memberid,jdbcType=INTEGER}
+	</select>
 	<sql id="Base_Column_List">
 		ashRegisterID, time, shopID, count, moneyamt, memberID,
 		cashRegisterName, ispresent

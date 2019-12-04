@@ -33,6 +33,44 @@ public class MemberController {
 	@Autowired
 	private IntegralService dao3;
 	
+	
+	/**
+	 * 根据主键查询
+	 * @param billid
+	 * @return
+	 */
+	@RequestMapping(value = "selectByPrimaryKey222",method = RequestMethod.GET)
+	@ResponseBody
+    public Member selectByPrimaryKey222(Integer memberid) {
+		System.out.println("进入MemberController根据主键查询");
+		System.out.println("memberid="+memberid);
+		Member m = dao.selectByPrimaryKey(memberid);
+		m.setLv(dao2.selectByPrimaryKey(m.getMemberlvid()));
+    	return m;
+    }
+	
+	/**
+	 * 根据主键修改
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "updateByPrimaryKeySelective2",method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, String> updateByPrimaryKeySelective2(Member record) {
+		System.out.println("进入MemberController根据主键修改");
+		System.out.println("实体："+record.toString());
+		Map<String, String> map=new HashMap<String, String>();
+    	int i=dao.updateByPrimaryKeySelective(record);
+    	if (i>0) {
+			map.put("code", "1");
+			map.put("message", "修改成功！");
+		}else {
+			map.put("code", "2");
+			map.put("message", "修改失败！");
+		}
+		return map;
+    }
+	
 	/**
 	 *根据会员号查询会员信息2
 	 * @param model

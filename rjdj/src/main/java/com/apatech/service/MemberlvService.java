@@ -17,6 +17,11 @@ public class MemberlvService {
 	@Autowired
 	private MemberlvMapper dao;
 
+	public Memberlv queryByMemberlvMoney(Memberlv record) {
+		
+		return dao.queryByMemberlvMoney(record);
+	}
+	
 	public Memberlv queryMemberLvByMemberLvID(Integer memberid) {
 		
 		return dao.queryMemberLvByMemberLvID(memberid);
