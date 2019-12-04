@@ -61,11 +61,11 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 				"/topage/page/claim/employee_management",
 				"/topage/page/common/body_menu2",
 				"/topage/page/claim/shop_type",
-				"/topage/page/claim/shop_managerment",
-				"/topage/shop_upload",
+//				"/topage/page/claim/shop_managerment",
+//				"/topage/shop_upload",
 				"/topage/shop_upload2",
-				"/topage/page/claim/supplier",
-				"/topage/page/claim/purchase_list",
+//				"/topage/page/claim/supplier",
+//				"/topage/page/claim/purchase_list",
 				"/topage/page/claim/cashRegister_Home",
 				"/topage/page/claim/privilege_Update",
 				"/topage/page/claim/privilege_Insert",
@@ -86,7 +86,8 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 				"/topage/NewFile",
 				"/topage/add",
 				"/topage/update",
-				"/topage/toupload");
+				"/topage/toupload",
+				"/topage/wqx");
 		super.addInterceptors(registry);
 		
 //		.addInterceptor是拦截的路径

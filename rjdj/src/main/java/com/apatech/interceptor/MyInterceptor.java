@@ -38,6 +38,7 @@ public class MyInterceptor  implements HandlerInterceptor {
 		System.out.println("preHandler");
 		HttpSession session = request.getSession();
 		Users user = (Users) session.getAttribute("user");//把对象从session中取出来
+		
 		System.out.println("用户信息");
 		System.out.println(user.toString());
 		List<Roleprivilege> list = (List<Roleprivilege>)request.getAttribute("prem");//获取当前用户的权限id
@@ -60,6 +61,7 @@ public class MyInterceptor  implements HandlerInterceptor {
 			}
 		}
 		System.out.println("没有权限....");
+    	response.sendRedirect("/topage/wqx");
 		return flag;
 	}
 	

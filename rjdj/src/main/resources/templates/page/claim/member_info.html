@@ -18,7 +18,7 @@
 <body>
     <!--会员信息-->
     <div class="rightarea clearfix">
-        <div class="mainarea clearfix" id="hyxx">
+        <div class="mainarea clearfix" id="hyxx" style="padding-bottom: 250px;">
             <div class="mainhead">
                 <span class="title">会员信息</span>
                 <div class="searchArea">
@@ -137,15 +137,15 @@
 					        <h4 class="modal-title" id="gridSystemModalLabel">批量导入</h4>
 					      </div>
 					      <div class="modal-body">
-					        <div class="container-fluid">
+					        <div class="container-fluid" style="text-align: center;">
 								<!-- <a class="btn btn-primary" role="button">
 									Excel导入
 								</a> -->
-								<form th:action="@{/file/excelUpload}" id="fileform" method="post" enctype="multipart/form-data">
+								<form th:action="@{/file/excelUpload}" id="fileform" method="post" enctype="multipart/form-data" style="display: inline-block;margin-right: 40px">
 									<input name="file" id="file" type="file" style="display: none;" onchange="">
 									<input type="button" value="Excel导入" class="btn btn-primary" role="button" onclick="fileclk()">
 								</form>
-								<a class="btn btn-primary" role="button" href="/file/downloadMB">
+								<a class="btn btn-primary" role="button" href="/file/downloadMB" style="color: white !important;">
 									下载范本
 								</a>
 							</div>

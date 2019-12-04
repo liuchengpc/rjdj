@@ -21,7 +21,10 @@ public interface RoleprivilegeMapper {
 
     Roleprivilege selectByPrimaryKey(Integer roleprivilegeid);
     
-
+    @Select("	SELECT * FROM Roleprivilege a\r\n" + 
+    		"	INNER JOIN role b ON a.roleID=b.roleID\r\n" + 
+    		"	INNER JOIN privilege c ON a.privilegeID=c.privilegeID\r\n" + 
+    		"	WHERE b.roleid=#{roleid}")
     List<Roleprivilege> selectByroleid(Integer roleid);
     
     @Select("select * from Roleprivilege")
