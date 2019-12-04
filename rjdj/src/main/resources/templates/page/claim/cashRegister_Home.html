@@ -241,7 +241,6 @@
 						  	var commodityname = $(this).find('p:eq(0)').html();	
 							//商品数量
 							var count = $(this).find('p:eq(0)').attr("i2");
-							alert(count);
 						  	//商品规格
 						  	var specifications = $(this).find('p:eq(1)').html();
 						  	//商品单价
@@ -278,6 +277,13 @@
 							var bt = $(".bt").html();
 							var index = bt.lastIndexOf("：");
 							bt =bt.substring(index+1,bt.length);
+							var zhekou = $("[name=pp4]").val();
+							if(zhekou=="无"){
+								zhekou = 100;
+							}
+							var commoditydetail = {
+									count:count
+							}
 							var registerdetail2 = {
 									cashregisterid:bt,
 									commodityname:commodityname,
@@ -286,8 +292,9 @@
 									price:price,
 									sbtotal:moneyamt,
 									count:1,
-									zhekou:$("[name=pp4]").val(),
+									zhekou:zhekou,
 									moneyamt:moneyamt,
+									commoditydetail:commoditydetail
 							}
 							var tr = $("<tr class=\"wuyu\"><td class=\"commodityname\">"+registerdetail2.commodityname+"</td><td class=\"specifications\">"+registerdetail2.specifications+"</td><td class=\"count\">"+registerdetail2.count+"</td><td class=\"price\">"+registerdetail2.price+"</td><td class=\"moneyamt\">"+registerdetail2.moneyamt+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
 							$("#contentXQ").append(tr);
@@ -316,7 +323,7 @@
 								register.list[ind].count += 1;
 								register.count += 1;
 								register.list[ind].moneyamt += parseFloat($(this).find(".price").html());
-								$(this).find(".count").html(register.list[ind].count);	
+								$(this).find(".count").html(register.list[ind].count);
 								$(this).find(".moneyamt").html(register.list[ind].moneyamt);
 								totalCost2 += parseFloat($(this).find(".price").html());
 							}else if(register.list[ind].count==num){
@@ -1411,7 +1418,7 @@
 										data:"ashregisterid="+ashregisterid,
 										success:function(result88){
 											for(var k=0;k<result88.list.length;k++){
-												var tr = $("<tr class=\"wuyu\"><td class=\"commodityname\">"+result88.list[k].commodityname+"</td><td class=\"specifications\">"+result88.list[k].specifications+"</td><td class=\"count\">"+result88.list[k].count+"</td><td class=\"price\">"+result88.list[k].price+"</td><td class=\"moneyamt\">"+result88.list[k].moneyamt+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
+												var tr = $("<tr class=\"wuyu\"><td class=\"commodityname\">"+result88.list[k].commodityname+"</td><td class=\"specifications\">"+result88.list[k].specifications+"</td><td class=\"count\">"+result88.list[k].count+"</td><td class=\"price\">"+result88.list[k].price+"</td><td class=\"moneyamt\">"+(result88.list[k].count)*(result88.list[k].price)+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
 												$("#contentXQ").append(tr);	
 												totalCost2 += result88.list[k].sbtotal;
 												var commoditydetail = {
@@ -1420,7 +1427,6 @@
 														commoditysizeid : result88.list[k].commoditydetail.commoditysizeid,
 														count : result88.list[k].commoditydetail.count
 												};
-												
 												var cashregisterdetail = {
 														cashregisterid:result88.list[k].cashregisterid,
 														commodityname:result88.list[k].commodityname,
@@ -1550,8 +1556,20 @@
 				/* alert($(this).parent().parent().parent().index()); */
 				/* .splice(1,1) */
 				var ind = $(this).parent().parent().index();
-				alert(ind);
 				register.list.splice(ind,1);
+				totalCost2 = totalCost2-parseFloat($(this).parent().parent().find(".moneyamt").html());
+				if($("#VIPbutton44").attr("checked")=="checked"){
+					$('[name=pp1]').val(totalCost2);
+					var zhekou =$("[name=pp4]").val();
+					$('[name=pp2]').val(totalCost2/100*zhekou);
+				}else{
+					$("#VIPbutton33").val("0");
+					$("#VIPbutton44").val("0");
+					$('[name=pp2]').val("无");
+					$('[name=pp1]').val(totalCost2);
+					$('[name=pp3]').val("0");
+					$('[name=pp4]').val("无");
+				}
 				/* var son=document.getElementById("datagrid-row-r1-2-"+ind+"");
 				son.parentNode.removeChild(son); */
 				$(".wuyu:eq("+ind+")").remove();
@@ -1563,6 +1581,19 @@
 				/* alert($(this).parent().parent().parent().index()); */
 				/* .splice(1,1) */
 				var ind = $(this).parent().parent().parent().index();
+				totalCost = totalCost-data.rows[ind].moneyamt;
+				if($("#VIPbutton2").attr("checked")=="checked"){
+					$('[name=tt1]').val(totalCost);
+					var zhekou =$("[name=tt4]").val();
+					$('[name=tt2]').val(totalCost/100*zhekou);
+				}else{
+					$("#VIPbutton").val("0");
+					$("#VIPbutton2").val("0");
+					$('[name=tt2]').val("无");
+					$('[name=tt1]').val(totalCost);
+					$('[name=tt3]').val("0");
+					$('[name=tt4]').val("无");
+				}
 				data.rows.splice(ind,1);
 				data.total -= 1;
 				/* var son=document.getElementById("datagrid-row-r1-2-"+ind+"");
