@@ -166,12 +166,19 @@
  		            	title : '店铺',
          	    	 	field : 'shopname',	        	    	
  		                sortable : true,
- 		                
  		            },  {      	   
  		            	title : '会员名称',
          	    	 	field : 'name',	        	    	
  		                sortable : true,
- 		                
+ 		               formatter: function (value, row, index) {
+ 		            	   console.info("销售统计数据")
+ 		            	   console.info(row)
+ 		            	   if(row.memberid==0){
+ 		            		   return "普通客户";
+ 		            	   }else{
+ 		            		  return value;
+ 		            	   }	 		            	  
+						}
  		            },  {      	   
  		            	title : '数量',
          	    	 	field : 'count',	        	    	

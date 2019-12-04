@@ -12,8 +12,7 @@ import com.apatech.domain.Shop;
 
 @Controller
 @RequestMapping("topage")
-public class topage {
-	
+public class topage {	
 	@RequestMapping("/tzs")
 	public String selectAll(String tz) {
 		System.out.println("进入跳转");
@@ -263,3 +262,105 @@ public class topage {
 		return "upload";
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//收银开单		/sykd	
+//编辑开单		/bjkd	
+//删除开单		/sckd	
+//操作发货		/czfh	
+//查看定单		/ckdd	
+//营收概况		/ysgk	
+//热销商品		/rxsp	
+//业绩排名		/yjpm	
+//月损益表		/ysyb	
+//增加会员		/zjhy	
+//编辑会员		/bjhy	
+//删除会员		/schy	
+//会员充值		/hycz	
+//增加商品		/zjsp	
+//编辑商品		/bjsp	
+//删除商品		/scsp	
+//入仓单			/rcd	
+//出货单			/ccd	
+//调拨单			/dbd	
+//退货单			/thd	
+//报损单			/psd	
+//盘点单			/pdd	
+//供应商			/gys	
+//订货单			/dhd	
+//采购单			/cgd	
+//合同审核		/htsh	
+//店铺信息		/dpxx	
+//职位权限		/zwqx	
+//员工管理		/yggl	
+
+
+///topage/login
+///topage/accountindex
+///topage/AddForm
+///topage/uuid
+///topagepage/claim/staff_Update
+///topagepage/claim/showpurchase_list
+///topagepage/claim/addpurchase_list
+///topagepage/claim/updatepurchase_list
+///topagepage/claim/users_img
+///topagepage/claim/staff_Insert
+///topagepage/common/body_menu6
+///topagepage/claim/users_home
+///topagepage/claim/shop_Insert
+///topagepage/claim/shop_Query
+///topagepage/claim/shop_Update
+///topagepage/common/body_menu
+///topagepage/claim/store_management
+///topagepage/claim/position
+///topagepage/claim/employee_management
+///topagepage/common/body_menu2
+///topagepage/claim/shop_type
+///topagepage/claim/shop_managerment
+///topageshop_upload
+///topageshop_upload2
+///topagepage/claim/supplier
+///topagepage/claim/purchase_list
+///topagepage/claim/cashRegister_Home
+///topagepage/claim/privilege_Update
+///topagepage/claim/privilege_Insert
+///topagepage/common/body_menu4
+///topagepage/claim/salesStatistics
+///topagepage/claim/RevenueProfile
+///topagepage/claim/PopularGoods
+///topagepage/claim/PerformanceRanking
+///topagepage/claim/CashierHandover
+///topagepage/common/body_menu5
+///topagepage/claim/member_info
+///topagepage/claim/level_set
+///topagepage/claim/integer_set
+///topagepage/claim/recharge_deduction
+///topagepage/claim/transaction_record
+///topagepage/common/footer
+///topage/index
+///topage/NewFile
+///topage/add
+///topage/update
+///topage/toupload

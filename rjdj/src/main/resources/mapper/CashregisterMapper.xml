@@ -34,34 +34,7 @@
 		#{ashregisterid,jdbcType=VARCHAR}
 	</select>
 
-	<!-- 订单主表条件查询 -->
-	<select id="selectAll3" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		SELECT * FROM commodity a INNER JOIN supplier b ON
-		a.supplierID=b.supplierID INNER JOIN commoditytype c ON
-		a.commodityTypeID=c.commodityTypeID INNER JOIN
-		commoditydetail d ON a.productCodeID=d.productCodeID INNER
-		JOIN bill e ON e.supplierID=b.supplierID INNER JOIN users h
-		ON h.userID=e.userID INNER JOIN detail f ON
-		f.billID=e.billID INNER JOIN commoditydetail g ON
-		g.commodityDetailID=f.commodityDetailID where 1=1
-		<if test="shopid != null and shopid !=''">
-			and h.shopid like #{shopid}
-		</if>
-		<if test="selectqb != null  and selectqb !=''">
-			and e.billid like '%${selectqb}%' OR e.deliverytime like
-			'%${selectqb}%' OR e.suppliername like '%${selectqb}%'
-			OR e.contacts like '%${selectqb}%' OR e.phone like
-			'%${selectqb}%' OR e.remarks like '%${selectqb}%'
-		</if>
-		<if test="oldtime!=null">
-			AND e.creationtime &gt; #{oldtime}
-		</if>
-		<if test="newtime!=null">
-			AND e.creationtime &lt; #{newtime}
-		</if>
-		GROUP BY e.billID
-	</select>
+
 
 
 
@@ -183,17 +156,45 @@
       #{cashregistername,jdbcType=VARCHAR}, #{ispresent,jdbcType=INTEGER})
   </insert>
 
-  
-   
-    <!-- 订单主表条件查询(营收概况) -->
-  <select id="selectAll4" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    <!-- 订单主表条件查询(销售统计) -->
+  <select id="selectAll3" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT  * FROM cashregisterdetail a
 	INNER JOIN cashregister b ON a.cashRegisterID=b.ashRegisterID
-	INNER JOIN member d ON b.memberID=d.memberID
-	INNER JOIN shop c ON b.shopID=c.shopID
+	LEFT JOIN member d ON b.memberID=d.memberID
+	LEFT JOIN shop c ON b.shopID=c.shopID
     where 1=1
+    and b.ispresent=1
    	<if test="shopid != null and shopid !=''">
-          and b.shopid like #{shopid}
+          and b.shopid = #{shopid}
+      </if>
+      <if test="selectqb != null  and selectqb !=''">
+          and b.billid like '%${selectqb}%' 
+          OR b.deliverytime like '%${selectqb}%' 
+          OR b.suppliername like '%${selectqb}%' 
+          OR b.contacts like '%${selectqb}%' 
+          OR b.phone like '%${selectqb}%'
+          OR b.remarks like '%${selectqb}%'
+      </if>
+     <if test="oldtime!=null">
+		AND b.time &gt; #{oldtime}
+	</if>
+	<if test="newtime!=null">
+		AND b.time &lt; #{newtime}
+	</if>
+  </select>
+
+
+    <!-- 订单主表条件查询(营收概况) -->
+  <select id="selectAll4" parameterType="java.lang.String" resultMap="BaseResultMap">
+     SELECT  * FROM cashregisterdetail a
+	INNER JOIN cashregister b ON a.cashRegisterID=b.ashRegisterID
+	LEFT JOIN member d ON b.memberID=d.memberID
+	LEFT JOIN shop c ON b.shopID=c.shopID
+    where 1=1
+    and b.ispresent=1
+   	<if test="shopid != null and shopid !=''">
+          and b.shopid = #{shopid}
       </if>
       <if test="selectqb != null  and selectqb !=''">
           and b.billid like '%${selectqb}%' 
@@ -214,14 +215,15 @@
     <!-- 订单主表条件查询(热销商品) -->
   <select id="selectAll5" parameterType="java.lang.String" resultMap="BaseResultMap">
    SELECT  *,f.name as spname,SUM(a.count) as spsccount ,SUM(a.moneyamt) as spsccprice FROM cashregisterdetail a
-	 INNER JOIN CommodityDetail e ON e.commodityDetailID=a.commodityDetailID
-	 INNER JOIN Commodity f ON f.productCodeID=e. productCodeID
 	INNER JOIN cashregister b ON a.cashRegisterID=b.ashRegisterID
-	INNER JOIN member d ON b.memberID=d.memberID
-	INNER JOIN shop c ON b.shopID=c.shopID
-	INNER JOIN color g ON g.colorID=e.colorID   
-	INNER JOIN commoditysize h ON h.commoditySizeID=e.commoditySizeID
+	LEFT JOIN CommodityDetail e ON e.commodityDetailID=a.commodityDetailID
+	LEFT JOIN Commodity f ON f.productCodeID=e. productCodeID
+	LEFT JOIN member d ON b.memberID=d.memberID
+	LEFT JOIN shop c ON b.shopID=c.shopID
+	LEFT JOIN color g ON g.colorID=e.colorID   
+	LEFT JOIN commoditysize h ON h.commoditySizeID=e.commoditySizeID
     where 1=1
+    and b.ispresent=1
    	<if test="shopid != null and shopid !=''">
          and b.shopid = #{shopid}
      </if>
@@ -242,6 +244,6 @@
 	<if test="newtime!=null">
 		AND b.time &lt; #{newtime}
 	</if>
-	group by e.commodityDetailID
+	group by a.commodityDetailID
   </select>
 </mapper>

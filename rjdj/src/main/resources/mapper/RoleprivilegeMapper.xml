@@ -21,6 +21,12 @@
     from roleprivilege
     where rolePrivilegeID = #{roleprivilegeid,jdbcType=INTEGER}
   </select>
+  <select id="selectByroleid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+   	SELECT * FROM Roleprivilege a
+	INNER JOIN role b ON a.roleID=b.roleID
+	INNER JOIN privilege c ON a.privilegeID=c.privilegeID
+	WHERE b.roleid=#{roleid}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from roleprivilege
     where rolePrivilegeID = #{roleprivilegeid,jdbcType=INTEGER}
