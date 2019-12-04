@@ -168,11 +168,19 @@
  		                sortable : true,
  		               formatter: function (value, row, index) {
  		            	   if(value==0){
- 		            		   return "未审核"
+ 		            		   return '<a href="javascript:;"  title="未审核">未审核</a>'
  		            	   }else{
  		            		  return "已审核"
  		            	   }
-						}
+						},
+	                    events: {
+							  'click a[title= 未审核]': function (e, value, row, index) {
+								  $("#odd").html(row.billid);//编号，主键
+								  //alert(row.billid)
+							      $('#myModal').modal("show");
+							  },
+							
+							}
  		            }, {      	   
  		            	title : '采购单号',
  		            	field : 'billid',	        	    	
@@ -226,14 +234,17 @@
 						    // var sid_code = base64encode(row.sid + '');   //  sid 加密处理
 						    // alert(sid_code);
 						    if(row.shenhe==0){
-						    	  return '<a href="javascript:;" th:onclick="btn1(row.billid)" title="修改">' + 
+						    	  return  '<a href="javascript:;"  title="查看">' + 
+							        '<i class="glyphicon glyphicon-eye-open"></i>' + 
+							        '</a>'+
+							        '<a href="javascript:;"title="修改" style="margin-left:5px;">' + 
 							        '<i class="glyphicon glyphicon-pencil"></i> ' + 
 							        '</a>'+
 							        '<a href="javascript:void(0)" title="删除">' +
 							        '<i class="glyphicon glyphicon-trash text-danger"></i> ' + 
 							        '</a>';
 						    }else{
-						    	  return '<a href="javascript:;" th:onclick="btn1(row.billid)" title="查看">' + 
+						    	  return '<a href="javascript:;" title="查看">' + 
 							        '<i class="glyphicon glyphicon-eye-open"></i>' + 
 							        '</a>';
 						    }
@@ -277,6 +288,8 @@
 								window.location.href ="[[@{/topage/page/claim/showpurchase_list}]]";
 					       	
 						  },
+						 
+						
 						}
 		            }  ],
 		           onLoadSuccess: function(){ //加载成功时执行
@@ -329,7 +342,7 @@
                  	var oldtime=$('#oldtime').val();//开始时间
                  	var newtime=$('#newtime').val();//结束时间
                  	var selectqb=$('#selectqb').val();//查找
-               		alert(shopid+"-"+oldtime+"-"+newtime+"-"+selectqb)
+               		//alert(shopid+"-"+oldtime+"-"+newtime+"-"+selectqb)
                 	$('#mytable').bootstrapTable('refresh', {
                 		url : '[[@{/BillController/selectAll2}]]'
                 	});
@@ -380,31 +393,57 @@
 			}
 		</script>
 			
+			<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">是否通过审核单?</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px">
+		            	<div style="text-align: center;">
+		            		<p>
+		            			<span>采购单号：</span>
+		            			<span id="odd"></span>
+		            		</p>
+		            	</div>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;" id="ok" onclick="btn2()">确认</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
 			
 			
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+		<script type="text/javascript">
+			//修改
+			function btn2(){
+			    var billid= $("#odd").html();//编号，主键
+		      
+			     var obj={
+			    	billid:billid,//编号，主键
+			    	shenhe:1,//公司名称
+		          }
+
+				$.ajax({
+					url:"[[@{/BillController/updatecgdsh}]]",
+					type:"post",
+					data:JSON.stringify(obj),
+					dataType:"json",
+					contentType:"application/json;charset=utf-8",
+					success:function(data){
+						alert(data.message);
+						$('#myModal').modal('hide');
+						selectAll();
+					}
+				});
+			}
+		</script>
 			
 			
 			

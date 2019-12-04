@@ -32,9 +32,9 @@ public class RoleService {
 		return dao.insertRole(role);
 	}
 	
-	public PageInfo<Role> queryRolePage(Integer pageNum,Integer pageSize){
+	public PageInfo<Role> queryRolePage(Integer pageNum,Integer pageSize,Integer roleid){
 		PageHelper.startPage(pageNum, pageSize);
-		List<Role> list = dao.queryRolePage();
+		List<Role> list = dao.queryRolePage(roleid);
 		PageInfo<Role> page = new PageInfo<Role>(list);
 		return page;
 	}

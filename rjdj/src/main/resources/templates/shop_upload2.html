@@ -547,7 +547,7 @@
 										                  console.info(data);
 										                  if (data!="") {
 										                	  newsrc2=data;
-										                	  alert(newsrc2)
+										                	  //alert(newsrc2)
 										                	  var zoomSizeMode="useZoom:'.cloudzoom',image:'"+newsrc2+"',zoomImage:'"+newsrc2+"'";	
 										                	  $("#form2").parents("li").removeClass("cloudzoom-gallery-active")
 										                	  var tjimage="<li> "+
@@ -691,7 +691,7 @@
 				$("#commoditytypeid").append(a);
 				$.each(res,function(i,obj){
 					if(obj.commoditytypeid==Commodity.commoditytypeid){
-						alert(1)
+						//alert(1)
 						var s='<option value="'+obj.commoditytypeid+'" selected="true">'+obj.commoditytypename+'</option>';
 						$("#commoditytypeid").append(s);
 					}else{
@@ -712,7 +712,7 @@
 				$("#supplierID").append(a);
 				$.each(res,function(i,obj){
 					if(obj.supplierid==Commodity.supplierid){
-						alert(2)
+						//alert(2)
 						var s='<option value="'+obj.supplierid+'" selected="true">'+obj.companyname+'</option>';
 						$("#supplierID").append(s);
 					}else{
@@ -805,8 +805,8 @@
 					  	dataType:'json',	
 					  	contentType : "application/json;charset=utf-8",
 					  	success:function (data) {
-					  		alert(data.message)
-							//window.location.href ="[[@{/topage/page/claim/shop_managerment}]]";
+					  		//alert(data.message)
+							window.location.href ="[[@{/topage/page/claim/shop_managerment}]]";
 				        }
 					});
 		        }

@@ -18,7 +18,10 @@ import com.apatech.domain.Bill;
 import com.apatech.domain.Commodity;
 import com.apatech.domain.Commoditydetail;
 import com.apatech.domain.Detail;
+import com.apatech.domain.Supplier;
+import com.apatech.mapper.CommodityMapper;
 import com.apatech.service.BillService;
+import com.apatech.service.CommodityService;
 import com.apatech.service.CommoditydetailService;
 import com.apatech.service.DetailService;
 import com.github.pagehelper.PageInfo;
@@ -31,7 +34,10 @@ public class BillController {
 	@Autowired
 	private DetailService dao2;	
 	@Autowired
-	private CommoditydetailService dao3;	
+	private CommodityService dao3;	
+	@Autowired
+	private CommoditydetailService dao4;	
+
 	/**
 	 * 查询全部
 	 * @param model
@@ -209,6 +215,52 @@ public class BillController {
 		}
 		return map;
     }
+	/**
+	 * 审核采购单
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value = "updatecgdsh",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> updatecgdsh(@RequestBody Bill record) {
+		System.out.println("进入BillController审核采购单");
+		System.out.println("实体："+record.toString());
+		Map<String, String> map=new HashMap<String, String>();
+		int i=dao.updateByPrimaryKeySelective(record);
+		if (i>0) {
+			
+			List<Detail> list=dao2.selectAllByid(record.getBillid());//根据采购单主表id获取采购单详表集合
+			for (int j = 0; j < list.size(); j++) {//循环采购单详表集合
+				Commoditydetail detail=dao4.selectByPrimaryKey(list.get(j).getCommoditydetailid());//根据采购单详表中的商品详表id查询商品详表对象
+				detail.setCount(detail.getCount()+list.get(j).getCount());//修改商品详表对象的数量
+				dao4.updateByPrimaryKey(detail);//根据商品详表修改商品详表
+			}
+			
+//			统计商品总计
+			List<Commodity> commodity =dao3.selectAll();//查询所有商品主表
+			for (Commodity c2 : commodity) {
+				List<Commoditydetail> detail=dao4.selectByPrimaryKey3(c2.getProductcodeid());//根据商品主表id查询所有商品详表信息
+				int count=0;//设置添加数据
+				for (Commoditydetail d2 : detail) {//循环详表数据
+					count+=d2.getCount();
+				}
+				c2.setStockcount(count);//把计算的数量添加到主表
+				int i2=dao3.updateByPrimaryKey(c2);//修改主表
+				if (i2>0) {
+					map.put("code", "1");
+					map.put("message", "修改成功！");
+				} else {
+					map.put("code", "2");
+					map.put("message", "修改失败！");
+				}
+			}
+//			统计商品总计			
+		}else {
+			map.put("code", "2");
+			map.put("message", "修改失败！");
+		}
+		return map;
+	}
 	/**
 	 * 根据主键删除
 	 * @param billid

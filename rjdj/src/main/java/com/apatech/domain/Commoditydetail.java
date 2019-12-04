@@ -72,6 +72,16 @@ public class Commoditydetail {
 
 	private Color colorXZ;
 
+	
+	
+	
+	
+	public Commoditydetail(String commoditydetailid, Integer count) {
+		super();
+		this.commoditydetailid = commoditydetailid;
+		this.count = count;
+	}
+
 	public String getProductcodeid() {
 		return productcodeid;
 	}

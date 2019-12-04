@@ -131,6 +131,12 @@ public class Commodity {
 
 	
 
+	public Commodity(String productcodeid, Integer stockcount) {
+		super();
+		this.productcodeid = productcodeid;
+		this.stockcount = stockcount;
+	}
+
 	@Override
 	public String toString() {
 		return "Commodity [productcodeid=" + productcodeid + ", brand=" + brand + ", name=" + name + ", price=" + price

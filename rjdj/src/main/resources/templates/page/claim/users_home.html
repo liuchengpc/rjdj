@@ -48,7 +48,7 @@
 			你现在所在的位置是：
 			<a href="javascript:;" style="font-weight: 600;">账户信息</a>			
 		</div>
-		<form id="up" th:action="@{/topage/userFile}" method="post" enctype="multipart/form-data">
+		<form id="up" th:action="@{/topage/userFile}" method="post" enctype="multipart/form-data" style="margin-bottom: 300px;">
 			<div class="yuan">
 				<div class="tx" hidden="hidden" style="background-color: whitesmoke;width: 235px;height: 55px;position:absolute;top:60%;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
 					<a href="#" style="color: #000000;" id="mt" data-toggle="modal" data-target="#myModal">上传头像</a>
@@ -163,11 +163,7 @@
 							processData:false,
 							contentType:false,
 							successs:function(result){
-								if(result=="success"){
-									
-								}else{
-									alert(1);
-								}
+								
 							}
 						});
 						
@@ -180,12 +176,35 @@
 							successs:function(result){
 								if(result=="success"){
 									alert("修改成功！");
+									
 								}else{
 									alert(2);
 								}
 							}
 						});
+						
+						
+						//获取当前用户
+						 $.ajax({
+								url:"[[@{/UsersController/loginuser}]]",
+								type:"post",
+								data:"",
+								dataType:"json",
+								success:function(res){
+									//alert(res)
+									alert(1)
+									console.info("获取当前用户！");
+									console.info(res);
+									
+									window.sessionStorage.setItem("user",null);
+									window.top.location.href="[[@{/topage/index}]]";
+									
+									
+								}
+						}) 
 					}
+					
+				
 					
 					
 					if($("#xg").html()=="修改"){
@@ -260,7 +279,7 @@
 				$("[name=phonenumber]").val(user.phonenumber);
 				$("[name=password]").val(user.password);
 				$("#ima").attr({
-					src:"/images/"+user.headportrait
+					src:"/"+user.headportrait
 				});
 				
 			}

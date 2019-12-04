@@ -51,16 +51,17 @@
     		
     		goPage(1);
     	});
-    	
+    	var user2 = JSON.parse(window.sessionStorage.getItem("user"));
     	var a = 0;
     	function goPage(pageNum){
     		$("#contentTable").html("");
     		$("#ye").html("");
+    		var roleid = user2.roleid;
     		$.ajax({
     			url:"[[@{/RoleController/queryRolePage}]]",
     			type:"get",
     			dataType:"json",
-    			data:"pageNum="+pageNum+"&pageSize=2",
+    			data:"pageNum="+pageNum+"&pageSize=2"+"&roleid="+roleid,
     			success:function(result){
     				$.each(result.list,function(i,obj){
     					var tr = $("<tr><td>"+obj.roleid+"</td><td>"+obj.rolename+"</td><td><a i=\""+obj.roleid+"\" href=\"#\" class=\"bj\">编辑</a></td></tr>");
