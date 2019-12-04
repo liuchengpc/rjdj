@@ -57,11 +57,15 @@ public class CashregisterController {
 	@RequestMapping(value="/deleteZByX",method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String,String> deleteZByX(String ashregisterid){
+		System.out.println("删除的主订单号："+ashregisterid);
 		Map<String,String> map = new HashMap<String,String>();
 		int i = dao.deleteByPrimaryKey(ashregisterid);
+		System.out.println("第一次删除："+i);
 		if(i>0) {
 			String cashregisterdetailid = ashregisterid;
+			System.out.println("删除的详订单号："+cashregisterdetailid);
 			int s = dao2.deleteByid(cashregisterdetailid);
+			System.out.println("第二次删除："+s);
 			if(s>0) {
 				map.put("code", "1");
 				map.put("message", "删除成功");
@@ -95,6 +99,8 @@ public class CashregisterController {
 	@ResponseBody
 	public Map<String,String> insertCashregister4(@RequestBody Cashregister dataTwo) throws ParseException {
 		System.out.println("进来了会员用户结账");	
+		System.out.println(dataTwo);
+		System.out.println(dataTwo.getList());
 		Integer scount = 0;
 		Date time = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -428,7 +434,7 @@ public class CashregisterController {
 	@RequestMapping(value = "selectAll2",method = RequestMethod.GET)
 	@ResponseBody
 	public List<Cashregister> selectAll2(
-			Integer shopid,//店铺
+			String shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
 			String selectqb//查找
@@ -448,7 +454,7 @@ public class CashregisterController {
 	@RequestMapping(value = "selectAll3",method = RequestMethod.GET)
 	@ResponseBody
 	public List<Cashregister> selectAll3(
-			Integer shopid,//店铺
+			String shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
 			String selectqb//查找
@@ -468,7 +474,7 @@ public class CashregisterController {
 	@RequestMapping(value = "selectAll4",method = RequestMethod.GET)
 	@ResponseBody
 	public List<Cashregister> selectAll4(
-			Integer shopid,//店铺
+			String shopid,//店铺
 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
 			String selectqb,//查找

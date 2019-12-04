@@ -804,7 +804,7 @@
 				var bt = $(".bt").html();
 				var index=bt.lastIndexOf("：");
 				bt=bt.substring(index+1,bt.length);
-				
+				var list=[] 
 				
 				
 				var memberid = $("#VIPbutton44").val();
@@ -814,14 +814,16 @@
 				}else{
 					if(memberid != 0 || memberid != "0"){
 						alert("进入会员结账");
-						var list=[] 	
 
 						var count2 = 0;
 						for(var l=0;l<register.list.length;l++){
 							count2 += register.list[l].count;
 						}
 
-						var ashregisterid=getRandomCode(11);
+						var ashregisterid=$(".bt").html();
+						var index = ashregisterid .lastIndexOf("：");
+						ashregisterid =ashregisterid .substring(index+1,ashregisterid.length);
+						alert(ashregisterid);
 						
 						register.ashregisterid = ashregisterid;
 						register.count = count2;
@@ -842,9 +844,6 @@
 								var mn = parseFloat(result.price)-parseFloat(register.moneyamt);
 								if(mn>0){
 									y++;									
-									$(".wuyu").html("");	//清除所有表单
-									register.list=[];
-									totalCost2=0;
 								}else{
 									alert("余额不足！");
 								}
@@ -889,6 +888,7 @@
 													data:"memberid="+memberid,
 													success:function(result3){
 														var moneylv = parseFloat(result3);//某会员消费所有金额
+														alert("消费所有金额："+moneylv);
 														if(moneylv>0){
 															$.ajax({	//查询会员当前等级
 																url:"[[@{/MemberController/selectByPrimaryKey222}]]",
@@ -898,7 +898,7 @@
 																data:"memberid="+memberid,
 																success:function(result4){
 																	var startmoney = parseFloat(result4.lv.moneylv);
-																	alert(startmoney);
+																	alert("目前会员消费标准："+startmoney);
 																	$.ajax({	//查询会员当前等级
 																		url:"[[@{/MemberlvController/queryByMemberlvMoney}]]",
 																		type:"get",
@@ -906,7 +906,7 @@
 																		async:false,
 																		data:"moneylv="+moneylv+"&startmoney="+startmoney,
 																		success:function(result5){
-																			alert(result5.memberlvid);
+																			alert("会员消费后的会员等级："+result5.memberlvid);
 																			var memberlvid = result5.memberlvid;
 																			$.ajax({	//修改会员当前等级
 																				url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
@@ -915,17 +915,33 @@
 																				async:false,
 																				data:"memberid="+memberid+"&memberlvid="+memberlvid,
 																				success:function(result6){
-																					if(result6.code=="1"){
-																						$.ajax({
-																							url:"[[@{/CashregisterController/insertCashregister3}]]",
-																							type:"post",
+																					if(result6.code=="1"){																						$.ajax({
+																							url:"[[@{/CashregisterController/deleteZByX}]]",
+																							type:"get",
 																							async:false,
-																							contentType:"application/json",
-																							data:JSON.stringify(register),
-																							success:function(result7){
-																								alert(result7.message);
+																							jdbcType:"json",
+																							data:"ashregisterid="+ashregisterid,
+																							success:function(result8){
+																								if(result8.code=="1"){
+																									$.ajax({
+																										url:"[[@{/CashregisterController/insertCashregister3}]]",
+																										type:"post",
+																										async:false,
+																										contentType:"application/json",
+																										data:JSON.stringify(register),
+																										success:function(result9){
+																											alert(result9.message);
+																											$(".wuyu").html("");	//清除所有表单
+																											register.list=[];
+																											totalCost2=0;
+																										}
+																									});
+																								}else{
+																									alert(result8.message);
+																								}
 																							}
 																						});
+						
 																					}else{
 																						alert("结账失败");
 																					}
@@ -945,6 +961,9 @@
 																data:JSON.stringify(register),
 																success:function(result7){
 																	alert(result7.message);
+																	$(".wuyu").html("");	//清除所有表单
+																	register.list=[];
+																	totalCost2=0;
 																}
 															});
 														}
@@ -963,34 +982,50 @@
 						
 					}else{
 						alert("进入普通用户结账");
-						var list=[] 	
 						var count2 = 0;
 						for(var l=0;l<register.list.length;l++){
 							count2 += register.list[l].count;
 						}
 
-						
-						var ashregisterid=$(".bt").val();
-						
+						alert("详情商品总数："+count2);
+						var ashregisterid=$(".bt").html();
+						var index = ashregisterid .lastIndexOf("：");
+						ashregisterid =ashregisterid .substring(index+1,ashregisterid.length);
+						alert(ashregisterid);
 						register.ashregisterid = ashregisterid;
 						register.count = count2;
 						register.ispresent = 1;
 						register.memberid = $("#VIPbutton44").val();
 						
-						$.ajax({
-							url:"[[@{/CashregisterController/insertCashregister4}]]",
-							type:"post",
-							async:false,
-							contentType:"application/json",
-							data:JSON.stringify(register),
-							success:function(result){
-								alert(result.message);
-							}
-						});
 						
-						$(".wuyu").html("");	//清除所有表单
-						register.list=[];
-						totalCost2=0;
+						$.ajax({
+							url:"[[@{/CashregisterController/deleteZByX}]]",
+							type:"get",
+							async:false,
+							jdbcType:"json",
+							data:"ashregisterid="+ashregisterid,
+							success:function(result){
+								if(result.code=="1"){
+									console.info(register.list);
+									console.info(register);
+									$.ajax({
+										url:"[[@{/CashregisterController/insertCashregister4}]]",
+										type:"post",
+										async:false,
+										contentType:"application/json",
+										data:JSON.stringify(register),
+										success:function(result2){
+											alert(result2.message);
+											$(".wuyu").html("");	//清除所有表单
+											register.list=[];
+											totalCost2=0;
+										}
+									});
+								}else{
+									alert(result.message);
+								}
+							}
+						});					
 					}
 				}
 			});
@@ -1399,17 +1434,18 @@
 														commoditydetail:commoditydetail
 												};
 												list.push(cashregisterdetail);
+												register = {
+														ashregisterid:result88.ashregisterid,
+														shopid:result88.shopid,
+														count:result88.count,
+														moneyamt:result88.moneyamt,
+														memberid:0,
+														cashregistername:result88.cashregistername,
+														ispresent:result88.ispresent,
+														list:list
+												}
 											}
-											register = {
-													ashregisterid:result88.ashregisterid,
-													shopid:result88.shopid,
-													count:result88.count,
-													moneyamt:result88.moneyamt,
-													memberid:0,
-													cashregistername:result88.cashregistername,
-													ispresent:result88.ispresent,
-													list:list
-											}
+											console.info(list);
 											console.info(register);
 											$("[name=pp1]").val(result88.moneyamt);
 											$(".bt").html("订单号："+result88.ashregisterid);

@@ -89,7 +89,7 @@ public class CashregisterService {
     
     
     public List<Cashregister> selectAll2(
-    		Integer shopid,//店铺
+    		String shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
 			String selectqb//查找
@@ -102,7 +102,7 @@ public class CashregisterService {
     }
     	
     public List<Cashregister> selectAll3(
-    		Integer shopid,//店铺
+    		String shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
 			String selectqb//查找
@@ -136,7 +136,7 @@ public class CashregisterService {
     
     
     public List<Cashregister> selectAll4(
-    		Integer shopid,//店铺
+    		String shopid,//店铺
     		@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
     		@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
     		String selectqb,//查找

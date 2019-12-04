@@ -64,19 +64,19 @@
                 <a href="javascript:;" class="search-btn"></a>
             </div>
 			<div class="list">
-                <select name="" id="shopid" class="form-control">
+                <select name="" id="shopid" class="form-control" th:onchange="selectAll()">
                    <option	 value="">全部店铺</option>
                 </select>
             </div>
 
             <div class="list">
-                <input type="date" class="form-control"  id="newtime" >
+                <input type="date" class="form-control"  id="newtime" th:onchange="selectAll()">
             </div>
             <div class="list">
                 -
             </div>
             <div class="list">
-                <input type="date" class="form-control" id="oldtime" >
+                <input type="date" class="form-control" id="oldtime" th:onchange="selectAll()">
             </div>
         
         </div>
@@ -310,7 +310,7 @@
                  	var selectqb=$('#selectqb').val();//查找
                		//alert(shopid+"-"+oldtime+"-"+newtime+"-"+selectqb)
                 	$('#mytable').bootstrapTable('refresh', {
-                		url : '[[@{/BillController/selectAll2}]]'
+                		url : '[[@{/CashregisterController/selectAll2}]]'
                 	});
                 }
 
