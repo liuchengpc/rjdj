@@ -21,6 +21,9 @@ public interface RoleprivilegeMapper {
 
     Roleprivilege selectByPrimaryKey(Integer roleprivilegeid);
     
+
+    List<Roleprivilege> selectByroleid(Integer roleid);
+    
     @Select("select * from Roleprivilege")
     List<Roleprivilege> selectAll();
 

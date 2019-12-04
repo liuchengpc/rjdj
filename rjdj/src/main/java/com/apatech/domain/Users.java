@@ -21,6 +21,8 @@ public class Users {
     private Shop shop;	//店铺对象
 
     private Role role;	//职位（角色）对象
+    
+    private String path;	//请求路径
 
 	public String getUserid() {
 		return userid;
@@ -100,6 +102,16 @@ public class Users {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	
+	
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	@Override

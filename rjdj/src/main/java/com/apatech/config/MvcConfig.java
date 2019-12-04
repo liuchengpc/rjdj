@@ -39,8 +39,70 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 	
 	@Override
 	protected void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(my).addPathPatterns("/**").excludePathPatterns("/login").addPathPatterns("/register");
+		registry.addInterceptor(my).addPathPatterns("/topage/**").excludePathPatterns("/js/**","/css/**","/images/**",
+				"/topage/login",
+				"/topage/accountindex",
+				"/topage/AddForm",
+				"/topage/uuid",
+				"/topage/page/claim/staff_Update",
+				"/topage/page/claim/showpurchase_list",
+				"/topage/page/claim/addpurchase_list",
+				"/topage/page/claim/updatepurchase_list",
+				"/topage/page/claim/users_img",
+				"/topage/page/claim/staff_Insert",
+				"/topage/page/common/body_menu6",
+				"/topage/page/claim/users_home",
+				"/topage/page/claim/shop_Insert",
+				"/topage/page/claim/shop_Query",
+				"/topage/page/claim/shop_Update",
+				"/topage/page/common/body_menu",
+				"/topage/page/claim/store_management",
+				"/topage/page/claim/position",
+				"/topage/page/claim/employee_management",
+				"/topage/page/common/body_menu2",
+				"/topage/page/claim/shop_type",
+				"/topage/page/claim/shop_managerment",
+				"/topage/shop_upload",
+				"/topage/shop_upload2",
+				"/topage/page/claim/supplier",
+				"/topage/page/claim/purchase_list",
+				"/topage/page/claim/cashRegister_Home",
+				"/topage/page/claim/privilege_Update",
+				"/topage/page/claim/privilege_Insert",
+				"/topage/page/common/body_menu4",
+				"/topage/page/claim/salesStatistics",
+				"/topage/page/claim/RevenueProfile",
+				"/topage/page/claim/PopularGoods",
+				"/topage/page/claim/PerformanceRanking",
+				"/topage/page/claim/CashierHandover",
+				"/topage/page/common/body_menu5",
+				"/topage/page/claim/member_info",
+				"/topage/page/claim/level_set",
+				"/topage/page/claim/integer_set",
+				"/topage/page/claim/recharge_deduction",
+				"/topage/page/claim/transaction_record",
+				"/topage/page/common/footer",
+				"/topage/index",
+				"/topage/NewFile",
+				"/topage/add",
+				"/topage/update",
+				"/topage/toupload");
 		super.addInterceptors(registry);
+		
+//		.addInterceptor是拦截的路径
+//		.excludePathPatterns()则是不拦的
+//	    ​.addPathPatterns("/**")： 匹配所有路径
+//	    ​.addPathPatterns("/admin/**")：匹配 /admin/ 下的所有路径
+//	    ​.addPathPatterns("/secure/*")：只匹配 /secure/user，不匹配 /secure/user/info
 	}
+	
+//	 registry.addInterceptor(new MyInterceptor()).addPathPatterns("op/**","/staff/**}","opall/**","/position/**","/model/**")
+//	        .excludePathPatterns("op/toselectBysid","/js/**","/css/**","/images/**","/staff/toselectBysid","/staff/tozjdp","/staff/tozjzw")
+//	        .excludePathPatterns("/model/toselectmodel","/position/topositionselect","/position/toselectpositionByid");
+
+
+
+
+	
 
 }

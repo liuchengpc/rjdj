@@ -1,15 +1,24 @@
 package com.apatech.interceptor;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.apatech.domain.Roleprivilege;
+import com.apatech.domain.Users;
+import com.apatech.mapper.RoleprivilegeMapper;
+
 @Component//让spring容器创建该类对象，表示其它组建
 public class MyInterceptor  implements HandlerInterceptor {
-
+	@Autowired
+	private RoleprivilegeMapper dao;//角色权限管理表
 	/***
 	 * 
 	 * 执行控制器之前执行该方法，返回false表示不执行控制器
@@ -26,7 +35,32 @@ public class MyInterceptor  implements HandlerInterceptor {
 		 * 
 		 * 登录后才能看到的
 		 */
-		return true;
+		System.out.println("preHandler");
+		HttpSession session = request.getSession();
+		Users user = (Users) session.getAttribute("user");//把对象从session中取出来
+		System.out.println("用户信息");
+		System.out.println(user.toString());
+		List<Roleprivilege> list = (List<Roleprivilege>)request.getAttribute("prem");//获取当前用户的权限id
+
+		if(list==null) {
+			System.out.println("用户角色id");
+			System.out.println(user.getRoleid());
+			list=dao.selectByroleid(user.getRoleid());//角色id查询权限
+			request.setAttribute("perm", list);
+		}
+		
+		String path = request.getRequestURI();//获取请求地址
+		boolean flag = false;
+		for(Roleprivilege m : list) {
+			System.out.println(path+"---"+m.getPath());
+			if(path.equals(m.getPath())) {
+				System.out.println("有权限.....");
+				flag = true;
+				return true;
+			}
+		}
+		System.out.println("没有权限....");
+		return flag;
 	}
 	
 	/**

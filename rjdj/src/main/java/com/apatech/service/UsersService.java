@@ -39,7 +39,6 @@ public class UsersService {
 		if(dao.deleteByPrimaryKey(user.getUserid())>0) {
 			i = dao.insertUser(user);
 		}
-		
 		return i;
 	}
 	

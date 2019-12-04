@@ -314,19 +314,6 @@ public class UsersController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 //	--------------------用户登录-----------------------
 	
 	/**
@@ -338,7 +325,7 @@ public class UsersController {
 	 */
 	@RequestMapping(value=("/login"),method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,String> login(String userName,String userPassword,String yzm,HttpSession session,HttpServletRequest request) {
+	public Map<String,String> login(String userName,String userPassword,String yzm,HttpServletRequest request) {
 		System.out.println("进入login");
 		//返回码返回值的集合
 		//返回码应该存在数据库中
@@ -377,7 +364,7 @@ public class UsersController {
 			map.put("message", "密码错误，请重试！");
 			return map;
 		}
-		
+		HttpSession session = request.getSession();
 		if (u!=null) {
 			System.out.println("登录信息:"+u.toString());
 			session.setAttribute("user",u);//把对象存放到session中
@@ -400,12 +387,13 @@ public class UsersController {
 	 */
 	@RequestMapping(value=("/loginuser"),method=RequestMethod.POST)
 	@ResponseBody
-	public Users loginuser(String userName,HttpSession session,HttpServletRequest request) {
+	public Users loginuser(String userName,HttpServletRequest request) {
 		//返回码返回值的集合
 		//返回码应该存在数据库中
 		Map<String,String> map = new HashMap<String,String>();
 		System.out.println("进入获取用户");
-		Users u = (Users) request.getSession().getAttribute("user");//把对象存放到session中
+		HttpSession session = request.getSession();
+		Users u = (Users) session.getAttribute("user");//把对象存放到session中
 		return u;
 	}
 	
