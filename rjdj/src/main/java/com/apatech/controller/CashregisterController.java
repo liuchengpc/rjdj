@@ -456,6 +456,7 @@ public class CashregisterController {
 		System.out.println(pageNum+"/"+pageSize);
     	PageInfo<Cashregister> page=dao.queryAll(pageNum, pageSize);
 		/* System.out.println(page); */
+    	
     	return page;
 	}
 }

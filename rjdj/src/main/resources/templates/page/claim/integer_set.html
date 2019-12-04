@@ -16,11 +16,11 @@
     <div class="mainarea clearfix" v-for="item in integral.list">
         <div class="user_list_main clearfix">
             <div class="user_list_body clearfix">
-                <div class="sub_title">积分设置</div>
-                <a href="javascript:;" class="btnx" style="position: relative;top: -23px;">
+                <div class="title sub_title" style="line-height: 36px;font-size: 16px;margin-top: 10px">积分设置</div>
+                <!-- <a href="javascript:;" class="btnx" style="position: relative;top: -23px;">
                     <em class="x">开启</em>
                     <em class="xx">关闭</em>
-                </a>
+                </a> -->
                <div class="integerarea">
                     <div class="list clearfix">
                         <div class="title">积分抵扣</div>
@@ -30,7 +30,8 @@
 							<!-- <input type="hidden" id="integralid" :value="item.integralid"> -->
                             <input id="integral" type="text" :value="item.integral" class="form-control" style="width: 110px;float: left;margin: 0 5px ">
                             <label >可抵扣</label>
-                            <span id="price" style="color: rgb(240, 91, 35); float: left; padding-left: 10px; padding-right: 10px; font-size: 16px; padding-top: 8px;">{{item.price}}</span>
+                            <!-- <span id="price" style="color: rgb(240, 91, 35); float: left; padding-left: 10px; padding-right: 10px; font-size: 16px; padding-top: 8px;">{{item.price}}</span> -->
+                            <input id="price" type="text" :value="item.price" class="form-control" style="width: 110px;float: left;margin: 0 5px "/>
                             <label >元</label>
                         </div>
                     </div>
@@ -73,8 +74,8 @@ var vm=new Vue({
 function update(){
 	var integralid=$("#integralid").text();
 	var integral=$("#integral").val();
-	var price=$("#price").text();
-	if(isNaN(integral)||integral<1){
+	var price=$("#price").val();
+	if(isNaN(integral)||integral<0||isNaN(price)||price<0){
 		alert("请输入正确的数字!");
 		return ;
 	}
