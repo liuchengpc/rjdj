@@ -232,10 +232,14 @@ public class CashregisterController {
 			Float f = new Float(dataTwo.getMoneyamt());
 			int d = f.intValue();
 			Member m3 = dao3.selectByPrimaryKey(dataTwo.getMemberid());
+			System.out.println("总消费金额："+dataTwo.getMoneyamt());
+			System.out.println("会员余额："+m3.getPrice());
 			System.out.println("会员ID："+dataTwo.getMemberid());
 			m2.setMemberid(dataTwo.getMemberid());
 			d = d+m3.getIntegral();
 			m2.setIntegral(d);
+			m2.setPrice(m3.getPrice()-dataTwo.getMoneyamt());
+			
 			System.out.println("积分"+d);
 			int g = dao3.updateByPrimaryKeySelective(m2);
 			if(g<0) {
