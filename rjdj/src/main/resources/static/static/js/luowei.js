@@ -2,7 +2,7 @@ function cnmd(){
 			nimabide();
 		}
 		function nimabide(){		//添加商品详情
-			alert("nimabide()")
+			//alert("nimabide()")
 			$("[name=goodskc] tbody").html("");
 			var kc=$("[name=goodkuchun]").val();
 			if(kc==""){
@@ -51,7 +51,7 @@ function cnmd(){
 		
 		
 		function jszsl(){//计算总库存
-			alert("jszsl()")
+			//alert("jszsl()")
 			//计算总数量
 			var kczs=0;
 			$(".spxqcount").each(function(){
@@ -68,7 +68,7 @@ function cnmd(){
 		})
 		
 		function niubi(){//点击编辑尺码时
-			alert("niubi()")
+			//alert("niubi()")
 			$("[name=chimaya] a").click(function(){		
 
 				if($(this).attr("name")=="noundefined"){
@@ -89,7 +89,7 @@ function cnmd(){
 			
 			
 		$("[name=colorbao] input").click(function(){	//点击颜色选框
-			alert("[name=colorbao] input.click")
+			//alert("[name=colorbao] input.click")
 			var color=$(this).next().find("span").eq(0).attr("style");
 			var colorname=$(this).next().find("span").eq(1).html();
 			var colorid=$(this).next().find("span").eq(1).attr("colorID");
@@ -135,7 +135,7 @@ function cnmd(){
 		})
 			
 			$("#addColor").click(function(){//添加颜色
-				alert("#addcolor.click")
+				//alert("#addcolor.click")
 				$("#tab_none tbody").append(`
 					<tr>
 						<td>
@@ -154,14 +154,14 @@ function cnmd(){
 				$("#tab_none").show();
 			});
 			function sc(a){//点击删除商品尺码
-				alert("sc")
+				//alert("sc")
 				var name=$(a).prev().html();
 				$(a).parent().remove();
 				nimabide();
 			}
 			
 			function enen(){//点击编辑尺码按钮
-				alert("enen")
+				//alert("enen")
 				var name=$("[name=bjcm]").html();
 				if(name=="编辑尺码"){
 					$("[name=chima]").show();
@@ -186,7 +186,7 @@ function cnmd(){
 			}
 			
 			function yichu(a){//删除颜色
-				alert("yichu")
+				//alert("yichu")
 				var tr = $(a).parent().parent();
 				var inpu=tr.find("input").eq(1).val();
 				$("[name=colorbao] input").each(function(a,b){

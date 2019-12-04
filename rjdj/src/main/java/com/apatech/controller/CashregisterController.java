@@ -432,7 +432,7 @@ public class CashregisterController {
 	@RequestMapping(value = "selectAll2",method = RequestMethod.GET)
 	@ResponseBody
 	public List<Cashregister> selectAll2(
-			Integer shopid,//店铺
+			String shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
 			String selectqb//查找
@@ -452,7 +452,7 @@ public class CashregisterController {
 	@RequestMapping(value = "selectAll3",method = RequestMethod.GET)
 	@ResponseBody
 	public List<Cashregister> selectAll3(
-			Integer shopid,//店铺
+			String shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
 			String selectqb//查找
@@ -472,7 +472,7 @@ public class CashregisterController {
 	@RequestMapping(value = "selectAll4",method = RequestMethod.GET)
 	@ResponseBody
 	public List<Cashregister> selectAll4(
-			Integer shopid,//店铺
+			String shopid,//店铺
 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
 			String selectqb,//查找
