@@ -57,11 +57,15 @@ public class CashregisterController {
 	@RequestMapping(value="/deleteZByX",method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String,String> deleteZByX(String ashregisterid){
+		System.out.println("删除的主订单号："+ashregisterid);
 		Map<String,String> map = new HashMap<String,String>();
 		int i = dao.deleteByPrimaryKey(ashregisterid);
+		System.out.println("第一次删除："+i);
 		if(i>0) {
 			String cashregisterdetailid = ashregisterid;
+			System.out.println("删除的详订单号："+cashregisterdetailid);
 			int s = dao2.deleteByid(cashregisterdetailid);
+			System.out.println("第二次删除："+s);
 			if(s>0) {
 				map.put("code", "1");
 				map.put("message", "删除成功");

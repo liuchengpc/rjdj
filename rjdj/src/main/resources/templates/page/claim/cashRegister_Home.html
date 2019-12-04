@@ -821,7 +821,10 @@
 							count2 += register.list[l].count;
 						}
 
-						var ashregisterid=getRandomCode(11);
+						var ashregisterid=$(".bt").html();
+						var index = ashregisterid .lastIndexOf("：");
+						ashregisterid =ashregisterid .substring(index+1,ashregisterid.length);
+						alert(ashregisterid);
 						
 						register.ashregisterid = ashregisterid;
 						register.count = count2;
@@ -917,15 +920,32 @@
 																				success:function(result6){
 																					if(result6.code=="1"){
 																						$.ajax({
-																							url:"[[@{/CashregisterController/insertCashregister3}]]",
-																							type:"post",
+																							url:"[[@{/CashregisterController/deleteZByX}]]",
+																							type:"get",
 																							async:false,
-																							contentType:"application/json",
-																							data:JSON.stringify(register),
-																							success:function(result7){
-																								alert(result7.message);
+																							jdbcType:"json",
+																							data:"ashregisterid="+ashregisterid,
+																							success:function(result8){
+																								if(result8.code=="1"){
+																									$.ajax({
+																										url:"[[@{/CashregisterController/insertCashregister3}]]",
+																										type:"post",
+																										async:false,
+																										contentType:"application/json",
+																										data:JSON.stringify(register),
+																										success:function(result9){
+																											alert(result9.message);
+																											$(".wuyu").html("");	//清除所有表单
+																											register.list=[];
+																											totalCost2=0;
+																										}
+																									});
+																								}else{
+																									alert(result8.message);
+																								}
 																							}
 																						});
+						
 																					}else{
 																						alert("结账失败");
 																					}
@@ -970,27 +990,41 @@
 						}
 
 						
-						var ashregisterid=$(".bt").val();
-						
+						var ashregisterid=$(".bt").html();
+						var index = ashregisterid .lastIndexOf("：");
+						ashregisterid =ashregisterid .substring(index+1,ashregisterid.length);
+						alert(ashregisterid);
 						register.ashregisterid = ashregisterid;
 						register.count = count2;
 						register.ispresent = 1;
 						register.memberid = $("#VIPbutton44").val();
 						
 						$.ajax({
-							url:"[[@{/CashregisterController/insertCashregister4}]]",
-							type:"post",
+							url:"[[@{/CashregisterController/deleteZByX}]]",
+							type:"get",
 							async:false,
-							contentType:"application/json",
-							data:JSON.stringify(register),
+							jdbcType:"json",
+							data:"ashregisterid="+ashregisterid,
 							success:function(result){
-								alert(result.message);
+								if(result.code=="1"){
+									$.ajax({
+										url:"[[@{/CashregisterController/insertCashregister4}]]",
+										type:"post",
+										async:false,
+										contentType:"application/json",
+										data:JSON.stringify(register),
+										success:function(result2){
+											alert(result2.message);
+											$(".wuyu").html("");	//清除所有表单
+											register.list=[];
+											totalCost2=0;
+										}
+									});
+								}else{
+									alert(result.message);
+								}
 							}
-						});
-						
-						$(".wuyu").html("");	//清除所有表单
-						register.list=[];
-						totalCost2=0;
+						});					
 					}
 				}
 			});
