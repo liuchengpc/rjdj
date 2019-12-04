@@ -52,7 +52,6 @@
 						dataType:"json",
 						data:"roleid="+roleID,
 						success:function(result){
-
 							for(var i = 0;i < thisLength;i++) {
 				                if (privilegeid[i].checked == true) {
 				                    str2[t] = privilegeid[i].value; //这个是获取多选框中的值
@@ -78,98 +77,10 @@
 										}else{
 											alert("修改失败");
 											window.history.go(-1);
-
-							if(result.code=="1"){
-								for(var i = 0;i < thisLength;i++) {
-					                if (privilegeid[i].checked == true) {
-					                    str2[t] = privilegeid[i].value; //这个是获取多选框中的值
-					                    t++;
-					                }
-					            }
-								console.info(str);
-								var thisLength2 = str2.length;
-								if(rolename != "" && thisLength2 != 0){
-									$.ajax({
-										url:"[[@{/RoleController/queryRole}]]",
-										type:"get",
-										async:false,
-										dataType:"json",
-										data:"rolename="+rolename,
-										success:function(result2){
-											if(result2.code=="1"){
-												$.ajax({
-													url:"[[@{/RoleController/insertRole}]]",
-													type:"post",
-													async:false,
-													dataType:"json",
-													data:"rolename="+rolename,
-													success:function(result3){
-														if(result3.code=="1"){
-															$.ajax({
-																url:"[[@{/RoleController/queryRole2}]]",
-																type:"get",
-																async:false,
-																dataType:"json",
-																data:"rolename="+rolename+"&roleid="+roleID,
-																success:function(result4){
-																	$.ajax({
-																		url:"[[@{/RoleprivilegeController/insertRoleprivilege}]]",
-																		type:"get",
-																		async:false,
-																		dataType:"json",
-																		data:{
-																			roleid:result4.roleid,
-																			str:str2
-																		},
-																		success:function(result5){
-																			if(result5.code=="1"){
-																				alert("修改成功");
-																				
-																				
-																				/* 获取当前用户 */
-																				$.ajax({
-																					url:"[[@{/UsersController/loginuser}]]",
-																					type:"post",
-																					data:"",
-																					dataType:"json",
-																					success:function(res){
-																						if(res==null){
-																							window.sessionStorage.setItem("user",null);
-																							window.top.location.href="[[@{/topage/index}]]";
-																						}else{
-																							window.sessionStorage.setItem("user",JSON.stringify(res));//将用户信息保存到js中的session中
-																						}
-																						
-																					}
-																				}) 
-																				/* 获取当前用户 */
-																				
-																				window.history.go(-1);
-																			}else{
-																				alert("修改失败");
-																				window.history.go(-1);
-																			}
-																			
-																		}
-																	});
-																}
-															});
-								
-														}else{
-															
-														}
-													}
-												});	
-												
-											}else{
-												alert("账号已存在！");
-											}
-
 										}
 										
 									}
 								});		
-
 							}else{
 								if(rolename == ""){
 									alert("职位名称不能为空！");
@@ -186,7 +97,18 @@
 				
 				
 				
-				
+				/* 获取当前用户 */
+				 $.ajax({
+						url:"[[@{/UsersController/loginuser}]]",
+						type:"post",
+						data:"",
+						dataType:"json",
+						success:function(res){
+							console.info(res);
+							window.sessionStorage.setItem("user",JSON.stringify(res));//将用户信息保存到js中的session中
+						}
+				}) 
+				/* 获取当前用户 */
 			}
 			
 			function sc(){
@@ -240,7 +162,6 @@
 						});
 					}
 				});
-
 				$.ajax({
 					url:"[[@{/PrivilegetypeController/queryPrivilegeType}]]",
 					type:"get",
