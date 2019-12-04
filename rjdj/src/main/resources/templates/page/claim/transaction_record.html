@@ -116,8 +116,8 @@
 		
 		
 		
-		<div class="mainbody" id="sptb">
-			<table class="settable table table-striped" style="display: none;">
+		<div class="mainbody" id="sptb" style="display: none;">
+			<table class="settable table table-striped">
 				<thead>
 					<tr>
 						<th width="8%">序号</th>
@@ -128,12 +128,11 @@
 					</tr>
 				</thead>
 				<tbody v-for="(item,index) in page2.list">
-					<tr v-for="(itm) in item.list">
-						<td>{{indedx+=1}}</td>
+					<tr v-for="itm in item.list">
+						<td>{{index+1}}</td>
 						<td>{{itm.commodityname}}</td>
 						<td>{{itm.count}}</td>
 						<td>{{itm.moneyamt}}</td>
-						<td>{{itm.count}}</td>
 						<td>{{item.time}}</td>
 					</tr>
 				</tbody>
@@ -147,7 +146,6 @@
 		            <td>-</td>
 		        </tr>
 		        </tfoot> -->
-		    </table>
 			
 		    <!--分页按钮-->
 		    <div class="pagebar">
@@ -232,7 +230,7 @@
 				var PhoneOrName=$("#PhoneOrName").val();
 				var startTime=$("#startTime").val();
 				var endTime=$("#endTime").val();
-				this.getPage(this.page.lastPage,PhoneOrName,startTime,endTime);
+				this.getPage(this.page.pages,PhoneOrName,startTime,endTime);
 			},
 			firstPage:function(){
 				var PhoneOrName=$("#PhoneOrName").val();
@@ -266,7 +264,7 @@
 					success:function(result){
 						that.page = result;
 						//alert(JSON.stringify(result));
-						$("#yebi").text(result.pageNum+"/"+result.lastPage);
+						$("#yebi").text(result.pageNum+"/"+result.pages);
 					}
 				});
 			},goPage:function(){
@@ -275,7 +273,7 @@
 				var tzy=$("#tz").val();
 				var startTime=$("#startTime").val();
 				var endTime=$("#endTime").val();
-				if(tzy<1||tzy>this.page.lastPage){
+				if(tzy<1||tzy>this.page.pages){
 					alert("请输入正确的数字");
 					return ;
 				}
@@ -309,29 +307,29 @@
 			
 			
 			prePage1:function(){
-					if(this.page.prePage<1){
+					if(this.page2.prePage<1){
 						alert("没有上一页了");
 						return ;
 					}
-					this.getPage(this.page.prePage);
+					this.getPage1(this.page2.prePage);
 			},
 			nextPage1:function(){
-				if(this.page.nextPage==0){
+				if(this.page2.nextPage==0){
 					alert("没有下一页了");
 					return ;
 				}
-				this.getPage(this.page.nextPage);
+				this.getPage1(this.page2.nextPage);
 			},
 			lastPage1:function(){
-				this.getPage(this.page.lastPage);
+				this.getPage1(this.page2.pages);
 			},
 			firstPage1:function(){
-				this.getPage(this.page.firstPage);
+				this.getPage1(this.page2.firstPage);
 			},
 			getPage1:function(pageNum){
 				var that = this;
 					$.ajax({
-					url:"[[@{/CashregisterController/selectByAllpage}]]",
+					url:"[[@{/CashregisterController/queryAll}]]",
 					type:"get",
 					dataType:"json",
 					data:{
@@ -339,25 +337,22 @@
 						pageSize:1
 					},
 					success:function(result){
-						that.page = result;
+						that.page2 = result;
 						//alert(JSON.stringify(result));
-						$("#yebi").text(result.pageNum+"/"+result.lastPage);
+						$("#yebi1").text(result.pageNum+"/"+result.pages);
 					}
 				});
-			},goPage:function(){
-				
-				var PhoneOrName=$("#PhoneOrName").val();
-				var tzy=$("#tz").val();
-				var startTime=$("#startTime").val();
-				var endTime=$("#endTime").val();
-				if(tzy<1||tzy>this.page.lastPage){
+			},goPage1:function(){
+				var tzy=$("#tz1").val();
+				if(tzy<1||tzy>this.page2.pages){
 					alert("请输入正确的数字");
 					return ;
 				}
-				this.getPage(tzy,PhoneOrName,startTime,endTime);
-			}/*
+				this.getPage1(tzy);
+			}
 		},
 		created:function(){
+			this.getPage1(1);
 			this.getPage(1,"","","");
 		}
 	});
@@ -369,16 +364,7 @@
 		$("#ddtb").hide();
 		$("#sptb").show();
 	}
-	function queryspAll(){
-		$.ajax({
-			url:"[[@{}]]",
-			dataType:"json",
-			type:"get",
-			success:function(res){
-				
-			}
-		});
-	}
+	
 </script>
 </body>
 </html>

@@ -66,6 +66,19 @@ public class Cashregister {
 	
 
 	
+	@Override
+	public String toString() {
+		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", count=" + count + ", moneyamt="
+				+ moneyamt + ", cashregistername=" + cashregistername + ", ispresent=" + ispresent + ", list=" + list
+				+ ", member=" + member + ", memberlv=" + memberlv + ", cashregisterdetailid=" + cashregisterdetailid
+				+ ", cashregisterid=" + cashregisterid + ", commodityname=" + commodityname + ", commoditydetailid="
+				+ commoditydetailid + ", specifications=" + specifications + ", price=" + price + ", sbtotal=" + sbtotal
+				+ ", xbcount=" + xbcount + ", zhekou=" + zhekou + ", xbmoneyamt=" + xbmoneyamt + ", memberid="
+				+ memberid + ", name=" + name + ", hyprice=" + hyprice + ", shopid=" + shopid + ", shopname=" + shopname
+				+ ", commodityimg=" + commodityimg + ", spname=" + spname + ", stockcount=" + stockcount
+				+ ", spsccount=" + spsccount + ", spsccprice=" + spsccprice + ", commoditysize=" + commoditysize
+				+ ", color=" + color + ", dds=" + dds + ", xsje=" + xsje + ", cz=" + cz + "]";
+	}
 	public Cashregister(String ashregisterid, Date time, Integer count, Float moneyamt, String cashregistername,
 			Integer ispresent, List<Cashregisterdetail> list, Member member, Memberlv memberlv,
 			String cashregisterdetailid, String cashregisterid, String commodityname, String commoditydetailid,

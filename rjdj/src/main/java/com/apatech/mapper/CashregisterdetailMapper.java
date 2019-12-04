@@ -20,7 +20,12 @@ public interface CashregisterdetailMapper {
 
     Cashregisterdetail selectByPrimaryKey(Integer cashregisterdetailid);
     
-    List<Cashregisterdetail> selectByPrimaryKey1(Integer cashregisterdetailid);
+    /**
+     * 主详详查询
+     * @param cashregisterdetailid
+     * @return
+     */
+    List<Cashregisterdetail> selectByCashregisterId(String cashregisterid);
     /**
      * 根据订单主表id查询
      * @return

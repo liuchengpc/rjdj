@@ -1,6 +1,5 @@
 package com.apatech.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.apatech.domain.Cashregister;
 import com.apatech.domain.Cashregisterdetail;
-import com.apatech.domain.Commodity;
-import com.apatech.domain.Detail;
+import com.apatech.domain.Commoditydetail;
 import com.apatech.domain.Recharge;
 import com.apatech.mapper.CashregisterMapper;
 import com.apatech.mapper.CashregisterdetailMapper;
-import com.apatech.mapper.RechargeMapper;
+import com.apatech.mapper.CommoditydetailMapper;
 import com.apatech.mapper.MemberMapper;
+import com.apatech.mapper.RechargeMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -33,6 +32,8 @@ public class CashregisterService {
 	private RechargeMapper dao3;
 	@Autowired 
 	private MemberMapper mdao;
+	@Autowired
+	private CommoditydetailMapper cddao;
 
 	public List<Cashregister> queryByGd(){
 
@@ -157,14 +158,25 @@ public class CashregisterService {
     /**
      * 主详详查询
      */
-	/*
-	 * public PageInfo<Cashregister> queryAll(Integer pageNum,Integer pageSize){
-	 * Page<Cashregister> page = PageHelper.startPage(pageNum, pageSize);
-	 * List<Cashregister> list=dao.selectAll(); for (Cashregister cashregister :
-	 * list) { List<Cashregisterdetail>
-	 * l=dao2.selectByPrimaryKey1(cashregister.get); cashregister.setList(); }
-	 * return page.toPageInfo(); }
-	 */
+	
+	  public PageInfo<Cashregister> queryAll(Integer pageNum,Integer pageSize){
+		  Page<Cashregister> page = PageHelper.startPage(pageNum, pageSize);
+		  List<Cashregister> list=dao.selectAll(); 
+		  
+		  for(Cashregister cashregister :list) { 
+			/*
+			 * System.out.println("对象cashregister"+cashregister);
+			 */			  
+			  List<Cashregisterdetail>l=dao2.selectByCashregisterId(cashregister.getAshregisterid());
+			  for (Cashregisterdetail cashregisterdetail : l) {
+				  Commoditydetail cd=cddao.selectByPrimaryKey(cashregisterdetail.getCommoditydetailid());
+				  cashregisterdetail.setCommodityname(cd.getName());
+			  }
+			  cashregister.setList(l); 
+		  }
+		  return page.toPageInfo(); 
+	  }
+	 
     /**
      * 多条件分页查询
      * @param pageNum

@@ -60,5 +60,12 @@ public class MemberlvService {
     public int updateByPrimaryKey(Memberlv record) {
     	return dao.updateByPrimaryKey(record);
     }
+    
+    /**
+     * 按名称查询等级
+     */
+    public Memberlv queryAllByMemberlvName(String memberlvname) {
+    	return dao.queryAllByMemberlvName(memberlvname);
+    }
 
 }

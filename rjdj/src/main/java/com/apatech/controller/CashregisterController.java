@@ -333,8 +333,8 @@ public class CashregisterController {
 	public PageInfo<Cashregister> queryAll(Integer pageNum,Integer pageSize){
 		System.out.println("进入主详详查询");
 		System.out.println(pageNum+"/"+pageSize);
-    	PageInfo<Cashregister> page=dao.selectAllpage(pageNum, pageSize);
-    	
+    	PageInfo<Cashregister> page=dao.queryAll(pageNum, pageSize);
+		/* System.out.println(page); */
     	return page;
 	}
 }

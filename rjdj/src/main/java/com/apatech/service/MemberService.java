@@ -68,11 +68,19 @@ public class MemberService {
     	return page;
     }
     
+    public List<Member> queryAll(){
+    	return dao.queryAll();
+    }
+    
     public PageInfo<Member> queryAllBypage(Integer pageNum,Integer pageSize,Integer lvid,String PhoneOrName){
     	PageHelper.startPage(pageNum, pageSize);
     	List<Member> list=dao.queryAllBy(lvid,PhoneOrName);
     	PageInfo<Member> page=new PageInfo<Member>(list);
     	return page;
+    }
+    
+    public List<Member> queryAllBy(Integer lvid,String PhoneOrName){
+    	return dao.queryAllBy(lvid, PhoneOrName);
     }
     
     public Member queryAllByPhone(String PhoneOrName){

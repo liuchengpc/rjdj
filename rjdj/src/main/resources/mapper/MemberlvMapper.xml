@@ -82,4 +82,9 @@
       moneyLv = #{moneylv,jdbcType=REAL}
     where memberLvID = #{memberlvid,jdbcType=INTEGER}
   </update>
+  <select id="queryAllByMemberlvName" resultType="com.apatech.domain.Memberlv" parameterType="String">
+	SELECT * 
+	FROM `memberlv`
+	WHERE `name`=#{0}
+  </select>
 </mapper>
