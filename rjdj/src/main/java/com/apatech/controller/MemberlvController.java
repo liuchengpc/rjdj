@@ -21,6 +21,14 @@ import com.github.pagehelper.PageInfo;
 public class MemberlvController {
 	@Autowired
 	private MemberlvService dao;	
+	
+	@RequestMapping(value="/queryByMemberlvMoney",method=RequestMethod.GET)
+	@ResponseBody
+	public Memberlv queryByMemberlvMoney(Memberlv record) {
+		
+		return dao.queryByMemberlvMoney(record);
+	}
+	
 	/**
 	 * 查询全部
 	 * @param model

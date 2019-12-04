@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Integral;
 
 public interface IntegralMapper {
+	Integral queryByIntegral();
+	
     int deleteByPrimaryKey(Integer integralid);
 
     int insert(Integral record);

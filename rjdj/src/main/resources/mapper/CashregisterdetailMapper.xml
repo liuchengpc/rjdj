@@ -46,6 +46,10 @@
     delete from cashregisterdetail
     where CashRegisterDetailID = #{cashregisterdetailid,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByid" parameterType="java.lang.String">
+  	delete from cashregisterdetail 
+    where cashRegisterID = #{cashregisterid,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.apatech.domain.Cashregisterdetail">
     insert into cashregisterdetail (CashRegisterDetailID, cashRegisterID, 
       commodityName, commodityDetailID, specifications, 

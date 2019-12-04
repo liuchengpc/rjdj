@@ -613,7 +613,7 @@
 						  	</tr> -->
 						  </tbody>
 						</table>
-						<div class="form-group col-md-6" style="position: absolute;top:80%;left:1%;">
+						<div class="form-group col-md-6" style="position: absolute;top:75%;left:1%;">
 						    <div class="input-group">
 						      <div class="input-group-addon">$</div>
 						      <input type="text" name="pp1" class="form-control total" id="" placeholder="" readonly="readonly">
@@ -621,14 +621,14 @@
 						    </div>
 					    </div>
 						
-						<div class="form-group col-md-6" style="position: absolute;top:87%;left:1%;">
+						<div class="form-group col-md-6" style="position: absolute;top:82%;left:1%;">
 						    <div class="input-group">
 						      <div class="input-group-addon">$</div>
 						      <input type="text" name="pp2" class="form-control total" id="" placeholder="" readonly="readonly">
 						      <div class="input-group-addon">会员价</div>
 						    </div>
 					    </div>
-					     <div class="form-group col-md-6" style="position: absolute;top:80%;left:49%;">
+					     <div class="form-group col-md-6" style="position: absolute;top:75%;left:49%;">
 						    <div class="input-group">
 						      <div class="input-group-addon">$</div>
 						      <input type="text" name="pp3" class="form-control total" id="" placeholder="" readonly="readonly">
@@ -636,12 +636,17 @@
 						    </div>
 					    </div>
 					    
-					    <div class="form-group col-md-6" style="position: absolute;top:87%;left:49%;">
+					    <div class="form-group col-md-6" style="position: absolute;top:82%;left:49%;">
 						    <div class="input-group">
 						      <div class="input-group-addon">%</div>
 						      <input type="text" name="pp4" class="form-control total" id="" placeholder="" readonly="readonly">
 						      <div class="input-group-addon">会员折扣</div>
 						    </div>
+					    </div>
+					    <div style="position:absolute;left:80px;top:450px;">
+					    	<button id="qx2" type="button" class="btn btn-default" style="width:100px;">取消</button>
+						    <button id="sc2" type="button" class="btn btn-danger" style="width:100px;">删除</button>
+						    <button id="jz2" type="button" class="btn btn-info" style="width:100px;">结账</button>
 					    </div>
                     </li>
                 </ul>
@@ -782,6 +787,9 @@
 			sca();
 			ash();
 			jz();
+			qx2();
+			sc2();
+			jz2();
 		});
 		
 		
@@ -790,6 +798,214 @@
 		
 		var zhekou = 100;
 			
+		
+		function jz2(){
+			$("#jz2").click(function(){
+				var bt = $(".bt").html();
+				var index=bt.lastIndexOf("：");
+				bt=bt.substring(index+1,bt.length);
+				
+				$.ajax({	//根据订单号删除挂单
+					url:"[[@{/CashregisterController/deleteZByX}]]",
+					type:"get",
+					dataType:"json",
+					async:false,
+					data:"ashregisterid="+bt,
+					success:function(result){
+						
+					}
+				});
+				
+				
+				var memberid = $("#VIPbutton44").val();
+				alert("memberid="+memberid);
+				if(register==""){
+					alert("收银表为空！");
+				}else{
+					if(memberid != 0 || memberid != "0"){
+						alert("进入会员结账");
+						var list=[] 	
+
+						var count2 = 0;
+						for(var l=0;l<register.list.length;l++){
+							count2 += register.list[l].count;
+						}
+
+						var ashregisterid=getRandomCode(11);
+						
+						register.ashregisterid = ashregisterid;
+						register.count = count2;
+						register.ispresent = 1;
+						register.memberid = $("#VIPbutton44").val();						
+						
+						var y = 0;
+						var memberid = $("#VIPbutton44").val();
+						
+						$.ajax({	//查询会员卡余额是否充足
+							url:"[[@{/MemberController/selectByPrimaryKey}]]",
+							type:"get",
+							dataType:"json",
+							async:false,
+							data:"memberid="+memberid,
+							success:function(result){
+								alert(result.price);
+								var mn = parseFloat(result.price)-parseFloat(register.moneyamt);
+								if(mn>0){
+									y++;									
+									$(".wuyu").html("");	//清除所有表单
+									register.list=[];
+									totalCost2=0;
+								}else{
+									alert("余额不足！");
+								}
+							}
+						});
+						
+						
+						if(y>0){	//余额充足后，查询积分抵扣
+							var integral2 = $("[name=pp3]").val();
+							$.ajax({	//查询会员卡余额是否充足
+								url:"[[@{/IntegralController/queryByIntegral}]]",
+								type:"get",
+								dataType:"json",
+								async:false,
+								success:function(result){
+									var integral3 = parseInt(result.integral);
+									var price2 = parseFloat(result.price);
+									
+									var integral = parseInt(parseInt(integral2)/integral3);
+									//可以抵扣的钱
+									var price = integral*price2;
+									alert("可抵扣的钱："+price);
+									//剩余积分
+									var integral = parseInt(parseInt(integral2)%integral3);
+									alert("剩余积分："+integral);
+									
+									register.moneyamt -= price;
+									
+									$.ajax({	//修改会员积分
+										url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
+										type:"post",
+										dataType:"json",
+										async:false,
+										data:"memberid="+memberid+"&integral="+integral,
+										success:function(result2){
+											if(result2.code == "1"){
+												$.ajax({	//查询会员所有消费金额
+													url:"[[@{/CashregisterController/queryByMemberID}]]",
+													type:"get",
+													dataType:"json",
+													async:false,
+													data:"memberid="+memberid,
+													success:function(result3){
+														var moneylv = parseFloat(result3);//某会员消费所有金额
+														if(moneylv>0){
+															$.ajax({	//查询会员当前等级
+																url:"[[@{/MemberController/selectByPrimaryKey222}]]",
+																type:"get",
+																dataType:"json",
+																async:false,
+																data:"memberid="+memberid,
+																success:function(result4){
+																	var startmoney = parseFloat(result4.lv.moneylv);
+																	alert(startmoney);
+																	$.ajax({	//查询会员当前等级
+																		url:"[[@{/MemberlvController/queryByMemberlvMoney}]]",
+																		type:"get",
+																		dataType:"json",
+																		async:false,
+																		data:"moneylv="+moneylv+"&startmoney="+startmoney,
+																		success:function(result5){
+																			var memberlvid = result5.memberlvid;
+																			$.ajax({	//修改会员当前等级
+																				url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
+																				type:"post",
+																				dataType:"json",
+																				async:false,
+																				data:"memberid="+memberid+"&memberlvid="+memberlvid,
+																				success:function(result6){
+																					if(result6.code=="1"){
+																						$.ajax({
+																							url:"[[@{/CashregisterController/insertCashregister3}]]",
+																							type:"post",
+																							async:false,
+																							contentType:"application/json",
+																							data:JSON.stringify(register),
+																							success:function(result7){
+																								alert(result7.message);
+																							}
+																						});
+																					}else{
+																						alert("结账失败");
+																					}
+																				}
+																			});
+																		}
+																	});
+																}
+															});
+															
+														}else{
+															$.ajax({
+																url:"[[@{/CashregisterController/insertCashregister3}]]",
+																type:"post",
+																async:false,
+																contentType:"application/json",
+																data:JSON.stringify(register),
+																success:function(result7){
+																	alert(result7.message);
+																}
+															});
+														}
+													}
+												});
+											}else{
+												alert("结账失败");
+											}
+										}
+									});
+								}
+							});
+						}else{
+							
+						}
+						
+					}else{
+						alert("进入普通用户结账");
+						var list=[] 	
+						var count2 = 0;
+						for(var l=0;l<register.list.length;l++){
+							count2 += register.list[l].count;
+						}
+
+						
+						var ashregisterid=getRandomCode(11);
+						
+						register.ashregisterid = ashregisterid;
+						register.count = count2;
+						register.ispresent = 1;
+						register.memberid = $("#VIPbutton44").val();
+						
+						$.ajax({
+							url:"[[@{/CashregisterController/insertCashregister3}]]",
+							type:"post",
+							async:false,
+							contentType:"application/json",
+							data:JSON.stringify(register),
+							success:function(result){
+								alert(result.message);
+							}
+						});
+						
+						$(".wuyu").html("");	//清除所有表单
+						register.list=[];
+						totalCost2=0;
+					}
+				}
+			});
+		}
+		
+		
 		function jz(){
 			$("#jz").click(function(){
 				alert("进来了");
@@ -842,21 +1058,139 @@
 							list:list
 						}
 						
-						$.ajax({
-							url:"[[@{/CashregisterController/}]]",
-							type:"post",
+						var y = 0;
+						var memberid = $("#VIPbutton2").val();
+						
+						$.ajax({	//查询会员卡余额是否充足
+							url:"[[@{/MemberController/selectByPrimaryKey}]]",
+							type:"get",
+							dataType:"json",
 							async:false,
-							contentType:"application/json",
-							data:JSON.stringify(dataTwo),
+							data:"memberid="+memberid,
 							success:function(result){
-								alert(result.message);
+								alert(result.price);
+								var mn = parseFloat(result.price)-parseFloat(dataTwo.moneyamt);
+								if(mn>0){
+									y++;									
+									$(".datagrid-row").html("");	//清除所有表单
+									data.rows=[];
+									data.total=0;
+									totalCost=0;
+								}else{
+									alert("余额不足！");
+								}
 							}
 						});
 						
-						$(".datagrid-row").html("");	//清除所有表单
-						data.rows=[];
-						data.total=0;
-						totalCost=0;
+						
+						if(y>0){	//余额充足后，查询积分抵扣
+							var integral2 = $("[name=tt3]").val();
+							$.ajax({	//查询会员卡余额是否充足
+								url:"[[@{/IntegralController/queryByIntegral}]]",
+								type:"get",
+								dataType:"json",
+								async:false,
+								success:function(result){
+									var integral3 = parseInt(result.integral);
+									var price2 = parseFloat(result.price);
+									
+									var integral = parseInt(parseInt(integral2)/integral3);
+									//可以抵扣的钱
+									var price = integral*price2;
+									alert("可抵扣的钱："+price);
+									//剩余积分
+									var integral = parseInt(parseInt(integral2)%integral3);
+									alert("剩余积分："+integral);
+									
+									dataTwo.moneyamt -= price;
+									
+									$.ajax({	//修改会员积分
+										url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
+										type:"post",
+										dataType:"json",
+										async:false,
+										data:"memberid="+memberid+"&integral="+integral,
+										success:function(result2){
+											if(result2.code == "1"){
+												$.ajax({	//查询会员所有消费金额
+													url:"[[@{/CashregisterController/queryByMemberID}]]",
+													type:"get",
+													dataType:"json",
+													async:false,
+													data:"memberid="+memberid,
+													success:function(result3){
+														var moneylv = parseFloat(result3);//某会员消费所有金额
+														if(moneylv>0){
+															$.ajax({	//查询会员当前等级
+																url:"[[@{/MemberController/selectByPrimaryKey222}]]",
+																type:"get",
+																dataType:"json",
+																async:false,
+																data:"memberid="+memberid,
+																success:function(result4){
+																	var startmoney = parseFloat(result4.lv.moneylv);
+																	alert(startmoney);
+																	$.ajax({	//查询会员当前等级
+																		url:"[[@{/MemberlvController/queryByMemberlvMoney}]]",
+																		type:"get",
+																		dataType:"json",
+																		async:false,
+																		data:"moneylv="+moneylv+"&startmoney="+startmoney,
+																		success:function(result5){
+																			var memberlvid = result5.memberlvid;
+																			$.ajax({	//修改会员当前等级
+																				url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
+																				type:"post",
+																				dataType:"json",
+																				async:false,
+																				data:"memberid="+memberid+"&memberlvid="+memberlvid,
+																				success:function(result6){
+																					if(result6.code=="1"){
+																						$.ajax({
+																							url:"[[@{/CashregisterController/insertCashregister3}]]",
+																							type:"post",
+																							async:false,
+																							contentType:"application/json",
+																							data:JSON.stringify(dataTwo),
+																							success:function(result7){
+																								alert(result7.message);
+																							}
+																						});
+																					}else{
+																						alert("结账失败");
+																					}
+																				}
+																			});
+																		}
+																	});
+																}
+															});
+															
+														}else{
+															$.ajax({
+																url:"[[@{/CashregisterController/insertCashregister3}]]",
+																type:"post",
+																async:false,
+																contentType:"application/json",
+																data:JSON.stringify(dataTwo),
+																success:function(result7){
+																	alert(result7.message);
+																}
+															});
+														}
+													}
+												});
+											}else{
+												alert("结账失败");
+											}
+										}
+									});
+								}
+							});
+						}else{
+							
+						}
+						
 					}else{
 						alert("进入普通用户结账");
 						var list=[] 	
@@ -915,6 +1249,36 @@
 						totalCost=0;
 					}
 				}
+			});
+		}
+		
+		function sc2(){
+			$("#sc2").click(function(){
+				var bt = $(".bt").html();
+				var index=bt.lastIndexOf("：");
+				bt=bt.substring(index+1,bt.length);
+				
+				$.ajax({	//根据订单号删除挂单
+					url:"[[@{/CashregisterController/deleteZByX}]]",
+					type:"get",
+					dataType:"json",
+					async:false,
+					data:"ashregisterid="+bt,
+					success:function(result){
+						if(result.code=="1"){
+							alert(result.message);
+							$("#gdTab").trigger("click");
+						}else{
+							alert(result.message);
+						}
+					}
+				});
+			});
+		}
+		
+		function qx2(){
+			$("#qx2").click(function(){
+				$("#gdTab").trigger("click");
 			});
 		}
 		

@@ -160,7 +160,7 @@ public class Cashregisterdetail {
 		this.color = color;
 		this.commoditysize = commoditysize;
 	}
-   
+	
 	public Cashregisterdetail() {
 		super();
 	}

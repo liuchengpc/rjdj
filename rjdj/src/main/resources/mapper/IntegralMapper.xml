@@ -6,6 +6,9 @@
     <result column="integral" jdbcType="REAL" property="integral" />
     <result column="price" jdbcType="REAL" property="price" />
   </resultMap>
+  <select id="queryByIntegral" parameterType="com.apatech.domain.Integral" resultMap="BaseResultMap">
+  		select * from integral
+  </select>
   <sql id="Base_Column_List">
     integralID, integral, price
   </sql>

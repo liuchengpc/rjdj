@@ -23,6 +23,7 @@ import com.apatech.domain.Cashregister;
 import com.apatech.domain.Cashregisterdetail;
 import com.apatech.domain.Commodity;
 import com.apatech.domain.Commoditydetail;
+import com.apatech.domain.Member;
 import com.apatech.service.CashregisterService;
 import com.apatech.service.CashregisterdetailService;
 import com.apatech.service.CommodityService;
@@ -53,6 +54,43 @@ public class CashregisterController {
 	@Autowired
 	private CommodityService dao6;
 	
+	@RequestMapping(value="/deleteZByX",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,String> deleteZByX(String ashregisterid){
+		Map<String,String> map = new HashMap<String,String>();
+		int i = dao.deleteByPrimaryKey(ashregisterid);
+		if(i>0) {
+			String cashregisterdetailid = ashregisterid;
+			int s = dao2.deleteByid(cashregisterdetailid);
+			if(s>0) {
+				map.put("code", "1");
+				map.put("message", "删除成功");
+				return map;
+			}else {
+				map.put("code", "0");
+				map.put("message", "删除失败");
+				return map;
+			}
+		}else {
+			map.put("code", "0");
+			map.put("message", "删除失败");
+			return map;
+		}
+	}
+	
+	@RequestMapping(value="/queryByMemberID",method=RequestMethod.GET)
+	@ResponseBody
+	public Float queryByMemberID(Integer memberid){
+		System.out.println("进入查询会员所有消费");
+		Float moneyamt = Float.parseFloat("0");
+		List<Cashregister> list = dao.queryByMemberID(memberid);
+		for (Cashregister cashregister : list) {
+			moneyamt += cashregister.getMoneyamt();
+		}
+		
+		return moneyamt;
+	}
+	
 	@RequestMapping(value="/insertCashregister3",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,String> insertCashregister3(@RequestBody Cashregister dataTwo) throws ParseException {
@@ -66,6 +104,7 @@ public class CashregisterController {
 		Map<String,String> map = new HashMap<String,String>();
 		int i = dao.insertCashregister(dataTwo);
 		if(i>0) {
+			System.out.println("进来了");
 			for (Cashregisterdetail cs : dataTwo.getList()) {
 				int f = dao2.insertCashregisterDetail(cs);
 				if(f<=0) {
@@ -94,9 +133,11 @@ public class CashregisterController {
 				
 				//商品主表总库存修改
 				String productcodeid = com.getProductcodeid();
+				System.out.println("商品编号："+productcodeid);
 				Commodity co = dao6.selectByPrimaryKey(productcodeid);
 				Integer stockcount = co.getStockcount();
-				stockcount -= num;
+				stockcount -= cs.getCount();
+				System.out.println("总库存："+stockcount);
 				Commodity co2 = new Commodity();
 				co2.setStockcount(stockcount);
 				co2.setProductcodeid(productcodeid);
@@ -109,7 +150,20 @@ public class CashregisterController {
 					System.out.println("商品主表库存修改成功！");
 				}
 			}
-			
+			Member m2 = new Member();
+			Float f = new Float(dataTwo.getMoneyamt());
+			int d = f.intValue();
+			Member m3 = dao3.selectByPrimaryKey(dataTwo.getMemberid());
+			m2.setMemberid(dataTwo.getMemberid());
+			d = d+m3.getIntegral();
+			m2.setIntegral(d);
+			System.out.println("积分"+d);
+			int g = dao3.updateByPrimaryKey(m2);
+			if(g<0) {
+				map.put("code", "0");
+				map.put("message", "结账失败");
+				return map;
+			}
 			map.put("code", "1");
 			map.put("message", "结账成功！");
 			return map;

@@ -17,6 +17,11 @@ public class CashregisterdetailService {
 	@Autowired
 	private CashregisterdetailMapper dao;
 
+	public int deleteByid(String cashregisterid) {
+		
+		return dao.deleteByid(cashregisterid);
+	}
+	
 	public List<Cashregisterdetail> queryByDetail(String cashregisterid){
 		
 		return dao.queryByDetail(cashregisterid);

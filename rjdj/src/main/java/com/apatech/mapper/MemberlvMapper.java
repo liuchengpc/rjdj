@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.apatech.domain.Memberlv;
 
 public interface MemberlvMapper {
+	Memberlv queryByMemberlvMoney(Memberlv record);
+	
 	Memberlv queryMemberLvByMemberLvID(Integer memberid);
 	
     int deleteByPrimaryKey(Integer memberlvid);

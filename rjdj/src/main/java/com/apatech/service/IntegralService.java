@@ -17,6 +17,11 @@ public class IntegralService {
 	@Autowired
 	private IntegralMapper dao;
 
+	public Integral queryByIntegral() {
+		
+		return dao.queryByIntegral();
+	}
+	
     public int deleteByPrimaryKey(Integer integralid) {
     	return dao.deleteByPrimaryKey(integralid);
     }
