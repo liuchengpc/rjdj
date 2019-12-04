@@ -105,16 +105,16 @@
 					</div><!-- /.modal -->
 				</div>
 				<!-- 新增模态框 -->
-				
                     <!-- <script type="text/javascript">
 						function tjhymtk(){
 							window.parent.$('#tjhymtk').modal('show');
 						}
 					</script> -->
+				
                 </div>
                 <div class="list">
-                    <a href="javascript:;" class="btn btn-default">导出会员</a>
-                    <a href="javascript:;" class="btn btn-default">批量导入</a>
+                    <a href="javascript:;" class="btn btn-default" @click="dc">导出会员</a>
+                    <a href="javascript:;" class="btn btn-default"  data-toggle="modal" data-target=".drhymtk">批量导入</a>
                 </div>
                 <div class="list search">
                     <input class="inputtext" type="text" placeholder="查找" id="PhoneOrName">
@@ -128,6 +128,32 @@
                     </select>
 
                 </div>
+				<!-- 导入模态框 -->
+				<div class="modal fade drhymtk" role="dialog" aria-labelledby="gridSystemModalLabel" id="drhymtk">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header" style="background: #F3F5F9;">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="gridSystemModalLabel">批量导入</h4>
+					      </div>
+					      <div class="modal-body">
+					        <div class="container-fluid">
+								<!-- <a class="btn btn-primary" role="button">
+									Excel导入
+								</a> -->
+								<form th:action="@{/file/excelUpload}" id="fileform" method="post" enctype="multipart/form-data">
+									<input name="file" id="file" type="file" style="display: none;" onchange="">
+									<input type="button" value="Excel导入" class="btn btn-primary" role="button" onclick="fileclk()">
+								</form>
+								<a class="btn btn-primary" role="button" href="/file/downloadMB">
+									下载范本
+								</a>
+							</div>
+					    </div><!-- /.modal-content -->
+					  </div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</div>
+				<!-- 导入模态框 -->
             </div>
 			<!-- 表格数据显示 -->
             <div class="mainbody">
@@ -352,7 +378,7 @@
  				lastPage:function(){
 					var lvid=$("#memberLvID_top").val();
 					var PhoneOrName=$("#PhoneOrName").val();
- 					this.getPage(this.page.lastPage,lvid,PhoneOrName);
+ 					this.getPage(this.page.pages,lvid,PhoneOrName);
  				},
  				firstPage:function(){
 					var lvid=$("#memberLvID_top").val();
@@ -379,7 +405,7 @@
 						success:function(result){
 							that.page = result;
 							//alert(JSON.stringify(result));
-							$("#yebi").text(result.pageNum+"/"+result.lastPage);
+							$("#yebi").text(result.pageNum+"/"+result.pages);
 						}
  	 				});
  				},getMemberLv:function(){
@@ -397,7 +423,7 @@
 					var lvid=$("#memberLvID_top").val();
 					var PhoneOrName=$("#PhoneOrName").val();
  					var tzy=$("#tz").val();
- 					if(tzy<1||tzy>this.page.lastPage){
+ 					if(tzy<1||tzy>this.page.pages){
  						alert("请输入正确的数字");
  						return ;
  					}
@@ -419,6 +445,10 @@
 					var lvid=$("#memberLvID_top").val();
 					var PhoneOrName=$("#PhoneOrName").val();
  					this.getPage(1,lvid,PhoneOrName);
+				},dc:function(){
+					var lvid=$("#memberLvID_top").val();
+					var PhoneOrName=$("#PhoneOrName").val();
+					window.location.href="[[@{/file/exportExcel}]]?lvid="+lvid+"&PhoneOrName="+PhoneOrName;
 				}
     		},
     		created:function(){
@@ -447,6 +477,23 @@
 				alert("请选择等级");
 				return ;
 			}
+			/* if(queryAllByPhone(phone)){
+				alert("手机号不能重复!请确保会员尚未存在");
+				return ;
+			} */
+			$.ajax({
+				url:"[[@{/MemberController/queryAllByPhone}]]",
+				type:"get",
+				data:"Phone="+phone,
+				dataType:"json",
+				success:function(result){
+					alert(JSON.stringify(result));
+					if(result!=null){
+						alert("手机号不能重复!请确保会员尚未存在");
+						return ;
+					}
+				}
+			});
 			var record={
 				phone:phone,
 				name:name,
@@ -459,7 +506,7 @@
 				price:0,
 				integral:0
 			}
-			alert(JSON.stringify(record));
+			/* alert(JSON.stringify(record)); */
 			 $.ajax({
 				url:"[[@{/MemberController/insertSelective}]]",
 				type:"post",
@@ -470,6 +517,22 @@
 					location.reload();
 				}
 			}); 
+		}
+		function queryAllByPhone(Phone){
+			$.ajax({
+				url:"[[@{/MemberController/queryAllByPhone}]]",
+				data:Phone,
+				dataType:"json",
+				type:"get",
+				success:function(result){
+					alert(result.list);
+					if(result.list!=null){
+						return true;
+					}else{
+						return false;
+					}
+				}
+			});
 		}
 		/* function queryBy(){
 			var lvid=$("#memberLvID_top").val();
@@ -560,6 +623,38 @@
 				"success":function(res){
 					alert(res.message);
 					location.reload();
+				}
+			});
+		}
+		
+		
+		function fileclk(){
+			$("#file").click();
+		}
+		document.getElementById("file").addEventListener("change",function () {
+			console.log("change");
+			sbmt();
+		});
+		function sbmt(){
+			//$("#fileform").submit();
+			//获取文件对象，files是文件选取控件的属性，存储的是文件选取控件选取的文件对象，类型是一个数组
+			var fileM=document.querySelector("#file");
+			var fileObj = fileM.files[0];
+			//创建formdata对象，formData用来存储表单的数据，表单数据时以键值对形式存储的。
+			var formData = new FormData();
+			formData.append('file', fileObj);
+			$.ajax({
+				url:"[[@{/file/excelUpload}]]",
+				type:"post",
+				processData:false,
+				contentType:false,
+				dataType: "json",
+				data:formData,
+				success:function(res){
+					alert(res.message);
+					if(res.code=="yes"){
+						location.reload();
+					}
 				}
 			});
 		}

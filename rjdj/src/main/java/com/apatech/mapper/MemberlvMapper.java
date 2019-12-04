@@ -23,4 +23,6 @@ public interface MemberlvMapper {
     int updateByPrimaryKeySelective(Memberlv record);
 
     int updateByPrimaryKey(Memberlv record);
+    
+    Memberlv queryAllByMemberlvName(String memberlvname);
 }

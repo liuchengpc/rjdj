@@ -63,7 +63,67 @@ public class Cashregister {
     private Integer dds;//订单数
 	private Double  xsje;//销售金额
 	private Double  cz;//充值
+
+	@Override
+	public String toString() {
+		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", count=" + count + ", moneyamt="
+				+ moneyamt + ", cashregistername=" + cashregistername + ", ispresent=" + ispresent + ", list=" + list
+				+ ", member=" + member + ", memberlv=" + memberlv + ", cashregisterdetailid=" + cashregisterdetailid
+				+ ", cashregisterid=" + cashregisterid + ", commodityname=" + commodityname + ", commoditydetailid="
+				+ commoditydetailid + ", specifications=" + specifications + ", price=" + price + ", sbtotal=" + sbtotal
+				+ ", xbcount=" + xbcount + ", zhekou=" + zhekou + ", xbmoneyamt=" + xbmoneyamt + ", memberid="
+				+ memberid + ", name=" + name + ", hyprice=" + hyprice + ", shopid=" + shopid + ", shopname=" + shopname
+				+ ", commodityimg=" + commodityimg + ", spname=" + spname + ", stockcount=" + stockcount
+				+ ", spsccount=" + spsccount + ", spsccprice=" + spsccprice + ", commoditysize=" + commoditysize
+				+ ", color=" + color + ", dds=" + dds + ", xsje=" + xsje + ", cz=" + cz + "]";
+	}
+	public Cashregister(String ashregisterid, Date time, Integer count, Float moneyamt, String cashregistername,
+			Integer ispresent, List<Cashregisterdetail> list, Member member, Memberlv memberlv,
+			String cashregisterdetailid, String cashregisterid, String commodityname, String commoditydetailid,
+			String specifications, Float price, Float sbtotal, Integer xbcount, Integer zhekou, Float xbmoneyamt,
+			Integer memberid, String name, Float hyprice, String shopid, String shopname, String commodityimg,
+			String spname, String stockcount, Integer spsccount, Double spsccprice, String commoditysize, String color,
+			Integer dds, Double xsje, Double cz) {
+		super();
+		this.ashregisterid = ashregisterid;
+		this.time = time;
+		this.count = count;
+		this.moneyamt = moneyamt;
+		this.cashregistername = cashregistername;
+		this.ispresent = ispresent;
+		this.list = list;
+		this.member = member;
+		this.memberlv = memberlv;
+		this.cashregisterdetailid = cashregisterdetailid;
+		this.cashregisterid = cashregisterid;
+		this.commodityname = commodityname;
+		this.commoditydetailid = commoditydetailid;
+		this.specifications = specifications;
+		this.price = price;
+		this.sbtotal = sbtotal;
+		this.xbcount = xbcount;
+		this.zhekou = zhekou;
+		this.xbmoneyamt = xbmoneyamt;
+		this.memberid = memberid;
+		this.name = name;
+		this.hyprice = hyprice;
+		this.shopid = shopid;
+		this.shopname = shopname;
+		this.commodityimg = commodityimg;
+		this.spname = spname;
+		this.stockcount = stockcount;
+		this.spsccount = spsccount;
+		this.spsccprice = spsccprice;
+		this.commoditysize = commoditysize;
+		this.color = color;
+		this.dds = dds;
+		this.xsje = xsje;
+		this.cz = cz;
+	}
 	
+	public Cashregister() {
+		super();
+	}
 	public String getAshregisterid() {
 		return ashregisterid;
 	}
@@ -267,66 +327,6 @@ public class Cashregister {
 	}
 	public void setCz(Double cz) {
 		this.cz = cz;
-	}
-	@Override
-	public String toString() {
-		return "Cashregister [ashregisterid=" + ashregisterid + ", time=" + time + ", count=" + count + ", moneyamt="
-				+ moneyamt + ", cashregistername=" + cashregistername + ", ispresent=" + ispresent + ", list=" + list
-				+ ", member=" + member + ", memberlv=" + memberlv + ", cashregisterdetailid=" + cashregisterdetailid
-				+ ", cashregisterid=" + cashregisterid + ", commodityname=" + commodityname + ", commoditydetailid="
-				+ commoditydetailid + ", specifications=" + specifications + ", price=" + price + ", sbtotal=" + sbtotal
-				+ ", xbcount=" + xbcount + ", zhekou=" + zhekou + ", xbmoneyamt=" + xbmoneyamt + ", memberid="
-				+ memberid + ", name=" + name + ", hyprice=" + hyprice + ", shopid=" + shopid + ", shopname=" + shopname
-				+ ", commodityimg=" + commodityimg + ", spname=" + spname + ", stockcount=" + stockcount
-				+ ", spsccount=" + spsccount + ", spsccprice=" + spsccprice + ", commoditysize=" + commoditysize
-				+ ", color=" + color + ", dds=" + dds + ", xsje=" + xsje + ", cz=" + cz + "]";
-	}
-	public Cashregister(String ashregisterid, Date time, Integer count, Float moneyamt, String cashregistername,
-			Integer ispresent, List<Cashregisterdetail> list, Member member, Memberlv memberlv,
-			String cashregisterdetailid, String cashregisterid, String commodityname, String commoditydetailid,
-			String specifications, Float price, Float sbtotal, Integer xbcount, Integer zhekou, Float xbmoneyamt,
-			Integer memberid, String name, Float hyprice, String shopid, String shopname, String commodityimg,
-			String spname, String stockcount, Integer spsccount, Double spsccprice, String commoditysize, String color,
-			Integer dds, Double xsje, Double cz) {
-		super();
-		this.ashregisterid = ashregisterid;
-		this.time = time;
-		this.count = count;
-		this.moneyamt = moneyamt;
-		this.cashregistername = cashregistername;
-		this.ispresent = ispresent;
-		this.list = list;
-		this.member = member;
-		this.memberlv = memberlv;
-		this.cashregisterdetailid = cashregisterdetailid;
-		this.cashregisterid = cashregisterid;
-		this.commodityname = commodityname;
-		this.commoditydetailid = commoditydetailid;
-		this.specifications = specifications;
-		this.price = price;
-		this.sbtotal = sbtotal;
-		this.xbcount = xbcount;
-		this.zhekou = zhekou;
-		this.xbmoneyamt = xbmoneyamt;
-		this.memberid = memberid;
-		this.name = name;
-		this.hyprice = hyprice;
-		this.shopid = shopid;
-		this.shopname = shopname;
-		this.commodityimg = commodityimg;
-		this.spname = spname;
-		this.stockcount = stockcount;
-		this.spsccount = spsccount;
-		this.spsccprice = spsccprice;
-		this.commoditysize = commoditysize;
-		this.color = color;
-		this.dds = dds;
-		this.xsje = xsje;
-		this.cz = cz;
-	}
-	
-	public Cashregister() {
-		super();
 	}
 	
 	
