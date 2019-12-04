@@ -396,6 +396,14 @@ public class UsersController {
 		Users u = (Users) session.getAttribute("user");//把对象存放到session中
 		u=dao.selectByPrimaryKey(u.getUserid());
 		session.setAttribute("user",u);//把对象存放到session中
+		
+		
+		Users user = (Users) session.getAttribute("user");//把对象从session中取出来
+		
+		System.out.println("用户信息");
+		System.out.println(user.toString());
+		
+		
 		return u;
 	}
 	
