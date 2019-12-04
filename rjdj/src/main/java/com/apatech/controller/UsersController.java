@@ -394,6 +394,8 @@ public class UsersController {
 		System.out.println("进入获取用户");
 		HttpSession session = request.getSession();
 		Users u = (Users) session.getAttribute("user");//把对象存放到session中
+		u=dao.selectByPrimaryKey(u.getUserid());
+		session.setAttribute("user",u);//把对象存放到session中
 		return u;
 	}
 	

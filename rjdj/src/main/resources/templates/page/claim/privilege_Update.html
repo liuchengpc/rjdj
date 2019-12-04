@@ -133,6 +133,23 @@
 						}
 					});
 				});
+				
+				
+				
+				
+				
+				/* 获取当前用户 */
+				 $.ajax({
+						url:"[[@{/UsersController/loginuser}]]",
+						type:"post",
+						data:"",
+						dataType:"json",
+						success:function(res){
+							console.info(res);
+							window.sessionStorage.setItem("user",JSON.stringify(res));//将用户信息保存到js中的session中
+						}
+				}) 
+				/* 获取当前用户 */
 			}
 			
 			function sc(){
