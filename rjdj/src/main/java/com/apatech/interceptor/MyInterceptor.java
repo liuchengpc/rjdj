@@ -38,7 +38,10 @@ public class MyInterceptor  implements HandlerInterceptor {
 		System.out.println("preHandler");
 		HttpSession session = request.getSession();
 		Users user = (Users) session.getAttribute("user");//把对象从session中取出来
-		
+		if (user.getRoleid()==3) {
+			System.out.println("此人是管理员！！！！！！！！！！！！");
+			return true;
+		}
 		System.out.println("用户信息");
 		System.out.println(user.toString());
 		List<Roleprivilege> list = (List<Roleprivilege>)request.getAttribute("prem");//获取当前用户的权限id

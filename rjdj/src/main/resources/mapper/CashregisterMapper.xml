@@ -169,12 +169,12 @@
           and b.shopid = #{shopid}
       </if>
       <if test="selectqb != null  and selectqb !=''">
-          and b.billid like '%${selectqb}%' 
-          OR b.deliverytime like '%${selectqb}%' 
-          OR b.suppliername like '%${selectqb}%' 
-          OR b.contacts like '%${selectqb}%' 
-          OR b.phone like '%${selectqb}%'
-          OR b.remarks like '%${selectqb}%'
+          and b.time like '%${selectqb}%' 
+          OR b.ashRegisterID like '%${selectqb}%'
+          OR c.shopname like '%${selectqb}%'
+          OR d.name like '%${selectqb}%'
+          OR b.cashregistername like '%${selectqb}%'
+          OR d.price like '%${selectqb}%'
       </if>
      <if test="oldtime!=null">
 		AND b.time &gt; #{oldtime}
@@ -197,12 +197,7 @@
           and b.shopid = #{shopid}
       </if>
       <if test="selectqb != null  and selectqb !=''">
-          and b.billid like '%${selectqb}%' 
-          OR b.deliverytime like '%${selectqb}%' 
-          OR b.suppliername like '%${selectqb}%' 
-          OR b.contacts like '%${selectqb}%' 
-          OR b.phone like '%${selectqb}%'
-          OR b.remarks like '%${selectqb}%'
+          and c.shopname like '%${selectqb}%'
       </if>
      <if test="oldtime!=null">
 		AND b.time &gt; #{oldtime}
@@ -231,12 +226,13 @@
          and f.commoditytypeid = #{commoditytypeid}
      </if>
      <if test="selectqb != null  and selectqb !=''">
-         and b.billid like '%${selectqb}%' 
-         OR b.deliverytime like '%${selectqb}%' 
-         OR b.suppliername like '%${selectqb}%' 
-         OR b.contacts like '%${selectqb}%' 
-         OR b.phone like '%${selectqb}%'
-         OR b.remarks like '%${selectqb}%'
+          and f.name like '%${selectqb}%' 
+          OR e.commodityDetailID like '%${selectqb}%'
+          OR c.shopname like '%${selectqb}%'
+          OR g.color like '%${selectqb}%'          
+          OR h.commoditysize like '%${selectqb}%'
+          OR f.price like '%${selectqb}%'
+          OR e.count like '%${selectqb}%'
      </if>
      <if test="oldtime!=null">
 		AND b.time &gt; #{oldtime}
