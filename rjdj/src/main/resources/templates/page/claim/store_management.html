@@ -105,6 +105,8 @@
 				ee();
 	    	});
 	    	
+	    	var user2 = JSON.parse(window.sessionStorage.getItem("user"));
+	    	
 	    	function ee(){
 	    		$("#ee").click(function(){
 					location.href="[[@{/topage/page/claim/shop_Insert}]]";
@@ -135,95 +137,187 @@
 	    		$("#contentTable").html("");
 				$("#ye").html("");
 	    		var a = 0;
+	    		var userid = user2.userid;
 	    		
-	    		$.ajax({
-	    			url:"[[@{/ShopController/queryByShopPage}]]",
-	    			type:"get",
-	    			async:true,
-	    			dataType:"json",
-	    			data:"pageNum="+pageNum+"&pageSize=2"+"&shopid="+shopid+"&contacts="+contacts+"&shopname="+shopname,
-	    			success:function(result){
-	    				$.each(result.list,function(i,obj){
-	    					var tr = $("<tr><td>"+(i+1)+"</td><td>"+obj.shopid+"</td><td>"+obj.shopname+"</td>");
-	    					$("#contentTable").append(tr);
-	    					$.ajax({
-	    						url:"[[@{/ShopController/queryByCount}]]",
-	    						type:"get",
-	    						dataType:"json",
-	    						data:"shopid="+obj.shopid,
-	    						success:function(result2){
-	    							var tr2 = $("<td class=\"count\">"+result2+"</td><td>"+obj.contacts+"</td><td>"+obj.phonenumber+"</td><td>"+obj.fixedtelephone+"</td><td>"+obj.address+"</td><td><a i=\""+obj.shopid+"\" class=\"squery\" href=\"javascript:;\">查看&nbsp&nbsp</a><a class=\"supdate\" i=\""+obj.shopid+"\" href=\"javascript:;\">编辑&nbsp&nbsp</a><a class=\"sdelete\" i=\""+obj.shopid+"\" href=\"javascript:;\">删除&nbsp&nbsp</a></td></tr>");
-	    							tr.append(tr2);
-	    						}
-	    					});
-	    				});
-	    				a = result.lastPage;
-	    				var tr3 = $("<div class=\"container\"><div class=\"row\"><input style=\"margin-left:350px;\" class=\"btn btn-default\" type=\"button\" id=\"home\" value=\"首页\"><input class=\"btn btn-default\" type=\"button\" id=\"prePage\" value=\"上一页\"><span id=\"oh\"></span><input class=\"btn btn-default\" type=\"button\" id=\"nextPage\" value=\"下一页\"><input class=\"btn btn-default\" type=\"button\" id=\"end\" value=\"尾页\"></div></div>");
-	    				$("#ye").append(tr3);
-	    				//页数
-	    				for(var b=1;b<=a;b++){
-	    					var li = $("<input class=\"btn btn-default\" type=\"button\" id=\"prePage\" value=\""+b+"\">");
-	    					$("#oh").append(li);
-	    				}
-	    				//首页
-	    				$("#home").click(function(){
-	    					goPage(result.firstPage);
-	    				});
-	    				//尾页
-	    				$("#end").click(function(){
-	    					goPage(result.lastPage);
-	    				});
-	    				//上一页
-	    				$("#prePage").attr("pageNum",result.prePage);
-	    				//下一页
-	    				$("#nextPage").attr("pageNum",result.nextPage);
-						//上一页下一页
-	    				$("#prePage,#nextPage").click(function(){
-	    					var page = $(this).attr("pageNum");
-	    					if(result.firstPage<=page && page<=result.lastPage){
-	    						goPage(page);
-	    					}
-	    				});
-	    					    				
-	    				$("#oh .btn").click(function(){
-	    					$("#oh .btn").css("background","#fff");
-	    					$(this).css("background","#87CEEB");
-	    					var page = $(this).val();
-	    					goPage(page);
-	    				});
-	    				$("#oh .btn:eq("+(pageNum-1)+")").css("background","#87CEEB");  			
-  				
-	    				$(".squery").live("click",function(){
-	    					var shopid = $(this).attr("i");
-	    					window.sessionStorage.setItem("shopid",JSON.stringify(shopid));
-	    					location.href="[[@{/topage/page/claim/shop_Query}]]";
-	    				});
-	    				
-	    				$(".supdate").live("click",function(){
-	    					var shopid = $(this).attr("i");
-	    					window.sessionStorage.setItem("shopid",JSON.stringify(shopid));
-	    					location.href="[[@{/topage/page/claim/shop_Update}]]";
-	    				});
-	    				
-	    				$(".sdelete").live("click",function(){
-	    					var shopid = $(this).attr("i");
-	    					$.ajax({
-	    						url:"[[@{/ShopController/deleteByPrimaryKey}]]",
-	    						type:"get",
-	    						dataType:"json",
-	    						data:"shopid="+shopid,
-	    						success:function(result6){
-	    							if(result6.code=="1"){
-	    								alert("删除成功！");
-	    								goPage(1);
-	    							}else{
-	    								
-	    							}
-	    						}
-	    					});
-	    				});
-	    			}
-	    		});
+	    		if(userid=="admin"){
+	    			$.ajax({
+		    			url:"[[@{/ShopController/queryByShopPage}]]",
+		    			type:"get",
+		    			async:true,
+		    			dataType:"json",
+		    			data:"pageNum="+pageNum+"&pageSize=2"+"&shopid="+shopid+"&contacts="+contacts+"&shopname="+shopname,
+		    			success:function(result){
+		    				$.each(result.list,function(i,obj){
+		    					var tr = $("<tr><td>"+(i+1)+"</td><td>"+obj.shopid+"</td><td>"+obj.shopname+"</td>");
+		    					$("#contentTable").append(tr);
+		    					$.ajax({
+		    						url:"[[@{/ShopController/queryByCount}]]",
+		    						type:"get",
+		    						dataType:"json",
+		    						data:"shopid="+obj.shopid,
+		    						success:function(result2){
+		    							var tr2 = $("<td class=\"count\">"+result2+"</td><td>"+obj.contacts+"</td><td>"+obj.phonenumber+"</td><td>"+obj.fixedtelephone+"</td><td>"+obj.address+"</td><td><a i=\""+obj.shopid+"\" class=\"squery\" href=\"javascript:;\">查看&nbsp&nbsp</a><a class=\"supdate\" i=\""+obj.shopid+"\" href=\"javascript:;\">编辑&nbsp&nbsp</a><a class=\"sdelete\" i=\""+obj.shopid+"\" href=\"javascript:;\">删除&nbsp&nbsp</a></td></tr>");
+		    							tr.append(tr2);
+		    						}
+		    					});
+		    				});
+		    				a = result.lastPage;
+		    				var tr3 = $("<div class=\"container\"><div class=\"row\"><input style=\"margin-left:350px;\" class=\"btn btn-default\" type=\"button\" id=\"home\" value=\"首页\"><input class=\"btn btn-default\" type=\"button\" id=\"prePage\" value=\"上一页\"><span id=\"oh\"></span><input class=\"btn btn-default\" type=\"button\" id=\"nextPage\" value=\"下一页\"><input class=\"btn btn-default\" type=\"button\" id=\"end\" value=\"尾页\"></div></div>");
+		    				$("#ye").append(tr3);
+		    				//页数
+		    				for(var b=1;b<=a;b++){
+		    					var li = $("<input class=\"btn btn-default\" type=\"button\" id=\"prePage\" value=\""+b+"\">");
+		    					$("#oh").append(li);
+		    				}
+		    				//首页
+		    				$("#home").click(function(){
+		    					goPage(result.firstPage);
+		    				});
+		    				//尾页
+		    				$("#end").click(function(){
+		    					goPage(result.lastPage);
+		    				});
+		    				//上一页
+		    				$("#prePage").attr("pageNum",result.prePage);
+		    				//下一页
+		    				$("#nextPage").attr("pageNum",result.nextPage);
+							//上一页下一页
+		    				$("#prePage,#nextPage").click(function(){
+		    					var page = $(this).attr("pageNum");
+		    					if(result.firstPage<=page && page<=result.lastPage){
+		    						goPage(page);
+		    					}
+		    				});
+		    					    				
+		    				$("#oh .btn").click(function(){
+		    					$("#oh .btn").css("background","#fff");
+		    					$(this).css("background","#87CEEB");
+		    					var page = $(this).val();
+		    					goPage(page);
+		    				});
+		    				$("#oh .btn:eq("+(pageNum-1)+")").css("background","#87CEEB");  			
+	  				
+		    				$(".squery").live("click",function(){
+		    					var shopid = $(this).attr("i");
+		    					window.sessionStorage.setItem("shopid",JSON.stringify(shopid));
+		    					location.href="[[@{/topage/page/claim/shop_Query}]]";
+		    				});
+		    				
+		    				$(".supdate").live("click",function(){
+		    					var shopid = $(this).attr("i");
+		    					window.sessionStorage.setItem("shopid",JSON.stringify(shopid));
+		    					location.href="[[@{/topage/page/claim/shop_Update}]]";
+		    				});
+		    				
+		    				$(".sdelete").live("click",function(){
+		    					var shopid = $(this).attr("i");
+		    					$.ajax({
+		    						url:"[[@{/ShopController/deleteByPrimaryKey}]]",
+		    						type:"get",
+		    						dataType:"json",
+		    						data:"shopid="+shopid,
+		    						success:function(result6){
+		    							if(result6.code=="1"){
+		    								alert("删除成功！");
+		    								goPage(1);
+		    							}else{
+		    								
+		    							}
+		    						}
+		    					});
+		    				});
+		    			}
+		    		});
+	    		}else{
+	    			$.ajax({
+		    			url:"[[@{/ShopController/queryByShopPage}]]",
+		    			type:"get",
+		    			async:true,
+		    			dataType:"json",
+		    			data:"pageNum="+pageNum+"&pageSize=2"+"&shopid="+shopid+"&contacts="+contacts+"&shopname="+shopname+"&userid="+userid,
+		    			success:function(result){
+		    				$.each(result.list,function(i,obj){
+		    					var tr = $("<tr><td>"+(i+1)+"</td><td>"+obj.shopid+"</td><td>"+obj.shopname+"</td>");
+		    					$("#contentTable").append(tr);
+		    					$.ajax({
+		    						url:"[[@{/ShopController/queryByCount}]]",
+		    						type:"get",
+		    						dataType:"json",
+		    						data:"shopid="+obj.shopid,
+		    						success:function(result2){
+		    							var tr2 = $("<td class=\"count\">"+result2+"</td><td>"+obj.contacts+"</td><td>"+obj.phonenumber+"</td><td>"+obj.fixedtelephone+"</td><td>"+obj.address+"</td><td><a i=\""+obj.shopid+"\" class=\"squery\" href=\"javascript:;\">查看&nbsp&nbsp</a><a class=\"supdate\" i=\""+obj.shopid+"\" href=\"javascript:;\">编辑&nbsp&nbsp</a><a class=\"sdelete\" i=\""+obj.shopid+"\" href=\"javascript:;\">删除&nbsp&nbsp</a></td></tr>");
+		    							tr.append(tr2);
+		    						}
+		    					});
+		    				});
+		    				a = result.lastPage;
+		    				var tr3 = $("<div class=\"container\"><div class=\"row\"><input style=\"margin-left:350px;\" class=\"btn btn-default\" type=\"button\" id=\"home\" value=\"首页\"><input class=\"btn btn-default\" type=\"button\" id=\"prePage\" value=\"上一页\"><span id=\"oh\"></span><input class=\"btn btn-default\" type=\"button\" id=\"nextPage\" value=\"下一页\"><input class=\"btn btn-default\" type=\"button\" id=\"end\" value=\"尾页\"></div></div>");
+		    				$("#ye").append(tr3);
+		    				//页数
+		    				for(var b=1;b<=a;b++){
+		    					var li = $("<input class=\"btn btn-default\" type=\"button\" id=\"prePage\" value=\""+b+"\">");
+		    					$("#oh").append(li);
+		    				}
+		    				//首页
+		    				$("#home").click(function(){
+		    					goPage(result.firstPage);
+		    				});
+		    				//尾页
+		    				$("#end").click(function(){
+		    					goPage(result.lastPage);
+		    				});
+		    				//上一页
+		    				$("#prePage").attr("pageNum",result.prePage);
+		    				//下一页
+		    				$("#nextPage").attr("pageNum",result.nextPage);
+							//上一页下一页
+		    				$("#prePage,#nextPage").click(function(){
+		    					var page = $(this).attr("pageNum");
+		    					if(result.firstPage<=page && page<=result.lastPage){
+		    						goPage(page);
+		    					}
+		    				});
+		    					    				
+		    				$("#oh .btn").click(function(){
+		    					$("#oh .btn").css("background","#fff");
+		    					$(this).css("background","#87CEEB");
+		    					var page = $(this).val();
+		    					goPage(page);
+		    				});
+		    				$("#oh .btn:eq("+(pageNum-1)+")").css("background","#87CEEB");  			
+	  				
+		    				$(".squery").live("click",function(){
+		    					var shopid = $(this).attr("i");
+		    					window.sessionStorage.setItem("shopid",JSON.stringify(shopid));
+		    					location.href="[[@{/topage/page/claim/shop_Query}]]";
+		    				});
+		    				
+		    				$(".supdate").live("click",function(){
+		    					var shopid = $(this).attr("i");
+		    					window.sessionStorage.setItem("shopid",JSON.stringify(shopid));
+		    					location.href="[[@{/topage/page/claim/shop_Update}]]";
+		    				});
+		    				
+		    				$(".sdelete").live("click",function(){
+		    					var shopid = $(this).attr("i");
+		    					$.ajax({
+		    						url:"[[@{/ShopController/deleteByPrimaryKey}]]",
+		    						type:"get",
+		    						dataType:"json",
+		    						data:"shopid="+shopid,
+		    						success:function(result6){
+		    							if(result6.code=="1"){
+		    								alert("删除成功！");
+		    								goPage(1);
+		    							}else{
+		    								
+		    							}
+		    						}
+		    					});
+		    				});
+		    			}
+		    		});
+	    		}
 	    	}
 	    </script>
 </body>

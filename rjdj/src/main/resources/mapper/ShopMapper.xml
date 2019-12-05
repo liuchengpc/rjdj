@@ -197,6 +197,7 @@
 	      <if test="shopimg != null">
 	        and shopImg = #{shopimg,jdbcType=VARCHAR}
 	      </if>
+	      
   </select>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.apatech.domain.Shop">

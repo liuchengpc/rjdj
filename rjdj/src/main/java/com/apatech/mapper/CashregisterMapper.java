@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.apatech.domain.Cashregister;
+import com.apatech.domain.Cashregisterdetail;
 import com.apatech.domain.Commodity;
 
 public interface CashregisterMapper {
@@ -63,7 +64,16 @@ public interface CashregisterMapper {
     		@Param("commoditytypeid")Integer commoditytypeid//商品类别id
     		);
     
-
+    /**
+     * 根据店铺id查询
+     * @return
+     */
+    @Select("SELECT * FROM cashregister b \r\n" + 
+    		"LEFT JOIN member d ON b.memberID=d.memberID \r\n" + 
+    		"LEFT JOIN shop c ON b.shopID=c.shopID \r\n" + 
+    		"WHERE  b.ispresent=1 " + 
+    		"and b.shopid=#{shopid}")
+    List<Cashregister> selectBydpid(String shopid);
 
     int updateByPrimaryKeySelective(Cashregister record);
 

@@ -248,19 +248,20 @@
 						events: {
 						  'click a[title=查看]': function (e, value, row, index) {
 							 $("#spxbxx").html("");
-								
+							  console.info("订单详表信息")
+							  console.info(row)
 							var s='<tr class="">'+
 										'<td class="bhDiv"><em>1</em></td>'+
 										'<td class="nameTD">'+row.shopname+'</td>'+
 										'<td class="colorTd">'+row.price+'</td>'+
-										'<td>'+row.list.length+'</td>'+
-										'<td>'+(row.price*row.list.length)+'</td>'+
+										'<td>'+row.dds+'</td>'+
+										'<td>'+row.xsje+'</td>'+
 										'<td>'+row.stockcount+'</td>'+
 									'</tr>'+
 									'<tr>'+
 										'<td colspan="3">合计</td>'+
-										'<td><em>'+row.list.length+'</em></td>'+
-										'<td><em>'+(row.price*row.list.length)+'</em></td>'+
+										'<td>'+row.dds+'</td>'+
+										'<td>'+row.xsje+'</td>'+
 										'<td><em>'+row.stockcount+'</em></td>'+
 									'</tr>';
 									//alert(s)

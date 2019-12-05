@@ -108,28 +108,20 @@ public class CashregisterService {
 			String selectqb//查找
 	){
     	List<Cashregister> li=dao.selectAll4(shopid, oldtime, newtime, selectqb);
-    	int dds=0;//订单数
-    	Double xsje=0.0;//销售金额
-    	//Double cz=0.0;//充值
+    
     	System.out.println("进入1");
     	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
     		System.out.println("进入2");
-    		
-			List<Cashregisterdetail> li2= dao2.selectByid(li.get(i).getAshregisterid()); 
-			List<Recharge> li3= dao3.selectByid(li.get(i).getMemberid()); //会员充值抵扣id
-			li.get(i).setDds(li2.size());//订单数
-			for (int j = 0; j < li2.size(); j++) {				
-	        	xsje+=li2.get(j).getMoneyamt();//销售金额
-			}  
+    		int dds=0;//订单数
+        	Double xsje=0.0;//销售金额
+			List<Cashregister> li2= dao.selectBydpid(li.get(i).getShopid()); //根据店铺id查询信息
+			for (Cashregister cashregister : li2) {
+				dds+=cashregister.getCount();//销售金额
+				xsje+=cashregister.getMoneyamt();//销售金额
+			}
+			li.get(i).setDds(dds);//订单数
 			li.get(i).setXsje(xsje);//销售金额
-//			for (int j = 0; j < li3.size(); j++) {				
-//	        	cz+=li3.get(j).getRecharge();//充值
-//			}    	
-//			li.get(i).setCz(cz);//充值
-			//System.out.println("订单数:"+li2.size()+"销售金额:"+xsje+"充值:"+cz);
-			System.out.println("订单数:"+li.get(i).getDds()+"销售金额:"+li.get(i).getDds()+"充值:"+li.get(i).getDds());
-			System.out.println("------------------------------------------------------------------------------------");
-        	li.get(i).setList(li2); //赋值list集合
+        	li.get(i).setList2(li2); //赋值list集合
 		}
     	return li;
     }
@@ -143,14 +135,31 @@ public class CashregisterService {
     		Integer commoditytypeid//商品类别id
     		){
     	List<Cashregister> li=dao.selectAll5(shopid, oldtime, newtime, selectqb, commoditytypeid);
-    	
-    	System.out.println("进入1");
+    
     	
     	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
+    		int dds=0;//订单数
+        	Double xsje=0.0;//销售金额
+        	System.out.println("进入1");
+    		
     		System.out.println("进入2");
     		List<Cashregisterdetail> li2= dao2.selectByid2(li.get(i).getCommoditydetailid()); //根据商品详表id查询订单    	
+    		
+    		
+    		for (Cashregisterdetail cashregister : li2) {
+				dds+=cashregister.getCount();//销售金额
+				xsje+=cashregister.getMoneyamt();//销售金额
+			}
+			li.get(i).setDds(dds);//订单数
+			li.get(i).setXsje(xsje);//销售金额
+    		
+    		
     		li.get(i).setList(li2); //赋值list集合
     	}
+    	
+    	
+    	
+    	
     	return li;
     }
     
