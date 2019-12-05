@@ -52,7 +52,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 				"/topage/page/claim/staff_Insert",
 				"/topage/page/common/body_menu6",
 				"/topage/page/claim/users_home",
-				"/topage/page/claim/shop_Insert",
+			
 				"/topage/page/claim/shop_Query",
 				"/topage/page/claim/shop_Update",
 				"/topage/page/common/body_menu",
@@ -72,7 +72,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 				"/topage/update",
 				"/topage/toupload",
 				
-				
+//				"/topage/page/claim/shop_Insert",
 //				"/topage/page/claim/store_management",
 //				"/topage/page/claim/position",
 //				"/topage/page/claim/employee_management",

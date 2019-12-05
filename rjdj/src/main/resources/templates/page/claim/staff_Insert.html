@@ -49,6 +49,8 @@
 		</div>
 		
 		<script>
+		
+	
 			$(function(){
 				qx();	//权限判断 下拉框显示的内容
 				userYZ();	//工号（账号）验证，是否存在
@@ -135,8 +137,11 @@
 						success:function(result3){
 							$.each(result3,function(i,obj){
 								if(user.roleid!=obj.roleid && obj.roleid!=3){
-									var op = $("<option value=\""+obj.roleid+"\">"+obj.rolename+"</option>");
-									$("#zw").append(op);
+									if(obj.rolename!="管理员"){
+										var op = $("<option value=\""+obj.roleid+"\">"+obj.rolename+"</option>");
+										$("#zw").append(op);
+									}
+									
 								}
 							});
 						}
@@ -162,8 +167,11 @@
 						success:function(result3){
 							$.each(result3,function(i,obj){
 								if(obj.roleid!=1){
-									var op = $("<option value=\""+obj.roleid+"\">"+obj.rolename+"</option>");
-									$("#zw").append(op);
+									if(obj.rolename!="管理员"){
+										var op = $("<option value=\""+obj.roleid+"\">"+obj.rolename+"</option>");
+										$("#zw").append(op);
+									}
+									
 								}
 							});
 						}

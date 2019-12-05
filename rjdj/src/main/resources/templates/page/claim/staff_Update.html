@@ -156,7 +156,7 @@
 						dataType:"json",
 						success:function(result3){
 							$.each(result3,function(i,obj){
-								if(user.roleid!=obj.roleid && obj.roleid!=3){
+								if(user.roleid!=obj.roleid && obj.roleid!=3 && obj.rolename!="管理员"){
 									var op = $("<option value=\""+obj.roleid+"\">"+obj.rolename+"</option>");
 									$("#zw").append(op);
 								}
@@ -200,7 +200,7 @@
 						dataType:"json",
 						success:function(result3){
 							$.each(result3,function(i,obj){
-								if(obj.roleid!=1){
+								if(obj.roleid!=1 && obj.rolename!="管理员"){
 									var op = $("<option value=\""+obj.roleid+"\">"+obj.rolename+"</option>");
 									$("#zw").append(op);
 								}

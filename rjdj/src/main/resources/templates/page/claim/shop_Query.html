@@ -60,7 +60,7 @@
 					data:"shopid="+shopid,
 					success:function(result2){
 						$("#ima").attr({
-							src:"/images/"+result2.shopimg
+							src:"/"+result2.shopimg
 						});
 						$("[name=shopid]").val(result2.shopid);
 						$("[name=shopname]").val(result2.shopname);

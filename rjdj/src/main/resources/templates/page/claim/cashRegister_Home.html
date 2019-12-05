@@ -1760,7 +1760,7 @@
 				data:"commoditytypeid="+commoditytypeid,
 				success:function(result){
 					$.each(result,function(i,obj){
-						var li = $("<li class=\"ayo\"><a i=\""+obj.commoditydetailXZ[0].commoditydetailid+"\" href=\"#\" class=\"item\"><img src=\"/images/shirt1.gif\" style=\"border-width: 0px;\" class=\"iga\"><div><p i2=\""+obj.commoditydetailXZ[0].count+"\">"+obj.name+"</p><p>"+obj.commoditydetailXZ[0].commoditysize+"/"+obj.commoditydetailXZ[0].color+"</p><p>价格：$"+obj.price+"</p></div></a></li>");
+						var li = $("<li class=\"ayo\"><a i=\""+obj.commoditydetailXZ[0].commoditydetailid+"\" href=\"#\" class=\"item\"><img src=\""+obj.commodityimg+"\" style=\"border-width: 0px;\" class=\"iga\"><div><p i2=\""+obj.commoditydetailXZ[0].count+"\">"+obj.name+"</p><p>"+obj.commoditydetailXZ[0].commoditysize+"/"+obj.commoditydetailXZ[0].color+"</p><p>价格：$"+obj.price+"</p></div></a></li>");
 						$("#fz").append(li);
 					});
 				}
