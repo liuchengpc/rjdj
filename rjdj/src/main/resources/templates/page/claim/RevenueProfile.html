@@ -173,7 +173,6 @@
  		            	title : '订单数',
          	    	 	field : 'dds',	        	    	
  		                sortable : true,
- 		                
  		            },  {      	   
  		            	title : '销售金额',
          	    	 	field : 'xsje',	        	    	
@@ -215,17 +214,20 @@
 						},
 						events: {
 						  'click a[title=查看]': function (e, value, row, index) {
+							  console.info("订单详表信息")
+							  console.info(row)
+							  
 							 $("#spxbxx").html("");
-								for (var i=0;i<row.list.length;i++)
+								for (var i=0;i<row.list2.length;i++)
 								{
+									alert(row.cashregistername)
 									var s='<tr>'+
 												'<th>'+(i+1)+'</th>'+
-												'<th>'+row.time+'</th>'+
-												'<th>'+row.ashregisterid+'</th>'+
-												
-												'<th>'+row.list.length+'</th>'+
-												'<th>'+row.xsje+'</th>'+
-												'<th>'+row.cashregistername+'</th>'+
+												'<th>'+row.list2[i].time+'</th>'+
+												'<th>'+row.list2[i].ashregisterid+'</th>'+
+												'<th>'+row.list2[i].count+'</th>'+
+												'<th>'+row.list2[i].moneyamt+'</th>'+
+												'<th>'+row.list2[i].cashregistername+'</th>'+
 											'</tr>';
 											//alert(s)
 									 $("#spxbxx").append(s);

@@ -25,6 +25,7 @@ public class Cashregister {
     private String cashregistername;//收银人员
     private Integer ispresent;//是否付款    (0:否 默认：0  1:是)
     private List<Cashregisterdetail> list;//集合
+    private List<Cashregister> list2;//集合
 
     private Member member;	//会员对象
     private Memberlv memberlv;	//会员等级对象
@@ -327,6 +328,12 @@ public class Cashregister {
 	}
 	public void setCz(Double cz) {
 		this.cz = cz;
+	}
+	public List<Cashregister> getList2() {
+		return list2;
+	}
+	public void setList2(List<Cashregister> list2) {
+		this.list2 = list2;
 	}
 	
 	

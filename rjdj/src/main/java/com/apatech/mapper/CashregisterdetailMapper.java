@@ -41,6 +41,7 @@ public interface CashregisterdetailMapper {
     		"INNER JOIN commoditysize g ON g.commoditySizeID=d.commoditySizeID " + 
     		"WHERE a.cashRegisterID=#{cashregisterid}")
     List<Cashregisterdetail> selectByid(String cashregisterid);
+  
     /**
      * 根据商品详表id查询订单
      * @return

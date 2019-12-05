@@ -159,10 +159,9 @@
 
     <!-- 订单主表条件查询(销售统计) -->
   <select id="selectAll3" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT  * FROM cashregisterdetail a
-	INNER JOIN cashregister b ON a.cashRegisterID=b.ashRegisterID
-	LEFT JOIN member d ON b.memberID=d.memberID
-	LEFT JOIN shop c ON b.shopID=c.shopID
+   	SELECT * FROM cashregister b 
+	LEFT JOIN member d ON b.memberID=d.memberID 
+	LEFT JOIN shop c ON b.shopID=c.shopID 
     where 1=1
     and b.ispresent=1
    	<if test="shopid != null and shopid !=''">
@@ -182,15 +181,15 @@
 	<if test="newtime!=null">
 		AND b.time &lt; #{newtime}
 	</if>
+	<!-- GROUP BY a.cashRegisterID -->
   </select>
 
 
     <!-- 订单主表条件查询(营收概况) -->
   <select id="selectAll4" parameterType="java.lang.String" resultMap="BaseResultMap">
-     SELECT  * FROM cashregisterdetail a
-	INNER JOIN cashregister b ON a.cashRegisterID=b.ashRegisterID
-	LEFT JOIN member d ON b.memberID=d.memberID
-	LEFT JOIN shop c ON b.shopID=c.shopID
+     SELECT * FROM cashregister b 
+	LEFT JOIN member d ON b.memberID=d.memberID 
+	LEFT JOIN shop c ON b.shopID=c.shopID 
     where 1=1
     and b.ispresent=1
    	<if test="shopid != null and shopid !=''">
