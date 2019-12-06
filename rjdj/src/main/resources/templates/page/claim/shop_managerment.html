@@ -101,14 +101,14 @@ $("#distpicker5").distpicker({
         
             //初始化Table
                 $('#mytable').bootstrapTable({
-                	url: '[[@{/CommodityController/selectAll2}]]',   //请求后台的URL（*）
+                	url: '[[@{/CommoditydetailController/selectAll2}]]',   //请求后台的URL（*）
                 	 method: 'get',                      //请求方式（*）
                      striped : true, 					//是否显示行间隔色
                      pageNumber:1,                       //初始化加载第一页，默认第一页
                  	pagination : true,					//是否分页
                  	sidePagination : 'client',			//server:服务器端分页|client：前端分页
                  	pageSize :2,						//单页记录数
-                 	pageList : [ 2, 4, 6],		//可选择单页记录数
+                 	pageList : [6,12],		//可选择单页记录数
                  	showRefresh : true,					//刷新按钮                   
                  	queryParams : function (params) {
                         var temp = {
@@ -151,6 +151,9 @@ $("#distpicker5").distpicker({
                         align: "center",
                         width: 40,
                         formatter: function (value, row, index) {
+                        	console.info("数据显示")
+                        	console.info(row)
+                        	
                             //获取每页显示的数量
                             var pageSize=$('#mytable').bootstrapTable('getOptions').pageSize;
                             //获取当前是第几页
@@ -169,12 +172,18 @@ $("#distpicker5").distpicker({
  		                
  		            },  {      	   
  		            	title : '货号/条码',
-         	    	 	field : 'productcodeid',	        	    	
+         	    	 	field : 'commoditydetailid',	        	    	
  		                sortable : true,
- 		                
+ 		            },  {      	   
+ 		            	title : '规格',
+         	    	 	field : 'color',	        	    	
+ 		                sortable : true,
+ 		               formatter: function (value, row, index) {
+                           return value+"/"+row.commoditysize;
+                       } 
  		            }, {      	   
  		            	title : '库存',
-         	    	 	field : 'stockcount',
+         	    	 	field : 'count',
  		                sortable : true,
  		                
  		            }, {      	   
@@ -229,7 +238,7 @@ $("#distpicker5").distpicker({
 						    	 // 获取当前行 				              
 						    	 var id=row.productcodeid;
 						    	 $.ajax({
-	 									url:"[[@{/CommodityController/deleteByPrimaryKey}]]",
+	 									url:"[[@{/CommoditydetailController/deleteByPrimaryKey}]]",
 	 									type:"post",
 	 									data:"productcodeid="+id,
 	 									dataType:"json",						
@@ -244,11 +253,18 @@ $("#distpicker5").distpicker({
 						  },
 						  'click a[title=修改]': function (e, value, row, index) {
 								window.sessionStorage.setItem("productcodeid",row.productcodeid);//将用户信息保存到js中的session中
-								window.sessionStorage.setItem("Commodity",JSON.stringify(row));//将供应商信息保存到js中的session中
+								 $.ajax({
+										url:"[[@{/CommodityController/selectAll2}]]",
+										type:"get",
+										data:"selectqb="+row.productcodeid,
+										dataType:"json",
+										success:function(res){
+											window.sessionStorage.setItem("Commodity",JSON.stringify(res[0]));//将供应商信息保存到js中的session中
+											window.location.href ="[[@{/topage/shop_upload2}]]";
+										}
+									}) 
 								
-							
 								
-								window.location.href ="[[@{/topage/shop_upload2}]]";
 						  },
 						}
 		            } ],
@@ -300,9 +316,9 @@ $("#distpicker5").distpicker({
                 	//alert(11)
                 	var commoditytypeid=$('#commoditytypeid').val();
                     var selectqb=$('#selectqb').val();
-               		//alert("commoditytypeid="+commoditytypeid+","+"selectqb="+selectqb+",")
+               		//alert("commoditytypeid="+commoditytypeid+","+	"selectqb="+selectqb+",")
                 	$('#mytable').bootstrapTable('refresh', {
-                		url : '[[@{/CommodityController/selectAll2}]]'
+                		url : '[[@{/CommoditydetailController/selectAll2}]]'
                 	});
                 }
 

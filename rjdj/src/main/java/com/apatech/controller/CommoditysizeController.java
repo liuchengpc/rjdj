@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apatech.domain.Commoditydetail;
 import com.apatech.domain.Commoditysize;
+import com.apatech.service.CommoditydetailService;
 import com.apatech.service.CommoditysizeService;
 import com.github.pagehelper.PageInfo;
 
@@ -21,6 +23,8 @@ import com.github.pagehelper.PageInfo;
 public class CommoditysizeController {
 	@Autowired
 	private CommoditysizeService dao;	
+	@Autowired
+	private CommoditydetailService dao2;	
 	/**
 	 * 查询全部
 	 * @param model
@@ -124,5 +128,37 @@ public class CommoditysizeController {
 		}
 		return map;
     }
+	/**
+	 * 根据主键删除2
+	 * @param billid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "deleteByPrimaryKey2",method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> deleteByPrimaryKey2(Integer commoditysizeid,Model model) {
+		System.out.println("进入CommoditysizeController根据主键删除2");
+		System.out.println("commoditysizeid："+commoditysizeid);
+		Map<String, String> map=new HashMap<String,String>();
+		
+		List<Commoditydetail> list= dao2.selectAll();
+		for (Commoditydetail cd : list) {
+			if(cd.getCommoditysizeid()==commoditysizeid){
+				map.put("code", "3");
+				map.put("message", "此尺码占用，不能删除！");
+				return map;
+			}
+		}
+		
+		int i =dao.deleteByPrimaryKey(commoditysizeid);
+		if (i>0) {
+			map.put("code", "1");
+			map.put("message", "删除成功！");
+		}else {
+			map.put("code", "2");
+			map.put("message", "删除失败！");
+		}
+		return map;
+	}
 
 }

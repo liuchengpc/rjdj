@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.apatech.domain.Commodity;
 import com.apatech.domain.Commoditydetail;
 import com.apatech.mapper.CommoditydetailMapper;
 import com.github.pagehelper.PageHelper;
@@ -43,6 +44,11 @@ public class CommoditydetailService {
     	return dao.insertSelective(record);
     }
 
+    public List<Commoditydetail> selectAll2(Integer commoditytypeid,String selectqb){
+    	List<Commoditydetail> li=dao.selectAll2(commoditytypeid, selectqb);
+    	
+    	return li;
+    }
 
     public Commoditydetail selectByPrimaryKey(String commoditydetailid) {
     	return dao.selectByPrimaryKey(commoditydetailid);

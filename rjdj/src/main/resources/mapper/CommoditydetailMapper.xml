@@ -33,6 +33,26 @@
     where commodityDetailID = #{commoditydetailid,jdbcType=VARCHAR}
   </select>
   
+   <select id="selectAll2" parameterType="com.apatech.domain.Commoditydetail" resultMap="BaseResultMap">
+   SELECT * FROM commodity a
+	INNER JOIN supplier b ON a.supplierID=b.supplierID
+	INNER JOIN commoditytype c ON a.commodityTypeID=c.commodityTypeID
+	INNER JOIN commoditydetail d ON a.productCodeID=d.productCodeID
+	INNER JOIN color f ON d.colorid=f.colorid
+	INNER JOIN commoditysize g ON d.commoditySizeID=g.commoditySizeID
+    where 1=1
+   	<if test="commoditytypeid != null and commoditytypeid !=''">
+          and a.commodityTypeID like '%${commoditytypeid}%'
+      </if>
+      <if test="selectqb != null  and selectqb !=''">
+          and c.commodityTypeName like '%${selectqb}%' 
+          OR a.name like '%${selectqb}%' 
+          OR a.productCodeID like '%${selectqb}%' 
+          OR a.price like '%${selectqb}%' 
+          OR a.costPrice like '%${selectqb}%'
+      </if>
+  </select>
+  
     <select id="selectByPrimaryKey2" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

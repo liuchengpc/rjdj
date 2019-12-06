@@ -155,9 +155,25 @@ function cnmd(){
 			});
 			function sc(a){//点击删除商品尺码
 				//alert("sc")
-				var name=$(a).prev().html();
-				$(a).parent().remove();
-				nimabide();
+				var commoditysizeid=$(a).prev().attr("commoditysizeid");//获取尺码id
+				 $.ajax({//根据尺码id删除（如此尺码被使用则提示被“占用，不能删除”）
+					url:"/CommoditysizeController/deleteByPrimaryKey2",
+					type:"get",
+					data:"commoditysizeid="+commoditysizeid,
+					dataType:"json",
+					success:function(res){
+						alert(res.message)
+						if(res.code==1){
+//							删除尺码
+							var name=$(a).prev().html();
+							$(a).parent().remove();
+							nimabide();
+//							删除尺码
+						}
+					}
+				}) 
+				
+				
 			}
 			
 			function enen(){//点击编辑尺码按钮
@@ -165,14 +181,14 @@ function cnmd(){
 				var name=$("[name=bjcm]").html();
 				if(name=="编辑尺码"){
 					$("[name=chima]").show();
-				$(".fpsize").append(`
-					<li><input name="lw" style="width: 147.33px; height: 34px;"></li>
-				`);
-				$("[name=bjcm]").html("保存修改");
-				$("[name=chimaya] a").unbind("click");
-				niubi();
+					$(".fpsize").append(`
+						<li><input name="lw" style="width: 147.33px; height: 34px;"></li>
+					`);
+					$("[name=bjcm]").html("保存修改");
+					$("[name=chimaya] a").unbind("click");
+					niubi();
 				}else{
-					var nima=$("[name=lw]").val();
+					var nima=$("[name=lw]").val();//新添加的尺码名
 					$(".fpsize input").parent().remove();
 					$("[name=bjcm]").html("编辑尺码");
 					if(nima!=""){
@@ -181,6 +197,18 @@ function cnmd(){
 					niubi();
 					}
 					$("[name=chima]").hide();
+					
+					var obj={commoditysize:nima}
+					 $.ajax({//新增尺码
+						 url:'/CommoditysizeController/insertSelective',
+							type:"post",
+						  	data : JSON.stringify(obj),
+						  	dataType:'json',	
+						  	contentType : "application/json;charset=utf-8",
+							success:function(res){
+								alert(res.message)
+							}
+						}) 
 				}
 				
 			}

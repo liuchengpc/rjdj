@@ -87,8 +87,6 @@ public class FileController {
 		System.out.println("进入upload表单文件上传");
 		System.out.println(files.toString());
 		
-		
-		
 		File directory = new File("E:\\images");//文件保存路径
 		if(!directory.exists()) {//判断是否有此文件夹
 			directory.mkdirs();//创建文件夹

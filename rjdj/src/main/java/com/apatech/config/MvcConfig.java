@@ -72,6 +72,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 				"/topage/update",
 				"/topage/toupload",
 				
+				
 //				"/topage/page/claim/shop_Insert",
 //				"/topage/page/claim/store_management",
 //				"/topage/page/claim/position",

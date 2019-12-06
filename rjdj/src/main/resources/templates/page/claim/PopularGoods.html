@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="height: 100%">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,6 +10,8 @@
     <link rel="stylesheet" th:href="@{/css/supplier.css}">
       <link rel="stylesheet" th:href="@{/css/purchase_list.css}">
      <link  rel="stylesheet"  th:href="@{/js/bootstrap-datetimepicker.min.css}"/>  
+     <link rel="stylesheet" href="/css/Statistics.css" />
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     
     <script th:src="@{/js/jquery-1.12.4.js}"></script>
     <script th:src="@{/js/bootstrap.js}"></script>
@@ -50,8 +52,8 @@
 		/* 设置table隔行变色  S*/
 	  </style>
 </head>
-<body>
-     <!-- 会员信息 -->    
+<body style="height: 100%;">
+      会员信息    
     <div class="rightarea clearfix">
     <div class="mainarea clearfix">
         <div class="mainhead">
@@ -81,25 +83,19 @@
             <div class="list">
                 <input type="date" class="form-control" id="oldtime" th:onchange="selectAll()">
             </div>
+            
           
         </div>
-        <div class="mainbody" style="margin-bottom: 400px;">
+        <div class="mainbody" >
               <!-- bootstrap table自动渲染区域 -->
 			<table id="mytable" class="table table-hover" data-toolbar="#toolbar" ></table>
         </div>
+        
+         
     </div>
 </div>
 
 
-
-<!-- 
-商品名称  spname
-货号/条形码 commoditydetailid
-规格color/ commoditySize
-单价 price
-数量 count
-售出金额 spscje
- -->
 
 
   <script type="text/javascript">        
@@ -430,9 +426,80 @@
 	            <div class="modal-footer" style="text-align: center;">
 	                <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 16.66%;">关闭</button>
 	            </div>
-	        </div><!-- /.modal-content -->
-	    </div><!-- /.modal -->
+	        </div>/.modal-content
+	    </div>/.modal
 	</div>
 			
+			
+			
+			
+			
+			
+			
+			
+	
+	
+	
+	
+	
+	
+		<div id="container2" style="height: 35%;width: 45%;margin-left: 20px;float: right;margin-top: 30px;"></div>	
+        <script type="text/javascript" src="/js/echarts.min.js"></script>
+		<script type="text/javascript">
+		
+			
+			
+			
+			var doms = document.getElementById("container2");
+			var myChart = echarts.init(doms);
+			var app = {};
+			option = null;
+			option = {
+				    title : {//标题组件，包含主标题和副标题。
+				        text: '某站点用户访问来源',
+				        subtext: '纯属虚构',
+				        x:'center'
+				    },
+				    tooltip : {//提示框组件。
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {//图例组件
+				        orient: 'vertical',
+				        left: 'left',
+				    },
+				    series : [//系列列表。每个系列通过 type 决定自己的图表类型
+				        {
+				            name: '销售总数',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:335, name:'直接访问fsfs'},
+				                {value:310, name:'邮件营销'},
+				                {value:234, name:'联盟广告'},
+				                {value:135, name:'视频广告'},
+				                {value:1548, name:'搜索引擎'},
+				                 {value:2548, name:'搜索引擎2'}
+				            ],
+				            itemStyle: {
+				                emphasis: {
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+			if (option && typeof option === "object") {
+			    myChart.setOption(option, true);
+			}
+	
+			
+			
+			
+		</script>
+	
 </body>
 </html>
