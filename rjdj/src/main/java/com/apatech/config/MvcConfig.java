@@ -41,6 +41,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 	protected void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(my).addPathPatterns("/topage/**").excludePathPatterns("/js/**","/css/**","/images/**",
 				"/topage/login",
+				"/topage/login2",
 				"/topage/accountindex",
 				"/topage/AddForm",
 				"/topage/uuid",

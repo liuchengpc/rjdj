@@ -24,6 +24,11 @@ public class topage {
 		System.out.println("进入login");
 		return "login";
 	}
+	@RequestMapping("/login2")
+	public String login2() {
+		System.out.println("进入login2");
+		return "login2";
+	}
 	@RequestMapping("/accountindex")
 	public String accountindex() {
 		System.out.println("进入accountindex");
