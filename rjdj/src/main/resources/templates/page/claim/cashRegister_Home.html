@@ -943,6 +943,13 @@
 																											$(".wuyu").html("");	//清除所有表单
 																											register.list=[];
 																											totalCost2=0;
+																											
+																											$("#VIPbutton44").val("0");
+																											$('[name=pp2]').val("无");
+																											$('[name=pp1]').val("0");
+																											$('[name=pp3]').val("0");
+																											$('[name=pp4]').val("无");
+																											$("#VIPbutton44").removeAttr("checked");
 																										}
 																									});
 																								}else{
@@ -973,6 +980,13 @@
 																	$(".wuyu").html("");	//清除所有表单
 																	register.list=[];
 																	totalCost2=0;
+																	
+																	$("#VIPbutton44").val("0");
+																	$('[name=pp2]').val("无");
+																	$('[name=pp1]').val("0");
+																	$('[name=pp3]').val("0");
+																	$('[name=pp4]').val("无");
+																	$("#VIPbutton44").removeAttr("checked");
 																}
 															});
 														}
@@ -1028,6 +1042,13 @@
 											$(".wuyu").html("");	//清除所有表单
 											register.list=[];
 											totalCost2=0;
+											
+											$("#VIPbutton44").val("0");
+											$('[name=pp2]').val("无");
+											$('[name=pp1]').val("0");
+											$('[name=pp3]').val("0");
+											$('[name=pp4]').val("无");
+											$("#VIPbutton44").removeAttr("checked");
 										}
 									});
 								}else{
@@ -1188,6 +1209,13 @@
 																							data:JSON.stringify(dataTwo),
 																							success:function(result7){
 																								alert(result7.message);
+																								
+																								$("#VIPbutton2").val("0");
+																								$('[name=tt2]').val("无");
+																								$('[name=tt1]').val("0");
+																								$('[name=tt3]').val("0");
+																								$('[name=tt4]').val("无");
+																								$("#VIPbutton2").removeAttr("checked");
 																							}
 																						});
 																					}else{
@@ -1209,6 +1237,13 @@
 																data:JSON.stringify(dataTwo),
 																success:function(result7){
 																	alert(result7.message);
+																	
+																	$("#VIPbutton2").val("0");
+																	$('[name=tt2]').val("无");
+																	$('[name=tt1]').val("0");
+																	$('[name=tt3]').val("0");
+																	$('[name=tt4]').val("无");
+																	$("#VIPbutton2").removeAttr("checked");
 																}
 															});
 														}
@@ -1281,6 +1316,13 @@
 						data.rows=[];
 						data.total=0;
 						totalCost=0;
+						
+						$("#VIPbutton2").val("0");
+						$('[name=tt2]').val("无");
+						$('[name=tt1]').val("0");
+						$('[name=tt3]').val("0");
+						$('[name=tt4]').val("无");
+						$("#VIPbutton2").removeAttr("checked");
 					}
 				}
 			});
@@ -1408,7 +1450,7 @@
 							data:"ashregisterid="+ashregisterid,
 							success:function(result99){
 								if(result99==0){
-									$("#VIPbutton2").val("0");
+									$("#VIPbutton44").val("0");
 									$("#VIPbutton44").removeAttr("checked");
 									var list=[];
 									$.ajax({
@@ -1464,7 +1506,7 @@
 									});	
 								}else{
 									$("#VIPbutton44").attr("checked","checked");
-									$("#VIPbutton2").val(result99);
+									$("#VIPbutton44").val(result99);
 									var list=[];
 									cp++;
 									$.ajax({
