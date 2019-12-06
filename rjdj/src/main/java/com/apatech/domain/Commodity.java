@@ -30,7 +30,9 @@ public class Commodity {
     private String infomation;//商品信息
     private String shoptype;//商品类型
     private String shopID;//店铺id
-
+    
+    private Integer spxj;//是否下架
+    	
     private List<Commodity> productcodelist;//集合
     private List<Commoditydetail> productcodelist2;//集合
     
@@ -650,6 +652,16 @@ public class Commodity {
 	public void setProductcodelist2(List<Commoditydetail> productcodelist2) {
 		this.productcodelist2 = productcodelist2;
 	}
+
+	public Integer getSpxj() {
+		return spxj;
+	}
+
+	public void setSpxj(Integer spxj) {
+		this.spxj = spxj;
+	}
+	
+	
 
     
 }

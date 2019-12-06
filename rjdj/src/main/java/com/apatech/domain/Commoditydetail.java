@@ -20,6 +20,7 @@ public class Commoditydetail {
     private Integer stockcount;//库存
     private String infomation;//商品信息
     private String shoptype;//商品类型
+    private Integer spxj;//是否下架
 
     private List<Commodity> productcodelist;//集合
     
@@ -445,4 +446,14 @@ public class Commoditydetail {
 	public Commoditydetail() {
 		super();
 	}
+
+	public Integer getSpxj() {
+		return spxj;
+	}
+
+	public void setSpxj(Integer spxj) {
+		this.spxj = spxj;
+	}
+	
+	
 }

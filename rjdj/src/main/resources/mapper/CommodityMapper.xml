@@ -14,6 +14,7 @@
     <result column="infomation" jdbcType="VARCHAR" property="infomation" />
     <result column="shopType" jdbcType="VARCHAR" property="shoptype" />
     <result column="shopID" jdbcType="VARCHAR" property="shopid" />
+    <result column="spxj" jdbcType="INTEGER" property="spxj" />
   </resultMap>
   <select id="queryCommodityXZ" parameterType="com.apatech.domain.Commodity" resultMap="BaseResultMap">
   	select * from commodity where 1=1 
@@ -23,7 +24,7 @@
   </select>
   <sql id="Base_Column_List">
     productCodeID, supplierID, brand, name, price, costPrice, commodityTypeID, commodityImg, 
-    stockCount, infomation, shopType
+    stockCount, infomation, shopType,spxj
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -106,15 +107,17 @@
     delete from commodity
     where productCodeID = #{productcodeid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.apatech.domain.Commodity">
+   <insert id="insert" parameterType="com.apatech.domain.Commodity">
     insert into commodity (productCodeID, supplierID, brand, 
       name, price, costPrice, commodityTypeID, 
       commodityImg, stockCount, infomation, 
-      shopType)
+      shopType, shopID, spxj
+      )
     values (#{productcodeid,jdbcType=VARCHAR}, #{supplierid,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{costprice,jdbcType=REAL}, #{commoditytypeid,jdbcType=INTEGER}, 
       #{commodityimg,jdbcType=VARCHAR}, #{stockcount,jdbcType=INTEGER}, #{infomation,jdbcType=VARCHAR}, 
-      #{shoptype,jdbcType=VARCHAR})
+      #{shoptype,jdbcType=VARCHAR}, #{shopid,jdbcType=VARCHAR}, #{spxj,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.apatech.domain.Commodity">
     insert into commodity
@@ -152,6 +155,12 @@
       <if test="shoptype != null">
         shopType,
       </if>
+      <if test="shopid != null">
+        shopID,
+      </if>
+      <if test="spxj != null">
+        spxj,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="productcodeid != null">
@@ -186,6 +195,12 @@
       </if>
       <if test="shoptype != null">
         #{shoptype,jdbcType=VARCHAR},
+      </if>
+      <if test="shopid != null">
+        #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="spxj != null">
+        #{spxj,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -222,6 +237,12 @@
       <if test="shoptype != null">
         shopType = #{shoptype,jdbcType=VARCHAR},
       </if>
+      <if test="shopid != null">
+        shopID = #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="spxj != null">
+        spxj = #{spxj,jdbcType=INTEGER},
+      </if>
     </set>
     where productCodeID = #{productcodeid,jdbcType=VARCHAR}
   </update>
@@ -236,7 +257,9 @@
       commodityImg = #{commodityimg,jdbcType=VARCHAR},
       stockCount = #{stockcount,jdbcType=INTEGER},
       infomation = #{infomation,jdbcType=VARCHAR},
-      shopType = #{shoptype,jdbcType=VARCHAR}
+      shopType = #{shoptype,jdbcType=VARCHAR},
+      shopID = #{shopid,jdbcType=VARCHAR},
+      spxj = #{spxj,jdbcType=INTEGER}
     where productCodeID = #{productcodeid,jdbcType=VARCHAR}
   </update>
 </mapper>
