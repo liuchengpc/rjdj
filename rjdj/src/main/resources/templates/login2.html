@@ -68,6 +68,7 @@ a:link,a:visited,a:hover,a:active {
    		var a= 0 ;
    		if (userName==""||userPassword=="") {
    			alert("用户名和密码不能为空！")
+   			$(".refreshIcon").trigger("click");
    		}else{	
    			var sendDate = $("form").serialize();//获取表单数据
        		sendDate = decodeURIComponent(sendDate,true); //decodeURIComponent() 函数可对 encodeURIComponent() 函数编码的 URI 进行解码。
