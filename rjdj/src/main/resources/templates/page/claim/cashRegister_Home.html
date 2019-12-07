@@ -817,7 +817,6 @@
 				
 				
 				var memberid = $("#VIPbutton44").val();
-				alert("memberid="+memberid);
 				if(register==""){
 					alert("收银表为空！");
 				}else{
@@ -826,14 +825,12 @@
 
 						var count2 = 0;
 						for(var l=0;l<register.list.length;l++){
-							alert(register.list[l].count);
 							count2 += register.list[l].count;
 						}
 
 						var ashregisterid=$(".bt").html();
 						var index = ashregisterid .lastIndexOf("：");
 						ashregisterid =ashregisterid .substring(index+1,ashregisterid.length);
-						alert(ashregisterid);
 						
 						register.ashregisterid = ashregisterid;
 						register.count = count2;
@@ -851,7 +848,6 @@
 							async:false,
 							data:"memberid="+memberid,
 							success:function(result){
-								alert(result.price);
 								var mn = parseFloat(result.price)-parseFloat(register.moneyamt);
 								if(mn>0){
 									y++;									
@@ -876,10 +872,8 @@
 									var integral = parseInt(parseInt(integral2)/integral3);
 									//可以抵扣的钱
 									var price = integral*price2;
-									alert("可抵扣的钱："+price);
 									//剩余积分
 									var integral = parseInt(parseInt(integral2)%integral3);
-									alert("剩余积分："+integral);
 									
 									register.moneyamt -= price;
 									
@@ -899,7 +893,6 @@
 													data:"memberid="+memberid,
 													success:function(result3){
 														var moneylv = parseFloat(result3);//某会员消费所有金额
-														alert("消费所有金额："+moneylv);
 														if(moneylv>0){
 															$.ajax({	//查询会员当前等级
 																url:"[[@{/MemberController/selectByPrimaryKey222}]]",
@@ -909,7 +902,6 @@
 																data:"memberid="+memberid,
 																success:function(result4){
 																	var startmoney = parseFloat(result4.lv.moneylv);
-																	alert("目前会员消费标准："+startmoney);
 																	$.ajax({	//查询会员当前等级
 																		url:"[[@{/MemberlvController/queryByMemberlvMoney}]]",
 																		type:"get",
@@ -917,7 +909,6 @@
 																		async:false,
 																		data:"moneylv="+moneylv+"&startmoney="+startmoney,
 																		success:function(result5){
-																			alert("会员消费后的会员等级："+result5.memberlvid);
 																			var memberlvid = result5.memberlvid;
 																			$.ajax({	//修改会员当前等级
 																				url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
@@ -1006,17 +997,14 @@
 						}
 						
 					}else{
-						alert("进入普通用户结账");
 						var count2 = 0;
 						for(var l=0;l<register.list.length;l++){
 							count2 += register.list[l].count;
 						}
 
-						alert("详情商品总数："+count2);
 						var ashregisterid=$(".bt").html();
 						var index = ashregisterid .lastIndexOf("：");
 						ashregisterid =ashregisterid .substring(index+1,ashregisterid.length);
-						alert(ashregisterid);
 						register.ashregisterid = ashregisterid;
 						register.count = count2;
 						register.ispresent = 1;
@@ -1066,14 +1054,11 @@
 		
 		function jz(){
 			$("#jz").click(function(){
-				alert("进来了");
 				var memberid = $("#VIPbutton2").val();
-				alert("memberid="+memberid);
 				if(data.rows==""){
 					alert("收银表为空！");
 				}else{
 					if(memberid != 0 || memberid != "0"){
-						alert("进入会员结账");
 						var list=[] 	
 
 						var count2 = 0;
@@ -1150,15 +1135,11 @@
 								success:function(result){
 									var integral3 = parseInt(result.integral);
 									var price2 = parseFloat(result.price);
-									alert("积分："+integral3);
-									alert("钱："+price2);
 									var integral = parseInt(parseInt(integral2)/integral3);
 									//可以抵扣的钱
 									var price = integral*price2;
-									alert("可抵扣的钱："+price);
 									//剩余积分
 									var integral = parseInt(parseInt(integral2)%integral3);
-									alert("剩余积分："+integral);
 									dataTwo.moneyamt -= price;
 									
 									$.ajax({	//修改会员积分
@@ -1193,7 +1174,6 @@
 																		async:false,
 																		data:"moneylv="+moneylv+"&startmoney="+startmoney,
 																		success:function(result5){
-																			alert("会员等级编号："+result5.memberlvid);
 																			var memberlvid = result5.memberlvid;
 																			$.ajax({	//修改会员当前等级
 																				url:"[[@{/MemberController/updateByPrimaryKeySelective2}]]",
@@ -1263,7 +1243,6 @@
 						}
 						
 					}else{
-						alert("进入普通用户结账");
 						var list=[] 	
 						var count2 = 0;
 						for(var l=0;l<data.rows.length;l++){
