@@ -318,6 +318,7 @@
 					$(".wuyu").live("mousewheel",function(){
 						var ind = $(this).index();
 						if(g>0){
+							alert(register.list[ind].commoditydetail.count);
 							var num = register.list[ind].commoditydetail.count;
 							if(register.list[ind].count<num){
 								register.list[ind].count += 1;
@@ -577,7 +578,7 @@
 							</thead>
                        </table>
                        <div style="height:230px;overflow: hidden;overflow-y:scroll;">
-							<table class="table table-striped">
+							<table class="table table-hover">
 								<tbody id="contentGd">
 									<!-- <tr>
 										<td>1</td>
@@ -653,8 +654,8 @@
 					    </div>
 					    <div style="position:absolute;left:80px;top:450px;">
 					    	<button id="qx2" type="button" class="btn btn-default" style="width:100px;">取消</button>
-						    <button id="sc2" type="button" class="btn btn-danger" style="width:100px;">删除</button>
-						    <button id="jz2" type="button" class="btn btn-info" style="width:100px;">结账</button>
+						    <button id="sc2" type="button" class="btn btn-default" style="width:100px;">删除</button>
+						    <button id="jz2" type="button" class="btn btn-default" style="width:100px;">结账</button>
 					    </div>
                     </li>
                 </ul>
@@ -825,6 +826,7 @@
 
 						var count2 = 0;
 						for(var l=0;l<register.list.length;l++){
+							alert(register.list[l].count);
 							count2 += register.list[l].count;
 						}
 
@@ -1461,39 +1463,52 @@
 										data:"ashregisterid="+ashregisterid,
 										success:function(result88){
 											for(var k=0;k<result88.list.length;k++){
-												var tr = $("<tr class=\"wuyu\"><td class=\"commodityname\">"+result88.list[k].commodityname+"</td><td class=\"specifications\">"+result88.list[k].specifications+"</td><td class=\"count\">"+result88.list[k].count+"</td><td class=\"price\">"+result88.list[k].price+"</td><td class=\"moneyamt\">"+(result88.list[k].count)*(result88.list[k].price)+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
-												$("#contentXQ").append(tr);	
-												totalCost2 += result88.list[k].sbtotal;
-												var commoditydetail = {
-														productcodeid : result88.list[k].commoditydetail.productcodeid,
-														colorid : result88.list[k].commoditydetail.colorid,
-														commoditysizeid : result88.list[k].commoditydetail.commoditysizeid,
-														count : result88.list[k].commoditydetail.count
-												};
-												var cashregisterdetail = {
-														cashregisterid:result88.list[k].cashregisterid,
-														commodityname:result88.list[k].commodityname,
-														commoditydetailid:result88.list[k].commoditydetailid,
-														specifications:result88.list[k].specifications,
-														price:result88.list[k].price,
-														sbtotal:result88.list[k].sbtotal,
-														count:result88.list[k].count,
-														zhekou:100,
-														moneyamt:result88.list[k].moneyamt,
-														cashregisterdetailid : result88.list[k].cashregisterdetailid,
-														commoditydetail:commoditydetail
-												};
-												list.push(cashregisterdetail);
-												register = {
-														ashregisterid:result88.ashregisterid,
-														shopid:result88.shopid,
-														count:result88.count,
-														moneyamt:result88.moneyamt,
-														memberid:0,
-														cashregistername:result88.cashregistername,
-														ispresent:result88.ispresent,
-														list:list
+												alert(result88.list[k].commoditydetail.count);
+												if(result88.list[k].commodity.spxj == 1){
+													var tr = $("<tr class=\"wuyu\" i=\""+result88.list[k].commodity.spxj+"\" style=\"color:red;\"><td class=\"commodityname\">"+result88.list[k].commodityname+"(已下架)</td><td class=\"specifications\">"+result88.list[k].specifications+"</td><td class=\"count\">"+result88.list[k].count+"</td><td class=\"price\">"+result88.list[k].price+"</td><td class=\"moneyamt\">"+(result88.list[k].count)*(result88.list[k].price)+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");					
+													result88.moneyamt = result88.moneyamt - (result88.list[k].count)*(result88.list[k].price);
+												}else{
+													if(result88.list[k].commoditydetail.count>=result88.list[k].count){
+														var tr = $("<tr class=\"wuyu\"><td class=\"commodityname\">"+result88.list[k].commodityname+"</td><td class=\"specifications\">"+result88.list[k].specifications+"</td><td class=\"count\">"+result88.list[k].count+"</td><td class=\"price\">"+result88.list[k].price+"</td><td class=\"moneyamt\">"+(result88.list[k].count)*(result88.list[k].price)+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
+														totalCost2 += result88.list[k].sbtotal;
+														var commoditydetail = {
+																productcodeid : result88.list[k].commoditydetail.productcodeid,
+																colorid : result88.list[k].commoditydetail.colorid,
+																commoditysizeid : result88.list[k].commoditydetail.commoditysizeid,
+																count : result88.list[k].commoditydetail.count
+														};
+														var cashregisterdetail = {
+																cashregisterid:result88.list[k].cashregisterid,
+																commodityname:result88.list[k].commodityname,
+																commoditydetailid:result88.list[k].commoditydetailid,
+																specifications:result88.list[k].specifications,
+																price:result88.list[k].price,
+																sbtotal:result88.list[k].sbtotal,
+																count:result88.list[k].count,
+																zhekou:100,
+																moneyamt:result88.list[k].moneyamt,
+																cashregisterdetailid : result88.list[k].cashregisterdetailid,
+																commoditydetail:commoditydetail
+														};
+														list.push(cashregisterdetail);
+														register = {
+																ashregisterid:result88.ashregisterid,
+																shopid:result88.shopid,
+																count:result88.count,
+																moneyamt:result88.moneyamt,
+																memberid:0,
+																cashregistername:result88.cashregistername,
+																ispresent:result88.ispresent,
+																list:list
+														}
+													}else{
+														var tr = $("<tr class=\"wuyu\" i=\""+result88.list[k].commodity.spxj+"\" style=\"color:red;\"><td class=\"commodityname\">"+result88.list[k].commodityname+"</td><td class=\"specifications\">"+result88.list[k].specifications+"</td><td class=\"count\">库存空</td><td class=\"price\">"+0+"</td><td class=\"moneyamt\">"+0+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");					
+														result88.moneyamt = result88.moneyamt - (result88.list[k].count)*(result88.list[k].price);
+													}
+													
 												}
+												$("#contentXQ").append(tr);	
+												
 											}
 											console.info(list);
 											console.info(register);
@@ -1518,30 +1533,41 @@
 										success:function(result33){
 											var list = [];
 											for(var k=0;k<result33.list.length;k++){
-												var tr = $("<tr class=\"wuyu\"><td class=\"commodityname\">"+result33.list[k].commodityname+"</td><td class=\"specifications\">"+result33.list[k].specifications+"</td><td class=\"count\">"+result33.list[k].count+"</td><td class=\"price\">"+result33.list[k].price+"</td><td class=\"moneyamt\">"+result33.list[k].moneyamt+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
+												if(result33.list[k].commodity.spxj == 1){
+													var tr = $("<tr i=\""+result88.list[k].commodity.spxj+"\" style=\"color:red;\" class=\"wuyu\"><td class=\"commodityname\">"+result33.list[k].commodityname+"(已下架)</td><td class=\"specifications\">"+result33.list[k].specifications+"</td><td class=\"count\">"+result33.list[k].count+"</td><td class=\"price\">"+result33.list[k].price+"</td><td class=\"moneyamt\">"+result33.list[k].moneyamt+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
+													result33.moneyamt = result33.moneyamt - (result33.list[k].count)*(result33.list[k].price);
+												}else{
+													if(result33.list[k].commoditydetail.count>=result33.list[k].count){
+														var tr = $("<tr class=\"wuyu\"><td class=\"commodityname\">"+result33.list[k].commodityname+"</td><td class=\"specifications\">"+result33.list[k].specifications+"</td><td class=\"count\">"+result33.list[k].count+"</td><td class=\"price\">"+result33.list[k].price+"</td><td class=\"moneyamt\">"+result33.list[k].moneyamt+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
+														totalCost2 += result33.list[k].sbtotal;
+														alert(result33.list[k].commoditydetail.count);
+														var commoditydetail = {
+																productcodeid : result33.list[k].commoditydetail.productcodeid,
+																colorid : result33.list[k].commoditydetail.colorid,
+																commoditysizeid : result33.list[k].commoditydetail.commoditysizeid,
+																count : result33.list[k].commoditydetail.count,
+														};
+														var cashregisterdetail = {
+																cashregisterid:result33.list[k].cashregisterid,
+																commodityname:result33.list[k].commodityname,
+																commoditydetailid:result33.list[k].commoditydetailid,
+																specifications:result33.list[k].specifications,
+																price:result33.list[k].price,
+																sbtotal:result33.list[k].sbtotal,
+																count:result33.list[k].count,
+																zhekou:result33.list[k].zhekou,
+																moneyamt:result33.list[k].moneyamt,
+																cashregisterdetailid:result33.list[k].cashregisterdetailid,
+																commoditydetail:commoditydetail
+														};
+														list.push(cashregisterdetail);
+													}else{
+														var tr = $("<tr i=\""+result88.list[k].commodity.spxj+"\" style=\"color:red;\" class=\"wuyu\"><td class=\"commodityname\">"+result33.list[k].commodityname+"</td><td class=\"specifications\">"+result33.list[k].specifications+"</td><td class=\"count\">库存空</td><td class=\"price\">0</td><td class=\"moneyamt\">0</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
+														result33.moneyamt = result33.moneyamt - (result33.list[k].count)*(result33.list[k].price);
+													}
+													
+												}
 												$("#contentXQ").append(tr);	
-												totalCost2 += result33.list[k].sbtotal;
-												alert(result33.list[k].commoditydetail.count);
-												var commoditydetail = {
-														productcodeid : result33.list[k].commoditydetail.productcodeid,
-														colorid : result33.list[k].commoditydetail.colorid,
-														commoditysizeid : result33.list[k].commoditydetail.commoditysizeid,
-														count : result33.list[k].commoditydetail.count,
-												};
-												var cashregisterdetail = {
-														cashregisterid:result33.list[k].cashregisterid,
-														commodityname:result33.list[k].commodityname,
-														commoditydetailid:result33.list[k].commoditydetailid,
-														specifications:result33.list[k].specifications,
-														price:result33.list[k].price,
-														sbtotal:result33.list[k].sbtotal,
-														count:result33.list[k].count,
-														zhekou:result33.list[k].zhekou,
-														moneyamt:result33.list[k].moneyamt,
-														cashregisterdetailid:result33.list[k].cashregisterdetailid,
-														commoditydetail:commoditydetail
-												};
-												list.push(cashregisterdetail);
 											}
 											
 											var member = {
@@ -1600,7 +1626,9 @@
 				/* .splice(1,1) */
 				var ind = $(this).parent().parent().index();
 				register.list.splice(ind,1);
-				totalCost2 = totalCost2-parseFloat($(this).parent().parent().find(".moneyamt").html());
+				if($(this).parent().parent().attr("i") != 1){
+					totalCost2 = totalCost2-parseFloat($(this).parent().parent().find(".moneyamt").html());
+				}
 				if($("#VIPbutton44").attr("checked")=="checked"){
 					$('[name=pp1]').val(totalCost2);
 					var zhekou =$("[name=pp4]").val();

@@ -53,7 +53,7 @@ a:link,a:visited,a:hover,a:active {
 		<input name="userPassword" type="password" placeholder="密码"/>
 		<div id="captcha" style="position: relative"></div>
 		<div id="msg"></div>
-		<div id="ts"></div>
+		<div id="ts" style="color:red;"></div>
 	</div>
 </form>
 
@@ -68,7 +68,6 @@ a:link,a:visited,a:hover,a:active {
 		var userPassword=$("[name=userPassword]").val(); //用户密码
    		var a= 0 ;
    		if (userName==""||userPassword=="") {
-   			alert("用户名或密码不能为空！")
    			$("#ts").html("");
    			$("#ts").html("用户名和密码不能为空！");
    			$(".refreshIcon").trigger("click");
@@ -83,13 +82,15 @@ a:link,a:visited,a:hover,a:active {
 					data:param,
 					dataType:"json",
 					success:function(res){
-						console.info("登录信息");
-						console.info(res);
 						$("#ts").html("");
-						$("#ts").html("登录成功！");
-					
-						window.top.location.href="[[@{/topage/index}]]";					
-						window.top.location.href="[[@{/topage/index}]]";					
+						$("#ts").html(res.message);
+						if(res.code == 3){
+							window.top.location.href="[[@{/topage/index}]]";					
+							window.top.location.href="[[@{/topage/index}]]";
+						}else{
+							$(".refreshIcon").trigger("click");
+						}
+										
 					}
 				}) 
    		}

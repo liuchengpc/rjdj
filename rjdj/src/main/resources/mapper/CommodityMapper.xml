@@ -17,7 +17,7 @@
     <result column="spxj" jdbcType="INTEGER" property="spxj" />
   </resultMap>
   <select id="queryCommodityXZ" parameterType="com.apatech.domain.Commodity" resultMap="BaseResultMap">
-  	select * from commodity where 1=1 
+  	select * from commodity where 1=1 and spxj = 0 
   	<if test="commoditytypeid !=0">
           and commodityTypeID = #{commoditytypeid,jdbcType=INTEGER} 
     </if>

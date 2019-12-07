@@ -16,7 +16,7 @@ public class Cashregisterdetail {
     private Integer zhekou;//折扣
     private Float moneyamt;//总金额
     private Commoditydetail commoditydetail;	//商品详情对象
-    
+    private Commodity commodity;	//商品主表对象
     
     
     private String productcodeid;//商品主表id
@@ -92,6 +92,12 @@ public class Cashregisterdetail {
 	public void setCommoditydetail(Commoditydetail commoditydetail) {
 		this.commoditydetail = commoditydetail;
 	}
+	public Commodity getCommodity() {
+		return commodity;
+	}
+	public void setCommodity(Commodity commodity) {
+		this.commodity = commodity;
+	}
 	public String getProductcodeid() {
 		return productcodeid;
 	}
@@ -133,14 +139,14 @@ public class Cashregisterdetail {
 		return "Cashregisterdetail [cashregisterdetailid=" + cashregisterdetailid + ", cashregisterid=" + cashregisterid
 				+ ", commodityname=" + commodityname + ", commoditydetailid=" + commoditydetailid + ", specifications="
 				+ specifications + ", price=" + price + ", sbtotal=" + sbtotal + ", count=" + count + ", zhekou="
-				+ zhekou + ", moneyamt=" + moneyamt + ", commoditydetail=" + commoditydetail + ", productcodeid="
-				+ productcodeid + ", commodityimg=" + commodityimg + ", name=" + name + ", spxqcount=" + spxqcount
-				+ ", color=" + color + ", commoditysize=" + commoditysize + "]";
+				+ zhekou + ", moneyamt=" + moneyamt + ", commoditydetail=" + commoditydetail + ", commodity="
+				+ commodity + ", productcodeid=" + productcodeid + ", commodityimg=" + commodityimg + ", name=" + name
+				+ ", spxqcount=" + spxqcount + ", color=" + color + ", commoditysize=" + commoditysize + "]";
 	}
 	public Cashregisterdetail(String cashregisterdetailid, String cashregisterid, String commodityname,
 			String commoditydetailid, String specifications, Float price, Float sbtotal, Integer count, Integer zhekou,
-			Float moneyamt, Commoditydetail commoditydetail, String productcodeid, String commodityimg, String name,
-			Integer spxqcount, String color, String commoditysize) {
+			Float moneyamt, Commoditydetail commoditydetail, Commodity commodity, String productcodeid,
+			String commodityimg, String name, Integer spxqcount, String color, String commoditysize) {
 		super();
 		this.cashregisterdetailid = cashregisterdetailid;
 		this.cashregisterid = cashregisterid;
@@ -153,6 +159,7 @@ public class Cashregisterdetail {
 		this.zhekou = zhekou;
 		this.moneyamt = moneyamt;
 		this.commoditydetail = commoditydetail;
+		this.commodity = commodity;
 		this.productcodeid = productcodeid;
 		this.commodityimg = commodityimg;
 		this.name = name;

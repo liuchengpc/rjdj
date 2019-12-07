@@ -306,6 +306,7 @@ public class CashregisterController {
 		}
 		for (Cashregisterdetail ca : list) {
 			ca.setCommoditydetail(dao5.selectByPrimaryKey(ca.getCommoditydetailid()));
+			ca.setCommodity(dao6.selectByPrimaryKey(ca.getCommoditydetail().getProductcodeid()));
 		}
 		register.setList(list);
 		return register;
