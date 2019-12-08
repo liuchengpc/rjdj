@@ -403,6 +403,18 @@ public class CashregisterController {
 		return list;
 	}
 	/**
+	 * 查询订单年份
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/selectddnf",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Cashregister> selectddnf(Model model) {
+		System.out.println("进入CashregisterController查询全部");
+		List<Cashregister> list = dao.selectddnf();
+		return list;
+	}
+	/**
 	 * 根据主键查询
 	 * @param billid
 	 * @return
@@ -442,14 +454,33 @@ public class CashregisterController {
 			String shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd")Date newtime,//结束时间
-			String selectqb//查找
+ 			String selectqb,//查找
+			String ddnf//订单年份
 	){
 		System.out.println("进入CommodityController根据条件查询采购单主详表(销售统计)");
-		System.out.println(shopid+"/"+oldtime+"/"+newtime+"/"+selectqb);
-    	List<Cashregister> list=dao.selectAll2(shopid, oldtime, newtime, selectqb);
+		System.out.println(shopid+"/"+oldtime+"/"+newtime+"/"+selectqb+"/"+ddnf);
+    	List<Cashregister> list=dao.selectAll2(shopid, oldtime, newtime, selectqb,ddnf);
     	System.out.println(list.toString());
     	return list;
     }
+	/**
+	 * 根据条件查询采购单主详表(销售统计图)
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value = "selectxstjt",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Cashregister> selectxstjt(
+			String shopid,//店铺
+			String ddnf//订单年份
+			){
+		System.out.println("进入CommodityController根据条件查询采购单主详表(销售统计图)");
+		System.out.println(shopid+"/"+ddnf);
+		List<Cashregister> list=dao.selectxstjt(shopid,ddnf);
+		System.out.println(list.toString());
+		return list;
+	}
 	/**
 	 * 根据条件查询采购单主详表(营收概况)
 	 * @param pageNum

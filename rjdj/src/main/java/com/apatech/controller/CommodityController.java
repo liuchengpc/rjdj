@@ -79,6 +79,10 @@ public class CommodityController {
 		List<Commodity> list = dao.selectAll();
 		return list;
 	}
+	
+
+	
+	
 	/**
 	 * 根据主键查询
 	 * @param billid
@@ -210,7 +214,7 @@ public class CommodityController {
 		for (int i = 0; i < record.size(); i++) {
 			for (int j = 0; j < record2.size(); j++) {
 				if (record.get(i).getColorid()==record2.get(j).getColorid()&&record.get(i).getCommoditysizeid()==record2.get(j).getCommoditysizeid()) {
-					record2.get(j).setCount(record2.get(j).getCount()+record.get(i).getCount());
+					//record2.get(j).setCount(record2.get(j).getCount()+record.get(i).getCount());
 					dao2.updateByPrimaryKey(record2.get(j));
 					record.remove(i);
 					break;

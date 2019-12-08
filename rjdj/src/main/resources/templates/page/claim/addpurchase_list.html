@@ -197,42 +197,64 @@
 								<span class="titleX">商品分类：</span>
 								<ul class="classDiv"></ul>
 							</div>
-							<div class="tabelArea clearfix" style="">
-								<table class="settable productsTable table-bordered " style="width: 100%;" v-if="block">
-									<thead>
-										<tr>
-											<th width="8%">
-												<input type="checkbox" @click="checkAll" v-model="allChecked">
-											</th>
-											<th width="18%">货号/条码</th>
-											<th width="*">商品</th>
-											<th width="20%">规格</th>
-											<th width="12%">单价</th>
-											<th width="12%">库存</th>
-										</tr>
-									</thead>
-									<tbody pages="25" currpage="2">
-										 <tr v-for="(item,index) in dpsp"   >
-										 	<td>
-							                    <input type="checkbox" :value="index" v-model="indexs" @click="spxztj(index)">   <!--  -->
-							                </td>
-											<td class="bhDiv">
-												<em>{{item.commoditydetailid}}</em>
-											</td>
-											<td class="nameTD">
-												<div class="nameDiv">
-													<img height="30" width="30" :src="item.commodityimg" >
-													<p><em>{{item.name}}</em></p>
-												</div>
-											</td>
-											<td class="colorTd">
-												<em>{{item.color}}</em>/<em>{{item.commoditysize}}</em>
-											</td>
-											<td>{{item.costprice}}</td>
-											<td>{{item.count}}</td>
-							            </tr>
-									</tbody>
-							   </table>
+							<div class="tabelArea clearfix" style="" >
+								<div  v-if="block">
+									<table class="table table-bordered ">
+										<thead>
+											<tr>
+												<th width="8%">
+													<input type="checkbox" @click="checkAll" v-model="allChecked">
+												</th>
+												<th width="18%">货号/条码</th>
+												<th width="*">商品</th>
+												<th width="20%">规格</th>
+												<th width="12%">单价</th>
+												<th width="12%">库存</th>
+											</tr>
+										</thead>
+										<tbody pages="25" currpage="2">
+											 <tr v-for="(item,index) in dataShow"  :class="{ 'alt': index%2==1 }" >
+											 	<td>
+								                    <input type="checkbox" :value="index" v-model="indexs" @click="spxztj(index)">   <!--  -->
+								                </td>
+												<td class="bhDiv">
+													<em>{{item.commoditydetailid}}</em>
+												</td>
+												<td class="nameTD">
+													<div class="nameDiv">
+														<img height="30" width="30" :src="item.commodityimg" >
+														<p><em>{{item.name}}</em></p>
+													</div>
+												</td>
+												<td class="colorTd">
+													<em>{{item.color}}</em>/<em>{{item.commoditysize}}</em>
+												</td>
+												<td>{{item.costprice}}</td>
+												<td>{{item.count}}</td>
+								            </tr>
+										</tbody>
+								   </table>
+								   
+								   
+								    <nav aria-label="Page navigation" class="page" >
+									  <ul class="pagination">
+									    <li>
+									      <a href="#" aria-label="Previous" v-on:click="prePage">
+									        <span aria-hidden="true">&laquo;</span>
+									      </a>
+									    </li>
+									    
+									    <li  v-for="(item, index) in totalPage"><a href="#"  v-on:click="toPage(index)" :class="{active: currentPage==index}">{{ index+1 }}</a></li>
+									    <li>
+									      <a href="#" aria-label="Next" v-on:click="nextPage">
+									        <span aria-hidden="true">&raquo;</span>
+									      </a>
+									    </li>
+									  </ul>
+									</nav>
+								</div>
+								
+							   
 							   <table class="" style="width: 100%;" v-else>
 									<tbody pages="25" currpage="2">
 							             <tr  >
@@ -240,6 +262,8 @@
 							             </tr>
 									</tbody>
 							   </table>
+							   
+							  
 							</div>
 						</div>	
 	            </div>
@@ -287,9 +311,22 @@
 							remarks:"",//备注
 							list:[]//采购单详表
 						},
-			　　　　	  // 全选的默认
+			　　　　	  	// 全选的默认
 			            allChecked:false,
 			            indexs:[],
+			            
+			            
+			            listArray:[],
+				        // 总页数
+				        pageNum:1,
+				        // 每页显示的个数
+				        pageSize:6,
+				        // 当前页
+				        currentPage:0,
+				        // 总数据
+				        totalPage:[],
+				        // 当前显示的数据
+				        dataShow:[]
 					};
 				},methods:{
 					//根据采购单主表id查询所有采购单详表信息
@@ -344,6 +381,8 @@
 					//根据供应商id查询所有商品
 					hpdpsp:function(){
 						var that = this;
+						 var vm = this;
+						
 						if(this.page.supplierid!=""){
 							
 							$.ajax({
@@ -374,11 +413,22 @@
 				                	 		that.block=true;
 				                	 	}
 			 							//alert(that.block)
+			 							
 		 							}else{
 		 								//alert(111)
 		 								that.dpsp=data;
 		 							}
-		 							
+		 							that.listArray=that.dpsp;
+		 							//alert(JSON.stringify(that.listArray))
+	 								
+					 			      // 总页数
+					 			      vm.pageNum = Math.ceil(vm.listArray.length / vm.pageSize) || 1 ;
+					 			      // 分组
+					 			      for (var i = 0; i<vm.pageNum; i++) {
+					 			          vm.totalPage[i] = vm.listArray.slice(vm.pageSize * i, vm.pageSize * (i + 1))
+					 			      }
+					 			      // 取值
+					 			      vm.dataShow = vm.totalPage[vm.currentPage];
 		 						}
 							});
 							
@@ -513,6 +563,22 @@
 	 						}
 						});
 					},
+					
+					 nextPage: function(){
+				            var vm = this;
+				            if (vm.currentPage == vm.pageNum - 1) return;
+				            vm.dataShow = vm.totalPage[++vm.currentPage]   
+				        },
+				        prePage: function(){
+				            var vm = this;
+				            if (vm.currentPage == 0) return;
+				            vm.dataShow = vm.totalPage[--vm.currentPage]
+				        },
+				        toPage: function(page){
+				            var vm = this;
+				            vm.currentPage = page
+				            vm.dataShow = vm.totalPage[vm.currentPage];
+				        }
 				},
 				
 				created:function(){
@@ -541,6 +607,8 @@
 	 				this.page.username=user.username;
 						
 						
+	 				
+	 			
 	 			}
 			});
 		</script>

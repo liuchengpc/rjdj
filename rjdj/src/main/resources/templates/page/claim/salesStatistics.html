@@ -68,6 +68,11 @@
                    <option	 value="">全部店铺</option>
                 </select>
             </div>
+			<div class="list">
+                <select name="" id="ddnf" class="form-control" th:onchange="selectAll()">
+                   <!-- <option	 value="">--年份--</option> -->
+                </select>
+            </div>
 
             <div class="list">
                 <input type="date" class="form-control"  id="newtime" th:onchange="selectAll()">
@@ -80,7 +85,7 @@
             </div>
         
         </div>
-        <div class="mainbody" style="margin-bottom: 400px;">
+        <div class="mainbody" ><!-- style="margin-bottom: 400px;" -->
               <!-- bootstrap table自动渲染区域 -->
 			<table id="mytable" class="table table-hover" data-toolbar="#toolbar" ></table>
         </div>
@@ -105,6 +110,7 @@
 				}
 		});
 	  /* 加载店铺 S */
+	
   
   
             //初始化Table
@@ -115,8 +121,8 @@
                     pageNumber:1,                       //初始化加载第一页，默认第一页
                  	pagination : true,					//是否分页
                  	sidePagination : 'client',			//server:服务器端分页|client：前端分页
-                 	pageSize :1,						//单页记录数
-                 	pageList : [ 1, 2, 3],		//可选择单页记录数
+                 	pageSize :12,						//单页记录数
+                 	pageList : [ 12, 24],		//可选择单页记录数
                  	showRefresh : true,					//刷新按钮                   
                  	queryParams : function (params) {
                  		
@@ -124,7 +130,8 @@
                        		shopid:$('#shopid').val(),//店铺
                        		oldtime:$('#oldtime').val(),//开始时间
                        		newtime:$('#newtime').val(),//结束时间
-                       		selectqb:$('#selectqb').val()//查找
+                       		selectqb:$('#selectqb').val(),//查找
+                       		ddnf:$('#ddnf').val()//订单年份
                         };
                         return temp;
                     },                    				//得到查询条件
@@ -312,6 +319,8 @@
                 	$('#mytable').bootstrapTable('refresh', {
                 		url : '[[@{/CashregisterController/selectAll2}]]'
                 	});
+                 	
+                	selectxstjt();
                 }
 
                 
@@ -337,35 +346,200 @@
                */
         </script>
         
-        
-   
-			
 		
+	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		<div id="container2" style="width:900px; height: 600px;margin:0 auto; margin-top: 30px;"></div>
+        <script type="text/javascript" src="/js/echarts.min.js"></script>
 		<script type="text/javascript">
-			//新增 
-			function btn1(){
-				//1.生成采购单主表id
-				$.ajax({
-					url:"[[@{/topage/uuid}]]",
+		
+		   /* 加载年份 E */
+		  $.ajax({
+				url:"[[@{/CashregisterController/selectddnf}]]",
 					type:"get",
 					data:"",
+					dataType:"json",
 					success:function(data){
-						alert(data)
-						//2.跳转到addpurchase_list.html
-						window.sessionStorage.setItem("billid",data);//将用户信息保存到js中的session中
-						window.location.href ="[[@{/topage/page/claim/addpurchase_list}]]";
+						console.info(data)
+						$.each(data,function(i,res){
+							var s="<option value='"+res.ddnf+"'>"+res.ddnf+"</option>";
+							$("#ddnf").append(s);
+							selectxstjt();
+						})
 					}
-				});
+			});
+		  /* 加载年份 S */
+		
+		
+			var doms = document.getElementById("container2");
+			var myChart = echarts.init(doms);
+			var app = {};
+			option = null;
+			
+			app.title = '多 Y 轴示例';
+			
+			var colors = ['#5793f3', '#d14a61', '#675bba'];//统计图颜色
+			
+			
+			//alert(dds)
+			//dds.splice(2,1,8);//将index=2的一个元素替换为8；
+			//alert(dds)
+			
+			function selectxstjt(){
+				var dds=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,];//订单数
+				var xsje=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,];//销售金额
+				//alert(xsje)
+				var shopid=$('#shopid').val();//店铺
+				var	ddnf=$('#ddnf').val();//查找
+			
+				
+				option = {
+					    color: colors,
+					    tooltip: {
+					        trigger: 'axis',
+					        axisPointer: {
+					            type: 'cross'
+					        }
+					    },
+					    toolbox: {/*设置功能*/
+					         feature : {
+					                mark : {show: true},
+					                dataView : {show: true, readOnly: false},
+					                magicType: {show: true, type: ['line', 'bar']},
+					                restore : {show: true},
+					                saveAsImage : {show: true}
+					            }
+					    },
+					    legend: {
+					       data:['订单数','销售金额']
+					    },
+					    xAxis: [/*x轴*/
+					        {
+					            type: 'category',
+					            axisTick: {
+					                alignWithLabel: true
+					            },
+					            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+					             axisPointer: {
+					                type: 'shadow'
+					            }
+					        }
+					    ],
+					    yAxis: [/*y轴*/
+					        {
+					            type: 'value',
+					            name: '订单数',
+					            min: 0,
+					            position: 'left',
+					            axisLine: {
+					                lineStyle: {
+					                    color: colors[0]
+					                }
+					            },
+					            axisLabel: {
+					                formatter: '{value} 笔'
+					            }
+					        },
+					        {
+					            type: 'value',
+					            name: '销售金额',
+					            min: 0,
+					            position: 'right',
+					            axisLine: {
+					                lineStyle: {
+					                    color: colors[1]
+					                }
+					            },
+					            axisLabel: {
+					                formatter: '{value} 元'
+					            }
+					        }
+					    ],
+					    /*  dataZoom: [
+					            {
+					                show: true,
+					                start: 94,
+					                end: 400
+					            },
+					           
+					          
+					        ],*/
+					    series: [
+					        {
+					            name:'订单数',
+					            type:'bar',
+					            data:dds,
+					            markPoint : {
+					                data : [
+					                    {type : 'max', name: '最大值'},
+					                    {type : 'min', name: '最小值'}
+					                ]
+					            },
+					            markLine : {
+					                data : [
+					                    {type : 'average', name: '平均值'}
+					                ]
+					            }
+					            
+					        },
+					        {
+					            name:'销售金额',
+					            type:'bar',
+					            yAxisIndex: 1,
+					            data:xsje,
+					            markPoint : {
+					                data : [
+					                   {type : 'max', name: '最大值'},
+					                    {type : 'min', name: '最小值'}
+					                ]
+					            },
+					            markLine : {
+					                data : [
+					                    {type : 'average', name : '平均值'}
+					                ]
+					            }
+					        },
+					       
+					    ]
+					};
+			
+					    myChart.setOption(option);
+				
+				$.ajax({
+					url:"[[@{/CashregisterController/selectxstjt}]]",
+						type:"get",
+						data:"shopid="+shopid+"&ddnf="+ddnf,
+						dataType:"json",
+						success:function(data){
+							console.info("销售统计图")
+							console.info(data)
+							
+							$.each(data,function(i,obj){
+								//alert(obj.ddyf+"/"+obj.ddcount+"/"+obj.ddyf+"/"+obj.ddsumprice)
+								dds.splice(obj.ddyf-1,1,obj.ddcount);
+								xsje.splice(obj.ddyf-1,1,obj.ddsumprice);
+								myChart.setOption(option);
+							})
+							
+							
+						}
+				})
 			}
-		</script>
-		
-		
-		
-		
-		
-		
-		
-		
+
+		</script> 
+	
+	
+	
+	
+	
 		<!-- 模态框（Modal）修改 -->
 	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	    <div class="modal-dialog">
@@ -427,7 +601,5 @@
 	        </div><!-- /.modal-content -->
 	    </div><!-- /.modal -->
 	</div>
-			
-	
 </body>
 </html>

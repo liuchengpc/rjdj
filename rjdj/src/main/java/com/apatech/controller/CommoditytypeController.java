@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apatech.domain.Commodity;
 import com.apatech.domain.Commoditytype;
+import com.apatech.service.CommodityService;
 import com.apatech.service.CommoditytypeService;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -22,6 +23,8 @@ import com.github.pagehelper.PageInfo;
 public class CommoditytypeController {
 	@Autowired
 	private CommoditytypeService dao;	
+	@Autowired
+	private CommodityService dao2;	
 	
 	/**
 	 * 查询全部
@@ -31,7 +34,6 @@ public class CommoditytypeController {
 	@RequestMapping(value="/queryCommodityType",method=RequestMethod.GET)
 	@ResponseBody
 	public PageInfo<Commoditytype> queryCommodityType(Integer pageNum,Integer pageSize){
-		
 		return dao.queryCommodityType(pageNum, pageSize);
 	}
 	
@@ -138,5 +140,39 @@ public class CommoditytypeController {
 		}
 		return map;
     }
+	
+	
+	
+	/**
+	 * 查询商品表是否有引用type
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/selecttypeid",method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> selecttypeid(Model model,Integer commoditytypeid) {
+		System.out.println("进入查询商品表是否有引用type");
+		System.out.println("进入CommoditytypeController根据主键删除");
+		System.out.println("commoditytypeid："+commoditytypeid);
+		Map<String, String> map=new HashMap<String,String>();
+		List<Commodity> list = dao2.selectAll();
+		for (Commodity cd : list) {
+			if(cd.getCommoditytypeid()==commoditytypeid) {
+				
+		    	int i =dao.deleteByPrimaryKey(commoditytypeid);
+				if (i>0) {
+					map.put("code", "1");
+					map.put("message", "删除成功！");
+				}else {
+					map.put("code", "2");
+					map.put("message", "删除失败！");
+				}
+			}else {
+				map.put("code", "2");
+				map.put("message", "该类型被引用，不能删除！");
+			}
+		}
+		return map;
+	}
 
 }

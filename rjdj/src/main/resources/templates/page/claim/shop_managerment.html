@@ -102,9 +102,9 @@ $("#distpicker5").distpicker({
             //初始化Table
                 $('#mytable').bootstrapTable({
                 	url: '[[@{/CommoditydetailController/selectAll2}]]',   //请求后台的URL（*）
-                	 method: 'get',                      //请求方式（*）
-                     striped : true, 					//是否显示行间隔色
-                     pageNumber:1,                       //初始化加载第一页，默认第一页
+                	method: 'get',                      //请求方式（*）
+                    striped : true, 					//是否显示行间隔色
+                    pageNumber:1,                       //初始化加载第一页，默认第一页
                  	pagination : true,					//是否分页
                  	sidePagination : 'client',			//server:服务器端分页|client：前端分页
                  	pageSize :12,						//单页记录数
@@ -190,12 +190,10 @@ $("#distpicker5").distpicker({
  		            	title : '销售价',
          	    	 	field : 'price',
  		                sortable : true,
- 		                
  		            }, {      	   
  		            	title : '成本价',
          	    	 	field : 'costprice',
  		                sortable : true,
- 		                
  		            }, /* {
  		            	title : '商品详情',
          	    	 	field : 'productcodelist',
@@ -220,30 +218,75 @@ $("#distpicker5").distpicker({
 						formatter: function (value, row, index) {
  						    // var sid_code = base64encode(row.sid + '');   //  sid 加密处理
  						    // alert(sid_code);
- 						    return '<a href="javascript:;" title="修改">' + 
- 						        '<i class="glyphicon glyphicon-pencil"></i> ' + 
- 						        '</a>'+
- 						        '<a href="javascript:void(0)" title="删除">' +
- 						        '<i class="glyphicon glyphicon-trash text-danger"></i> ' + 
- 						        '</a>';
+ 						    if(row.spxj==0){
+ 						    	 return '<a href="javascript:;" title="修改">' + 
+  						        '<i class="glyphicon glyphicon-pencil"></i> ' + 
+  						        '</a>'+
+  						        '<a href="javascript:void(0)" title="下架">' +
+  						        '<i class="glyphicon glyphicon-arrow-down"></i> ' + 
+  						        '</a>';
+ 						    }else{
+ 						    	 return '<a href="javascript:;" title="修改">' + 
+  						        '<i class="glyphicon glyphicon-pencil"></i> ' + 
+  						        '</a>'+
+  						        '<a href="javascript:void(0)" title="上架">' +
+  						        '<i class="glyphicon glyphicon-arrow-up"></i> ' + 
+  						        '</a>';
+ 						    }
+ 						   
  						},
 						events: {
-						  'click a[title=删除]': function (e, value, row, index) {
+						  'click a[title=下架]': function (e, value, row, index) {
 							  console.info(e)
 							  console.info(value)
 							  console.info(row)
 							  console.info(index)
 							  alert(row.productcodeid)
-						      if(confirm('此操作不可逆，请确认是否删除？')==true){
-						    	 // 获取当前行 				              
+						      if(confirm('此操作不可逆，请确认是否下架？')==true){
+						    	 // 获取当前行 		
 						    	 var id=row.productcodeid;
+						    	 var obj={
+						    			 productcodeid:id,
+						    			 spxj:1
+						    	 }
+						    	 
 						    	 $.ajax({
-	 									url:"[[@{/CommoditydetailController/deleteByPrimaryKey}]]",
+	 									url:"[[@{/CommodityController/updateByPrimaryKeySelective}]]",
 	 									type:"post",
-	 									data:"productcodeid="+id,
-	 									dataType:"json",						
+	 									data:JSON.stringify(obj),
+	 									dataType:"json",
+	 									contentType:"application/json;charset=utf-8",					
 	 									success:function(res){	
-	 										console.info("删除：")
+	 										console.info("下架：")
+	 										console.info(res);
+											alert(res.message)
+	 										$('#mytable').bootstrapTable('refresh');
+	 									}
+	 							})  
+						      }
+						  },
+						  'click a[title=上架]': function (e, value, row, index) {
+							  console.info(e)
+							  console.info(value)
+							  console.info(row)
+							  console.info(index)
+							  alert(row.productcodeid)
+						      if(confirm('此操作不可逆，请确认是否上架？')==true){
+						    	 // 获取当前行 		
+						    	 var id=row.productcodeid;
+						    	 var obj={
+						    			 productcodeid:id,
+						    			 spxj:0
+						    	 }
+						    	 
+						    	 $.ajax({
+	 									url:"[[@{/CommodityController/updateByPrimaryKeySelective}]]",
+	 									type:"post",
+	 									data:JSON.stringify(obj),
+	 									dataType:"json",
+	 									contentType:"application/json;charset=utf-8",					
+	 									success:function(res){	
+	 										console.info("上架：")
 	 										console.info(res);
 											alert(res.message)
 	 										$('#mytable').bootstrapTable('refresh');

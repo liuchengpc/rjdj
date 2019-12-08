@@ -109,7 +109,7 @@
 					var this_ = this;
 					if (confirm("是否删除")==true) {
 						$.ajax({
-							url:"[[@{/CommoditytypeController/deleteByPrimaryKey}]]",
+							url:"[[@{/CommoditytypeController/selecttypeid}]]",
 							type:"get",
 							data:"commoditytypeid="+id,
 							dataType:"json",
