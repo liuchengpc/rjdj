@@ -3,6 +3,7 @@ package com.apatech.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,9 @@ public class CashregisterService {
     public List<Cashregister> selectAll() {
     	return dao.selectAll();
     }
+    public List<Cashregister> selectddnf() {
+    	return dao.selectddnf();
+    }
     
  
 // 	日期/time,	        
@@ -92,12 +96,20 @@ public class CashregisterService {
     		String shopid,//店铺
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date oldtime,//开始时间
  			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date newtime,//结束时间
-			String selectqb//查找
+			String selectqb,//查找
+			String ddnf//订单年份
 	){
-    	List<Cashregister> li=dao.selectAll3(shopid, oldtime, newtime, selectqb);
+    	List<Cashregister> li=dao.selectAll3(shopid, oldtime, newtime, selectqb,ddnf);
     	for (int i = 0; i < li.size(); i++) {//根据主表的id将详情表的数据添加到主表的对应对象的list
     		li.get(i).setList(dao2.selectByid(li.get(i).getAshregisterid())); 
 		}
+    	return li;
+    }
+    public List<Cashregister> selectxstjt(
+    		String shopid,//店铺
+    		String ddnf//订单年份
+    		){
+    	List<Cashregister> li=dao.selectxstjt(shopid,ddnf);
     	return li;
     }
     	

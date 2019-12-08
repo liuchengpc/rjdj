@@ -140,8 +140,8 @@
                     pageNumber:1,                       //初始化加载第一页，默认第一页
                  	pagination : true,					//是否分页
                  	sidePagination : 'client',			//server:服务器端分页|client：前端分页
-                 	pageSize :1,						//单页记录数
-                 	pageList : [ 1, 2, 3],		//可选择单页记录数
+                 	pageSize :12,						//单页记录数
+                 	pageList : [ 12, 24],		//可选择单页记录数
                  	showRefresh : true,					//刷新按钮                   
                  	queryParams : function (params) {
                         var temp = {
@@ -443,63 +443,6 @@
 	
 	
 	
-		<div id="container2" style="height: 35%;width: 45%;margin-left: 20px;float: right;margin-top: 30px;"></div>	
-        <script type="text/javascript" src="/js/echarts.min.js"></script>
-		<!-- <script type="text/javascript">
-		
-			
-			
-			
-			var doms = document.getElementById("container2");
-			var myChart = echarts.init(doms);
-			var app = {};
-			option = null;
-			option = {
-				    title : {//标题组件，包含主标题和副标题。
-				        text: '某站点用户访问来源',
-				        subtext: '纯属虚构',
-				        x:'center'
-				    },
-				    tooltip : {//提示框组件。
-				        trigger: 'item',
-				        formatter: "{a} <br/>{b} : {c} ({d}%)"
-				    },
-				    legend: {//图例组件
-				        orient: 'vertical',
-				        left: 'left',
-				    },
-				    series : [//系列列表。每个系列通过 type 决定自己的图表类型
-				        {
-				            name: '销售总数',
-				            type: 'pie',
-				            radius : '55%',
-				            center: ['50%', '60%'],
-				            data:[
-				                {value:335, name:'直接访问fsfs'},
-				                {value:310, name:'邮件营销'},
-				                {value:234, name:'联盟广告'},
-				                {value:135, name:'视频广告'},
-				                {value:1548, name:'搜索引擎'},
-				                 {value:2548, name:'搜索引擎2'}
-				            ],
-				            itemStyle: {
-				                emphasis: {
-				                    shadowBlur: 10,
-				                    shadowOffsetX: 0,
-				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-				                }
-				            }
-				        }
-				    ]
-				};
-			if (option && typeof option === "object") {
-			    myChart.setOption(option, true);
-			}
-	
-			
-			
-			
-		</script> -->
-	
+
 </body>
 </html>

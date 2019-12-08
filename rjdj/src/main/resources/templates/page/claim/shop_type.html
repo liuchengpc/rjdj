@@ -191,15 +191,21 @@
 					//根据id删除商品
 					del:function(commoditytypeid){
 						var that = this;
-						$.ajax({
-							url:"[[@{/CommoditytypeController/deleteByPrimaryKey}]]",
-	 						type:"get",
-	 						data:{commoditytypeid:commoditytypeid},
-	 						dataType:"json",
-	 						success:function(data){
-	 							that.goPage();
-	 						}
-						});
+						if (confirm("是否删除")==true) {
+							$.ajax({
+								url:"[[@{/CommoditytypeController/selecttypeid}]]",
+		 						type:"get",
+		 						data:{commoditytypeid:commoditytypeid},
+		 						dataType:"json",
+		 						success:function(data){
+									if(data.code==2){
+										alert(data.message)
+									}else{
+										that.goPage();
+									}
+		 						}
+							});
+						}
 					},
 				},created:function(){
 	 				this.goPage(1);

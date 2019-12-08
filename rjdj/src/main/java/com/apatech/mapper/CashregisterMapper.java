@@ -28,6 +28,12 @@ public interface CashregisterMapper {
     @Select("select * from Cashregister")
     List<Cashregister> selectAll();
     
+    @Select("SELECT YEAR(time) 'ddnf' FROM cashregister\r\n" + 
+    		"WHERE ispresent=1\r\n" + 
+    		"GROUP BY YEAR(time) "
+    		+ "ORDER BY YEAR(`time`) DESC\r\n" )
+    List<Cashregister> selectddnf();
+    
 
 
     /**
@@ -47,8 +53,13 @@ public interface CashregisterMapper {
     		@Param("shopid")String shopid,//店铺
     		@Param("oldtime")Date oldtime,//开始时间
     		@Param("newtime")Date newtime,//结束时间
-    		@Param("selectqb")String selectqb//查找
+    		@Param("selectqb")String selectqb,//查找
+    		@Param("ddnf")String ddnf//订单年份
 	);
+    List<Cashregister> selectxstjt(
+    		@Param("shopid")String shopid,//店铺
+    		@Param("ddnf")String ddnf//订单年份
+    		);
     List<Cashregister> selectAll4(
     		@Param("shopid")String shopid,//店铺
     		@Param("oldtime")Date oldtime,//开始时间

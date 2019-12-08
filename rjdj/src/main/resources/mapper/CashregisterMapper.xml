@@ -130,13 +130,13 @@
 	</update>
 	<select id="selectByAll" resultType="com.apatech.domain.Cashregister">
 		SELECT c.* 
-		FROM `cashregister`c,`member` m 
-		WHERE c.`memberID`=m.`memberID`
+		FROM cashregister c,member m 
+		WHERE c.memberID=m.memberID
 		<if test="null!=PhoneOrName and ''!=PhoneOrName">
-			AND (m.`name` LIKE "%"#{PhoneOrName}"%" OR m.`phone` LIKE "%"#{PhoneOrName}"%") 
+			AND (m.name LIKE "%"#{PhoneOrName}"%" OR m.phone LIKE "%"#{PhoneOrName}"%") 
 		</if>
 		<if test="null!=startTime">
-			AND c.`time` &gt;= #{startTime}
+			AND c.time &gt;= #{startTime}
 		</if>
 		<if test="null!=endTime">
 			AND c.time &lt;= #{endTime}
@@ -145,7 +145,7 @@
 
   <select id="queryByGd" parameterType="com.apatech.domain.Cashregister" resultMap="BaseResultMap">
   	select * from cashregister where ispresent = 0 
-  	and ashregisterid like '%${ashregisterid}%' order by `time` desc 
+  	and ashregisterid like '%${ashregisterid}%' order by time desc 
   </select>
   <insert id="insertCashregister" parameterType="com.apatech.domain.Cashregister">
     insert into cashregister (ashRegisterID, time, shopID, 
@@ -160,8 +160,8 @@
     <!-- 订单主表条件查询(销售统计) -->
   <select id="selectAll3" parameterType="java.lang.String" resultMap="BaseResultMap">
    	SELECT * FROM cashregister b 
-	LEFT JOIN member d ON b.memberID=d.memberID 
-	LEFT JOIN shop c ON b.shopID=c.shopID 
+		LEFT JOIN member d ON b.memberID=d.memberID 
+		LEFT JOIN shop c ON b.shopID=c.shopID 
     where 1=1
     and b.ispresent=1
    	<if test="shopid != null and shopid !=''">
@@ -181,9 +181,26 @@
 	<if test="newtime!=null">
 		AND b.time &lt; #{newtime}
 	</if>
+	<if test="ddnf!=null and ddnf !=''">
+		AND YEAR(b.time)= #{ddnf}
+	</if>
 	<!-- GROUP BY a.cashRegisterID -->
   </select>
-
+ <!-- 订单主表条件查询(销售统计图) -->
+  <select id="selectxstjt" parameterType="java.lang.String" resultMap="BaseResultMap">
+	   select year(a.time) 'ddnf',month(a.time) 'ddyf',sum(a.moneyamt) 'ddsumprice',count(a.moneyamt) 'ddcount' ,c.* from cashregister a
+	LEFT JOIN shop c ON a.shopID=c.shopID 	
+    where 1=1
+    and a.ispresent=1
+    <if test="shopid != null and shopid !=''">
+          and c.shopid = #{shopid}
+      </if>
+   	<if test="ddnf!=null and ddnf !=''">
+		AND YEAR(a.time)= #{ddnf}
+	</if>
+      
+	group by year(a.time),month(a.time)
+  </select>
 
     <!-- 订单主表条件查询(营收概况) -->
   <select id="selectAll4" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -206,6 +223,7 @@
 	</if>
 	group by c.shopid
   </select>
+   
     <!-- 订单主表条件查询(热销商品) -->
   <select id="selectAll5" parameterType="java.lang.String" resultMap="BaseResultMap">
    SELECT  *,f.name as spname,SUM(a.count) as spsccount ,SUM(a.moneyamt) as spsccprice FROM cashregisterdetail a

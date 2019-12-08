@@ -26,6 +26,11 @@ public class Cashregister {
     private Integer ispresent;//是否付款    (0:否 默认：0  1:是)
     private List<Cashregisterdetail> list;//集合
     private List<Cashregister> list2;//集合
+    
+    private String ddnf;//订单年份
+    private String ddyf;//订单月份
+    private Double ddsumprice;//订单销售金额
+    private Integer ddcount;//订单数
 
     private Member member;	//会员对象
     private Memberlv memberlv;	//会员等级对象
@@ -334,6 +339,30 @@ public class Cashregister {
 	}
 	public void setList2(List<Cashregister> list2) {
 		this.list2 = list2;
+	}
+	public String getDdnf() {
+		return ddnf;
+	}
+	public void setDdnf(String ddnf) {
+		this.ddnf = ddnf;
+	}
+	public String getDdyf() {
+		return ddyf;
+	}
+	public void setDdyf(String ddyf) {
+		this.ddyf = ddyf;
+	}
+	public Double getDdsumprice() {
+		return ddsumprice;
+	}
+	public void setDdsumprice(Double ddsumprice) {
+		this.ddsumprice = ddsumprice;
+	}
+	public Integer getDdcount() {
+		return ddcount;
+	}
+	public void setDdcount(Integer ddcount) {
+		this.ddcount = ddcount;
 	}
 	
 	
