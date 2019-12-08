@@ -187,7 +187,7 @@ public class CashregisterService {
 	
 	  public PageInfo<Cashregister> queryAll(Integer pageNum,Integer pageSize){
 		  Page<Cashregister> page = PageHelper.startPage(pageNum, pageSize);
-		  List<Cashregister> list=dao.selectAll(); 
+		  List<Cashregister> list=dao.queryAll(); 
 		  
 		  for(Cashregister cashregister :list) { 
 			/*

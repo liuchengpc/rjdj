@@ -107,7 +107,7 @@
                                 <input type="text" id="name" class="inputtext" style="width: 398px;" onchange="namecm()">
                                 <script type="text/javascript">
                                 	function namecm(){
-                                		alert(1)
+                                		//alert(1)
                                 		var name=$("#name").val();	//商品名称
 	   		                   			 $.ajax({//根据尺码id删除（如此尺码被使用则提示被“占用，不能删除”）
 	   	                   					url:"[[@{/CommodityController/selectAll}]]",

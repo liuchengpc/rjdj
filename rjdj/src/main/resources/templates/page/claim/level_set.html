@@ -261,17 +261,22 @@
 	}
 	function deleteById(that){
 		var memberlvid=$(that).parent().parent().find("#memberlvid").text();
+		
 		if(confirm("操作无法取消,您确定要删除吗?")){
 			$.ajax({
-				url:"[[@{/MemberlvController/deleteByPrimaryKey}]]",
+				url:"[[@{/MemberlvController/zhzdeleteByPrimaryKey}]]",
 				type:"get",
 				data:"memberlvid="+memberlvid,
 				"success":function(res){
 					alert(res.message);
-					location.reload();
+					if(res.code==1){
+						location.reload();
+					}
+					
 				}
 			});
 		}
+		
 	}
 </script>
 </html>

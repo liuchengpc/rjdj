@@ -20,6 +20,9 @@ public interface MemberMapper {
 
     Member selectByPrimaryKey(Integer memberid);
     
+    
+    Member selectByMemberLvid(Integer memberLvID);
+    
     @Select("select * from Member")
     List<Member> selectAll();
     

@@ -142,6 +142,21 @@ public class MemberController {
 		System.out.println("memberid="+memberid);
     	return dao.selectByPrimaryKey(memberid);
     }
+	
+	
+	/**
+	 * 根据等级id
+	 * @param billid
+	 * @return
+	 */
+	@RequestMapping(value = "selectByMemberLvid",method = RequestMethod.GET)
+	@ResponseBody
+    public Member selectByMemberLvid(Integer memberlvid) {
+		System.out.println("进入MemberController根据memberlvid查询");
+		System.out.println("memberlvid="+memberlvid);
+    	return dao.selectByMemberLvid(memberlvid);
+    }
+	
 	/**
 	 * 分页
 	 * @param pageNum

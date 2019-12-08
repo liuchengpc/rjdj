@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apatech.domain.Member;
 import com.apatech.domain.Memberlv;
+import com.apatech.service.MemberService;
 import com.apatech.service.MemberlvService;
 import com.github.pagehelper.PageInfo;
 
@@ -21,6 +23,8 @@ import com.github.pagehelper.PageInfo;
 public class MemberlvController {
 	@Autowired
 	private MemberlvService dao;	
+	@Autowired
+	private MemberService dao2;	
 	
 	@RequestMapping(value="/queryByMemberlvMoney",method=RequestMethod.GET)
 	@ResponseBody
@@ -123,6 +127,7 @@ public class MemberlvController {
 		System.out.println("进入MemberlvController根据主键删除");
 		System.out.println("memberlvid："+memberlvid);
 		Map<String, String> map=new HashMap<String,String>();
+		
     	int i =dao.deleteByPrimaryKey(memberlvid);
 		if (i>0) {
 			map.put("code", "1");
@@ -133,5 +138,36 @@ public class MemberlvController {
 		}
 		return map;
     }
+	/**
+	 * 根据主键删除
+	 * @param billid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "zhzdeleteByPrimaryKey",method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> zhzdeleteByPrimaryKey(Integer memberlvid,Model model) {
+		System.out.println("进入MemberlvController根据主键删除");
+		System.out.println("memberlvid："+memberlvid);
+		Map<String, String> map=new HashMap<String,String>();
+		List<Member> list=dao2.selectAll();
+		for (Member m : list) {
+			if(m.getMemberlvid()==memberlvid) {
+				map.put("code", "3");
+				map.put("message", "该等级已被引用，无法删除！");
+				return map;
+			}
+		}
+		
+		int i =dao.deleteByPrimaryKey(memberlvid);
+		if (i>0) {
+			map.put("code", "1");
+			map.put("message", "删除成功！");
+		}else {
+			map.put("code", "2");
+			map.put("message", "删除失败！");
+		}
+		return map;
+	}
 
 }

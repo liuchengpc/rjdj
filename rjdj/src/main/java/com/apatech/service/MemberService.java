@@ -50,6 +50,17 @@ public class MemberService {
     	return dao.selectByPrimaryKey(memberid);
     }
     
+    
+    
+    /**
+     * 按等级id查询
+     * @param memberid
+     * @return
+     */
+    public Member selectByMemberLvid(Integer memberlvid) {
+    	return dao.selectByMemberLvid(memberlvid);
+    }
+    
     public List<Member> selectAll() {
     	return dao.selectAll();
     }

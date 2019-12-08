@@ -80,7 +80,7 @@
 				insertStu(){//跳转新增
 					$("#gridSystemModalLabel").html("新增类别")
 					var this_ = this;
-					alert("新增")
+					//alert("新增")
 					$('#smModal').modal("show");
 					$('.qd').hide();
 					$('#xz').show();
@@ -92,7 +92,7 @@
 				},
 				updateStu(id,name,index,row){//跳转修改
 					var this_ = this;
-				alert(id + "===" +name)
+				//alert(id + "===" +name)
 					$("#gridSystemModalLabel").html("修改类别")
 					$('#smModal').modal("show");
 					$('.qd').hide();
@@ -153,7 +153,7 @@
 		
 		//新增
 		$(document).on('click', '#xz', function() {
-				alert(1)
+				//alert(1)
       			 var obj={
 		        	 commoditytypename:$('#commoditytypename').val()
 		          }
@@ -178,8 +178,8 @@
 		});
 		//修改
 		$(document).on('click', '#xg', function() {
-			alert($("#aaa").val())
-			alert($('#commoditytypename').val())
+			//alert($("#aaa").val())
+			//alert($('#commoditytypename').val())
 			 var obj={
 			    commoditytypeid:$('#commoditytypename').attr("commoditytypeid"),
 			    commoditytypename:$('#commoditytypename').val()

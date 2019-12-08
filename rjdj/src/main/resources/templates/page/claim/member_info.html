@@ -359,7 +359,7 @@
     		methods:{
     			prePage:function(){
     				if(this.page.prePage<1){
-    					alert("没有上一页了");
+    					//alert("没有上一页了");
     					return ;
     				}
 					var lvid=$("#memberLvID_top").val();
@@ -368,7 +368,7 @@
  				},
  				nextPage:function(){
  					if(this.page.nextPage==0){
- 						alert("没有下一页了");
+ 						//alert("没有下一页了");
  						return ;
  					}
 					var lvid=$("#memberLvID_top").val();
@@ -399,7 +399,7 @@
  	 					}, */
 						$.ajax({
 						url:"[[@{/MemberController/queryAllBypage}]]",
-						data:{pageNum:pageNum,pageSize:1,lvid,PhoneOrName},
+						data:{pageNum:pageNum,pageSize:6,lvid,PhoneOrName},
 						dataType:"json",
 						type:"get",
 						success:function(result){
@@ -487,7 +487,7 @@
 				data:"Phone="+phone,
 				dataType:"json",
 				success:function(result){
-					alert(JSON.stringify(result));
+					//alert(JSON.stringify(result));
 					if(result!=null){
 						alert("手机号不能重复!请确保会员尚未存在");
 						return ;
@@ -525,7 +525,7 @@
 				dataType:"json",
 				type:"get",
 				success:function(result){
-					alert(result.list);
+					//alert(result.list);
 					if(result.list!=null){
 						return true;
 					}else{

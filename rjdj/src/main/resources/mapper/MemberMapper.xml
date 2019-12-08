@@ -190,4 +190,12 @@
 	where d.phone =#{phone,jdbcType=VARCHAR}
   	
   </select>
+  
+  
+  <select id="selectByMemberLvid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where memberLvID = #{memberLvID,jdbcType=INTEGER}
+  </select>
 </mapper>

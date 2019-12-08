@@ -77,11 +77,9 @@
 						dataType:"json",
 						data:"shopid="+shopid+"&roleid="+roleid+"&userid="+userid+"&username="+username+"&password="+password,
 						success:function(result){
+							alert(result.message);
 							if(result.code=="1"){
-								alert(result.message);
 								location.href="[[@{/topage/page/claim/employee_management}]]";
-							}else{
-								alert(result.message);
 							}
 						}
 					});

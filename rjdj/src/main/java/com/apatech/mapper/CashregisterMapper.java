@@ -25,8 +25,11 @@ public interface CashregisterMapper {
 
     Cashregister selectByPrimaryKey(String ashregisterid);
     
-    @Select("select * from Cashregister")
+    @Select("select * from Cashregister ")
     List<Cashregister> selectAll();
+    
+    @Select("SELECT c.* FROM Cashregister c,member m WHERE c.memberID=m.memberID ORDER BY c.time DESC")
+    List<Cashregister> queryAll();
     
     @Select("SELECT YEAR(time) 'ddnf' FROM cashregister\r\n" + 
     		"WHERE ispresent=1\r\n" + 

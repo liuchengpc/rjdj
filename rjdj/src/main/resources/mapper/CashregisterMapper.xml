@@ -141,6 +141,8 @@
 		<if test="null!=endTime">
 			AND c.time &lt;= #{endTime}
 		</if>
+		ORDER BY c.time
+		DESC
 	</select>
 
   <select id="queryByGd" parameterType="com.apatech.domain.Cashregister" resultMap="BaseResultMap">

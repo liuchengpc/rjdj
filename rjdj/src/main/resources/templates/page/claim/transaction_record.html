@@ -208,7 +208,7 @@
 		methods:{
 			prePage:function(){
 					if(this.page.prePage<1){
-						alert("没有上一页了");
+						//alert("没有上一页了");
 						return ;
 					}
 					var PhoneOrName=$("#PhoneOrName").val();
@@ -218,7 +218,7 @@
 			},
 			nextPage:function(){
 				if(this.page.nextPage==0){
-					alert("没有下一页了");
+					//alert("没有下一页了");
 					return ;
 				}
 				var PhoneOrName=$("#PhoneOrName").val();
@@ -256,7 +256,7 @@
 					dataType:"json",
 					data:{
 						pageNum:pageNum,
-						pageSize:1,
+						pageSize:6,
 						PhoneOrName:PhoneOrName,
 						startTime:startTime,
 						endTime:endTime
@@ -308,14 +308,14 @@
 			
 			prePage1:function(){
 					if(this.page2.prePage<1){
-						alert("没有上一页了");
+						//alert("没有上一页了");
 						return ;
 					}
 					this.getPage1(this.page2.prePage);
 			},
 			nextPage1:function(){
 				if(this.page2.nextPage==0){
-					alert("没有下一页了");
+					//alert("没有下一页了");
 					return ;
 				}
 				this.getPage1(this.page2.nextPage);
@@ -334,7 +334,7 @@
 					dataType:"json",
 					data:{
 						pageNum:pageNum,
-						pageSize:1
+						pageSize:6
 					},
 					success:function(result){
 						that.page2 = result;
