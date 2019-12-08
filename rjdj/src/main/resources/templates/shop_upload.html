@@ -503,7 +503,7 @@
 										 <thead align="center">
 										 	<tr class="active">
 											 	<td>规格</td>
-											 	<td>数量</td>										 	
+											 	<!-- <td>数量</td>	 -->									 	
 											 	<td>条形码</td>
 											</tr>
 										 </thead>
@@ -759,7 +759,7 @@
 					productcodeid:$("#productCodeID").val(),//商品主表ID
 					colorid:$("[name=colorID]").eq(i).attr("colorid"),//商品颜色ID
 					commoditysizeid:$("[name=productCodeID]").eq(i).attr("productcodeid"),	//商品尺码
-					count:$("[name=count]").eq(i).val(),//数量
+					count:0,//数量
 				}
 				//alert($(".desc").eq(i).val()+"/"+$(".subtotal").eq(i).val()+"/"+$(".picturepath").eq(i).attr("picturepath"))
 				list.push(b);
@@ -776,7 +776,7 @@
 			  	dataType:'json',	
 			  	contentType : "application/json;charset=utf-8",
 			  	success:function (data) {
-			  		alert(data.message)
+			  		//alert(data.message)
 			  		$.ajax({
 						url:'[[@{/CommodityController/insertSelective3}]]',
 						type:"post",

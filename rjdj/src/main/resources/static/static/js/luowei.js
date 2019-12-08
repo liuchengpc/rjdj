@@ -33,9 +33,9 @@ function cnmd(){
 																	"<span>——</span>" +
 																	"<span productCodeID="+$(b).attr("commoditySizeID")+" name='productCodeID'>"+$(b).html()+"</span>" +
 																"</td>" +
-																"<td>" +
+																/*"<td>" +
 																	"<input type='text' name='count' style='width: 137px;text-align:center;	' class='form-control spxqcount' placeholder='请输入数量'  value='1' onchange='jszsl()'> " +
-																"</td>" +
+																"</td>" +*/
 																"<td name='commodityDetailID'>"+shuijima+"</td>" +
 															"</tr>");
 						}

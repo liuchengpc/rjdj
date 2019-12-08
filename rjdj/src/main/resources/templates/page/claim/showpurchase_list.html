@@ -136,8 +136,8 @@
 	                        	<td class="bh">{{item.productcodeid}}</td>
 	                        	<td class="barcode">{{item.commoditydetailid}}</td>
 	                        	<td class="nameTD">
-	                        		<div class="nameDiv">
-	                        			<img width="30" height="30" src="http://www.buyinchina.com/style/img/bic222.jpg">
+	                        		<div class="nameDiv" style="text-align: left;">
+	                        			<img width="30" height="30" :src="item.commodityimg">
 	                       				<em>{{item.name}}</em>
 	                    			</div>
 	                       		</td>
@@ -304,6 +304,7 @@
 	 							console.info("查询所有采购单")
 	 							that.page.list = data;
 	 							console.info(data)
+	 							//alert(that.page.list[0].commodityimg)
 	 						}
 						});
 					},

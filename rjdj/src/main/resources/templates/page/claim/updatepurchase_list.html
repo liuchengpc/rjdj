@@ -136,8 +136,8 @@
 	                        	<td class="bh">{{item.productcodeid}}</td>
 	                        	<td class="barcode">{{item.commoditydetailid}}</td>
 	                        	<td class="nameTD">
-	                        		<div class="nameDiv">
-	                        			<img width="30" height="30" src="http://www.buyinchina.com/style/img/bic222.jpg">
+	                        		<div class="nameDiv" style="text-align: left;">
+	                        			<img width="30" height="30" :src="item.commodityimg">
 	                       				<em>{{item.name}}</em>
 	                    			</div>
 	                       		</td>
@@ -470,7 +470,7 @@
 					
 						//alert("进入")
 						this.indexs.map((json, index)=>{//把选中的添加到Commoditydetail中
-							this.Commoditydetail.push(this.dpsp[index])
+							this.Commoditydetail.push(this.dataShow[json])
 		                })
 		                this.Commoditydetail.map((json, index)=>{
 		                	 json.count=1

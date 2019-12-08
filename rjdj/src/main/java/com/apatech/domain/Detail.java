@@ -20,7 +20,7 @@ public class Detail {
     
     
 
-	
+    private String commodityimg;//商品图片
 
 
 
@@ -125,6 +125,14 @@ public class Detail {
 
 	public void setProductcodeid(String productcodeid) {
 		this.productcodeid = productcodeid;
+	}
+
+	public String getCommodityimg() {
+		return commodityimg;
+	}
+
+	public void setCommodityimg(String commodityimg) {
+		this.commodityimg = commodityimg;
 	}
     
     
