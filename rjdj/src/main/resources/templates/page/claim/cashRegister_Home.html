@@ -318,7 +318,6 @@
 					$(".wuyu").live("mousewheel",function(){
 						var ind = $(this).index();
 						if(g>0){
-							alert(register.list[ind].commoditydetail.count);
 							var num = register.list[ind].commoditydetail.count;
 							if(register.list[ind].count<num){
 								register.list[ind].count += 1;
@@ -817,7 +816,7 @@
 				
 				
 				var memberid = $("#VIPbutton44").val();
-				if(register==""){
+				if(register=="" || $("[name=pp1]").val()==0){
 					alert("收银表为空！");
 				}else{
 					if(memberid != 0 || memberid != "0"){
@@ -1442,7 +1441,6 @@
 										data:"ashregisterid="+ashregisterid,
 										success:function(result88){
 											for(var k=0;k<result88.list.length;k++){
-												alert(result88.list[k].commoditydetail.count);
 												if(result88.list[k].commodity.spxj == 1){
 													var tr = $("<tr class=\"wuyu\" i=\""+result88.list[k].commodity.spxj+"\" style=\"color:red;\"><td class=\"commodityname\">"+result88.list[k].commodityname+"(已下架)</td><td class=\"specifications\">"+result88.list[k].specifications+"</td><td class=\"count\">"+result88.list[k].count+"</td><td class=\"price\">"+result88.list[k].price+"</td><td class=\"moneyamt\">"+(result88.list[k].count)*(result88.list[k].price)+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");					
 													result88.moneyamt = result88.moneyamt - (result88.list[k].count)*(result88.list[k].price);
@@ -1519,7 +1517,6 @@
 													if(result33.list[k].commoditydetail.count>=result33.list[k].count){
 														var tr = $("<tr class=\"wuyu\"><td class=\"commodityname\">"+result33.list[k].commodityname+"</td><td class=\"specifications\">"+result33.list[k].specifications+"</td><td class=\"count\">"+result33.list[k].count+"</td><td class=\"price\">"+result33.list[k].price+"</td><td class=\"moneyamt\">"+result33.list[k].moneyamt+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
 														totalCost2 += result33.list[k].sbtotal;
-														alert(result33.list[k].commoditydetail.count);
 														var commoditydetail = {
 																productcodeid : result33.list[k].commoditydetail.productcodeid,
 																colorid : result33.list[k].commoditydetail.colorid,
@@ -1772,7 +1769,6 @@
 								$("#VIPbutton44").attr("checked","checked");
 								if($("#VIPbutton44").attr("checked")=="checked"){
 									$("#VIPbutton44").val(result7.memberid);
-									alert(totalCost2);
 									$("[name=pp1]").val(totalCost2);
 									$('[name=pp2]').val(parseFloat(totalCost2/100*zhekou));
 									if(result7.integral==undefined||result7.integral == "undefined"){

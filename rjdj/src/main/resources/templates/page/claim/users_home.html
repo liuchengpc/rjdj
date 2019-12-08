@@ -153,55 +153,79 @@
 			function updateUsers(){
 				$("#xg").click(function(){
 					if($("#xg").html()=="保存"){
-						var formData = new FormData($("#up")[0]);
-						$("#userid2").val(user.userid);
-						var formData2 = new FormData($("#fm")[0]);
-						$.ajax({
-							url:"[[@{/UsersController/updateUsersImg}]]",
-							data:formData2,
-							type:"post",
-							processData:false,
-							contentType:false,
-							successs:function(result){
-								
+						var sepak="";
+						var phone=$("[name=phonenumber]").val();
+						var industry = $("[name=industry]").val();
+						var userid = $("[name=userid]").val();
+						var password = $("[name=password]").val();
+						if(industry==""||userid==""||phone==""||password==""){
+							if(industry==""){
+								speak+="行业 ";
 							}
-						});
-						
-						$.ajax({
-							url:"[[@{/UsersController/updateUsers}]]",
-							data:formData,
-							type:"post",
-							processData:false,
-							contentType:false,
-							successs:function(result){
-								if(result=="success"){
-									alert("修改成功！");
-									
-								}else{
-									alert(2);
-								}
+							if(userid==""){
+								speak+="账号 ";
 							}
-						});
+							if(phonenumber==""){
+								speak+="手机 ";
+							}
+							if(password==""){
+								speak+="密码 ";
+							}
+							alert(speak+"不能为空");
+						}else if(!(/^1[3456789]\d{9}$/.test(phone))){
+							alert("手机号有误，请重填！");
 						
-						
-						//获取当前用户
-						 $.ajax({
-								url:"[[@{/UsersController/loginuser}]]",
+						}else{
+							var formData = new FormData($("#up")[0]);
+							$("#userid2").val(user.userid);
+							var formData2 = new FormData($("#fm")[0]);
+							$.ajax({
+								url:"[[@{/UsersController/updateUsersImg}]]",
+								data:formData2,
 								type:"post",
-								data:"",
-								dataType:"json",
-								success:function(res){
-									//alert(res)
-									alert(1)
-									console.info("获取当前用户！");
-									console.info(res);
-									
-									window.sessionStorage.setItem("user",null);
-									window.top.location.href="[[@{/topage/index}]]";
-									
+								processData:false,
+								contentType:false,
+								successs:function(result){
 									
 								}
-						}) 
+							});
+							
+							$.ajax({
+								url:"[[@{/UsersController/updateUsers}]]",
+								data:formData,
+								type:"post",
+								processData:false,
+								contentType:false,
+								successs:function(result){
+									if(result=="success"){
+										alert("修改成功！");
+										
+									}else{
+										alert(2);
+									}
+								}
+							});
+							
+							
+							//获取当前用户
+							 $.ajax({
+									url:"[[@{/UsersController/loginuser}]]",
+									type:"post",
+									data:"",
+									dataType:"json",
+									success:function(res){
+										//alert(res)
+										console.info("获取当前用户！");
+										console.info(res);
+										
+										window.sessionStorage.setItem("user",null);
+										window.top.location.href="[[@{/topage/index}]]";
+										
+										
+									}
+							})
+						}
+						 
 					}
 					
 				
@@ -211,10 +235,6 @@
 						$(".form-control").removeAttr("disabled");
 						$(".tx").removeAttr("hidden");
 						$("#xg").html("保存");
-					}else{
-						$(".form-control").attr("disabled","disabled");
-						$(".tx").attr("hidden","hidden");
-						$("#xg").html("修改");
 					}
 				});
 			}
