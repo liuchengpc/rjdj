@@ -152,19 +152,19 @@
 					<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 					  <ul class="layui-tab-title">
 					    <li class="layui-this ">
-					     	<a th:href="@{javascript:;}" class="djan">店铺</a>
+					     	<a th:href="@{javascript:;}" class="djan" onclick="tzdp()">店铺</a>
 					     </li>
 					     <li >
-					     	<a th:href="@{javascript:;}" >商品</a>
+					     	<a th:href="@{javascript:;}" onclick="tzsp()">商品</a>
 					     </li>
 					     <li >
 					    	<a th:href="@{javascript:;}" class="sy" onclick="tzsy()">收银</a>
 					    </li>
 					     <li >
-					     	<a th:href="@{javascript:;}" >报表</a>
+					     	<a th:href="@{javascript:;}" onclick="tzbb()">报表</a>
 					     </li>
 					     <li >
-					     	<a th:href="@{javascript:;}" >会员</a>
+					     	<a th:href="@{javascript:;}" onclick="tzhy()">会员</a>
 					     </li>
 					  </ul>
 					  	<script type="text/javascript">
@@ -177,26 +177,16 @@
 				   		<!-- 选项卡窗格 -->
 					  <div class="layui-tab-content" style="height: 100px;">
 					    <div class="layui-tab-item layui-show">
-					    	<!--<div class="main" style="border: 1px solid #E7E7EB;border-left: none;"> 	
-								<div class="global-width ">
-									<iframe  frameBorder="0" id="left" style="border: 1px solid #E7E7EB;border-top: none;border-bottom: none; padding-right: 0px;padding-left: 0px;"  name="left" scrolling="no" th:src="@{/topage/page/common/body_menu.html"  class="col-lg-2" width="195px"  target="main" onload="this.height=this.contentWindow.document.documentElement.scrollHeight"></iframe>
-									<iframe  frameBorder="0" style="overflow:hidden; padding-right: 0px;" id="main" name="main" scrolling="yes" th:src="@{/topage/page/claim/claim_voucher_list.html" width="99.9%"; class="col-lg-10" onload="this.height=this.contentWindow.document.documentElement.scrollHeight"></iframe>
-									<script type="text/javascript">
-										function setheight(){
-											//alert(1)
-											var s=$("#main").height();
-											$(".main").height(s);
-											$("#left").height(s);
-										}
-										　t = setInterval("setheight()", 1);
-									</script>
-								</div>
-							</div>-->
+					  
 							<div class="main" style="border: 1px solid #E7E7EB;border-left: none;"> 	
 								<div class="global-width ">
 									<iframe  frameBorder="0" id="left" name="left" class="col-lg-2"  style="border: 1px solid #E7E7EB;border-top: none;border-bottom: none; padding-right: 0px;padding-left: 0px;"   scrolling="no" th:src="@{/topage/page/common/body_menu}"  width="195px"  target="main"></iframe>
 									<iframe  frameBorder="0" id="main" name="main" class="col-lg-10" style="overflow:hidden; padding-right: 0px;"  scrolling="yes" th:src="@{/topage/page/claim/store_management}" width="99.9%";  ></iframe>
-									<script type="text/javascript">									
+									<script type="text/javascript">		
+										function tzdp(){
+											var sxs=$("#main").attr("src")
+											$("#main").attr("src",sxs);
+										}
 										function setheight(){
 											var s=$("#main").height();
 											$(".main").height(s);
@@ -222,7 +212,11 @@
 								<div class="global-width ">
 									<iframe  frameBorder="0" id="left2" name="left2" class="col-lg-2"  style="border: 1px solid #E7E7EB;border-top: none;border-bottom: none; padding-right: 0px;padding-left: 0px;"   scrolling="no" th:src="@{/topage/page/common/body_menu2}"  width="195px"  target="main"></iframe>
 									<iframe  frameBorder="0" id="main2" name="main2" class="col-lg-10" style="overflow:hidden; padding-right: 0px;"  scrolling="yes" th:src="@{/topage/page/claim/shop_type}" width="99.9%";  ></iframe>
-									<script type="text/javascript">									
+									<script type="text/javascript">	
+										function tzsp(){
+											var sxs=$("#main2").attr("src")
+											$("#main2").attr("src",sxs);
+										}
 										function setheight2(){
 											var s=$("#main2").height();
 											$(".main2").height(s);
@@ -288,7 +282,11 @@
 								<div class="global-width ">
 									<iframe  frameBorder="0" id="left4" name="left4" class="col-lg-2"  style="border: 1px solid #E7E7EB;border-top: none;border-bottom: none; padding-right: 0px;padding-left: 0px;"   scrolling="no" th:src="@{/topage/page/common/body_menu4}"  width="195px"  target="main"></iframe>
 									<iframe  frameBorder="0" id="main4" name="main4" class="col-lg-10" style="overflow:hidden; padding-right: 0px;"  scrolling="yes" th:src="@{/topage/page/claim/salesStatistics}" width="99.9%";  ></iframe>
-									<script type="text/javascript">									
+									<script type="text/javascript">	
+										function tzbb(){
+											var sxs=$("#main4").attr("src")
+											$("#main4").attr("src",sxs);
+										}
 										function setheight4(){
 											var s=$("#main4").height();
 											$(".main4").height(s);
@@ -316,7 +314,11 @@
 								<div class="global-width ">
 									<iframe  frameBorder="0" id="left7" name="left7" class="col-lg-2"  style="border: 1px solid #E7E7EB;border-top: none;border-bottom: none; padding-right: 0px;padding-left: 0px;"   scrolling="no" th:src="@{/topage/page/common/body_menu5}"  width="195px"  target="main"></iframe>
 									<iframe  frameBorder="0" id="main7" name="main7" class="col-lg-10" style="overflow:hidden; padding-right: 0px;"  scrolling="yes" th:src="@{/topage/page/claim/member_info}" width="99.9%";  ></iframe>
-									<script type="text/javascript">									
+									<script type="text/javascript">		
+										function tzhy(){
+											var sxs=$("#main7").attr("src")
+											$("#main7").attr("src",sxs);
+										}
 										function setheight7(){
 											var s=$("#main7").height();
 											$(".main7").height(s);

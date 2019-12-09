@@ -181,6 +181,10 @@
  		            	title : '销售金额',
          	    	 	field : 'xsje',	        	    	
  		                sortable : true,
+ 		               formatter: function (value, row, index) {
+ 		            	   
+  		            	  return value.toFixed(2);
+ 						}
  		            }, /* {      	   
  		            	title : '充值',
          	    	 	field : 'cz',	        	    	

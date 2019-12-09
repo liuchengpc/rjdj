@@ -484,7 +484,7 @@
 								  		<span name="bjcm" onclick="enen()">编辑尺码</span>
 								  	</div>
 								</div>
-								<div class="form-group" style="line-height: 34px;">
+								<div class="form-group" style="line-height: 34px; display: none;">
 								     <span for="inputEmail3" class="col-sm-3" style="float: left;    width: 81px;    text-align: right;    font-size: 14px;    line-height: 36px;    padding-right: 10px;    color: #9e9e9e;    position: relative;">
 									    	<i style="color: #f24d4d;font-size: 14px;font-style: normal;font-weight: normal;left: 0px;position: absolute;top: 4px;">*</i>
 									    	库存总数
@@ -784,7 +784,7 @@
 					  	dataType:'json',	
 					  	contentType : "application/json;charset=utf-8",
 					  	success:function (data) {
-					  		alert(data.message)
+					  		//alert(data.message)
 							window.location.href ="[[@{/topage/page/claim/shop_managerment}]]";
 				        }
 					});

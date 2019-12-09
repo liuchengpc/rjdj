@@ -686,16 +686,18 @@
                         </h4>
                     </div>
                     <div class="modal-body">
-	                  <div class="form-group">
-					    <input type="text" class="form-control" name="phone" id="" placeholder="请填写会员号">
-					  </div>
-					  <div class="form-group">
-					    <input type="password" class="form-control" name="password" id="" placeholder="请填写密码">
-					  </div>
-					  <div hidden="hidden" class="ts" style="width:300px; height:25px;color:red;"></div>
-					  <button id="hyqx" data-dismiss="modal" type="button" class="btn btn-default">关闭会员</button>
-					  <button id="hyqr" data-dismiss="modal" type="button" class="btn btn-default">确认</button>
-                    </div>
+							<div class="row">
+			                  <div class="form-group col-md-9" >
+							    <input type="text" class="form-control" name="phone" id="" placeholder="请填写会员号">
+							  </div>
+							  <div class="form-group  col-md-9">
+							    <input type="password" class="form-control" name="password" id="" placeholder="请填写密码">
+							  </div>
+							  <div hidden="hidden" class="ts" style="width:300px; height:25px;color:red;"></div>
+							  <button id="hyqx" data-dismiss="modal" type="button" class="btn btn-default">关闭会员</button>
+							  <button id="hyqr" data-dismiss="modal" type="button" class="btn btn-default">确认</button>
+		                    </div>
+	                   </div>
                     <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                         </button>
@@ -720,15 +722,17 @@
                         </h4>
                     </div>
                     <div class="modal-body">
-	                  <div class="form-group">
-					    <input type="text" class="form-control" name="phone2" id="" placeholder="请填写会员号">
-					  </div>
-					  <div class="form-group">
-					    <input type="password" class="form-control" name="password2" id="" placeholder="请填写密码">
-					  </div>
-					  <div hidden="hidden" class="ts" style="width:300px; height:25px;color:red;"></div>
-					  <button id="hyqx2" data-dismiss="modal" type="button" class="btn btn-default">关闭会员</button>
-					  <button id="hyqr2" data-dismiss="modal" type="button" class="btn btn-default">确认</button>
+	                  <div class="row">
+			                  <div class="form-group col-md-9" >
+							    <input type="text" class="form-control" name="phone2" id="" placeholder="请填写会员号">
+							  </div>
+							  <div class="form-group  col-md-9">
+							    <input type="password" class="form-control" name="password2" id="" placeholder="请填写密码">
+							  </div>
+							  <div hidden="hidden" class="ts" style="width:300px; height:25px;color:red;"></div>
+							  <button id="hyqx2" data-dismiss="modal" type="button" class="btn btn-default">关闭会员</button>
+							  <button id="hyqr2" data-dismiss="modal" type="button" class="btn btn-default">确认</button>
+		                    </div>
                     </div>
                     <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -942,6 +946,8 @@
 																											$('[name=pp3]').val("0");
 																											$('[name=pp4]').val("无");
 																											$("#VIPbutton44").removeAttr("checked");
+																											
+																											fz(0);
 																										}
 																									});
 																								}else{
@@ -979,6 +985,8 @@
 																	$('[name=pp3]').val("0");
 																	$('[name=pp4]').val("无");
 																	$("#VIPbutton44").removeAttr("checked");
+																	
+																	fz(0);
 																}
 															});
 														}
@@ -1038,6 +1046,8 @@
 											$('[name=pp3]').val("0");
 											$('[name=pp4]').val("无");
 											$("#VIPbutton44").removeAttr("checked");
+											
+											fz(0);
 										}
 									});
 								}else{
@@ -1197,6 +1207,8 @@
 																								$('[name=tt3]').val("0");
 																								$('[name=tt4]').val("无");
 																								$("#VIPbutton2").removeAttr("checked");
+																								
+																								fz(0);
 																							}
 																						});
 																					}else{
@@ -1225,6 +1237,8 @@
 																	$('[name=tt3]').val("0");
 																	$('[name=tt4]').val("无");
 																	$("#VIPbutton2").removeAttr("checked");
+																	
+																	fz(0);
 																}
 															});
 														}
@@ -1303,6 +1317,8 @@
 						$('[name=tt3]').val("0");
 						$('[name=tt4]').val("无");
 						$("#VIPbutton2").removeAttr("checked");
+						
+						fz(0);
 					}
 				}
 			});
@@ -1510,6 +1526,7 @@
 										success:function(result33){
 											var list = [];
 											for(var k=0;k<result33.list.length;k++){
+												alert(result33.list[k].commodity.spxj);
 												if(result33.list[k].commodity.spxj == 1){
 													var tr = $("<tr i=\""+result88.list[k].commodity.spxj+"\" style=\"color:red;\" class=\"wuyu\"><td class=\"commodityname\">"+result33.list[k].commodityname+"(已下架)</td><td class=\"specifications\">"+result33.list[k].specifications+"</td><td class=\"count\">"+result33.list[k].count+"</td><td class=\"price\">"+result33.list[k].price+"</td><td class=\"moneyamt\">"+result33.list[k].moneyamt+"</td><td><span class=\"glyphicon glyphicon-remove-circle sca\"></span></td></tr>");
 													result33.moneyamt = result33.moneyamt - (result33.list[k].count)*(result33.list[k].price);
@@ -1683,7 +1700,6 @@
 								
 					
 					if(sl>0){
-						alert("sl"+sl);
 						$.ajax({
 							url:"[[@{/MemberController/queryMemberByPhoneTwo2}]]",
 							type:"get",
@@ -1750,7 +1766,6 @@
 								alert("账号或密码错误！");
 								$("#VIPbutton33").removeAttr("checked");
 							}else{
-								alert("正确了");
 								sl++;
 							}	
 						}
@@ -1806,8 +1821,14 @@
 				data:"commoditytypeid="+commoditytypeid,
 				success:function(result){
 					$.each(result,function(i,obj){
-						var li = $("<li class=\"ayo\"><a i=\""+obj.commoditydetailXZ[0].commoditydetailid+"\" href=\"#\" class=\"item\"><img src=\""+obj.commodityimg+"\" style=\"border-width: 0px;\" class=\"iga\"><div><p i2=\""+obj.commoditydetailXZ[0].count+"\">"+obj.name+"</p><p>"+obj.commoditydetailXZ[0].commoditysize+"/"+obj.commoditydetailXZ[0].color+"</p><p>价格：$"+obj.price+"</p></div></a></li>");
-						$("#fz").append(li);
+						for(var lc=0;lc<obj.commoditydetailXZ.length;lc++){
+							if(obj.commoditydetailXZ[lc].count!=0){
+								var li = $("<li class=\"ayo\"><a i=\""+obj.commoditydetailXZ[lc].commoditydetailid+"\" href=\"#\" class=\"item\"><img src=\""+obj.commodityimg+"\" style=\"border-width: 0px;width:100px;height:50;\" class=\"iga\"><div><p i2=\""+obj.commoditydetailXZ[lc].count+"\">"+obj.name+"</p><p>"+obj.commoditydetailXZ[lc].commoditysize+"/"+obj.commoditydetailXZ[lc].color+"</p><p>价格：$"+obj.price+"</p></div></a></li>");
+								$("#fz").append(li);
+							}
+							
+						}
+						
 					});
 				}
 			});

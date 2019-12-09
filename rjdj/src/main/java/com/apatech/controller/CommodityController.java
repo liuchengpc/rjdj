@@ -44,10 +44,12 @@ public class CommodityController {
 	@RequestMapping(value="/queryCommodityXZ",method=RequestMethod.GET)
 	@ResponseBody
 	public List<Commodity> queryCommodityXZ(Commodity c){
+		System.out.println("进入查询收银");
 		List<Commodity> list = dao.queryCommodityXZ(c);	//查询所有商品
 		for (Commodity commodity : list) {
 			//根据商品主表ID 查询商品详情
 			commodity.setCommoditydetailXZ(ct.queryCommodityDetailByProductCodeID(commodity.getProductcodeid())); 
+			System.out.println(commodity.getCommoditydetailXZ());
 			//根据商品详情尺码ID，查询商品尺码
 			for (Commoditydetail listDetail2 : commodity.getCommoditydetailXZ()) {
 				//根据商品详情尺码ID，查询商品尺码

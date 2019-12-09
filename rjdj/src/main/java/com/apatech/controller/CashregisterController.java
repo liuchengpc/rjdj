@@ -346,6 +346,7 @@ public class CashregisterController {
 		register.setMemberlv(dao4.queryMemberLvByMemberLvID(register.getMember().getMemberlvid()));
 		for (Cashregisterdetail ca : list) {
 			ca.setCommoditydetail(dao5.selectByPrimaryKey(ca.getCommoditydetailid()));
+			ca.setCommodity(dao6.selectByPrimaryKey(ca.getCommoditydetail().getProductcodeid()));
 		}
 		register.setList(list);
 		return register;

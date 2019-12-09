@@ -194,10 +194,23 @@
  		            	title : '结算金额',
          	    	 	field : 'moneyamt',	        	    	
  		                sortable : true,
+ 		               formatter: function (value, row, index) {
+   		            	  return value.toFixed(2);
+  						}
  		            }, {      	   
  		            	title : '余额',
          	    	 	field : 'price',
  		                sortable : true,
+ 		               formatter: function (value, row, index) {
+ 		            	   	//alert(value)
+    		            	  //return value.toFixed(2);
+ 		            	   	if(value!=null){
+ 		            	   		return value.toFixed(2);
+ 		            	   	}else{
+ 		            	   		return '无';
+ 		            	   	}
+    		            	  
+   						}
  		            }, {      	   
  		            	title : '收银员',
          	    	 	field : 'cashregistername',

@@ -203,6 +203,9 @@
  		            	title : '单价',
          	    	 	field : 'price',	        	    	
  		                sortable : true,
+ 		               formatter: function (value, row, index) {
+    		            	  return value.toFixed(2);
+   						}
  		            },  {      	   
  		            	title : '数量',
          	    	 	field : 'spsccount',	        	    	
@@ -211,6 +214,9 @@
  		            	title : '售出金额',
          	    	 	field : 'spsccprice',	        	    	
  		                sortable : true,
+ 		               formatter: function (value, row, index) {
+    		            	  return value.toFixed(2);
+   						}
  		            },/* {      	   
  		            	title : '详表集合',
          	    	 	field : 'list',
