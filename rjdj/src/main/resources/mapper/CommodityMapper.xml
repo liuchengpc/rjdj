@@ -87,11 +87,7 @@
       </if>
       <if test="selectqb != null  and selectqb !=''">
           and e.billid like '%${selectqb}%' 
-          OR e.deliverytime like '%${selectqb}%' 
-          OR e.suppliername like '%${selectqb}%' 
-          OR e.contacts like '%${selectqb}%' 
-          OR e.phone like '%${selectqb}%'
-          OR e.remarks like '%${selectqb}%'
+        OR e.deliverytime like '%${selectqb}%' 
       </if>
      <if test="oldtime!=null">
 		AND e.deliveryTime &gt; #{oldtime}

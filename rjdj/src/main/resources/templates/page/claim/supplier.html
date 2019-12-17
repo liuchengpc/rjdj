@@ -54,7 +54,7 @@
         <div class="mainhead">
             <span class="title">供应商</span>
             <div class="searchArea">
-               	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" style="float: right;">添加类别</button>
+               	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" style="float: right;">添加供应商</button>
             </div>
 
             <div class="list search">
@@ -352,7 +352,7 @@
 									</div>
 									<label for="inputEmail3" class="col-sm-2 control-label">电　　话</label>
 									 <div class="col-sm-4">
-										 <input type="tevalue=telephone" class="form-control">
+										 <input type="text" id="telephone" class="form-control">
 									</div>
 								</div>
 								<div class="form-group">
@@ -471,6 +471,7 @@
 			 	var city=$("#city").val();//市（地址）
 			 	var region=$("#region").val();//地区（地址）
 			 	var street=$("#street").val();//街道 */
+			 	//alert(telephone)
 		      
 			     //alert(supplierid+"/"+companyname+"/"+companyabbreviation+"/"+contacts+"/"+phone+"/"+email+"/"+telephone+"/"+province+"/"+city+"/"+region+"/"+street)
 			     if(supplierid==""||companyname==""||companyabbreviation==""||contacts==""||phone==""||email==""||telephone==""||province==""||city==""||region==""||street==""){
@@ -498,9 +499,9 @@
 					dataType:"json",
 					contentType:"application/json;charset=utf-8",
 					success:function(data){
-						alert(data.message);
-						$('#myModal2').modal('hide');
-						
+						//alert(data.message);
+						$('#myModal').modal('hide');
+						selectAll();
 					}
 				});
 			}
@@ -518,6 +519,7 @@
 			 	var city=$("#city2").val();//市（地址）
 			 	var region=$("#region2").val();//地区（地址）
 			 	var street=$("#street2").val();//街道 */
+			 //	alert(telephone)
 		      
 			     //alert(supplierid+"/"+companyname+"/"+companyabbreviation+"/"+contacts+"/"+phone+"/"+email+"/"+telephone+"/"+province+"/"+city+"/"+region+"/"+street)
 			     if(supplierid==""||companyname==""||companyabbreviation==""||contacts==""||phone==""||email==""||telephone==""||province==""||city==""||region==""||street==""){
@@ -545,8 +547,8 @@
 					dataType:"json",
 					contentType:"application/json;charset=utf-8",
 					success:function(data){
-						alert(data.message);
-						$('#myModal').modal('hide');
+						//alert(data.message);
+						 $('#myModal2').modal("hide");
 						selectAll();
 					}
 				});
