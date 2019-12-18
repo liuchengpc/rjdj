@@ -52,6 +52,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 				"/topage/page/claim/users_img",
 				"/topage/page/claim/staff_Insert",
 				"/topage/page/common/body_menu6",
+				"/topage/page/common/body_menu7",
 				"/topage/page/claim/users_home",
 			
 				"/topage/page/claim/shop_Query",

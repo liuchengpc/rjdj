@@ -18,6 +18,10 @@
 		<script type="text/javascript" th:src="@{/js/vue.js}"></script>
 		<script type="text/javascript" th:src="@{/js/axios.min.js}"></script>
 
+
+		<!-- bootstrap树形菜单插件 -->
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
 		<style type="text/css">
 		
 			/* !important 设置样式优先级最高
@@ -89,9 +93,9 @@
 		.layui-nav .layui-nav-item a:hover {
 		    color:#44b549;
 		}  
-		.layui-tab-title li {
+		/* .layui-tab-title li {
 		     	padding: 0 32px !important;
-		}
+		} */
 		
 		
 		.container{
@@ -152,19 +156,22 @@
 					<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 					  <ul class="layui-tab-title">
 					    <li class="layui-this ">
-					     	<a th:href="@{javascript:;}" class="djan" onclick="tzdp()">店铺</a>
+					     	<a th:href="@{javascript:;}" class="djan" onclick="tzdp()" style="width: 182.25px;" >店铺</a>
 					     </li>
 					     <li >
-					     	<a th:href="@{javascript:;}" onclick="tzsp()">商品</a>
+					     	<a th:href="@{javascript:;}" onclick="tzsp()" style="width: 182.25px;">商品</a>
 					     </li>
 					     <li >
-					    	<a th:href="@{javascript:;}" class="sy" onclick="tzsy()">收银</a>
+					    	<a th:href="@{javascript:;}" class="sy" onclick="tzsy()" style="width: 182.25px;">收银</a>
 					    </li>
 					     <li >
-					     	<a th:href="@{javascript:;}" onclick="tzbb()">报表</a>
+					     	<a th:href="@{javascript:;}" onclick="tzbb()" style="width: 182.25px;">报表</a>
 					     </li>
 					     <li >
-					     	<a th:href="@{javascript:;}" onclick="tzhy()">会员</a>
+					     	<a th:href="@{javascript:;}" onclick="tzhy()" style="width: 182.25px;">会员</a>
+					     </li>
+					     <li >
+					     	<a th:href="@{javascript:;}" onclick="tzerp()">ERP管理</a>
 					     </li>
 					  </ul>
 					  	<script type="text/javascript">
@@ -310,7 +317,7 @@
 							</div>
 					    </div>
 					   <div class="layui-tab-item ">
-					    	<div class="main7" style="border: 1px solid #E7E7EB;border-left: none;"> 	
+					    	<!-- <div class="main7" style="border: 1px solid #E7E7EB;border-left: none;"> 	
 								<div class="global-width ">
 									<iframe  frameBorder="0" id="left7" name="left7" class="col-lg-2"  style="border: 1px solid #E7E7EB;border-top: none;border-bottom: none; padding-right: 0px;padding-left: 0px;"   scrolling="no" th:src="@{/topage/page/common/body_menu5}"  width="195px"  target="main"></iframe>
 									<iframe  frameBorder="0" id="main7" name="main7" class="col-lg-10" style="overflow:hidden; padding-right: 0px;"  scrolling="yes" th:src="@{/topage/page/claim/member_info}" width="99.9%";  ></iframe>
@@ -338,11 +345,143 @@
 										window.setInterval("reinitIframe7()", 1);//定时去检查iframe的高度,这样保证时时都是自动高了
 									</script>
 								</div>
+							</div> -->
+							
+							
+								<div class="container">
+								    <div class="row">
+								        <div>
+								            <h2>bootstrap treeview实现target功能，iframe中打开页面</h2>
+								            <div id="treeview" class="col-xs-3"></div>
+								        </div>
+								        <div class="col-sm-4">
+											<div class="col-lg-9">
+											    <iframe src="index.html" name='main' id="iframepage" frameborder="0" width="100%" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
+											</div> 
+								        </div>
+								    </div>
+								</div>
+								<script type="text/javascript">
+							  	/**/
+							
+							
+								$('#treeview').treeview({
+							          color: "#428bca",
+							          expandIcon: 'glyphicon glyphicon-chevron-right',
+							          collapseIcon: 'glyphicon glyphicon-chevron-down',
+							          nodeIcon: 'glyphicon glyphicon-bookmark',
+							          data: getTree()
+							        });
+							
+							
+								$('#treeview').on('nodeSelected', function(event, data) {
+									
+							      var arr = $('#treeview').treeview('getSelected');
+							      //var arr2=JSON.stringify(arr);
+							      if (arr[0].src!=undefined) {
+							      	document.getElementById("iframepage").src=arr[0].src;
+							      }
+							      
+							    });
+							
+							
+								   //定义树里的数据来源
+							  function getTree(){
+							    var data = [
+							    {
+							            text: 'Parent 1',
+							            href: '#parent1',
+							            tags: ['4'],
+							            nodes: [
+							              {
+							                text: 'Child 1',
+							                href: '#child1',
+							                tags: ['2'],
+							                nodes: [
+							                  {
+							                    text: 'Grandchild 1',
+							                    href: '#grandchild1',
+							                 	src:"index.html",
+							                    tags: ['0']
+							                  },
+							                  {
+							                    text: 'Grandchild 2',
+							                    href: '#grandchild2',
+							                	src:"index2.html",
+							                    tags: ['0']
+							                  }
+							                ]
+							              },
+							              {
+							                text: 'Child 2',
+							                href: '#child2',
+							                tags: ['0']
+							              }
+							            ]
+							          },
+							          {
+							            text: 'Parent 2',
+							            href: '#parent2',
+							            tags: ['0']
+							          },
+							          {
+							            text: 'Parent 3',
+							            href: '#parent3',
+							             tags: ['0']
+							          },
+							          {
+							            text: 'Parent 4',
+							            href: '#parent4',
+							            tags: ['0']
+							          },
+							          {
+							            text: 'Parent 5',
+							            href: '#parent5'  ,
+							            tags: ['0']
+							          }
+							    ];
+							    return data;
+							  }
+							 
+							
+							  </script>
+					    </div>
+	
+						<div class="layui-tab-item ">
+					    	<div class="main8" style="border: 1px solid #E7E7EB;border-left: none;"> 	
+								<div class="global-width ">
+									<iframe  frameBorder="0" id="left8" name="left8" class="col-lg-2"  style="border: 1px solid #E7E7EB;border-top: none;border-bottom: none; padding-right: 0px;padding-left: 0px;"   scrolling="no" th:src="@{/topage/page/common/body_menu7}"  width="195px"  target="main"></iframe>
+									<iframe  frameBorder="0" id="main8" name="main8" class="col-lg-10" style="overflow:hidden; padding-right: 0px;"  scrolling="yes" th:src="@{/topage/page/claim/member_info}" width="99.9%";  ></iframe>
+									<script type="text/javascript">		
+										function tzerp(){
+											var sxs=$("#main8").attr("src")
+											$("#main8").attr("src",sxs);
+										}
+										function setheight8(){
+											var s=$("#main8").height();
+											$(".main8").height(s);
+											$("#left8").height(s);
+										}
+									　	t = setInterval("setheight8()", 1);
+									
+										function reinitIframe8() {           
+										     var iframe = document.getElementById("main8");           
+										     try {               
+										            var bHeight =iframe.contentWindow.document.body.scrollHeight;               
+										            var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;              
+										            var height = Math.max(bHeight, dHeight);            iframe.height = height;           
+										        } catch (ex) { }       
+										}       
+										window.setInterval("reinitIframe8()", 1);//定时去检查iframe的高度,这样保证时时都是自动高了
+									</script>
+								</div>
 							</div>
 					    </div>
+					  
+					  </div>
+				
 					  </div>
 					</div> 		
-					
 				 </div>
 			</div>
 			

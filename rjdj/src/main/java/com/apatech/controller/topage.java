@@ -89,6 +89,11 @@ public class topage {
 		System.out.println("进入page/common/body_menu6");
 		return "page/common/body_menu6";
 	}
+	@RequestMapping("page/common/body_menu7")
+	public String body_menu7() {
+		System.out.println("进入page/common/body_menu7");
+		return "page/common/body_menu7";
+	}
 	@RequestMapping("page/claim/users_home")
 	public String accountinfo() {
 		System.out.println("进入page/claim/users_home");
